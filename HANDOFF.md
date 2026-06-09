@@ -15,7 +15,7 @@ Read this before making any changes.
 
 ## Current Status
 
-**Phase C complete** — Public website foundation built. Header, navigation, footer, design system, and layout architecture are live.
+**Phase C complete** — Public website foundation built. Header, navigation, footer, design system, and layout architecture are live. All TypeScript strict-mode issues resolved; production deployment confirmed passing on Vercel.
 
 See `PROJECT_STATUS.md` for the complete phase-by-phase history.
 
@@ -93,6 +93,20 @@ import { fadeUp, stagger } from '@/lib/animations'
 Contains: `CLINIC_NAME`, `CLINIC_TAGLINE`, `NAV_LINKS`, `FOOTER_QUICK_LINKS`, `OPENING_HOURS`, `CLINIC_CONTACT`.
 
 **Important:** Contact info and opening hours are placeholder values. These should be fetched from `site_settings` and `opening_hours` tables in future phases. The constants serve as SSG fallbacks.
+
+### TypeScript Notes
+
+Vercel enforces `noImplicitAny` at build time. All Supabase SSR cookie callbacks **must** have explicit types:
+
+```ts
+import type { CookieOptions } from '@supabase/ssr'
+
+setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
+  // ...
+}
+```
+
+This applies to any file that calls `createServerClient` or `createBrowserClient` with manual cookie handling. Both `src/lib/supabase/server.ts` and `src/middleware.ts` are already typed correctly.
 
 ### Utilities (`src/lib/utils.ts`)
 

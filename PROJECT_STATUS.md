@@ -37,6 +37,13 @@ Last Updated: 2026-06-09
 - HANDOFF.md created
 - Build: clean · Lint: 0 errors · Mobile: responsive
 
+### TypeScript Production Fixes (2026-06-09)
+- Fixed implicit `any` on `cookiesToSet` parameter in `src/lib/supabase/server.ts` (commit 933263d)
+- Fixed same issue in `src/middleware.ts` — full repo scan confirmed no other occurrences (commit ba9d14a)
+- Root cause: Vercel runs TypeScript strict mode (`noImplicitAny`) against all Supabase SSR cookie callbacks
+- Fix: import `CookieOptions` from `@supabase/ssr` and annotate as `{ name: string; value: string; options: CookieOptions }[]`
+- Vercel production deployment: confirmed passing (commit ba9d14a, all 3 environments)
+
 #### Files Created
 | File | Description |
 |------|-------------|
