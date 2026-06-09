@@ -1,0 +1,64 @@
+import type { Metadata } from 'next'
+import { DM_Serif_Display, Poppins, Inter } from 'next/font/google'
+import './globals.css'
+
+const dmSerifDisplay = DM_Serif_Display({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-dm-serif',
+  display: 'swap',
+})
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Bright Smile Dental Clinic | Dentist in Kathmandu, Nepal',
+    template: '%s | Bright Smile Dental Clinic',
+  },
+  description:
+    'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. 6 experienced dentists offering implants, orthodontics, root canal, cosmetic dentistry & more. Book your appointment today.',
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+  ),
+  openGraph: {
+    type: 'website',
+    siteName: 'Bright Smile Dental Clinic',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html
+      lang="en"
+      className={`${dmSerifDisplay.variable} ${poppins.variable} ${inter.variable}`}
+    >
+      <body className="font-body text-clinic-text antialiased">
+        {children}
+      </body>
+    </html>
+  )
+}
