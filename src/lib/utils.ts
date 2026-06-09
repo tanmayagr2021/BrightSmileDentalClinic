@@ -50,3 +50,11 @@ export function storageUrl(bucket: string, path: string): string {
 export function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max)
 }
+
+/**
+ * Merges class names, filtering out falsy values.
+ * For complex Tailwind class merging, consider adding tailwind-merge.
+ */
+export function cn(...classes: (string | undefined | null | false)[]): string {
+  return classes.filter(Boolean).join(' ')
+}

@@ -5,18 +5,22 @@
 :root {
   --color-primary: #4A9B6F;
   --color-primary-dark: #3d8560;
+  --color-primary-light: #5db583;
   --color-dark: #1A3D2B;
   --color-tint: #F0F7F2;
   --color-text: #1C1C1E;
 }
 
 @layer base {
-  * {
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
 
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
@@ -26,23 +30,38 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Respect reduced motion preference */
+  /* Global focus-visible ring — matches brand */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Text selection */
+  ::selection {
+    background-color: rgba(74, 155, 111, 0.18);
+    color: var(--color-dark);
+  }
+
+  /* Respect reduced motion */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
     }
+
     *,
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 }
 
 @layer components {
-  /* Glassmorphism utility */
+  /* Glassmorphism — used sparingly for hero overlays */
   .glass {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(16px) saturate(180%);
@@ -53,5 +72,31 @@
   /* Section tint background */
   .bg-section {
     background-color: var(--color-tint);
+  }
+
+  /* Divider line */
+  .divider {
+    @apply h-px w-full bg-gray-100;
+  }
+
+  /* Eyebrow / label text above headings */
+  .eyebrow {
+    @apply font-heading text-xs font-semibold uppercase tracking-[0.2em] text-primary;
+  }
+}
+
+@layer utilities {
+  /* Precise letter spacing for display headings */
+  .tracking-display {
+    letter-spacing: -0.02em;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }

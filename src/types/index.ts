@@ -6,6 +6,7 @@ export type { ApiResponse, AppointmentFormInput, ContactFormInput } from './api'
 export type AppointmentStatus =
   | 'pending'
   | 'confirmed'
+  | 'rescheduled'
   | 'completed'
   | 'cancelled'
   | 'no_show'
@@ -18,11 +19,14 @@ export type TestimonialStatus = 'pending' | 'approved' | 'rejected'
 
 export type LanguageCode = 'en' | 'ne'
 
+// Must match bucket IDs in migration 011_storage_buckets.sql
 export type StorageBucket =
-  | 'clinic-logo'
-  | 'hero-images'
-  | 'doctor-images'
+  | 'doctor-photos'
   | 'service-images'
-  | 'gallery-images'
-  | 'blog-covers'
+  | 'gallery'
+  | 'blog-images'
+  | 'testimonial-photos'
+  | 'branding'
   | 'og-images'
+  | 'documents'
+  | 'misc'
