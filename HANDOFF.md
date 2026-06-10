@@ -15,7 +15,7 @@ Read this before making any changes.
 
 ## Current Status
 
-**Phase D Review 2 complete** — Homepage hierarchy redesigned. Full-screen cinematic clinic showcase is now the hero. Logo significantly enlarged. Doctors page restructured into 3 sections. 26 static routes, 0 errors, 0 warnings.
+**Phase G complete** — Full admin CMS experience built. 15 admin routes across dashboard, content management (showcase, homepage, doctors, services, testimonials, FAQs, gallery), appointment settings, and website/SEO settings. All UI-only with `useState` — no Supabase writes yet. 39 pages total, 0 TypeScript errors, 0 lint warnings.
 
 See `PROJECT_STATUS.md` for the complete phase-by-phase history.
 
@@ -81,13 +81,32 @@ Import from barrel: `import { Button, Card } from '@/components/ui'`
 | `ShowcaseSection.tsx` | **Homepage hero.** Full-screen cinematic clinic slideshow. Direction-aware transitions, progress bars, glassmorphism booking card, SVG room illustrations. Pause on hover. Admin-ready: SHOWCASE_SLIDES_STATIC supports title/description/visibility/sort. |
 | `StatsSection.tsx` | Animated counters on scroll-into-view (ease-out cubic). Client component. Dark background — seamless with ShowcaseSection. |
 | `TrustSection.tsx` | 4 trust indicator cards (NMC, technology, gentle care, transparent pricing). |
+| `PatientJourneySection.tsx` | 6-step care pathway (Book → Consult → Diagnose → Plan → Treat → Follow-up). CMS-ready from `PATIENT_JOURNEY_STATIC`. |
 | `ServicesSection.tsx` | 6 category cards with SVG icons, hover lift, links to `/services/[slug]`. |
 | `DoctorsSection.tsx` | **Homepage only: Lead Dentists.** Shows ONLY Dr. Sachin and Dr. Binita. Spring hover lift. Specialist teaser strip links to `/doctors`. |
-| `TestimonialsSection.tsx` | 3 patient reviews with star ratings. |
+| `BeforeAfterSection.tsx` | 4 before/after cases on dark background. Category filter tabs. Animated grid. CMS-ready from `BEFORE_AFTER_STATIC`. |
+| `TestimonialsSection.tsx` | Featured hero card + video placeholders + secondary 3-column grid. Upgraded in Phase F. |
+| `WhyChooseSection.tsx` | 6-reason premium grid + certifications strip. CMS-ready from `WHY_CHOOSE_STATIC`, `CERTIFICATIONS_STATIC`. |
 | `FaqSection.tsx` | Smooth accordion + FAQPage JSON-LD schema. |
 | `CtaSection.tsx` | Dark split — CTA left, hours/contact right. |
 
 > `HeroSection.tsx` still exists in the file system but is **no longer used on the homepage**. It was replaced by `ShowcaseSection` as the page hero in Phase D Review 2.
+
+### Admin Shell (`src/components/admin/AdminShell.tsx`)
+
+The main admin chrome. Key structure:
+- `flex h-screen overflow-hidden bg-gray-50`
+- Desktop sidebar: `w-[220px] bg-[#0f1813]` (dark forest green-black) — fixed left
+- Topnav: `h-[60px] bg-white border-b` — shows page title, "Website Live" status pill, "View Site" link
+- Mobile: hidden sidebar + `AnimatePresence` slide-in drawer with `black/60` backdrop
+- Nav sections: Dashboard | Content (Showcase, Homepage, Doctors, Services, Testimonials, FAQs, Gallery) | Clinic (Appointments) | Settings (Website, SEO)
+- Active state: `bg-primary/15 text-primary` with green dot indicator
+
+### Admin Layout (`src/app/(admin)/admin/layout.tsx`)
+
+`'use client'` component — checks `usePathname()`:
+- `/admin/login` → bare `<div className="min-h-screen bg-gray-50">` (no sidebar)
+- Everything else → `<AdminShell>{children}</AdminShell>`
 
 ### Animations (`src/lib/animations.ts`)
 
@@ -120,7 +139,7 @@ import { fadeUp, stagger, blurFadeIn } from '@/lib/animations'
 
 ### Static Data (`src/lib/constants.ts`)
 
-Contains: `CLINIC_NAME`, `CLINIC_TAGLINE`, `NAV_LINKS`, `FOOTER_QUICK_LINKS`, `OPENING_HOURS`, `CLINIC_CONTACT`, `HOMEPAGE_STATS`, `DOCTORS_STATIC`, `TEAM_MEMBERS_STATIC`, `SERVICE_CATEGORIES_STATIC`, `SHOWCASE_SLIDES_STATIC`, `FAQS_STATIC`, `TESTIMONIALS_STATIC`, `CLINIC_STORY_STATIC`, `GALLERY_ITEMS_STATIC`.
+Contains: `CLINIC_NAME`, `CLINIC_TAGLINE`, `NAV_LINKS`, `FOOTER_QUICK_LINKS`, `OPENING_HOURS`, `CLINIC_CONTACT`, `HOMEPAGE_STATS`, `DOCTORS_STATIC`, `TEAM_MEMBERS_STATIC`, `SERVICE_CATEGORIES_STATIC`, `SHOWCASE_SLIDES_STATIC`, `FAQS_STATIC`, `TESTIMONIALS_STATIC`, `CLINIC_STORY_STATIC`, `GALLERY_ITEMS_STATIC`, `PATIENT_JOURNEY_STATIC`, `WHY_CHOOSE_STATIC`, `BEFORE_AFTER_STATIC`, `CERTIFICATIONS_STATIC`.
 
 **Important:** Contact info and opening hours are placeholder values. These should be fetched from `site_settings` and `opening_hours` tables in future phases. The constants serve as SSG fallbacks.
 
@@ -187,21 +206,43 @@ Middleware must use `export const runtime = 'nodejs'` — `@supabase/ssr` calls 
 
 ## Live Routes
 
+### Public Routes
+
 | Route | Content |
 |-------|---------|
-| `/` | Full homepage — cinematic showcase hero |
-| `/appointments` | Placeholder — phone/WhatsApp CTA |
+| `/` | Full homepage — cinematic showcase hero + 10 sections |
+| `/appointments` | Multi-step booking UI (doctor → date → time → details → confirm → success) |
 | `/services` | All 6 categories listed |
 | `/services/[slug]` | 6 service detail pages (static) |
 | `/doctors` | 3-section: lead dentists + specialists + care team |
 | `/doctors/[slug]` | 6 individual profile pages (static) |
-| `/contact` | Contact details + form placeholder |
+| `/contact` | Premium contact page — emergency banner, form UI, map placeholder, directions |
 | `/about` | Full about page with clinic story |
 | `/gallery` | Placeholder grid (ready for real photos) |
 | `/blog` | Coming soon placeholder |
-| `/faq` | Full accordion content |
+| `/faq` | Search + category filter tabs + accordion |
 | `/testimonials` | Full testimonials section |
 | `/privacy` | Basic privacy policy |
+
+### Admin Routes
+
+| Route | Content |
+|-------|---------|
+| `/admin/login` | Login form (auth in Phase H) |
+| `/admin/dashboard` | Stats, quick actions, activity feed, content health |
+| `/admin/showcase` | Slide CMS — reorder, edit, toggle, upload |
+| `/admin/homepage` | Section order CMS — move, toggle, locked items |
+| `/admin/doctors` | Lead / Specialist / Team tabs — bookable + visible toggles |
+| `/admin/doctors/[id]` | Full doctor edit form |
+| `/admin/doctors/new` | Add doctor |
+| `/admin/services` | Service list — reorder, toggle |
+| `/admin/services/[id]` | Service edit — content / FAQs / SEO tabs |
+| `/admin/testimonials` | Inline review edit, toggle, remove |
+| `/admin/faqs` | Category tabs, inline edit, reorder, toggle, remove |
+| `/admin/gallery` | Category filter, photo grid, visible toggle, remove |
+| `/admin/appointments` | Bookable doctors, slot config, confirmation method |
+| `/admin/settings/website` | Clinic name, contact info, social, hours |
+| `/admin/settings/seo` | Per-page meta title, description, OG, noIndex, SERP preview |
 
 ---
 
@@ -234,18 +275,25 @@ Required before ISR works: `REVALIDATION_SECRET`
 
 ## What Is NOT Built Yet
 
-- Appointment booking form (Phase F)
-- Admin dashboard
+- Appointment backend (UI is built — form does not submit to Supabase)
+- Contact form backend (form UI is built — no Supabase writes)
+- Admin authentication (Supabase Auth login — Phase H)
+- Role-based access control (Phase H)
+- Admin CMS writes to Supabase (all CMS is currently `useState` UI-only)
 - API routes (appointments, contact, cron, revalidate)
 - Email templates
 - Blog articles
 - Gallery with real photos
-- Contact form
 
 ---
 
 ## Next Phase
 
-**Phase F — Appointment Booking System**
-Build the appointment form: select doctor (Sachin/Binita only), date picker, time slot picker, patient details, submit to Supabase, send confirmation email via Resend.
-Prerequisite: `RESEND_API_KEY` must be set in Vercel env vars.
+**Phase H — Authentication & Backend Integration**
+1. Supabase Auth login wired to `/admin/login`
+2. Role-based access: admin / super_admin roles via RLS
+3. Appointment booking backend: `POST /api/appointments` → Supabase `appointments` table → Resend confirmation email
+4. Contact form backend: `POST /api/contact` → Supabase `contact_messages` table → Resend notification
+5. Admin CMS writes: connect all admin form saves to Supabase tables
+6. Rate limiting via Upstash Redis on public API routes
+Prerequisites: `RESEND_API_KEY`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` must be set in Vercel env vars before Phase H work begins.

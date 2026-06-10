@@ -186,10 +186,72 @@ Showcase → Stats → Trust → PatientJourney → Services → Doctors → Bef
 
 ---
 
+### Phase G — CMS & Admin Experience (2026-06-10)
+**Goal: Full-featured admin dashboard for the clinic to self-manage content.**
+
+Design inspiration: Stripe, Vercel, Notion, Linear. Clean, fast, professional.
+
+#### Admin Architecture
+- Route group `src/app/(admin)/admin/` — protected by middleware (Supabase auth guard)
+- `src/components/admin/AdminShell.tsx` — shell with dark sidebar (`bg-[#0f1813]`), topnav, mobile drawer (Framer Motion `AnimatePresence`)
+- `src/app/(admin)/admin/layout.tsx` — `'use client'` checking `usePathname()` — renders bare div for `/admin/login`, `<AdminShell>` for everything else
+- All CMS data sourced from `src/lib/constants.ts` static exports (no Supabase calls in Phase G)
+- All interactivity via `useState` — no backend writes
+- CMS-ready: every static export already has `visible: boolean` and `sortOrder: number`
+
+#### Admin Pages Built
+
+| Route | Description |
+|-------|-------------|
+| `/admin/login` | Login form UI — shows "Phase H" auth note on submit |
+| `/admin/dashboard` | Stat cards, quick actions, activity feed, content health checklist |
+| `/admin/showcase` | Per-slide: reorder, edit title/description, toggle visibility, upload placeholder |
+| `/admin/homepage` | Section order management — move up/down, toggle visibility, locked Showcase & CTA |
+| `/admin/doctors` | Three tabs: Lead Dentists / Specialists / Care Team — bookable toggle, visible toggle, edit link |
+| `/admin/doctors/[id]` | Full doctor edit form: all fields, photo upload, visible/bookable toggles |
+| `/admin/doctors/new` | Add doctor form with all fields |
+| `/admin/services` | Service list — reorder, toggle visibility, edit link |
+| `/admin/services/[id]` | Three tabs: Content (name, desc, sub-services, benefits) / FAQs / SEO |
+| `/admin/testimonials` | Inline edit review text, toggle visibility, remove |
+| `/admin/faqs` | Category filter tabs, inline edit Q+A, reorder, toggle, remove |
+| `/admin/gallery` | Category filter, per-photo visible toggle, remove, upload drop zone |
+| `/admin/appointments` | Bookable doctors config, slot buffer, advance days, confirmation method |
+| `/admin/settings/website` | Clinic name, tagline, phone, WhatsApp, email, address, social, opening hours |
+| `/admin/settings/seo` | Per-page meta title/description, OG title/description, noIndex toggle, SERP preview |
+
+#### Build
+39 pages · 0 TypeScript errors · 0 lint warnings
+
+---
+
+## Admin Routes
+
+| Route | Status |
+|-------|--------|
+| `/admin/login` | Login form UI (auth wired in Phase H) |
+| `/admin/dashboard` | Stats, quick actions, activity feed |
+| `/admin/showcase` | Slide CMS |
+| `/admin/homepage` | Section order CMS |
+| `/admin/doctors` | Doctor list CMS |
+| `/admin/doctors/[id]` | Doctor edit form |
+| `/admin/doctors/new` | Add doctor form |
+| `/admin/services` | Service list CMS |
+| `/admin/services/[id]` | Service edit form |
+| `/admin/testimonials` | Testimonials CMS |
+| `/admin/faqs` | FAQ CMS |
+| `/admin/gallery` | Gallery CMS |
+| `/admin/appointments` | Booking config |
+| `/admin/settings/website` | Website settings |
+| `/admin/settings/seo` | SEO settings |
+
+---
+
 ## What Is NOT Built Yet
 - Appointment backend (form → Supabase → Resend email)
 - Contact form backend (form → Supabase → Resend notification)
-- Admin dashboard (all modules)
+- Admin authentication (Supabase auth login — Phase H)
+- Role-based permissions (Phase H)
+- Admin dashboard writes to Supabase (Phase H — currently UI-only with useState)
 - API routes (appointments, contact, cron, revalidate)
 - Email templates
 - Blog articles
@@ -199,9 +261,11 @@ Showcase → Stats → Trust → PatientJourney → Services → Doctors → Bef
 
 ## Next Phase
 
-**Phase G — Backend & Integrations**
-1. Appointment booking backend: `POST /api/appointments` → Supabase `appointments` table → Resend confirmation email
-2. Contact form backend: `POST /api/contact` → Supabase `contact_messages` table → Resend notification
-3. Rate limiting via Upstash Redis on both API routes
-4. ISR revalidation for data-driven pages
+**Phase H — Authentication & Backend Integration**
+1. Supabase Auth login for admin dashboard
+2. Role-based access control (admin, super_admin)
+3. Appointment booking backend: `POST /api/appointments` → Supabase `appointments` table → Resend confirmation email
+4. Contact form backend: `POST /api/contact` → Supabase `contact_messages` table → Resend notification
+5. Admin CMS writes to Supabase tables
+6. Rate limiting via Upstash Redis
 Prerequisites: `RESEND_API_KEY`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` in Vercel env vars.
