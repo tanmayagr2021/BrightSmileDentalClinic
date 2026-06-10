@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { NAV_LINKS } from '@/lib/constants'
@@ -12,24 +13,19 @@ function Logo({ dark = false }: { dark?: boolean }) {
     <Link
       href="/"
       aria-label="Bright Smile Dental Clinic — home"
-      className="group flex flex-col leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm"
+      className={cn(
+        'flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm transition-opacity hover:opacity-90',
+        dark && 'bg-white/10 rounded-lg px-2 py-1'
+      )}
     >
-      <span
-        className={cn(
-          'font-display text-[1.35rem] tracking-tight transition-opacity group-hover:opacity-80',
-          dark ? 'text-white' : 'text-dark'
-        )}
-      >
-        Bright Smile
-      </span>
-      <span
-        className={cn(
-          'font-heading text-[0.62rem] font-medium tracking-[0.2em] uppercase transition-opacity group-hover:opacity-80',
-          dark ? 'text-white/50' : 'text-gray-400'
-        )}
-      >
-        Dental Clinic
-      </span>
+      <Image
+        src="/images/logo.jpg"
+        alt="Bright Smile Dental Clinic"
+        width={160}
+        height={64}
+        className="h-10 w-auto object-contain"
+        priority
+      />
     </Link>
   )
 }
