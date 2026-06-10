@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { SHOWCASE_SLIDES_STATIC, CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
 
 const slides = SHOWCASE_SLIDES_STATIC.filter((s) => s.visible).sort((a, b) => a.sortOrder - b.sortOrder)
-const AUTO_MS = 6500
+const AUTO_MS = 5000
 const EASE = [0.16, 1, 0.3, 1] as const
 
 // Detailed architectural illustrations — cinematic SVG sketches
@@ -277,7 +277,7 @@ export default function ShowcaseSection() {
 
   return (
     <section
-      className="relative overflow-hidden bg-[#080d0a]"
+      className="relative overflow-hidden bg-[#0d2018]"
       style={{ minHeight: 'calc(100vh - 4.75rem)' }}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
