@@ -23,7 +23,7 @@ function Logo({ dark = false }: { dark?: boolean }) {
         alt="Bright Smile Dental Clinic"
         width={280}
         height={112}
-        className="h-[3.75rem] w-auto object-contain lg:h-[5.25rem]"
+        className="h-[4.5rem] w-auto object-contain lg:h-[6.5rem]"
         priority
       />
     </Link>
