@@ -1,22 +1,34 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setLoading(true)
-    // Auth will be wired in Phase H
-    await new Promise((r) => setTimeout(r, 900))
-    setLoading(false)
-    setError('Authentication not yet configured. Phase H will enable this.')
+
+    const supabase = createClient()
+    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
+
+    if (authError) {
+      setError(authError.message === 'Invalid login credentials'
+        ? 'Incorrect email or password. Please try again.'
+        : authError.message)
+      setLoading(false)
+      return
+    }
+
+    router.push('/admin/dashboard')
   }
 
   return (
@@ -56,9 +68,6 @@ export default function AdminLoginPage() {
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="font-heading text-xs font-semibold text-gray-700">Password</label>
-                <button type="button" className="font-heading text-[0.68rem] font-semibold text-primary hover:text-primary-dark transition-colors">
-                  Forgot password?
-                </button>
               </div>
               <input
                 type="password"
@@ -72,12 +81,12 @@ export default function AdminLoginPage() {
             </div>
 
             {error && (
-              <div className="flex items-start gap-2.5 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3">
-                <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 flex-shrink-0 text-amber-500 mt-0.5" aria-hidden="true">
+              <div className="flex items-start gap-2.5 rounded-xl border border-red-100 bg-red-50 px-4 py-3">
+                <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 flex-shrink-0 text-red-500 mt-0.5" aria-hidden="true">
                   <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.2" />
                   <path d="M8 5v3.5M8 10.5h.01" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
                 </svg>
-                <p className="font-body text-xs text-amber-700">{error}</p>
+                <p className="font-body text-xs text-red-700">{error}</p>
               </div>
             )}
 

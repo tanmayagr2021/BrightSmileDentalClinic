@@ -15,7 +15,17 @@ Read this before making any changes.
 
 ## Current Status
 
-**Phase G complete** — Full admin CMS experience built. 15 admin routes across dashboard, content management (showcase, homepage, doctors, services, testimonials, FAQs, gallery), appointment settings, and website/SEO settings. All UI-only with `useState` — no Supabase writes yet. 39 pages total, 0 TypeScript errors, 0 lint warnings.
+**Phase H complete** — Authentication wired, all backend API routes built and connected. 46 pages total, 0 TypeScript errors, 0 lint warnings.
+
+Key Phase H additions:
+- Admin user created: `tanmayagr2021@gmail.com` (super_admin role). Use `npm run seed:admin` to recreate.
+- `/admin/login` uses real `signInWithPassword()`. AdminShell shows email + logout button.
+- `POST /api/appointments` — validates, inserts to Supabase, sends Resend emails (graceful if no key).
+- `POST /api/appointments/cancel` + `GET /api/appointments/cancel?token=` — token-based cancellation.
+- `POST /api/contact` — inserts to `contact_submissions`, sends admin notification.
+- Cron routes: `/api/cron/reminders` (daily) + `/api/cron/cleanup` (weekly). Secured with `CRON_SECRET`.
+- `AppointmentFlow.tsx` calls API on confirm step. `contact/page.tsx` calls API on submit.
+- `appointments/page.tsx` shows cancellation success/error banners from query params.
 
 See `PROJECT_STATUS.md` for the complete phase-by-phase history.
 
@@ -228,7 +238,7 @@ Middleware must use `export const runtime = 'nodejs'` — `@supabase/ssr` calls 
 
 | Route | Content |
 |-------|---------|
-| `/admin/login` | Login form (auth in Phase H) |
+| `/admin/login` | Real Supabase auth login (signInWithPassword) |
 | `/admin/dashboard` | Stats, quick actions, activity feed, content health |
 | `/admin/showcase` | Slide CMS — reorder, edit, toggle, upload |
 | `/admin/homepage` | Section order CMS — move, toggle, locked items |
@@ -275,25 +285,20 @@ Required before ISR works: `REVALIDATION_SECRET`
 
 ## What Is NOT Built Yet
 
-- Appointment backend (UI is built — form does not submit to Supabase)
-- Contact form backend (form UI is built — no Supabase writes)
-- Admin authentication (Supabase Auth login — Phase H)
-- Role-based access control (Phase H)
-- Admin CMS writes to Supabase (all CMS is currently `useState` UI-only)
-- API routes (appointments, contact, cron, revalidate)
-- Email templates
+- Admin CMS writes to Supabase (all admin pages use `useState` — no persistence yet — Phase I)
+- Real Resend email templates (plain-text currently; needs `RESEND_API_KEY` in Vercel)
+- Rate limiting (needs Upstash env vars in Vercel)
 - Blog articles
 - Gallery with real photos
+- WhatsApp booking integration
 
 ---
 
 ## Next Phase
 
-**Phase H — Authentication & Backend Integration**
-1. Supabase Auth login wired to `/admin/login`
-2. Role-based access: admin / super_admin roles via RLS
-3. Appointment booking backend: `POST /api/appointments` → Supabase `appointments` table → Resend confirmation email
-4. Contact form backend: `POST /api/contact` → Supabase `contact_messages` table → Resend notification
-5. Admin CMS writes: connect all admin form saves to Supabase tables
-6. Rate limiting via Upstash Redis on public API routes
-Prerequisites: `RESEND_API_KEY`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` must be set in Vercel env vars before Phase H work begins.
+**Phase I — Admin CMS Persistence**
+1. Wire all admin CMS pages to read/write Supabase tables (doctors, services, testimonials, FAQs, gallery, showcase slides)
+2. Photo uploads to Supabase Storage (gallery, doctor photos, showcase slides)
+3. Real-time dashboard stats from `appointments` and `contact_submissions` tables
+4. Rich email templates in Resend
+Prerequisites: `RESEND_API_KEY`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `CRON_SECRET`, `REVALIDATION_SECRET`, `NEXT_PUBLIC_SITE_URL` all set in Vercel.

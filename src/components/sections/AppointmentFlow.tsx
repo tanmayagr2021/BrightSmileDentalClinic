@@ -502,6 +502,8 @@ export default function AppointmentFlow() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
   const [form, setForm] = useState<FormData>({ name: '', phone: '', email: '', notes: '' })
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const stepIndex = STEPS.indexOf(step)
   const selectedDoctor = bookableDoctors.find((d) => d.slug === selectedDoctorSlug) ?? bookableDoctors[0]
@@ -515,19 +517,52 @@ export default function AppointmentFlow() {
     return false
   })()
 
+  const submitAppointment = async () => {
+    if (!selectedDate || !selectedTime) return
+    setSubmitting(true)
+    setSubmitError('')
+    try {
+      const dateStr = selectedDate.toISOString().split('T')[0]
+      const res = await fetch('/api/appointments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          patientName: form.name,
+          patientEmail: form.email || 'no-email@placeholder.com',
+          patientPhone: form.phone,
+          doctorName: selectedDoctor.name,
+          doctorSlug: selectedDoctor.slug,
+          appointmentDate: dateStr,
+          appointmentTime: selectedTime,
+          notes: form.notes || undefined,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setSubmitError(data.error ?? 'Something went wrong. Please call us directly.')
+      } else {
+        setStep('success')
+      }
+    } catch {
+      setSubmitError('Network error. Please check your connection or call us directly.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   const goNext = () => {
     if (step === 'doctor' && canProceed) setStep('date')
     else if (step === 'date' && canProceed) setStep('time')
     else if (step === 'time' && canProceed) setStep('details')
     else if (step === 'details' && canProceed) setStep('confirm')
-    else if (step === 'confirm') setStep('success')
+    // 'confirm' step uses submitAppointment directly
   }
 
   const goBack = () => {
     if (step === 'date') setStep('doctor')
     else if (step === 'time') setStep('date')
     else if (step === 'details') setStep('time')
-    else if (step === 'confirm') setStep('details')
+    else if (step === 'confirm') { setStep('details'); setSubmitError('') }
   }
 
   const isSuccess = step === 'success'
@@ -588,20 +623,33 @@ export default function AppointmentFlow() {
                   <div />
                 )}
                 <button
-                  onClick={goNext}
-                  disabled={!canProceed}
+                  onClick={step === 'confirm' ? submitAppointment : goNext}
+                  disabled={!canProceed || submitting}
                   className={`flex items-center gap-2 rounded-xl px-7 py-2.5 font-heading text-sm font-semibold transition-all ${
-                    canProceed
+                    canProceed && !submitting
                       ? 'bg-primary text-white hover:bg-primary-dark active:scale-[0.98]'
                       : 'bg-gray-100 text-gray-300 cursor-not-allowed'
                   }`}
                 >
-                  {step === 'confirm' ? 'Confirm Request' : 'Continue'}
-                  <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
-                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  {step === 'confirm' && submitting ? (
+                    <>
+                      <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                      </svg>
+                      Booking...
+                    </>
+                  ) : step === 'confirm' ? 'Confirm Request' : 'Continue'}
+                  {!(step === 'confirm' && submitting) && (
+                    <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
                 </button>
               </div>
+            )}
+            {submitError && (
+              <p className="mt-3 rounded-xl border border-red-100 bg-red-50 px-4 py-3 font-body text-xs text-red-700">{submitError}</p>
             )}
           </div>
 

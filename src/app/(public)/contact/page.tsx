@@ -89,14 +89,40 @@ function InfoCard({
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', phone: '', email: '', treatment: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const update = (key: keyof typeof form) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => setForm((f) => ({ ...f, [key]: e.target.value }))
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setSubmitError('')
+    setSubmitting(true)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email || undefined,
+          phone: form.phone,
+          treatment: form.treatment || undefined,
+          message: form.message,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setSubmitError(data.error ?? 'Something went wrong. Please try again or call us directly.')
+      } else {
+        setSubmitted(true)
+      }
+    } catch {
+      setSubmitError('Network error. Please check your connection or call us directly.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -232,13 +258,19 @@ export default function ContactPage() {
                     <motion.div variants={fadeUp}>
                       <button
                         type="submit"
-                        className="w-full rounded-xl bg-primary py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98] sm:w-auto sm:px-8"
+                        disabled={submitting}
+                        className="w-full rounded-xl bg-primary py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98] disabled:opacity-60 sm:w-auto sm:px-8"
                       >
-                        Send Message
+                        {submitting ? 'Sending...' : 'Send Message'}
                       </button>
-                      <p className="mt-3 font-body text-xs text-gray-400">
-                        We respond within 24 hours · Your data is kept private and never shared.
-                      </p>
+                      {submitError && (
+                        <p className="mt-3 rounded-xl border border-red-100 bg-red-50 px-4 py-3 font-body text-xs text-red-700">{submitError}</p>
+                      )}
+                      {!submitError && (
+                        <p className="mt-3 font-body text-xs text-gray-400">
+                          We respond within 24 hours · Your data is kept private and never shared.
+                        </p>
+                      )}
                     </motion.div>
                   </form>
                 </>

@@ -246,26 +246,63 @@ Design inspiration: Stripe, Vercel, Notion, Linear. Clean, fast, professional.
 
 ---
 
+### Phase H — Authentication & Backend Integration (2026-06-10)
+**Goal: Wire real auth, appointment booking backend, and contact form backend.**
+
+#### Admin Auth
+- Admin user created in Supabase Auth: `tanmayagr2021@gmail.com` / super_admin role
+- `scripts/seed-admin.mjs` — raw-fetch script (bypasses Node.js WebSocket issue); `npm run seed:admin`
+- `/admin/login` — real `signInWithPassword()` call, friendly error messages
+- `AdminShell` sidebar — shows logged-in email + logout button (calls `supabase.auth.signOut()`)
+- `/api/auth/signout` — server-side sign out + redirect to `/admin/login`
+
+#### API Routes Built
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/appointments` | POST | Validate → insert `appointments` → create cancellation token → send emails |
+| `/api/appointments/cancel` | POST / GET | Token-based cancellation → update status → mark token used |
+| `/api/contact` | POST | Validate → insert `contact_submissions` → send admin notification |
+| `/api/revalidate` | POST | Protected revalidation trigger (`REVALIDATION_SECRET`) |
+| `/api/cron/reminders` | GET | Cron: send appointment reminders for next day (`CRON_SECRET`) |
+| `/api/cron/cleanup` | GET | Cron: delete expired unused cancellation tokens |
+
+#### Frontend Wiring
+- `AppointmentFlow.tsx` — confirm step calls `POST /api/appointments`; loading spinner, error display
+- `contact/page.tsx` — async `handleSubmit` calls `POST /api/contact`; loading state, error display
+- `appointments/page.tsx` — reads `?cancelled=true` / `?cancel_error=` params; shows green/red banner
+
+#### Supporting Libraries
+- `src/lib/email.ts` — Resend wrapper; gracefully skips if `RESEND_API_KEY` not set
+- `src/lib/rate-limit.ts` — Upstash wrapper; gracefully returns `{ success: true }` if env vars not set
+
+#### Environment Variables Still Needed (in Vercel)
+| Variable | Purpose |
+|----------|---------|
+| `RESEND_API_KEY` | Send appointment confirmation / admin notification emails |
+| `UPSTASH_REDIS_REST_URL` | Rate limiting |
+| `UPSTASH_REDIS_REST_TOKEN` | Rate limiting |
+| `REVALIDATION_SECRET` | Protect `/api/revalidate` |
+| `CRON_SECRET` | Protect cron routes |
+| `NEXT_PUBLIC_SITE_URL` | Absolute URL for cancellation links in emails |
+
+#### Build
+46 pages · 0 TypeScript errors · 0 lint warnings
+
+---
+
 ## What Is NOT Built Yet
-- Appointment backend (form → Supabase → Resend email)
-- Contact form backend (form → Supabase → Resend notification)
-- Admin authentication (Supabase auth login — Phase H)
-- Role-based permissions (Phase H)
-- Admin dashboard writes to Supabase (Phase H — currently UI-only with useState)
-- API routes (appointments, contact, cron, revalidate)
-- Email templates
+- Admin dashboard CMS writes to Supabase (currently UI-only with useState — Phase I)
+- Real email templates (currently plain-text; needs Resend key)
 - Blog articles
 - Gallery with real photos
+- WhatsApp booking integration
 
 ---
 
 ## Next Phase
 
-**Phase H — Authentication & Backend Integration**
-1. Supabase Auth login for admin dashboard
-2. Role-based access control (admin, super_admin)
-3. Appointment booking backend: `POST /api/appointments` → Supabase `appointments` table → Resend confirmation email
-4. Contact form backend: `POST /api/contact` → Supabase `contact_messages` table → Resend notification
-5. Admin CMS writes to Supabase tables
-6. Rate limiting via Upstash Redis
-Prerequisites: `RESEND_API_KEY`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` in Vercel env vars.
+**Phase I — Admin CMS Persistence**
+1. Wire admin CMS pages to read/write Supabase tables instead of static constants
+2. Photo uploads to Supabase Storage buckets
+3. Real-time dashboard stats from `appointments`, `contact_submissions`
+Prerequisites: All Phase H env vars set.

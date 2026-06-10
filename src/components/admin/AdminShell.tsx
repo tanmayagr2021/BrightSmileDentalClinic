@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
+import { createClient } from '@/lib/supabase/client'
 
 // ─── Nav structure ─────────────────────────────────────────────
 
@@ -208,11 +209,32 @@ function NavItem({
 
 function Sidebar({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname()
+  const router = useRouter()
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [signingOut, setSigningOut] = useState(false)
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data }) => {
+      setUserEmail(data.user?.email ?? null)
+    })
+  }, [])
+
+  const handleSignOut = async () => {
+    setSigningOut(true)
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push('/admin/login')
+  }
 
   const isActive = (href: string) =>
     href === '/admin/dashboard'
       ? pathname === href
       : pathname.startsWith(href)
+
+  const initials = userEmail
+    ? userEmail.slice(0, 2).toUpperCase()
+    : 'AD'
 
   return (
     <div className="flex h-full flex-col">
@@ -266,14 +288,26 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
           <IconExternal />
           View Website
         </a>
-        <div className="flex items-center gap-3 rounded-lg px-3 py-2">
+
+        {/* User + sign out */}
+        <div className="flex items-center gap-2 rounded-lg px-3 py-2">
           <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-primary text-[0.6rem] font-bold text-white font-heading">
-            SA
+            {initials}
           </div>
-          <div className="min-w-0">
-            <p className="font-heading text-[0.72rem] font-medium text-gray-400 truncate">Dr. Sachin</p>
-            <p className="font-body text-[0.6rem] text-gray-600 truncate">Admin</p>
+          <div className="min-w-0 flex-1">
+            <p className="font-heading text-[0.7rem] font-medium text-gray-400 truncate">{userEmail ?? '—'}</p>
           </div>
+          <button
+            onClick={handleSignOut}
+            disabled={signingOut}
+            title="Sign out"
+            className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-lg text-gray-600 transition-colors hover:bg-white/5 hover:text-gray-300 disabled:opacity-40"
+            aria-label="Sign out"
+          >
+            <svg viewBox="0 0 14 14" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+              <path d="M5 2H2a1 1 0 00-1 1v8a1 1 0 001 1h3M10 10l3-3-3-3M6 7h7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
