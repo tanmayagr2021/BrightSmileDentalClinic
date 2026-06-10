@@ -31,7 +31,7 @@ export default function DoctorsPage() {
             <div key={doctor.name} className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
               <div
                 className="relative flex h-48 items-center justify-center"
-                style={{ backgroundColor: doctor.bg }}
+                style={{ backgroundColor: doctor.color }}
               >
                 <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/15 ring-4 ring-white/20">
                   <span className="font-display text-2xl font-bold text-white">{doctor.initials}</span>

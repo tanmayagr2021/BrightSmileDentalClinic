@@ -54,11 +54,12 @@ function ArrowRight() {
 }
 
 export default function ServicesSection() {
+  const services = SERVICE_CATEGORIES_STATIC.filter((s) => s.visible).sort((a, b) => a.sortOrder - b.sortOrder)
+
   return (
     <section className="bg-tint py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        {/* Heading */}
         <motion.div
           variants={stagger}
           initial="hidden"
@@ -75,29 +76,29 @@ export default function ServicesSection() {
             Our Services
           </motion.h2>
           <motion.p variants={fadeUp} className="mx-auto mt-4 max-w-2xl font-body text-base text-gray-500 leading-relaxed">
-            Comprehensive dental care under one roof — modern treatments delivered with expertise and a gentle touch.
+            Comprehensive dental care under one roof — modern treatments delivered with
+            expertise and a genuinely gentle touch.
           </motion.p>
         </motion.div>
 
-        {/* Service cards */}
         <motion.div
           variants={stagger}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {SERVICE_CATEGORIES_STATIC.map((service) => {
+          {services.map((service) => {
             const Icon = SERVICE_ICONS[service.slug]
             return (
               <motion.div
                 key={service.slug}
                 variants={scaleIn}
-                whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className="group relative overflow-hidden rounded-2xl bg-white p-7 shadow-sm shadow-gray-100 transition-shadow hover:shadow-lg hover:shadow-gray-200"
+                whileHover={{ y: -5, transition: { type: 'spring', stiffness: 320, damping: 22 } }}
+                className="group relative overflow-hidden rounded-2xl bg-white p-7 shadow-sm shadow-gray-100 transition-shadow hover:shadow-xl hover:shadow-gray-200/60"
               >
                 {/* Icon */}
-                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-tint text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-tint text-primary transition-all duration-200 group-hover:bg-primary group-hover:text-white group-hover:scale-110 group-hover:rotate-3">
                   {Icon && <Icon />}
                 </div>
 
@@ -105,25 +106,31 @@ export default function ServicesSection() {
                   {service.name}
                 </h3>
                 <p className="mt-2 font-body text-sm leading-relaxed text-gray-500">
-                  {service.description}
+                  {service.shortDescription}
                 </p>
 
+                {/* Sub-service count */}
+                <div className="mt-4 flex items-center gap-2">
+                  <span className="font-heading text-[0.65rem] font-semibold text-gray-400">
+                    {service.subServices.length} treatments
+                  </span>
+                  <span className="h-px flex-1 bg-gray-100" />
+                </div>
+
                 <Link
-                  href={`/services#${service.slug}`}
-                  className="mt-5 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary transition-all group-hover:gap-2.5"
+                  href={`/services/${service.slug}`}
+                  className="mt-4 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary transition-all group-hover:gap-3"
                   aria-label={`Learn more about ${service.name}`}
                 >
                   Learn more <ArrowRight />
                 </Link>
 
-                {/* Decorative corner accent */}
-                <div className="pointer-events-none absolute right-0 top-0 h-20 w-20 rounded-bl-3xl bg-tint/50 transition-colors group-hover:bg-primary/5" aria-hidden="true" />
+                <div className="pointer-events-none absolute right-0 top-0 h-20 w-20 rounded-bl-3xl bg-tint/60 transition-colors group-hover:bg-primary/5" aria-hidden="true" />
               </motion.div>
             )
           })}
         </motion.div>
 
-        {/* CTA */}
         <motion.div
           variants={fadeUp}
           initial="hidden"

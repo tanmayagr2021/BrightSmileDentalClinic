@@ -4,54 +4,145 @@ import { SERVICE_CATEGORIES_STATIC } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: 'Our Services',
-  description: 'Comprehensive dental services at Bright Smile Dental Clinic — general dentistry, cosmetic dentistry, orthodontics, implants, and more.',
+  description:
+    'Comprehensive dental services at Bright Smile Dental Clinic — general dentistry, cosmetic dentistry, orthodontics, implants, oral surgery and paediatric dentistry.',
 }
 
 export default function ServicesPage() {
+  const services = SERVICE_CATEGORIES_STATIC.filter((s) => s.visible).sort((a, b) => a.sortOrder - b.sortOrder)
+
   return (
     <div className="bg-white">
-      <div className="bg-tint border-b border-gray-100 py-16 lg:py-20">
+      {/* Hero */}
+      <div className="bg-tint border-b border-gray-100 py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <span className="eyebrow mb-3 inline-flex items-center gap-2">
+          <span className="eyebrow mb-4 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />
             What We Offer
           </span>
-          <h1 className="font-display text-4xl text-dark sm:text-5xl tracking-display">
+          <h1 className="font-display text-5xl text-dark sm:text-6xl tracking-display">
             Our Services
           </h1>
-          <p className="mt-4 max-w-xl font-body text-base text-gray-500 leading-relaxed">
-            Comprehensive dental care for the whole family — from routine check-ups to advanced treatments.
+          <p className="mt-5 max-w-xl font-body text-lg text-gray-500 leading-relaxed">
+            Comprehensive dental care for the whole family — from routine check-ups to
+            advanced specialist treatments, all under one roof.
           </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            {services.map((s) => (
+              <Link
+                key={s.slug}
+                href={`#${s.slug}`}
+                className="rounded-full border border-gray-200 bg-white px-4 py-2 font-heading text-xs font-semibold text-gray-600 transition-all hover:border-primary hover:text-primary scroll-smooth"
+              >
+                {s.name}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICE_CATEGORIES_STATIC.map((service) => (
+      {/* Service sections */}
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="space-y-16 divide-y divide-gray-100">
+          {services.map((service, index) => (
             <div
               key={service.slug}
               id={service.slug}
-              className="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm scroll-mt-24"
+              className="scroll-mt-28 pt-16 first:pt-0"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-tint text-primary">
-                <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" aria-hidden="true">
-                  <path d="M9 3C6.5 3 4 5.5 4 8.5c0 2 .8 3.8 1.2 5.5.4 2 .8 4 1.3 5.5.3 1 .8 1.5 1.5 1.5s1.2-.3 1.5-1.5c.3-1 .5-2.5.5-3.5 0-1 .5-1.8 1.5-2 .5 0 1-.3 1.5-.3s1 .3 1.5.3c1 .2 1.5 1 1.5 2 0 1 .2 2.5.5 3.5.3 1.2.8 1.5 1.5 1.5s1.2-.5 1.5-1.5c.5-1.5.9-3.5 1.3-5.5.4-1.7 1.2-3.5 1.2-5.5C20 5.5 17.5 3 15 3c-1.2 0-2 .4-3 1.2C11 3.4 10.2 3 9 3z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-              <h2 className="font-heading text-base font-semibold text-dark">{service.name}</h2>
-              <p className="mt-2 font-body text-sm leading-relaxed text-gray-500">{service.description}</p>
-              <div className="mt-4 inline-block rounded-full bg-tint px-3 py-1 font-heading text-xs text-primary">
-                Full details coming soon
+              <div className={`grid grid-cols-1 gap-12 lg:grid-cols-2 ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+
+                {/* Left: Content */}
+                <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
+                  <span className="eyebrow mb-3 inline-flex items-center gap-2">
+                    <span className="inline-block h-px w-5 bg-primary" />
+                    Treatment Category {String(service.sortOrder).padStart(2, '0')}
+                  </span>
+                  <h2 className="font-display text-3xl text-dark sm:text-4xl tracking-display">
+                    {service.name}
+                  </h2>
+                  <p className="mt-4 font-body text-base text-gray-500 leading-relaxed">
+                    {service.description}
+                  </p>
+
+                  {/* Benefits */}
+                  <div className="mt-6 space-y-2">
+                    {service.benefits.map((b) => (
+                      <div key={b} className="flex items-start gap-3">
+                        <svg viewBox="0 0 16 16" fill="none" className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" aria-hidden="true">
+                          <circle cx="8" cy="8" r="7" fill="#4A9B6F" fillOpacity="0.12" />
+                          <path d="M5 8l2 2 4-4" stroke="#4A9B6F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <span className="font-body text-sm text-gray-600">{b}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-8 flex gap-3">
+                    <Link
+                      href={`/services/${service.slug}`}
+                      className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98]"
+                    >
+                      Full Details
+                      <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
+                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
+                    <Link
+                      href="/appointments"
+                      className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-6 py-3 font-heading text-sm font-semibold text-gray-700 transition-all hover:border-primary hover:text-primary active:scale-[0.98]"
+                    >
+                      Book Now
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Right: Sub-services grid */}
+                <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
+                  <div className="rounded-2xl bg-tint p-6">
+                    <p className="mb-4 font-heading text-xs font-semibold uppercase tracking-widest text-gray-400">
+                      Treatments Included
+                    </p>
+                    <div className="space-y-3">
+                      {service.subServices.map((sub) => (
+                        <div key={sub.name} className="rounded-xl bg-white px-5 py-4 shadow-sm">
+                          <p className="font-heading text-sm font-semibold text-dark">{sub.name}</p>
+                          <p className="mt-1 font-body text-xs text-gray-500 leading-relaxed">{sub.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           ))}
         </div>
+      </div>
 
-        <div className="mt-14 text-center">
-          <p className="font-body text-sm text-gray-400 mb-4">Have questions about a specific treatment?</p>
-          <Link href="/contact" className="inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98]">
-            Contact Us
-          </Link>
+      {/* CTA */}
+      <div className="bg-tint border-t border-gray-100 py-16">
+        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+          <h2 className="font-display text-3xl text-dark tracking-display">
+            Not sure which treatment is right for you?
+          </h2>
+          <p className="mt-4 font-body text-base text-gray-500">
+            Book a consultation and our team will assess your needs and explain all available options — clearly and without pressure.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Link
+              href="/appointments"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark active:scale-[0.98]"
+            >
+              Book a Consultation
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-8 py-4 font-heading text-sm font-semibold text-gray-700 transition-all hover:border-primary hover:text-primary active:scale-[0.98]"
+            >
+              Ask a Question
+            </Link>
+          </div>
         </div>
       </div>
     </div>
