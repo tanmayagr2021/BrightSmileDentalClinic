@@ -18,8 +18,8 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
       <Header />
 
-      {/* pt-16 offsets the fixed header height */}
-      <main id="main-content" className="min-h-screen pt-16">
+      {/* pt-16 / lg:pt-20 offsets the fixed header height (h-16 mobile, h-20 desktop) */}
+      <main id="main-content" className="min-h-screen pt-16 lg:pt-20">
         {children}
       </main>
 

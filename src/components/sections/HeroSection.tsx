@@ -72,7 +72,7 @@ function LocationIcon() {
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-[92vh] overflow-hidden bg-white flex items-center">
+    <section className="relative overflow-hidden bg-white flex items-center py-16 lg:min-h-[88vh] lg:py-0">
       {/* Decorative background blobs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute -right-48 -top-48 h-[700px] w-[700px] rounded-full bg-tint opacity-70" />

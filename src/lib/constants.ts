@@ -43,10 +43,10 @@ export const OPENING_HOURS = [
 ] as const
 
 export const HOMEPAGE_STATS = [
-  { value: '1,000+', label: 'Happy Patients' },
-  { value: '10+', label: 'Years of Service' },
-  { value: '20+', label: 'Dental Treatments' },
-  { value: '6', label: 'Expert Doctors' },
+  { count: 1000, suffix: '+', label: 'Happy Patients' },
+  { count: 10, suffix: '+', label: 'Years of Service' },
+  { count: 20, suffix: '+', label: 'Treatments Offered' },
+  { count: 6, suffix: '', label: 'Expert Doctors' },
 ] as const
 
 export const DOCTORS_STATIC = [
@@ -57,6 +57,7 @@ export const DOCTORS_STATIC = [
     role: 'General & Dental Surgeon',
     initials: 'SA',
     bg: '#1A3D2B',
+    bookable: true,  // Available for appointment booking
   },
   {
     name: 'Dr. Ameena Pradhan',
@@ -65,6 +66,7 @@ export const DOCTORS_STATIC = [
     role: 'Periodontist',
     initials: 'AP',
     bg: '#3d8560',
+    bookable: false, // Specialist / consultant only
   },
   {
     name: 'Dr. Binita Adhikari',
@@ -73,6 +75,7 @@ export const DOCTORS_STATIC = [
     role: 'General & Dental Surgeon',
     initials: 'BA',
     bg: '#4A9B6F',
+    bookable: true,  // Available for appointment booking
   },
   {
     name: 'Dr. Sabin Giri',
@@ -81,6 +84,7 @@ export const DOCTORS_STATIC = [
     role: 'Extractions & Dental Surgery',
     initials: 'SG',
     bg: '#1A3D2B',
+    bookable: false,
   },
   {
     name: 'Dr. Shashi Bhushan Singh',
@@ -89,6 +93,7 @@ export const DOCTORS_STATIC = [
     role: 'Dental Implants',
     initials: 'SS',
     bg: '#3d8560',
+    bookable: false,
   },
   {
     name: 'Dr. Rinky Nyachhyon',
@@ -97,6 +102,7 @@ export const DOCTORS_STATIC = [
     role: 'Oral Medicine & Radiology',
     initials: 'RN',
     bg: '#4A9B6F',
+    bookable: false,
   },
 ] as const
 

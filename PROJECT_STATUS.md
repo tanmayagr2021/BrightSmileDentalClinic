@@ -1,7 +1,7 @@
 # Bright Smile Dental Clinic
 
 Status: Development in Progress
-Last Updated: 2026-06-09
+Last Updated: 2026-06-10
 
 ---
 
@@ -33,53 +33,72 @@ Last Updated: 2026-06-09
 - Framer Motion animation variants (fadeUp, fadeIn, stagger, etc.)
 - Skip-to-content accessibility link
 - Global CSS: focus-visible styles, text selection, eyebrow/divider utilities
-- cn() utility, fixed StorageBucket types, added rescheduled AppointmentStatus
-- HANDOFF.md created
 - Build: clean · Lint: 0 errors · Mobile: responsive
 
 ### TypeScript Production Fixes (2026-06-09)
-- Fixed implicit `any` on `cookiesToSet` parameter in `src/lib/supabase/server.ts` (commit 933263d)
-- Fixed same issue in `src/middleware.ts` — full repo scan confirmed no other occurrences (commit ba9d14a)
-- Root cause: Vercel runs TypeScript strict mode (`noImplicitAny`) against all Supabase SSR cookie callbacks
-- Fix: import `CookieOptions` from `@supabase/ssr` and annotate as `{ name: string; value: string; options: CookieOptions }[]`
-- Vercel production deployment: confirmed passing (commit ba9d14a, all 3 environments)
+- Fixed implicit `any` on cookiesToSet in server.ts and middleware.ts
+- Added `export const runtime = 'nodejs'` to middleware (Edge Runtime incompatibility with @supabase/ssr)
+- Added guard against missing env vars in middleware (prevents 500 on misconfigured deploys)
+- Vercel deployment confirmed passing
 
-#### Files Created
-| File | Description |
-|------|-------------|
-| `src/lib/constants.ts` | Nav links, clinic contact, opening hours |
-| `src/lib/animations.ts` | Framer Motion variant presets |
-| `src/components/ui/Button.tsx` | 5 variants, renders as button or Link |
-| `src/components/ui/Card.tsx` | Card with optional hover animation |
-| `src/components/ui/Container.tsx` | Max-width container (sm/md/lg/xl) |
-| `src/components/ui/Heading.tsx` | h1–h4 with display/heading fonts + subtitle |
-| `src/components/ui/Section.tsx` | Section wrapper with background variants |
-| `src/components/ui/index.ts` | Barrel export |
-| `src/components/layout/Header.tsx` | Sticky header + animated mobile menu |
-| `src/components/layout/Footer.tsx` | Dark 4-column footer |
-| `src/components/layout/PublicLayout.tsx` | Public page shell |
-| `src/app/(public)/layout.tsx` | Route group layout using PublicLayout |
-| `HANDOFF.md` | Full developer handoff document |
+### Phase D — Homepage Sections (2026-06-10)
+- HeroSection: luxury split layout, dark clinic info card, Framer Motion entrance animations
+- StatsSection: animated counters (1,000+ patients · 10+ years · 20+ treatments · 6 doctors)
+- ServicesSection: 6 service category cards with SVG icons, hover lift, learn-more links
+- DoctorsSection: all 6 doctors, initials avatar, booking restriction enforced
+- TestimonialsSection: 3 patient reviews with star ratings
+- FaqSection: smooth accordion + FAQPage JSON-LD schema
+- CtaSection: dark split — CTA left, hours/contact right
+- Header logo: replaced text logo with actual brand image (public/images/logo.jpg)
+- Build: clean · 0 errors · 0 warnings
 
-#### Files Modified
-| File | Change |
-|------|--------|
-| `src/app/page.tsx` | Uses PublicLayout, placeholder content |
-| `src/app/not-found.tsx` | Uses PublicLayout + Container |
-| `src/app/globals.css` | Focus styles, selection color, utility classes |
-| `src/lib/utils.ts` | Added cn() utility |
-| `src/types/index.ts` | Fixed StorageBucket names, added rescheduled status |
+### Phase D Refinements (2026-06-10)
+- **Logo:** Increased from h-10 to h-11/h-14 (responsive), header height h-16/h-20 (responsive)
+- **Appointment restriction:** Only Dr. Sachin Agrawal and Dr. Binita Adhikari are bookable. Added `bookable: boolean` to DOCTORS_STATIC. Non-bookable doctors show "View Profile" instead of "Book Appointment". "Accepting Patients" badge on bookable cards.
+- **Navigation:** All 14 routes now have pages (no dead links). Created placeholder pages for /about, /appointments, /blog, /contact, /doctors, /faq, /gallery, /privacy, /services, /testimonials.
+- **Stats animation:** Counter animates from 0 to target on scroll-into-view with cubic ease-out
+- **Doctor cards:** Spring physics on hover, bookable badge, improved hover shadow
+- **Mobile hero:** Fixed min-h constraint for mobile (was forcing 92vh on small screens)
+- **Docs:** PROJECT_STATUS.md and HANDOFF.md updated
 
-#### Skipped (already existed, not recreated)
-- Root layout.tsx — fonts, metadata already correct
-- tailwind.config.ts — brand palette already configured
-- Middleware, Supabase clients, all lib/ utilities
+#### Booking Rule (permanent, locked)
+Only two doctors accept appointment bookings:
+- Dr. Sachin Agrawal (bookable: true)
+- Dr. Binita Adhikari (bookable: true)
+All other doctors are specialists/consultants — visible on the site but not selectable for appointments.
+In the database, the `doctors` table has an `is_active` flag; future admin panel should expose a `bookable` toggle.
+
+#### Routes Live (all static)
+| Route | Status |
+|-------|--------|
+| `/` | Full homepage |
+| `/appointments` | Placeholder — phone/WhatsApp CTA |
+| `/services` | All 6 categories listed |
+| `/doctors` | All 6 doctors with booking status |
+| `/contact` | Contact details + form placeholder |
+| `/about` | Coming soon placeholder |
+| `/gallery` | Placeholder grid |
+| `/blog` | Coming soon placeholder |
+| `/faq` | Full accordion content |
+| `/testimonials` | Full testimonials section |
+| `/privacy` | Basic privacy policy |
+
+---
+
+## What Is NOT Built Yet
+- Appointment booking form (Phase E)
+- Admin dashboard
+- API routes (appointments, contact, cron, revalidate)
+- Email templates
+- Blog articles
+- Individual doctor profile pages (/doctors/[slug])
+- Individual service detail pages (/services/[slug])
+- Gallery with real photos
 
 ---
 
 ## Next Phase
 
-**Phase D — Homepage Sections**
-Build all homepage sections using the established component library. All sections use `motion.div` with `whileInView` scroll animations. Content fetched from Supabase with ISR.
-
-Sections to build: Hero, Services, Our Doctors, Stats, Testimonials, FAQ, Gallery Preview, CTA
+**Phase E — Appointment Booking System**
+Build the appointment form: select doctor (Sachin/Binita only), date picker, time slot picker, patient details, submit to Supabase, send confirmation email via Resend.
+Prerequisite: RESEND_API_KEY must be set in Vercel env vars.

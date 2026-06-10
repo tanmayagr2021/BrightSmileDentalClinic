@@ -22,6 +22,15 @@ function CalendarIcon() {
   )
 }
 
+function UserIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+      <circle cx="8" cy="5" r="3" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 export default function DoctorsSection() {
   return (
     <section className="bg-white py-24 lg:py-32">
@@ -44,7 +53,7 @@ export default function DoctorsSection() {
               Meet Our Doctors
             </motion.h2>
             <motion.p variants={fadeUp} className="mt-4 max-w-xl font-body text-base text-gray-500 leading-relaxed">
-              Our team of qualified, NMC-registered dental professionals bring years of expertise and genuine care to every appointment.
+              Our NMC-registered team brings years of expertise and genuine care to every appointment.
             </motion.p>
           </div>
           <motion.div variants={fadeUp}>
@@ -69,29 +78,34 @@ export default function DoctorsSection() {
             <motion.div
               key={doctor.name}
               variants={scaleIn}
-              whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-lg hover:shadow-gray-200"
+              whileHover={{ y: -5, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
+              className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-xl hover:shadow-gray-200/60"
             >
               {/* Avatar area */}
               <div
                 className="relative flex h-52 items-center justify-center overflow-hidden"
                 style={{ backgroundColor: doctor.bg }}
               >
-                {/* Decorative circles */}
                 <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5" aria-hidden="true" />
                 <div className="absolute -bottom-8 -left-8 h-24 w-24 rounded-full bg-white/5" aria-hidden="true" />
 
-                {/* Initials avatar */}
-                <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-white/15 ring-4 ring-white/20">
+                <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-white/15 ring-4 ring-white/20 transition-transform duration-300 group-hover:scale-105">
                   <span className="font-display text-3xl font-bold text-white">
                     {doctor.initials}
                   </span>
                 </div>
 
-                {/* Qualification badge */}
                 <span className="absolute right-4 top-4 rounded-lg bg-white/20 px-2.5 py-1 font-heading text-xs font-semibold text-white backdrop-blur-sm">
                   {doctor.qualification}
                 </span>
+
+                {/* Bookable badge */}
+                {doctor.bookable && (
+                  <span className="absolute bottom-4 left-4 flex items-center gap-1 rounded-full bg-primary/90 px-2.5 py-1 font-heading text-[0.6rem] font-semibold uppercase tracking-wide text-white">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                    Accepting Patients
+                  </span>
+                )}
               </div>
 
               {/* Content */}
@@ -106,17 +120,39 @@ export default function DoctorsSection() {
                   {doctor.role}
                 </p>
 
-                <Link
-                  href="/appointments"
-                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-tint px-4 py-2.5 font-heading text-xs font-semibold text-dark transition-all hover:bg-primary hover:text-white active:scale-[0.98]"
-                >
-                  <CalendarIcon />
-                  Book with {doctor.name.split(' ')[0]} {doctor.name.split(' ')[1]}
-                </Link>
+                {doctor.bookable ? (
+                  <Link
+                    href="/appointments"
+                    className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98]"
+                  >
+                    <CalendarIcon />
+                    Book Appointment
+                  </Link>
+                ) : (
+                  <Link
+                    href="/doctors"
+                    className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-tint px-4 py-2.5 font-heading text-xs font-semibold text-dark transition-all hover:bg-gray-100 active:scale-[0.98]"
+                  >
+                    <UserIcon />
+                    View Profile
+                  </Link>
+                )}
               </div>
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Booking note */}
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="mt-8 text-center font-body text-xs text-gray-400"
+        >
+          Appointments available with Dr. Sachin Agrawal and Dr. Binita Adhikari.
+          Other specialists are available by referral.
+        </motion.p>
       </div>
     </section>
   )

@@ -15,15 +15,15 @@ function Logo({ dark = false }: { dark?: boolean }) {
       aria-label="Bright Smile Dental Clinic — home"
       className={cn(
         'flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm transition-opacity hover:opacity-90',
-        dark && 'bg-white/10 rounded-lg px-2 py-1'
+        dark && 'bg-white/10 rounded-xl px-3 py-1.5'
       )}
     >
       <Image
         src="/images/logo.jpg"
         alt="Bright Smile Dental Clinic"
-        width={160}
-        height={64}
-        className="h-10 w-auto object-contain"
+        width={200}
+        height={80}
+        className="h-11 w-auto object-contain lg:h-14"
         priority
       />
     </Link>
@@ -102,7 +102,7 @@ export default function Header() {
             : 'border-b border-transparent'
         )}
       >
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-20 lg:px-8">
           {/* Logo */}
           <Logo />
 

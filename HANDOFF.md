@@ -15,7 +15,7 @@ Read this before making any changes.
 
 ## Current Status
 
-**Phase C complete** — Public website foundation built. Header, navigation, footer, design system, and layout architecture are live. All TypeScript strict-mode issues resolved; production deployment confirmed passing on Vercel.
+**Phase D complete + Refinements** — Full homepage live with all 7 sections, animated stats, all navigation links functional, booking restriction enforced, logo integrated. 14 routes all static (0 errors, 0 warnings).
 
 See `PROJECT_STATUS.md` for the complete phase-by-phase history.
 
@@ -32,8 +32,8 @@ See `PROJECT_STATUS.md` for the complete phase-by-phase history.
 ### Layout
 `PublicLayout` (`src/components/layout/PublicLayout.tsx`) is the single source of truth for the public page shell:
 - Skip-to-content link (accessibility)
-- `<Header />` — sticky, client component, mobile menu
-- `<main id="main-content">` — all page content
+- `<Header />` — sticky, client component, mobile menu — `h-16 mobile / h-20 desktop`
+- `<main id="main-content" className="min-h-screen pt-16 lg:pt-20">` — all page content
 - `<Footer />` — server component
 
 ### Design System
@@ -74,6 +74,18 @@ See `PROJECT_STATUS.md` for the complete phase-by-phase history.
 
 Import from barrel: `import { Button, Card } from '@/components/ui'`
 
+### Homepage Sections (`src/components/sections/`)
+
+| Component | Description |
+|-----------|-------------|
+| `HeroSection.tsx` | Luxury split layout, clinic info card, entrance animations. Mobile: `py-16`, desktop: `lg:min-h-[88vh]`. |
+| `StatsSection.tsx` | Animated counters on scroll-into-view (ease-out cubic). Client component. |
+| `ServicesSection.tsx` | 6 category cards with SVG icons, hover lift, links to `/services#slug`. |
+| `DoctorsSection.tsx` | All 6 doctors, initials avatar, spring hover. Booking restriction enforced — see rule below. |
+| `TestimonialsSection.tsx` | 3 patient reviews with star ratings. |
+| `FaqSection.tsx` | Smooth accordion + FAQPage JSON-LD schema. |
+| `CtaSection.tsx` | Dark split — CTA left, hours/contact right. |
+
 ### Animations (`src/lib/animations.ts`)
 
 Framer Motion variants ready to use: `fadeUp`, `fadeIn`, `fadeDown`, `slideInRight`, `scaleIn`, `stagger`, `staggerSlow`.
@@ -90,9 +102,25 @@ import { fadeUp, stagger } from '@/lib/animations'
 
 ### Static Data (`src/lib/constants.ts`)
 
-Contains: `CLINIC_NAME`, `CLINIC_TAGLINE`, `NAV_LINKS`, `FOOTER_QUICK_LINKS`, `OPENING_HOURS`, `CLINIC_CONTACT`.
+Contains: `CLINIC_NAME`, `CLINIC_TAGLINE`, `NAV_LINKS`, `FOOTER_QUICK_LINKS`, `OPENING_HOURS`, `CLINIC_CONTACT`, `HOMEPAGE_STATS`, `DOCTORS_STATIC`, `SERVICE_CATEGORIES_STATIC`, `FAQS_STATIC`, `TESTIMONIALS_STATIC`.
 
 **Important:** Contact info and opening hours are placeholder values. These should be fetched from `site_settings` and `opening_hours` tables in future phases. The constants serve as SSG fallbacks.
+
+### CRITICAL — Appointment Booking Restriction
+
+**Only two doctors accept online appointment bookings:**
+- Dr. Sachin Agrawal (`bookable: true`)
+- Dr. Binita Adhikari (`bookable: true`)
+
+All other doctors are specialists/consultants. They appear on the website but cannot be booked online. This is a permanent business rule.
+
+Implemented via `bookable: boolean` in `DOCTORS_STATIC` in `src/lib/constants.ts`. The `DoctorsSection` conditionally renders "Book Appointment" vs "View Profile". The appointments page and future booking form must filter to `bookable === true` doctors only. The admin panel should also expose a `bookable` toggle on the `doctors` table.
+
+**Never show a booking form or button for non-bookable doctors.**
+
+### Logo
+
+`/public/images/logo.jpg` — Orange+teal brand logo on white background. Used in `Header.tsx` only. Header has a white background so the JPG white background is invisible. Footer uses text-only brand display (no logo image). Image dimensions: 200×80, rendered at `h-11 lg:h-14` in the header.
 
 ### TypeScript Notes
 
@@ -106,18 +134,36 @@ setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) 
 }
 ```
 
-This applies to any file that calls `createServerClient` or `createBrowserClient` with manual cookie handling. Both `src/lib/supabase/server.ts` and `src/middleware.ts` are already typed correctly.
+Middleware must use `export const runtime = 'nodejs'` — `@supabase/ssr` calls Node.js APIs (`process.version`) that don't exist in Edge Runtime.
 
 ### Utilities (`src/lib/utils.ts`)
 
 | Function | Purpose |
 |----------|---------|
-| `cn(...classes)` | Simple class joiner. Consider adding `tailwind-merge` before Phase D for complex class merging. |
+| `cn(...classes)` | Simple class joiner. |
 | `slugify(text)` | Converts strings to URL-safe slugs |
 | `formatDate(date)` | Formats Date/ISO string to "9 June 2026" |
 | `formatTime(time)` | Converts "14:30:00" to "2:30 PM" |
 | `storageUrl(bucket, path)` | Constructs Supabase Storage public URLs |
 | `clamp(value, min, max)` | Clamps a number |
+
+---
+
+## Live Routes
+
+| Route | Content |
+|-------|---------|
+| `/` | Full homepage (7 sections) |
+| `/appointments` | Placeholder — phone/WhatsApp CTA |
+| `/services` | All 6 categories listed |
+| `/doctors` | All 6 doctors with booking status |
+| `/contact` | Contact details + form placeholder |
+| `/about` | Coming soon placeholder |
+| `/gallery` | Placeholder grid |
+| `/blog` | Coming soon placeholder |
+| `/faq` | Full accordion content |
+| `/testimonials` | Full testimonials section |
+| `/privacy` | Basic privacy policy |
 
 ---
 
@@ -148,19 +194,22 @@ Required before ISR works: `REVALIDATION_SECRET`
 
 ---
 
-## What Was NOT Built Yet
+## What Is NOT Built Yet
 
-- Homepage sections (hero, services, doctors, stats, testimonials, FAQ, gallery preview, CTA)
-- Any public page content (/services, /doctors, /gallery, /about, /contact)
-- Appointment booking form
+- Appointment booking form (Phase E)
 - Admin dashboard
 - API routes (appointments, contact, cron, revalidate)
 - Email templates
-- Blog
+- Blog articles
+- Individual doctor profile pages (`/doctors/[slug]`)
+- Individual service detail pages (`/services/[slug]`)
+- Gallery with real photos
+- Contact form
 
 ---
 
 ## Next Phase
 
-**Phase D — Homepage**
-Build all homepage sections using the established design system. All sections should use `motion.div` with `whileInView` for scroll animations. Content should be fetched from Supabase (doctors, services, testimonials, FAQs, gallery) with ISR revalidation.
+**Phase E — Appointment Booking System**
+Build the appointment form: select doctor (Sachin/Binita only), date picker, time slot picker, patient details, submit to Supabase, send confirmation email via Resend.
+Prerequisite: `RESEND_API_KEY` must be set in Vercel env vars.
