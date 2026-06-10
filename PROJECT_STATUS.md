@@ -42,41 +42,98 @@ Last Updated: 2026-06-10
 - Vercel deployment confirmed passing
 
 ### Phase D — Homepage Sections (2026-06-10)
-- HeroSection: luxury split layout, dark clinic info card, Framer Motion entrance animations
+- HeroSection (retired in D Review 2): luxury split layout — removed in favour of Showcase Hero
 - StatsSection: animated counters (1,000+ patients · 10+ years · 20+ treatments · 6 doctors)
 - ServicesSection: 6 service category cards with SVG icons, hover lift, learn-more links
-- DoctorsSection: all 6 doctors, initials avatar, booking restriction enforced
+- DoctorsSection: doctors section with lead dentist cards + specialist network + team strip
 - TestimonialsSection: 3 patient reviews with star ratings
 - FaqSection: smooth accordion + FAQPage JSON-LD schema
 - CtaSection: dark split — CTA left, hours/contact right
+- ShowcaseSection (Phase D): initial clinic slideshow mid-page
+- TrustSection: 4 trust indicator cards (NMC, technology, care, pricing)
 - Header logo: replaced text logo with actual brand image (public/images/logo.jpg)
 - Build: clean · 0 errors · 0 warnings
 
-### Phase D Refinements (2026-06-10)
-- **Logo:** Increased from h-10 to h-11/h-14 (responsive), header height h-16/h-20 (responsive)
-- **Appointment restriction:** Only Dr. Sachin Agrawal and Dr. Binita Adhikari are bookable. Added `bookable: boolean` to DOCTORS_STATIC. Non-bookable doctors show "View Profile" instead of "Book Appointment". "Accepting Patients" badge on bookable cards.
-- **Navigation:** All 14 routes now have pages (no dead links). Created placeholder pages for /about, /appointments, /blog, /contact, /doctors, /faq, /gallery, /privacy, /services, /testimonials.
-- **Stats animation:** Counter animates from 0 to target on scroll-into-view with cubic ease-out
-- **Doctor cards:** Spring physics on hover, bookable badge, improved hover shadow
-- **Mobile hero:** Fixed min-h constraint for mobile (was forcing 92vh on small screens)
-- **Docs:** PROJECT_STATUS.md and HANDOFF.md updated
+### Phase D+E — All Public Inner Pages (2026-06-10)
+- /services → full listing of all 6 service categories
+- /services/[slug] → detail page for each service (6 static routes)
+- /doctors → full doctors directory
+- /doctors/[slug] → individual doctor profile pages (6 static routes)
+- /about → full About page with clinic story, mission, vision, values
+- /contact → contact details page with all info
+- /appointments → "coming soon" with call/WhatsApp CTAs
+- /faq → full FAQ accordion page
+- /gallery → placeholder grid (ready for real photos)
+- /testimonials → full testimonials page
 
-#### Booking Rule (permanent, locked)
-Only two doctors accept appointment bookings:
-- Dr. Sachin Agrawal (bookable: true)
-- Dr. Binita Adhikari (bookable: true)
-All other doctors are specialists/consultants — visible on the site but not selectable for appointments.
-In the database, the `doctors` table has an `is_active` flag; future admin panel should expose a `bookable` toggle.
+### Phase D Review 2 — Homepage Hierarchy Redesign (2026-06-10)
+**Major visual redesign — "Luxury Healthcare" direction**
 
-#### Routes Live (all static)
+#### Homepage Hierarchy (new order)
+1. **ShowcaseSection** — Full-screen cinematic clinic hero (replaces HeroSection as the first impression)
+2. **StatsSection** — Dark stats bar (seamless with showcase)
+3. **TrustSection** — 4 trust indicator cards
+4. **ServicesSection** — 6 service categories
+5. **DoctorsSection** — Lead dentists only (Sachin + Binita), specialist teaser strip
+6. **TestimonialsSection** — Patient reviews
+7. **FaqSection** — Accordion FAQ
+8. **CtaSection** — Appointment CTA
+
+#### ShowcaseSection — Full Redesign
+- Replaced mid-page section with full-viewport cinematic hero
+- Direction-aware slide transitions (scale + opacity, 0.85s cinematic ease)
+- Detailed SVG architectural illustrations for each room (reception, waiting, treatment, equipment, team)
+- Thin progress bars at top with accent-colour fill animation
+- Glassmorphism booking card (bottom-right, desktop)
+- Category eyebrow with accent line
+- Large display title + description + CTA buttons
+- Dot navigation with pill indicator
+- Accent colour streak at top per slide
+- Deep cinematic gradient overlay (70% height)
+- Clinic identifier + slide counter at top
+- Admin architecture: SHOWCASE_SLIDES_STATIC already supports upload/reorder/title/description/toggle
+
+#### DoctorsSection — Homepage Simplified
+- Homepage now shows ONLY Dr. Sachin Agrawal and Dr. Binita Adhikari
+- Section heading: "Meet Our Lead Dentists"
+- Two large premium cards with bio, specializations, NMC badge, experience
+- Specialist teaser strip: avatar cluster + count + link to /doctors
+- No specialist or team cards on homepage
+
+#### Doctors Page — 3 Sections
+- Section 1: Lead Dentists — two large bookable cards
+- Section 2: "Where Specialists Join Our Doctors" — 4 specialist cards + explanatory copy
+- Section 3: Our Care Team — hygienists/assistants + reception/admin placeholder architecture
+
+#### Header — Logo Significantly Larger
+- Mobile: h-[3.75rem] (was h-12)
+- Desktop: h-[5.25rem] (was h-16) — 65% increase
+- Header height: h-[4.75rem] mobile / h-[6.5rem] desktop (was 4.5rem / 5.5rem)
+- PublicLayout pt updated to match: pt-[4.75rem] lg:pt-[6.5rem]
+
+#### Animations — Enhanced Library
+- Added: `clipRevealUp`, `blurFadeIn`, `lineReveal`, `liftIn`, `staggerMed`
+- Added: `EASE_CINEMATIC = [0.16, 1, 0.3, 1]` for Apple-style deceleration
+- Added: `SPRING_GENTLE` for softer interactive springs
+- DoctorsSection: spring physics hover lift on lead dentist cards
+- ShowcaseSection: direction-aware slide transitions with custom variants
+
+#### Build
+- 26 pages, 0 TypeScript errors, 0 lint warnings
+
+---
+
+## Routes (all static)
 | Route | Status |
 |-------|--------|
-| `/` | Full homepage |
+| `/` | Full homepage — showcase hero |
 | `/appointments` | Placeholder — phone/WhatsApp CTA |
 | `/services` | All 6 categories listed |
-| `/doctors` | All 6 doctors with booking status |
+| `/services/[slug]` | 6 detail pages (static) |
+| `/doctors` | 3-section: lead + specialists + team |
+| `/doctors/[slug]` | 6 profile pages (static) |
 | `/contact` | Contact details + form placeholder |
-| `/about` | Coming soon placeholder |
+| `/about` | Full about page with clinic story |
 | `/gallery` | Placeholder grid |
 | `/blog` | Coming soon placeholder |
 | `/faq` | Full accordion content |
@@ -86,19 +143,17 @@ In the database, the `doctors` table has an `is_active` flag; future admin panel
 ---
 
 ## What Is NOT Built Yet
-- Appointment booking form (Phase E)
-- Admin dashboard
+- Appointment booking form (online form → Supabase → email)
+- Admin dashboard (all modules)
 - API routes (appointments, contact, cron, revalidate)
 - Email templates
 - Blog articles
-- Individual doctor profile pages (/doctors/[slug])
-- Individual service detail pages (/services/[slug])
 - Gallery with real photos
 
 ---
 
 ## Next Phase
 
-**Phase E — Appointment Booking System**
+**Phase F — Appointment Booking System**
 Build the appointment form: select doctor (Sachin/Binita only), date picker, time slot picker, patient details, submit to Supabase, send confirmation email via Resend.
 Prerequisite: RESEND_API_KEY must be set in Vercel env vars.

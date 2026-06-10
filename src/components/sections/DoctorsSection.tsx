@@ -2,33 +2,34 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { fadeUp, stagger, scaleIn, slideInLeft, slideInRight } from '@/lib/animations'
-import { DOCTORS_STATIC, TEAM_MEMBERS_STATIC } from '@/lib/constants'
+import { fadeUp, stagger, slideInLeft, slideInRight, blurFadeIn } from '@/lib/animations'
+import { DOCTORS_STATIC } from '@/lib/constants'
 
 const leadDoctors = DOCTORS_STATIC.filter((d) => d.type === 'lead' && d.visible)
-const specialists = DOCTORS_STATIC.filter((d) => d.type === 'specialist' && d.visible)
+const specialistCount = DOCTORS_STATIC.filter((d) => d.type === 'specialist' && d.visible).length
 
-function ArrowRight() {
+function ArrowRight({ className = 'h-4 w-4' }: { className?: string }) {
   return (
-    <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
+    <svg viewBox="0 0 16 16" fill="none" className={className} aria-hidden="true">
       <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
 
-function CalendarIcon() {
+function NmcBadge() {
   return (
-    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
-      <rect x="1.5" y="2.5" width="13" height="12" rx="2" stroke="currentColor" strokeWidth="1.3" />
-      <path d="M1.5 6.5h13M5.5 1v3M10.5 1v3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
+      <path d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z" fill="#4A9B6F" fillOpacity="0.12" stroke="#4A9B6F" strokeWidth="1.2" strokeLinejoin="round" />
+      <path d="M5.5 8l2 2 3.5-3.5" stroke="#4A9B6F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
 
-function CheckBadgeIcon() {
+function CalIcon() {
   return (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4 flex-shrink-0" aria-hidden="true">
-      <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="#4A9B6F" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+      <rect x="1.5" y="2.5" width="13" height="12" rx="2" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M1.5 6.5h13M5.5 1v3M10.5 1v3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   )
 }
@@ -38,7 +39,7 @@ export default function DoctorsSection() {
     <section className="bg-white py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        {/* Section Header */}
+        {/* Section header */}
         <motion.div
           variants={stagger}
           initial="hidden"
@@ -48,266 +49,180 @@ export default function DoctorsSection() {
         >
           <motion.span variants={fadeUp} className="eyebrow mb-3 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />
-            Our Team
+            Direct Appointments
           </motion.span>
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <motion.h2 variants={fadeUp} className="font-display text-4xl text-dark sm:text-5xl tracking-display">
-                Meet Our Doctors
+                Meet Our Lead Dentists
               </motion.h2>
-              <motion.p variants={fadeUp} className="mt-4 max-w-xl font-body text-base text-gray-500 leading-relaxed">
-                Our NMC-registered team brings years of expertise and genuine care to every appointment.
+              <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-gray-500 leading-relaxed">
+                Appointments are available directly with our two lead dentists — both NMC-registered with a decade of experience between them.
               </motion.p>
             </div>
             <motion.div variants={fadeUp} className="flex-shrink-0">
               <Link
                 href="/doctors"
-                className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-6 py-3 font-heading text-sm font-semibold text-gray-600 transition-all hover:border-primary hover:text-primary"
+                className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-6 py-3 font-heading text-sm font-semibold text-gray-600 transition-all hover:border-primary hover:text-primary active:scale-[0.98]"
               >
-                Full Team Directory <ArrowRight />
+                Full Care Team <ArrowRight />
               </Link>
             </motion.div>
           </div>
         </motion.div>
 
-        {/* ── TIER 1: Lead Dentists ── */}
-        <div className="mb-20">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="mb-6 flex items-center gap-3"
-          >
-            <span className="font-heading text-xs font-semibold uppercase tracking-widest text-dark">
-              Lead Dentists
-            </span>
-            <div className="flex-1 h-px bg-gray-100" />
-            <span className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 font-heading text-[0.65rem] font-semibold text-primary">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-              Accepting New Patients
-            </span>
-          </motion.div>
-
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            {leadDoctors.map((doc, i) => (
-              <motion.div
-                key={doc.slug}
-                variants={i === 0 ? slideInLeft : slideInRight}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-60px' }}
-                whileHover={{ y: -4, transition: { type: 'spring', stiffness: 300, damping: 22 } }}
-                className="group relative overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-xl hover:shadow-gray-200/60"
+        {/* Lead dentist cards */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {leadDoctors.map((doc, i) => (
+            <motion.div
+              key={doc.slug}
+              variants={i === 0 ? slideInLeft : slideInRight}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-60px' }}
+              whileHover={{ y: -6, transition: { type: 'spring', stiffness: 280, damping: 20 } }}
+              className="group relative overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm hover:shadow-2xl hover:shadow-gray-200/70 transition-shadow duration-400"
+            >
+              {/* Coloured banner */}
+              <div
+                className="relative flex items-end justify-between overflow-hidden px-8 pt-12 pb-9"
+                style={{ backgroundColor: doc.color }}
               >
-                {/* Top banner */}
-                <div
-                  className="relative flex items-end justify-between overflow-hidden px-8 pt-10 pb-8"
-                  style={{ backgroundColor: doc.color }}
-                >
-                  <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/5" aria-hidden="true" />
-                  <div className="pointer-events-none absolute -bottom-6 -left-6 h-28 w-28 rounded-full bg-white/5" aria-hidden="true" />
+                {/* Decorative circles */}
+                <div className="pointer-events-none absolute -right-14 -top-14 h-52 w-52 rounded-full bg-white/[0.04]" aria-hidden="true" />
+                <div className="pointer-events-none absolute -bottom-8 -left-8 h-36 w-36 rounded-full bg-white/[0.04]" aria-hidden="true" />
+                {/* Grid pattern */}
+                <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05]" aria-hidden="true">
+                  <defs>
+                    <pattern id={`doc-grid-${doc.slug}`} width="24" height="24" patternUnits="userSpaceOnUse">
+                      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="white" strokeWidth="0.5" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill={`url(#doc-grid-${doc.slug})`} />
+                </svg>
 
-                  {/* Avatar */}
-                  <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-white/15 ring-2 ring-white/25 transition-transform duration-300 group-hover:scale-105">
-                    <span className="font-display text-3xl font-bold text-white">
-                      {doc.initials}
-                    </span>
+                {/* Avatar */}
+                <div className="relative">
+                  <div className="flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-2xl bg-white/15 ring-2 ring-white/25 transition-transform duration-300 group-hover:scale-105">
+                    <span className="font-display text-3xl font-bold text-white">{doc.initials}</span>
                   </div>
-
-                  <div className="relative text-right">
-                    <span className="rounded-xl bg-white/20 px-3 py-1.5 font-heading text-xs font-semibold text-white backdrop-blur-sm">
-                      {doc.qualification}
-                    </span>
-                    <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-wider text-white/60">
-                      {doc.nmc}
-                    </p>
+                  {/* Live indicator */}
+                  <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-400 ring-2 ring-white/30">
+                    <span className="h-2 w-2 rounded-full bg-white" />
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="px-8 py-7">
-                  <h3 className="font-heading text-xl font-semibold text-dark">{doc.name}</h3>
-                  <p className="mt-0.5 font-body text-sm text-primary font-medium">{doc.role}</p>
-
-                  <p className="mt-4 font-body text-sm text-gray-500 leading-relaxed line-clamp-3">
-                    {doc.bio}
-                  </p>
-
-                  {/* Specializations */}
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {doc.specializations.slice(0, 3).map((s) => (
-                      <span
-                        key={s}
-                        className="rounded-lg bg-tint px-2.5 py-1 font-heading text-[0.65rem] font-semibold text-dark/70"
-                      >
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Meta */}
-                  <div className="mt-5 flex items-center gap-5 border-t border-gray-50 pt-5">
-                    <div className="flex items-center gap-1.5">
-                      <CheckBadgeIcon />
-                      <span className="font-body text-xs text-gray-500">NMC Registered</span>
-                    </div>
-                    <span className="font-body text-xs text-gray-400">{doc.experience} experience</span>
-                  </div>
-
-                  {/* CTA */}
-                  <div className="mt-5 grid grid-cols-2 gap-3">
-                    <Link
-                      href="/appointments"
-                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98]"
-                    >
-                      <CalendarIcon />
-                      Book Appointment
-                    </Link>
-                    <Link
-                      href={`/doctors/${doc.slug}`}
-                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-3 font-heading text-xs font-semibold text-dark transition-all hover:border-primary hover:text-primary active:scale-[0.98]"
-                    >
-                      View Profile
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── TIER 2: Specialist Network ── */}
-        <div className="mb-20">
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="mb-8"
-          >
-            <motion.div variants={fadeUp} className="mb-2 flex items-center gap-3">
-              <span className="font-heading text-xs font-semibold uppercase tracking-widest text-dark">
-                Specialist Network
-              </span>
-              <div className="flex-1 h-px bg-gray-100" />
-            </motion.div>
-            <motion.p variants={fadeUp} className="max-w-xl font-body text-sm text-gray-500">
-              Specialist consultants available based on treatment requirements. Your lead dentist will
-              coordinate specialist involvement as part of your care plan.
-            </motion.p>
-          </motion.div>
-
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-40px' }}
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
-          >
-            {specialists.map((doc) => (
-              <motion.div
-                key={doc.slug}
-                variants={scaleIn}
-                whileHover={{ y: -4, transition: { type: 'spring', stiffness: 320, damping: 22 } }}
-                className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-lg hover:shadow-gray-200/50"
-              >
-                {/* Small avatar header */}
-                <div
-                  className="relative flex h-32 items-center justify-center overflow-hidden"
-                  style={{ backgroundColor: doc.color }}
-                >
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-black/10" aria-hidden="true" />
-                  <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-white/15 ring-2 ring-white/20 transition-transform duration-300 group-hover:scale-105">
-                    <span className="font-display text-xl font-bold text-white">{doc.initials}</span>
-                  </div>
-                  <span className="absolute right-3 top-3 rounded-lg bg-white/20 px-2 py-0.5 font-heading text-[0.6rem] font-semibold text-white backdrop-blur-sm">
+                <div className="relative text-right">
+                  <span className="rounded-xl bg-white/20 px-3 py-1.5 font-heading text-xs font-semibold text-white backdrop-blur-sm">
                     {doc.qualification}
                   </span>
-                </div>
-
-                <div className="p-5">
-                  <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-widest text-primary">
+                  <p className="mt-2 font-heading text-[0.62rem] font-semibold uppercase tracking-wider text-white/55">
                     {doc.nmc}
                   </p>
-                  <h3 className="mt-1 font-heading text-sm font-semibold text-dark leading-tight">
-                    {doc.name}
-                  </h3>
-                  <p className="mt-1 font-body text-xs text-gray-500">{doc.role}</p>
+                  <p className="mt-0.5 font-heading text-[0.65rem] text-white/45">{doc.experience}</p>
+                </div>
+              </div>
 
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {doc.specializations.slice(0, 2).map((s) => (
-                      <span key={s} className="rounded bg-tint px-2 py-0.5 font-heading text-[0.58rem] font-medium text-gray-600">
-                        {s}
-                      </span>
-                    ))}
+              {/* Content */}
+              <div className="px-8 py-7">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="font-heading text-xl font-semibold text-dark">{doc.name}</h3>
+                    <p className="mt-0.5 font-body text-sm font-medium text-primary">{doc.role}</p>
                   </div>
+                  <div className="flex items-center gap-1.5 rounded-full bg-primary/8 px-2.5 py-1 flex-shrink-0">
+                    <NmcBadge />
+                    <span className="font-heading text-[0.6rem] font-semibold text-primary">NMC Verified</span>
+                  </div>
+                </div>
 
+                <p className="mt-4 font-body text-sm text-gray-500 leading-relaxed line-clamp-3">
+                  {doc.bio}
+                </p>
+
+                {/* Specializations */}
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {doc.specializations.slice(0, 4).map((s) => (
+                    <span key={s} className="rounded-lg bg-tint px-2.5 py-1 font-heading text-[0.62rem] font-semibold text-dark/60">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Languages + education */}
+                <div className="mt-5 border-t border-gray-50 pt-5">
+                  <div className="flex items-center gap-4 font-body text-xs text-gray-400">
+                    <span className="flex items-center gap-1.5">
+                      <svg viewBox="0 0 14 14" fill="none" className="h-3 w-3" aria-hidden="true">
+                        <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.2" />
+                        <path d="M1 7h12M7 1a10 10 0 010 12M7 1a10 10 0 000 12" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+                      </svg>
+                      {doc.languages.join(' · ')}
+                    </span>
+                    <span>·</span>
+                    <span>{doc.education.split(' — ')[0]}</span>
+                  </div>
+                </div>
+
+                {/* CTAs */}
+                <div className="mt-6 grid grid-cols-2 gap-3">
+                  <Link
+                    href="/appointments"
+                    className="group/btn inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.97]"
+                  >
+                    <CalIcon />
+                    Book with {doc.shortName.replace('Dr. ', 'Dr ')}
+                  </Link>
                   <Link
                     href={`/doctors/${doc.slug}`}
-                    className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-tint px-4 py-2.5 font-heading text-xs font-semibold text-dark transition-all hover:bg-gray-100 active:scale-[0.98]"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-3.5 font-heading text-xs font-semibold text-dark transition-all hover:border-primary hover:text-primary active:scale-[0.97]"
                   >
                     View Profile
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* ── TIER 3: Support Team ── */}
-        <div>
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="mb-6 flex items-center gap-3"
-          >
-            <span className="font-heading text-xs font-semibold uppercase tracking-widest text-dark">
-              Our Support Team
-            </span>
-            <div className="flex-1 h-px bg-gray-100" />
-          </motion.div>
-
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="flex flex-wrap gap-3"
-          >
-            {TEAM_MEMBERS_STATIC.filter((m) => m.visible).map((member) => (
-              <motion.div
-                key={member.name}
-                variants={scaleIn}
-                className="flex items-center gap-3 rounded-2xl border border-gray-100 bg-white px-5 py-3.5 shadow-sm"
-              >
+        {/* Care team teaser strip */}
+        <motion.div
+          variants={blurFadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-40px' }}
+          className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-tint px-7 py-5 sm:flex-row"
+        >
+          <div className="flex items-center gap-4">
+            {/* Specialist avatar cluster */}
+            <div className="flex -space-x-2">
+              {DOCTORS_STATIC.filter((d) => d.type === 'specialist').slice(0, 4).map((d, i) => (
                 <div
-                  className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                  style={{ backgroundColor: member.color }}
+                  key={d.slug}
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-[0.6rem] font-bold text-white ring-2 ring-tint"
+                  style={{ backgroundColor: d.color, zIndex: 10 - i }}
                 >
-                  {member.initials}
+                  {d.initials}
                 </div>
-                <div>
-                  <p className="font-heading text-sm font-semibold text-dark">{member.name}</p>
-                  <p className="font-body text-xs text-gray-500">{member.role}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="mt-6 font-body text-xs text-gray-400"
+              ))}
+            </div>
+            <div>
+              <p className="font-heading text-sm font-semibold text-dark">
+                Supported by {specialistCount} Specialists & a dedicated care team
+              </p>
+              <p className="font-body text-xs text-gray-500">
+                Specialist consultations coordinated as part of your personalised care plan.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/doctors"
+            className="flex-shrink-0 inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-2.5 font-heading text-xs font-semibold text-dark transition-all hover:border-primary hover:text-primary"
           >
-            Direct appointments available with our Lead Dentists only.
-            Specialist consultations are coordinated as part of your care plan.
-          </motion.p>
-        </div>
+            Meet the Full Team <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </motion.div>
 
       </div>
     </section>

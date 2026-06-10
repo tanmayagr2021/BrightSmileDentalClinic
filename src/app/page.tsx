@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import PublicLayout from '@/components/layout/PublicLayout'
-import HeroSection from '@/components/sections/HeroSection'
+import ShowcaseSection from '@/components/sections/ShowcaseSection'
 import StatsSection from '@/components/sections/StatsSection'
 import TrustSection from '@/components/sections/TrustSection'
 import ServicesSection from '@/components/sections/ServicesSection'
-import ShowcaseSection from '@/components/sections/ShowcaseSection'
 import DoctorsSection from '@/components/sections/DoctorsSection'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import FaqSection from '@/components/sections/FaqSection'
@@ -19,14 +18,20 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <PublicLayout>
-      <HeroSection />
+      {/* 1. Clinic experience — full-screen cinematic showcase */}
+      <ShowcaseSection />
+      {/* 2. Trust building — stats + credentials */}
       <StatsSection />
       <TrustSection />
+      {/* 3. Services */}
       <ServicesSection />
-      <ShowcaseSection />
+      {/* 4. Lead dentists */}
       <DoctorsSection />
+      {/* 5. Social proof */}
       <TestimonialsSection />
+      {/* 6. FAQs */}
       <FaqSection />
+      {/* 7. Appointment CTA */}
       <CtaSection />
     </PublicLayout>
   )

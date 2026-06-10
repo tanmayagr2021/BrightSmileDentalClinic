@@ -15,7 +15,7 @@ Read this before making any changes.
 
 ## Current Status
 
-**Phase D complete + Refinements** — Full homepage live with all 7 sections, animated stats, all navigation links functional, booking restriction enforced, logo integrated. 14 routes all static (0 errors, 0 warnings).
+**Phase D Review 2 complete** — Homepage hierarchy redesigned. Full-screen cinematic clinic showcase is now the hero. Logo significantly enlarged. Doctors page restructured into 3 sections. 26 static routes, 0 errors, 0 warnings.
 
 See `PROJECT_STATUS.md` for the complete phase-by-phase history.
 
@@ -32,8 +32,8 @@ See `PROJECT_STATUS.md` for the complete phase-by-phase history.
 ### Layout
 `PublicLayout` (`src/components/layout/PublicLayout.tsx`) is the single source of truth for the public page shell:
 - Skip-to-content link (accessibility)
-- `<Header />` — sticky, client component, mobile menu — `h-16 mobile / h-20 desktop`
-- `<main id="main-content" className="min-h-screen pt-16 lg:pt-20">` — all page content
+- `<Header />` — sticky, client component, mobile menu — `h-[4.75rem] mobile / h-[6.5rem] desktop`
+- `<main id="main-content" className="min-h-screen pt-[4.75rem] lg:pt-[6.5rem]">` — all page content
 - `<Footer />` — server component
 
 ### Design System
@@ -78,49 +78,85 @@ Import from barrel: `import { Button, Card } from '@/components/ui'`
 
 | Component | Description |
 |-----------|-------------|
-| `HeroSection.tsx` | Luxury split layout, clinic info card, entrance animations. Mobile: `py-16`, desktop: `lg:min-h-[88vh]`. |
-| `StatsSection.tsx` | Animated counters on scroll-into-view (ease-out cubic). Client component. |
-| `ServicesSection.tsx` | 6 category cards with SVG icons, hover lift, links to `/services#slug`. |
-| `DoctorsSection.tsx` | All 6 doctors, initials avatar, spring hover. Booking restriction enforced — see rule below. |
+| `ShowcaseSection.tsx` | **Homepage hero.** Full-screen cinematic clinic slideshow. Direction-aware transitions, progress bars, glassmorphism booking card, SVG room illustrations. Pause on hover. Admin-ready: SHOWCASE_SLIDES_STATIC supports title/description/visibility/sort. |
+| `StatsSection.tsx` | Animated counters on scroll-into-view (ease-out cubic). Client component. Dark background — seamless with ShowcaseSection. |
+| `TrustSection.tsx` | 4 trust indicator cards (NMC, technology, gentle care, transparent pricing). |
+| `ServicesSection.tsx` | 6 category cards with SVG icons, hover lift, links to `/services/[slug]`. |
+| `DoctorsSection.tsx` | **Homepage only: Lead Dentists.** Shows ONLY Dr. Sachin and Dr. Binita. Spring hover lift. Specialist teaser strip links to `/doctors`. |
 | `TestimonialsSection.tsx` | 3 patient reviews with star ratings. |
 | `FaqSection.tsx` | Smooth accordion + FAQPage JSON-LD schema. |
 | `CtaSection.tsx` | Dark split — CTA left, hours/contact right. |
 
+> `HeroSection.tsx` still exists in the file system but is **no longer used on the homepage**. It was replaced by `ShowcaseSection` as the page hero in Phase D Review 2.
+
 ### Animations (`src/lib/animations.ts`)
 
-Framer Motion variants ready to use: `fadeUp`, `fadeIn`, `fadeDown`, `slideInRight`, `scaleIn`, `stagger`, `staggerSlow`.
+Framer Motion variants ready to use:
+
+| Variant | Effect |
+|---------|--------|
+| `fadeUp` | Opacity + Y slide up (standard) |
+| `fadeUpSlow` | Slower, more dramatic fade-up |
+| `fadeIn` | Opacity only |
+| `slideInLeft / Right` | Opacity + X slide |
+| `scaleIn` | Opacity + scale from 0.93 |
+| `clipRevealUp` | Clip-path reveal from bottom |
+| `blurFadeIn` | Blur + opacity + Y — premium entrance |
+| `lineReveal` | ScaleX from 0 — for decorative lines |
+| `liftIn` | Opacity + Y + scale — for cards |
+| `stagger / staggerSlow / staggerFast / staggerMed` | Stagger parent variants |
+
+Easing constants: `EASE_OUT`, `EASE_IN_OUT`, `EASE_CINEMATIC` (Apple-style), `SPRING_SOFT`, `SPRING_FIRM`, `SPRING_GENTLE`
 
 Usage:
 ```tsx
 import { motion } from 'framer-motion'
-import { fadeUp, stagger } from '@/lib/animations'
+import { fadeUp, stagger, blurFadeIn } from '@/lib/animations'
 
 <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-  <motion.h2 variants={fadeUp}>Heading</motion.h2>
+  <motion.h2 variants={blurFadeIn}>Heading</motion.h2>
 </motion.div>
 ```
 
 ### Static Data (`src/lib/constants.ts`)
 
-Contains: `CLINIC_NAME`, `CLINIC_TAGLINE`, `NAV_LINKS`, `FOOTER_QUICK_LINKS`, `OPENING_HOURS`, `CLINIC_CONTACT`, `HOMEPAGE_STATS`, `DOCTORS_STATIC`, `SERVICE_CATEGORIES_STATIC`, `FAQS_STATIC`, `TESTIMONIALS_STATIC`.
+Contains: `CLINIC_NAME`, `CLINIC_TAGLINE`, `NAV_LINKS`, `FOOTER_QUICK_LINKS`, `OPENING_HOURS`, `CLINIC_CONTACT`, `HOMEPAGE_STATS`, `DOCTORS_STATIC`, `TEAM_MEMBERS_STATIC`, `SERVICE_CATEGORIES_STATIC`, `SHOWCASE_SLIDES_STATIC`, `FAQS_STATIC`, `TESTIMONIALS_STATIC`, `CLINIC_STORY_STATIC`, `GALLERY_ITEMS_STATIC`.
 
 **Important:** Contact info and opening hours are placeholder values. These should be fetched from `site_settings` and `opening_hours` tables in future phases. The constants serve as SSG fallbacks.
 
-### CRITICAL — Appointment Booking Restriction
+### CRITICAL — Doctor Structure
 
-**Only two doctors accept online appointment bookings:**
-- Dr. Sachin Agrawal (`bookable: true`)
-- Dr. Binita Adhikari (`bookable: true`)
+**Homepage (DoctorsSection.tsx):**
+- Shows ONLY Dr. Sachin Agrawal and Dr. Binita Adhikari
+- Section heading: "Meet Our Lead Dentists"
+- Specialist teaser strip links to /doctors
 
-All other doctors are specialists/consultants. They appear on the website but cannot be booked online. This is a permanent business rule.
-
-Implemented via `bookable: boolean` in `DOCTORS_STATIC` in `src/lib/constants.ts`. The `DoctorsSection` conditionally renders "Book Appointment" vs "View Profile". The appointments page and future booking form must filter to `bookable === true` doctors only. The admin panel should also expose a `bookable` toggle on the `doctors` table.
+**Doctors page (/doctors):**
+- Section 1: Lead Dentists — bookable, large cards
+- Section 2: Specialist Network — visiting specialists, referral-based
+- Section 3: Care Team — hygienists, assistants, reception, admin (placeholder architecture)
 
 **Never show a booking form or button for non-bookable doctors.**
 
+Implemented via `bookable: boolean` in `DOCTORS_STATIC`. Future admin panel should expose a `bookable` toggle.
+
+### CRITICAL — Showcase Admin Architecture
+
+`SHOWCASE_SLIDES_STATIC` in `src/lib/constants.ts` already mirrors the database schema for `gallery` table category `showcase`:
+- `visible: boolean` → admin toggle
+- `sortOrder: number` → drag-to-reorder
+- `title: string` → editable
+- `description: string` → editable
+- `gradientFrom / gradientTo / accentColor` → will become image URLs when photos are available
+
+**Future admin panel must support:** Upload image, reorder slides, edit title, edit description, toggle visibility.
+
 ### Logo
 
-`/public/images/logo.jpg` — Orange+teal brand logo on white background. Used in `Header.tsx` only. Header has a white background so the JPG white background is invisible. Footer uses text-only brand display (no logo image). Image dimensions: 200×80, rendered at `h-11 lg:h-14` in the header.
+`/public/images/logo.jpg` — Orange+teal brand logo on white background. Used in `Header.tsx` only.
+- Rendered at `h-[3.75rem] mobile / h-[5.25rem] desktop` (significantly increased in Phase D Review 2)
+- Header background is white, so JPG white background is invisible
+- Footer uses text-only brand display (no logo image)
 
 ### TypeScript Notes
 
@@ -153,13 +189,15 @@ Middleware must use `export const runtime = 'nodejs'` — `@supabase/ssr` calls 
 
 | Route | Content |
 |-------|---------|
-| `/` | Full homepage (7 sections) |
+| `/` | Full homepage — cinematic showcase hero |
 | `/appointments` | Placeholder — phone/WhatsApp CTA |
 | `/services` | All 6 categories listed |
-| `/doctors` | All 6 doctors with booking status |
+| `/services/[slug]` | 6 service detail pages (static) |
+| `/doctors` | 3-section: lead dentists + specialists + care team |
+| `/doctors/[slug]` | 6 individual profile pages (static) |
 | `/contact` | Contact details + form placeholder |
-| `/about` | Coming soon placeholder |
-| `/gallery` | Placeholder grid |
+| `/about` | Full about page with clinic story |
+| `/gallery` | Placeholder grid (ready for real photos) |
 | `/blog` | Coming soon placeholder |
 | `/faq` | Full accordion content |
 | `/testimonials` | Full testimonials section |
@@ -196,13 +234,11 @@ Required before ISR works: `REVALIDATION_SECRET`
 
 ## What Is NOT Built Yet
 
-- Appointment booking form (Phase E)
+- Appointment booking form (Phase F)
 - Admin dashboard
 - API routes (appointments, contact, cron, revalidate)
 - Email templates
 - Blog articles
-- Individual doctor profile pages (`/doctors/[slug]`)
-- Individual service detail pages (`/services/[slug]`)
 - Gallery with real photos
 - Contact form
 
@@ -210,6 +246,6 @@ Required before ISR works: `REVALIDATION_SECRET`
 
 ## Next Phase
 
-**Phase E — Appointment Booking System**
+**Phase F — Appointment Booking System**
 Build the appointment form: select doctor (Sachin/Binita only), date picker, time slot picker, patient details, submit to Supabase, send confirmation email via Resend.
 Prerequisite: `RESEND_API_KEY` must be set in Vercel env vars.

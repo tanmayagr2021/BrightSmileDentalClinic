@@ -14,16 +14,16 @@ function Logo({ dark = false }: { dark?: boolean }) {
       href="/"
       aria-label="Bright Smile Dental Clinic — home"
       className={cn(
-        'flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm transition-opacity hover:opacity-85',
+        'flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm transition-opacity hover:opacity-80',
         dark && 'bg-white/10 rounded-2xl px-3 py-2'
       )}
     >
       <Image
         src="/images/logo.jpg"
         alt="Bright Smile Dental Clinic"
-        width={220}
-        height={88}
-        className="h-12 w-auto object-contain lg:h-16"
+        width={280}
+        height={112}
+        className="h-[3.75rem] w-auto object-contain lg:h-[5.25rem]"
         priority
       />
     </Link>
@@ -33,9 +33,9 @@ function Logo({ dark = false }: { dark?: boolean }) {
 function HamburgerIcon({ open }: { open: boolean }) {
   return (
     <svg
-      width="22"
-      height="22"
-      viewBox="0 0 22 22"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.6"
@@ -43,17 +43,19 @@ function HamburgerIcon({ open }: { open: boolean }) {
       aria-hidden="true"
     >
       <motion.line
-        x1="2" y1="5.5" x2="20" y2="5.5"
-        animate={open ? { y1: 11, y2: 11, rotate: 45, originX: '50%', originY: '50%' } : {}}
+        x1="3" y1="6" x2="21" y2="6"
+        animate={open ? { y1: 12, y2: 12, rotate: 45, originX: '50%', originY: '50%' } : {}}
+        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
       />
       <motion.line
-        x1="2" y1="11" x2="20" y2="11"
-        animate={open ? { opacity: 0 } : { opacity: 1 }}
+        x1="3" y1="12" x2="21" y2="12"
+        animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
         transition={{ duration: 0.15 }}
       />
       <motion.line
-        x1="2" y1="16.5" x2="20" y2="16.5"
-        animate={open ? { y1: 11, y2: 11, rotate: -45, originX: '50%', originY: '50%' } : {}}
+        x1="3" y1="18" x2="21" y2="18"
+        animate={open ? { y1: 12, y2: 12, rotate: -45, originX: '50%', originY: '50%' } : {}}
+        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
       />
     </svg>
   )
@@ -83,15 +85,15 @@ export default function Header() {
         className={cn(
           'fixed top-0 left-0 right-0 z-40 bg-white transition-all duration-300',
           scrolled
-            ? 'border-b border-gray-100 shadow-[0_2px_20px_rgba(0,0,0,0.07)]'
-            : 'border-b border-transparent'
+            ? 'border-b border-gray-100 shadow-[0_2px_24px_rgba(0,0,0,0.06)]'
+            : 'border-b border-gray-100/60'
         )}
       >
-        <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-[5.5rem] lg:px-8">
+        <div className="mx-auto flex h-[4.75rem] max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-[6.5rem] lg:px-8">
           <Logo />
 
           {/* Desktop navigation */}
-          <nav className="hidden lg:flex items-center gap-8" aria-label="Main navigation">
+          <nav className="hidden lg:flex items-center gap-9" aria-label="Main navigation">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -99,7 +101,7 @@ export default function Header() {
                 className="relative font-heading text-[0.875rem] font-medium text-gray-600 transition-colors duration-200 hover:text-primary group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm py-1"
               >
                 {link.label}
-                <span className="absolute inset-x-0 -bottom-0.5 h-[1.5px] scale-x-0 bg-primary rounded-full transition-transform duration-200 group-hover:scale-x-100" />
+                <span className="absolute inset-x-0 -bottom-0.5 h-[1.5px] origin-left scale-x-0 bg-primary rounded-full transition-transform duration-250 group-hover:scale-x-100" />
               </Link>
             ))}
           </nav>
@@ -133,7 +135,7 @@ export default function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.22 }}
-              className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm lg:hidden"
               onClick={closeMenu}
               aria-hidden="true"
             />
@@ -144,12 +146,21 @@ export default function Header() {
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'tween', duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+              transition={{ type: 'tween', duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
               className="fixed right-0 top-0 bottom-0 z-50 flex w-full max-w-[340px] flex-col bg-dark lg:hidden"
               aria-label="Mobile navigation"
             >
               <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
                 <Logo dark />
+                <button
+                  onClick={closeMenu}
+                  className="flex items-center justify-center rounded-lg p-2 text-white/50 hover:text-white transition-colors"
+                  aria-label="Close menu"
+                >
+                  <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5" aria-hidden="true">
+                    <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </button>
               </div>
 
               <nav className="flex-1 overflow-y-auto px-6 py-8" aria-label="Mobile navigation links">
@@ -157,16 +168,19 @@ export default function Header() {
                   {NAV_LINKS.map((link, i) => (
                     <motion.li
                       key={link.href}
-                      initial={{ opacity: 0, x: 20 }}
+                      initial={{ opacity: 0, x: 24 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.06 + 0.12, duration: 0.3, ease: 'easeOut' }}
+                      transition={{ delay: i * 0.06 + 0.1, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                     >
                       <Link
                         href={link.href}
                         onClick={closeMenu}
-                        className="flex items-center py-3.5 font-heading text-base font-medium text-white/75 hover:text-white transition-colors border-b border-white/8 focus-visible:outline-none focus-visible:text-white"
+                        className="flex items-center justify-between py-4 font-heading text-base font-medium text-white/75 hover:text-white transition-colors border-b border-white/8 focus-visible:outline-none focus-visible:text-white"
                       >
                         {link.label}
+                        <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-white/30" aria-hidden="true">
+                          <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
                       </Link>
                     </motion.li>
                   ))}

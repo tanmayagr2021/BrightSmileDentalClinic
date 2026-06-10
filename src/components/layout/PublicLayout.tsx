@@ -18,7 +18,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
       <Header />
 
-      <main id="main-content" className="min-h-screen pt-[4.5rem] lg:pt-[5.5rem]">
+      <main id="main-content" className="min-h-screen pt-[4.75rem] lg:pt-[6.5rem]">
         {children}
       </main>
 
