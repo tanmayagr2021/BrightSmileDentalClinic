@@ -142,8 +142,53 @@ Last Updated: 2026-06-10
 
 ---
 
+### Phase F — Content, Trust & Conversion (2026-06-10)
+**Goal: Turn visitors into appointment requests.**
+
+#### New Homepage Sections (added to section order)
+- **PatientJourneySection** — 6-step timeline (Book → Consult → Diagnose → Plan → Treat → Follow-up). CMS-ready: `PATIENT_JOURNEY_STATIC`.
+- **BeforeAfterSection** — 4 placeholder cases with category filter on dark background. CMS-ready: `BEFORE_AFTER_STATIC`.
+- **WhyChooseSection** — 6-reason grid + certifications strip. CMS-ready: `WHY_CHOOSE_STATIC`, `CERTIFICATIONS_STATIC`.
+- **TestimonialsSection** — Upgraded: featured hero card + video placeholders + secondary grid.
+
+#### Homepage section order (Phase F)
+Showcase → Stats → Trust → PatientJourney → Services → Doctors → BeforeAfter → Testimonials → WhyChoose → FAQ → CTA
+
+#### Page Upgrades
+- **/appointments** — Multi-step appointment request UI: doctor select, calendar, time slots, patient form, confirm, success screen. Client-side only, no backend.
+- **/faq** — Search box + category filter tabs + count badges + real-time filtering. No FaqSection dependency — standalone client page.
+- **/contact** — Emergency banner, full contact form UI (with success state), map placeholder, directions, sidebar contact cards.
+
+#### New constants
+`PATIENT_JOURNEY_STATIC`, `WHY_CHOOSE_STATIC`, `BEFORE_AFTER_STATIC`, `CERTIFICATIONS_STATIC`
+
+#### Build
+26 pages · 0 TypeScript errors · 0 lint warnings
+
+---
+
+## Routes (all static)
+| Route | Status |
+|-------|--------|
+| `/` | Full homepage — showcase hero + 10 sections |
+| `/appointments` | Multi-step appointment request UI (UI-only) |
+| `/services` | All 6 categories listed |
+| `/services/[slug]` | 6 detail pages (static) |
+| `/doctors` | 3-section: lead + specialists + team |
+| `/doctors/[slug]` | 6 profile pages (static) |
+| `/contact` | Premium contact page + form UI + map placeholder |
+| `/about` | Full about page with clinic story |
+| `/gallery` | Placeholder grid |
+| `/blog` | Coming soon placeholder |
+| `/faq` | Search + categories + accordion |
+| `/testimonials` | Full testimonials section |
+| `/privacy` | Basic privacy policy |
+
+---
+
 ## What Is NOT Built Yet
-- Appointment booking form (online form → Supabase → email)
+- Appointment backend (form → Supabase → Resend email)
+- Contact form backend (form → Supabase → Resend notification)
 - Admin dashboard (all modules)
 - API routes (appointments, contact, cron, revalidate)
 - Email templates
@@ -154,6 +199,9 @@ Last Updated: 2026-06-10
 
 ## Next Phase
 
-**Phase F — Appointment Booking System**
-Build the appointment form: select doctor (Sachin/Binita only), date picker, time slot picker, patient details, submit to Supabase, send confirmation email via Resend.
-Prerequisite: RESEND_API_KEY must be set in Vercel env vars.
+**Phase G — Backend & Integrations**
+1. Appointment booking backend: `POST /api/appointments` → Supabase `appointments` table → Resend confirmation email
+2. Contact form backend: `POST /api/contact` → Supabase `contact_messages` table → Resend notification
+3. Rate limiting via Upstash Redis on both API routes
+4. ISR revalidation for data-driven pages
+Prerequisites: `RESEND_API_KEY`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` in Vercel env vars.

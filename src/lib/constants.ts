@@ -797,3 +797,215 @@ export const GALLERY_ITEMS_STATIC: GalleryItem[] = [
   { id: 'g11', title: 'Consultation Area', category: 'clinic', gradientFrom: '#1a1a2e', gradientTo: '#0f0f1c', visible: true, sortOrder: 11 },
   { id: 'g12', title: 'Clinic Interior', category: 'clinic', gradientFrom: '#2a1e1a', gradientTo: '#1a120f', visible: true, sortOrder: 12 },
 ]
+
+// ─── Patient Journey ──────────────────────────────────────────
+// Future: fetch from `site_settings` → patient_journey
+
+export type JourneyStep = {
+  id: string
+  step: number
+  title: string
+  subtitle: string
+  description: string
+  visible: boolean
+  sortOrder: number
+}
+
+export const PATIENT_JOURNEY_STATIC: JourneyStep[] = [
+  {
+    id: 'book',
+    step: 1,
+    title: 'Book Your Visit',
+    subtitle: 'Easy scheduling',
+    description: 'Call, WhatsApp, or use our online form. We confirm your appointment the same day — no long waits.',
+    visible: true,
+    sortOrder: 1,
+  },
+  {
+    id: 'consult',
+    step: 2,
+    title: 'Meet Your Dentist',
+    subtitle: 'Expert consultation',
+    description: 'Your lead dentist listens carefully, reviews your history, and performs a thorough oral examination.',
+    visible: true,
+    sortOrder: 2,
+  },
+  {
+    id: 'diagnose',
+    step: 3,
+    title: 'Diagnosis & Imaging',
+    subtitle: 'Digital X-rays',
+    description: 'Where needed, digital X-rays provide instant, high-resolution images with minimal radiation.',
+    visible: true,
+    sortOrder: 3,
+  },
+  {
+    id: 'plan',
+    step: 4,
+    title: 'Your Care Plan',
+    subtitle: 'Transparent planning',
+    description: 'We walk you through every recommended treatment, the full timeline, and the cost — before anything begins.',
+    visible: true,
+    sortOrder: 4,
+  },
+  {
+    id: 'treat',
+    step: 5,
+    title: 'Comfortable Treatment',
+    subtitle: 'Gentle precision',
+    description: 'Treatment is delivered with a gentle technique, appropriate anaesthesia, and complete focus on your comfort.',
+    visible: true,
+    sortOrder: 5,
+  },
+  {
+    id: 'followup',
+    step: 6,
+    title: 'Follow-Up Care',
+    subtitle: 'Ongoing support',
+    description: 'Clear aftercare instructions, a scheduled follow-up check, and a long-term plan to keep your smile healthy.',
+    visible: true,
+    sortOrder: 6,
+  },
+]
+
+// ─── Why Choose Bright Smile ──────────────────────────────────
+// Future: fetch from `site_settings` → why_choose
+
+export type WhyChooseReason = {
+  id: string
+  title: string
+  description: string
+  visible: boolean
+  sortOrder: number
+}
+
+export const WHY_CHOOSE_STATIC: WhyChooseReason[] = [
+  {
+    id: 'experienced-team',
+    title: 'Experienced Team',
+    description: '6 NMC-registered dentists and specialists with a combined 40+ years of clinical experience in Kathmandu.',
+    visible: true,
+    sortOrder: 1,
+  },
+  {
+    id: 'modern-equipment',
+    title: 'Modern Equipment',
+    description: 'Digital X-rays, advanced sterilisation units and contemporary precision instruments for safer, more accurate treatment.',
+    visible: true,
+    sortOrder: 2,
+  },
+  {
+    id: 'personalised-care',
+    title: 'Personalised Care',
+    description: 'We take time to understand each patient. Your care plan is designed for you — never a one-size-fits-all approach.',
+    visible: true,
+    sortOrder: 3,
+  },
+  {
+    id: 'specialist-network',
+    title: 'Specialist Network',
+    description: 'Access to oral surgeons, periodontists and implantologists — coordinated by your lead dentist, for your convenience.',
+    visible: true,
+    sortOrder: 4,
+  },
+  {
+    id: 'convenient-location',
+    title: 'Convenient Location',
+    description: 'Centrally located in Nagpokhari, Naxal — easily accessible from Kathmandu and all surrounding areas.',
+    visible: true,
+    sortOrder: 5,
+  },
+  {
+    id: 'transparent-pricing',
+    title: 'Transparent Pricing',
+    description: 'Full cost estimate before any treatment begins. No surprises, no hidden charges — complete financial clarity, always.',
+    visible: true,
+    sortOrder: 6,
+  },
+]
+
+// ─── Before & After Cases ────────────────────────────────────
+// Future: fetch from `gallery` table with category = 'before_after'
+
+export type BeforeAfterCategory = 'smile-makeover' | 'orthodontics' | 'whitening' | 'implants'
+
+export type BeforeAfterCase = {
+  id: string
+  title: string
+  category: BeforeAfterCategory
+  treatmentDetails: string
+  duration: string
+  beforeGradient: string
+  afterGradient: string
+  visible: boolean
+  sortOrder: number
+}
+
+export const BEFORE_AFTER_STATIC: BeforeAfterCase[] = [
+  {
+    id: 'ba1',
+    title: 'Complete Smile Makeover',
+    category: 'smile-makeover',
+    treatmentDetails: 'Porcelain Veneers + Whitening + Gum Contouring',
+    duration: '6 weeks',
+    beforeGradient: '#2d1a1a',
+    afterGradient: '#1a3d2b',
+    visible: true,
+    sortOrder: 1,
+  },
+  {
+    id: 'ba2',
+    title: 'Orthodontic Correction',
+    category: 'orthodontics',
+    treatmentDetails: 'Clear Aligners — Full Treatment Course',
+    duration: '18 months',
+    beforeGradient: '#1a1a2d',
+    afterGradient: '#1a3d2b',
+    visible: true,
+    sortOrder: 2,
+  },
+  {
+    id: 'ba3',
+    title: 'Professional Whitening',
+    category: 'whitening',
+    treatmentDetails: 'In-Clinic Power Whitening Session',
+    duration: '1 session',
+    beforeGradient: '#2d2a1a',
+    afterGradient: '#1a3d2b',
+    visible: true,
+    sortOrder: 3,
+  },
+  {
+    id: 'ba4',
+    title: 'Dental Implant',
+    category: 'implants',
+    treatmentDetails: 'Titanium Implant + Ceramic Crown',
+    duration: '4 months',
+    beforeGradient: '#1a2d2d',
+    afterGradient: '#1a3d2b',
+    visible: true,
+    sortOrder: 4,
+  },
+]
+
+// ─── Certifications & Awards ──────────────────────────────────
+// Future: fetch from `certifications` table
+
+export type CertificationType = 'registration' | 'award' | 'certification'
+
+export type Certification = {
+  id: string
+  title: string
+  issuer: string
+  year: string
+  type: CertificationType
+  visible: boolean
+  sortOrder: number
+}
+
+export const CERTIFICATIONS_STATIC: Certification[] = [
+  { id: 'nmc-reg', title: 'NMC Registered', issuer: 'Nepal Medical Council', year: '2013', type: 'registration', visible: true, sortOrder: 1 },
+  { id: 'nmc-spec', title: 'MDS Specialist Verified', issuer: 'Nepal Medical Council', year: '2015', type: 'registration', visible: true, sortOrder: 2 },
+  { id: 'implant-cert', title: 'Advanced Implantology', issuer: 'ITI International', year: '2019', type: 'certification', visible: true, sortOrder: 3 },
+  { id: 'aligner-cert', title: 'Aligner Certified Provider', issuer: 'Clear Aligner Academy', year: '2021', type: 'certification', visible: true, sortOrder: 4 },
+]
