@@ -13,7 +13,7 @@ import WhyChooseSection from '@/components/sections/WhyChooseSection'
 import FaqSection from '@/components/sections/FaqSection'
 import CtaSection from '@/components/sections/CtaSection'
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Bright Smile Dental Clinic | Dentist in Kathmandu, Nepal',

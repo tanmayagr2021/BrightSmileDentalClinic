@@ -96,7 +96,7 @@ function normaliseStatic(t: typeof TESTIMONIALS_STATIC[number]): DisplayTestimon
 }
 
 export default function TestimonialsSection({ testimonials }: { testimonials?: TestimonialRow[] }) {
-  const allTestimonials: DisplayTestimonial[] = testimonials
+  const allTestimonials: DisplayTestimonial[] = testimonials && testimonials.length > 0
     ? testimonials.map(normaliseDB)
     : TESTIMONIALS_STATIC.filter((t) => t.visible).sort((a, b) => a.sortOrder - b.sortOrder).map(normaliseStatic)
 

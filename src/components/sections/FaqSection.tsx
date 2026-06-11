@@ -33,7 +33,7 @@ function normaliseStatic(f: typeof FAQS_STATIC[number]): DisplayFaq {
 export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
-  const displayFaqs: DisplayFaq[] = faqs
+  const displayFaqs: DisplayFaq[] = faqs && faqs.length > 0
     ? faqs.map(normaliseDB)
     : FAQS_STATIC.filter((f) => f.visible).sort((a, b) => a.sortOrder - b.sortOrder).map(normaliseStatic)
 
