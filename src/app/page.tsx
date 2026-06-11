@@ -41,14 +41,14 @@ export default async function HomePage() {
       .select('*')
       .eq('status', 'approved')
       .is('deleted_at', null)
+      .order('is_featured', { ascending: false })
       .order('sort_order', { ascending: true })
-      .limit(5),
+      .limit(10),
     supabase
       .from('faqs')
       .select('*')
       .eq('is_visible', true)
-      .order('sort_order', { ascending: true })
-      .limit(8),
+      .order('sort_order', { ascending: true }),
     supabase
       .from('homepage_sections')
       .select('*')

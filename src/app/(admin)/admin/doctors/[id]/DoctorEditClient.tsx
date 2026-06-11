@@ -1,40 +1,47 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import type { DoctorRow } from '@/types/db'
 
-export default function NewDoctorPage() {
+export default function DoctorEditClient({ doctor }: { doctor: DoctorRow }) {
   const router = useRouter()
+  const [, startTransition] = useTransition()
+  const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null)
   const [saving, setSaving] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
+
   const [form, setForm] = useState({
-    full_name:       '',
-    title:           '',
-    qualification:   '',
-    nmc_number:      '',
-    experience_text: '',
-    education:       '',
-    short_bio:       '',
-    full_bio:        '',
-    specializations: '',
-    languages:       'Nepali, Hindi, English',
-    doctor_type:     'lead' as 'lead' | 'specialist',
-    is_active:       true,
-    is_bookable:     false,
+    full_name:       doctor.full_name,
+    title:           doctor.title ?? '',
+    qualification:   doctor.qualification ?? '',
+    nmc_number:      doctor.nmc_number ?? '',
+    experience_text: doctor.experience_text ?? '',
+    education:       doctor.education ?? '',
+    short_bio:       doctor.short_bio ?? '',
+    full_bio:        doctor.full_bio ?? '',
+    specializations: (doctor.specializations ?? []).join(', '),
+    languages:       (doctor.languages ?? []).join(', '),
+    doctor_type:     doctor.doctor_type,
+    is_active:       doctor.is_active,
+    is_bookable:     doctor.is_bookable,
   })
+
+  const showToast = (msg: string, ok: boolean) => {
+    setToast({ msg, ok })
+    setTimeout(() => setToast(null), 3500)
+  }
 
   const update = (key: keyof typeof form) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => setForm((f) => ({ ...f, [key]: e.target.value }))
 
-  const handleSubmit = async () => {
-    if (!form.full_name.trim()) { setError('Full name is required'); return }
+  const handleSave = async () => {
     setSaving(true)
-    setError(null)
     try {
-      const res = await fetch('/api/admin/doctors', {
-        method: 'POST',
+      const res = await fetch(`/api/admin/doctors/${doctor.id}`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           full_name:       form.full_name.trim(),
@@ -48,20 +55,47 @@ export default function NewDoctorPage() {
           specializations: form.specializations.split(',').map((s) => s.trim()).filter(Boolean),
           languages:       form.languages.split(',').map((s) => s.trim()).filter(Boolean),
           doctor_type:     form.doctor_type,
+          is_active:       form.is_active,
           is_bookable:     form.is_bookable,
         }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Failed to create doctor')
-      router.push('/admin/doctors')
+      if (!res.ok) throw new Error(data.error ?? 'Failed to save')
+      showToast('Changes saved', true)
+      startTransition(() => router.refresh())
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error creating doctor')
+      showToast(err instanceof Error ? err.message : 'Error saving', false)
+    } finally {
       setSaving(false)
     }
   }
 
+  const handleDelete = async () => {
+    if (!confirm(`Delete Dr. ${doctor.full_name}? This will hide them from the website but preserve appointment history.`)) return
+    setDeleting(true)
+    try {
+      const res = await fetch(`/api/admin/doctors/${doctor.id}`, { method: 'DELETE' })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Failed')
+      router.push('/admin/doctors')
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Error', false)
+      setDeleting(false)
+    }
+  }
+
+  const color = doctor.color_hex ?? '#4A9B6F'
+  const initials = doctor.initials ?? doctor.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2)
+
   return (
     <div className="p-6 max-w-2xl mx-auto">
+      {/* Toast */}
+      {toast && (
+        <div className={`fixed right-5 top-5 z-50 flex items-center gap-2 rounded-xl px-4 py-3 shadow-lg font-heading text-xs font-semibold ${toast.ok ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`}>
+          <div className={`h-1.5 w-1.5 rounded-full ${toast.ok ? 'bg-green-200' : 'bg-red-200'}`} />
+          {toast.msg}
+        </div>
+      )}
 
       {/* Breadcrumb */}
       <div className="mb-6 flex items-center gap-2 font-heading text-xs text-gray-400">
@@ -69,39 +103,30 @@ export default function NewDoctorPage() {
         <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3" aria-hidden="true">
           <path d="M4 2l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <span className="text-gray-600">New Doctor</span>
+        <span className="text-gray-600">{doctor.full_name}</span>
       </div>
 
-      <div className="mb-6">
-        <h2 className="font-display text-xl text-gray-900 tracking-tight">Add Doctor</h2>
-        <p className="mt-1 font-body text-sm text-gray-500">Fill in the details to add a new doctor to the clinic directory.</p>
-      </div>
-
-      {error && (
-        <div className="mb-5 flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
-          <div className="h-2 w-2 rounded-full bg-red-400 flex-shrink-0" />
-          <p className="font-heading text-xs font-semibold text-red-700">{error}</p>
+      {/* Header */}
+      <div className="mb-6 flex items-start gap-4">
+        <div
+          className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl text-xl font-bold text-white font-heading"
+          style={{ backgroundColor: color }}
+        >
+          {initials}
         </div>
-      )}
-
-      <div className="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm space-y-6">
-
         <div>
-          <label className="block font-heading text-xs font-semibold text-gray-700 mb-1.5">Doctor Type</label>
-          <select
-            value={form.doctor_type}
-            onChange={update('doctor_type')}
-            className="w-full rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
-          >
-            <option value="lead">Lead Dentist</option>
-            <option value="specialist">Specialist</option>
-          </select>
+          <h2 className="font-display text-xl text-gray-900 tracking-tight">{doctor.full_name}</h2>
+          <p className="font-body text-sm text-gray-500">{doctor.title ?? 'No title set'}</p>
         </div>
+      </div>
+
+      {/* Form */}
+      <div className="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm space-y-6">
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div>
-            <label className="block font-heading text-xs font-semibold text-gray-700 mb-1.5">Full Name *</label>
-            <input type="text" value={form.full_name} onChange={update('full_name')} placeholder="Dr. Full Name" className="w-full rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
+            <label className="block font-heading text-xs font-semibold text-gray-700 mb-1.5">Full Name</label>
+            <input type="text" value={form.full_name} onChange={update('full_name')} className="w-full rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
           </div>
           <div>
             <label className="block font-heading text-xs font-semibold text-gray-700 mb-1.5">Role / Title</label>
@@ -132,7 +157,7 @@ export default function NewDoctorPage() {
 
         <div>
           <label className="block font-heading text-xs font-semibold text-gray-700 mb-1.5">Full Bio</label>
-          <textarea value={form.full_bio} onChange={update('full_bio')} rows={4} placeholder="Doctor biography for the public profile page..." className="w-full resize-none rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
+          <textarea value={form.full_bio} onChange={update('full_bio')} rows={4} placeholder="Detailed biography for the public profile page..." className="w-full resize-none rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
           <p className="mt-1 font-body text-[0.62rem] text-gray-400">{form.full_bio.length} characters</p>
         </div>
 
@@ -144,6 +169,18 @@ export default function NewDoctorPage() {
         <div>
           <label className="block font-heading text-xs font-semibold text-gray-700 mb-1.5">Languages</label>
           <input type="text" value={form.languages} onChange={update('languages')} placeholder="Comma-separated, e.g. Nepali, Hindi, English" className="w-full rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
+        </div>
+
+        <div>
+          <label className="block font-heading text-xs font-semibold text-gray-700 mb-1.5">Doctor Type</label>
+          <select
+            value={form.doctor_type}
+            onChange={update('doctor_type')}
+            className="w-full rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
+          >
+            <option value="lead">Lead Dentist</option>
+            <option value="specialist">Specialist</option>
+          </select>
         </div>
 
         {/* Toggles */}
@@ -182,17 +219,26 @@ export default function NewDoctorPage() {
       </div>
 
       {/* Footer actions */}
-      <div className="mt-6 flex items-center justify-end gap-3">
-        <Link href="/admin/doctors" className="rounded-xl border border-gray-200 px-5 py-2.5 font-heading text-xs font-semibold text-gray-600 transition-all hover:border-gray-300">
-          Cancel
-        </Link>
+      <div className="mt-6 flex items-center justify-between">
         <button
-          onClick={handleSubmit}
-          disabled={saving}
-          className="rounded-xl bg-primary px-6 py-2.5 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark disabled:opacity-60"
+          onClick={handleDelete}
+          disabled={deleting}
+          className="font-heading text-xs font-semibold text-red-400 hover:text-red-600 transition-colors disabled:opacity-50"
         >
-          {saving ? 'Adding…' : 'Add Doctor'}
+          {deleting ? 'Deleting…' : 'Delete Doctor'}
         </button>
+        <div className="flex gap-3">
+          <Link href="/admin/doctors" className="rounded-xl border border-gray-200 px-5 py-2.5 font-heading text-xs font-semibold text-gray-600 transition-all hover:border-gray-300">
+            Cancel
+          </Link>
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="rounded-xl bg-primary px-6 py-2.5 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark disabled:opacity-60"
+          >
+            {saving ? 'Saving…' : 'Save Changes'}
+          </button>
+        </div>
       </div>
     </div>
   )

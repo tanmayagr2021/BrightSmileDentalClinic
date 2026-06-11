@@ -1,5 +1,32 @@
 // Database row types — exact column names from Supabase schema
 
+export type DoctorRow = {
+  id: string
+  full_name: string
+  slug: string
+  title: string | null
+  nmc_number: string | null
+  short_bio: string | null
+  full_bio: string | null
+  profile_image_url: string | null
+  is_active: boolean
+  sort_order: number
+  qualification: string | null
+  short_name: string | null
+  doctor_type: 'lead' | 'specialist'
+  is_bookable: boolean
+  specializations: string[]
+  languages: string[]
+  experience_text: string | null
+  education: string | null
+  color_hex: string | null
+  initials: string | null
+  deleted_at: string | null
+  created_at: string
+  updated_at: string
+}
+
+
 export type TestimonialRow = {
   id: string
   patient_name: string
