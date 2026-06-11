@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { createAdminClient } from '@/lib/supabase/admin'
 import {
   DOCTORS_STATIC,
   SERVICE_CATEGORIES_STATIC,
@@ -8,61 +9,62 @@ import {
   BEFORE_AFTER_STATIC,
 } from '@/lib/constants'
 
-// ─── Stat card ───────────────────────────────────────────────
+export const dynamic = 'force-dynamic'
+
+// ─── Helpers ─────────────────────────────────────────────
+
+function todayStr() {
+  return new Date().toISOString().split('T')[0]
+}
+
+function sevenDaysAgoStr() {
+  const d = new Date()
+  d.setDate(d.getDate() - 6)
+  return d.toISOString().split('T')[0]
+}
+
+function formatTime(timeStr: string) {
+  const [h, m] = timeStr.split(':').map(Number)
+  const period = h >= 12 ? 'PM' : 'AM'
+  const hour = h % 12 || 12
+  return `${hour}:${String(m).padStart(2, '0')} ${period}`
+}
+
+function doctorName(notes: string | null): string {
+  if (!notes) return ''
+  const match = notes.match(/^Doctor: (.+?)(?:\n|$)/)
+  return match ? match[1] : ''
+}
+
+// ─── Sub-components ───────────────────────────────────────
 
 function StatCard({
   label,
   value,
   sub,
-  color = 'gray',
+  accent = false,
   href,
 }: {
   label: string
   value: string | number
   sub?: string
-  color?: 'green' | 'blue' | 'amber' | 'gray' | 'purple' | 'rose'
+  accent?: boolean
   href?: string
 }) {
-  const dot: Record<string, string> = {
-    green: 'bg-green-500',
-    blue: 'bg-blue-500',
-    amber: 'bg-amber-400',
-    gray: 'bg-gray-400',
-    purple: 'bg-purple-500',
-    rose: 'bg-rose-500',
-  }
   const inner = (
-    <div className={`group rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-shadow ${href ? 'hover:shadow-md cursor-pointer' : ''}`}>
-      <div className="flex items-start justify-between mb-4">
-        <span className="font-heading text-xs font-semibold uppercase tracking-wide text-gray-400">{label}</span>
-        <div className={`h-2 w-2 rounded-full ${dot[color]}`} aria-hidden="true" />
-      </div>
-      <p className="font-display text-3xl text-gray-900 tracking-tight">{value}</p>
-      {sub && <p className="mt-1 font-body text-xs text-gray-400">{sub}</p>}
+    <div className={`group rounded-2xl border p-5 shadow-sm transition-shadow ${href ? 'cursor-pointer hover:shadow-md' : ''} ${accent ? 'border-amber-200 bg-amber-50' : 'border-gray-100 bg-white'}`}>
+      <p className={`font-heading text-xs font-semibold uppercase tracking-wide ${accent ? 'text-amber-600' : 'text-gray-400'}`}>{label}</p>
+      <p className={`mt-3 font-display text-3xl tracking-tight ${accent ? 'text-amber-700' : 'text-gray-900'}`}>{value}</p>
+      {sub && <p className={`mt-1 font-body text-xs ${accent ? 'text-amber-600' : 'text-gray-400'}`}>{sub}</p>}
     </div>
   )
   if (href) return <Link href={href}>{inner}</Link>
   return inner
 }
 
-// ─── Quick action ────────────────────────────────────────────
-
-function QuickAction({
-  label,
-  desc,
-  href,
-  icon,
-}: {
-  label: string
-  desc: string
-  href: string
-  icon: React.ReactNode
-}) {
+function QuickAction({ label, desc, href, icon }: { label: string; desc: string; href: string; icon: React.ReactNode }) {
   return (
-    <Link
-      href={href}
-      className="group flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-primary/20 hover:shadow-md"
-    >
+    <Link href={href} className="group flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
       <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gray-50 text-gray-500 transition-colors group-hover:bg-primary/8 group-hover:text-primary">
         {icon}
       </div>
@@ -77,81 +79,112 @@ function QuickAction({
   )
 }
 
-// ─── Activity feed item ───────────────────────────────────────
-
-function ActivityItem({ label, time, type }: { label: string; time: string; type: 'edit' | 'add' | 'view' }) {
-  const colors = { edit: 'bg-blue-500', add: 'bg-green-500', view: 'bg-gray-400' }
-  return (
-    <div className="flex items-start gap-3 py-3 border-b border-gray-50 last:border-0">
-      <div className={`mt-1 h-2 w-2 flex-shrink-0 rounded-full ${colors[type]}`} aria-hidden="true" />
-      <div className="min-w-0 flex-1">
-        <p className="font-body text-sm text-gray-700 leading-tight">{label}</p>
-        <p className="font-body text-xs text-gray-400 mt-0.5">{time}</p>
-      </div>
-    </div>
-  )
+const STATUS_BADGE: Record<string, string> = {
+  pending:   'bg-amber-100 text-amber-700',
+  confirmed: 'bg-blue-100 text-blue-700',
+  completed: 'bg-green-100 text-green-700',
+  cancelled: 'bg-gray-100 text-gray-500',
+  no_show:   'bg-red-100 text-red-600',
 }
 
-// ─── Page ────────────────────────────────────────────────────
+// ─── Page ────────────────────────────────────────────────
 
-export default function DashboardPage() {
-  const leadDoctors = DOCTORS_STATIC.filter((d) => d.type === 'lead' && d.visible)
-  const specialists = DOCTORS_STATIC.filter((d) => d.type === 'specialist' && d.visible)
-  const visibleTestimonials = TESTIMONIALS_STATIC.filter((t) => t.visible)
-  const visibleFaqs = FAQS_STATIC.filter((f) => f.visible)
-  const visibleSlides = SHOWCASE_SLIDES_STATIC.filter((s) => s.visible)
+export default async function DashboardPage() {
+  const supabase = createAdminClient()
+  const today = todayStr()
+  const weekAgo = sevenDaysAgoStr()
+
+  // Parallel fetches
+  const [todayRes, pendingRes, weekRes, totalRes, recentRes] = await Promise.all([
+    supabase
+      .from('appointments')
+      .select('*', { count: 'exact', head: true })
+      .eq('appointment_date', today)
+      .neq('status', 'cancelled'),
+    supabase
+      .from('appointments')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'pending'),
+    supabase
+      .from('appointments')
+      .select('*', { count: 'exact', head: true })
+      .gte('appointment_date', weekAgo)
+      .neq('status', 'cancelled'),
+    supabase
+      .from('appointments')
+      .select('*', { count: 'exact', head: true }),
+    supabase
+      .from('appointments')
+      .select('id, patient_name, appointment_date, appointment_time, status, notes')
+      .order('created_at', { ascending: false })
+      .limit(6),
+  ])
+
+  const todayCount   = todayRes.count   ?? 0
+  const pendingCount = pendingRes.count  ?? 0
+  const weekCount    = weekRes.count    ?? 0
+  const totalCount   = totalRes.count   ?? 0
+  const recentAppts  = recentRes.data   ?? []
+
+  const leadDoctors        = DOCTORS_STATIC.filter(d => d.type === 'lead' && d.visible)
+  const visibleTestimonials = TESTIMONIALS_STATIC.filter(t => t.visible)
+  const visibleSlides       = SHOWCASE_SLIDES_STATIC.filter(s => s.visible)
+  const visibleFaqs         = FAQS_STATIC.filter(f => f.visible)
 
   return (
     <div className="p-6 space-y-8 max-w-7xl mx-auto">
 
-      {/* Welcome header */}
+      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="font-display text-2xl text-gray-900 tracking-tight">Welcome back</h2>
+          <h2 className="font-display text-2xl text-gray-900 tracking-tight">Dashboard</h2>
           <p className="mt-1 font-body text-sm text-gray-500">
-            Bright Smile Dental Clinic &middot; Nagpokhari, Naxal, Kathmandu
+            Bright Smile Dental Clinic · Nagpokhari, Naxal, Kathmandu
           </p>
         </div>
-        <div className="flex gap-2 flex-shrink-0">
-          <Link
-            href="/admin/showcase"
-            className="rounded-xl border border-gray-200 px-4 py-2 font-heading text-xs font-semibold text-gray-600 transition-all hover:border-primary/30 hover:text-primary"
-          >
-            Edit Showcase
-          </Link>
-          <Link
-            href="/admin/doctors"
-            className="rounded-xl bg-primary px-4 py-2 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark"
-          >
-            Manage Doctors
+        <Link
+          href="/admin/appointments"
+          className="rounded-xl bg-primary px-4 py-2 font-heading text-xs font-semibold text-white transition hover:bg-primary-dark"
+        >
+          Manage Appointments
+        </Link>
+      </div>
+
+      {/* Pending alert */}
+      {pendingCount > 0 && (
+        <div className="flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-5 py-3.5">
+          <div className="h-2 w-2 flex-shrink-0 rounded-full bg-amber-500 animate-pulse" />
+          <p className="font-heading text-xs font-semibold text-amber-800">
+            {pendingCount} pending appointment{pendingCount !== 1 ? 's' : ''} need confirmation — call the patient
+          </p>
+          <Link href="/admin/appointments" className="ml-auto flex-shrink-0 rounded-lg bg-amber-500 px-3 py-1.5 font-heading text-xs font-semibold text-white hover:bg-amber-600 transition">
+            Review
           </Link>
         </div>
+      )}
+
+      {/* Appointment stats */}
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <StatCard label="Pending" value={pendingCount} sub="Need confirmation" accent={pendingCount > 0} href="/admin/appointments" />
+        <StatCard label="Today" value={todayCount} sub={new Date().toLocaleDateString('en-GB', { weekday: 'long' })} href="/admin/appointments" />
+        <StatCard label="This week" value={weekCount} sub="Last 7 days" />
+        <StatCard label="All time" value={totalCount} sub="Total bookings" />
       </div>
 
-      {/* Stat cards */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-        <StatCard label="Appointments" value="—" sub="Backend pending" color="amber" href="/admin/appointments" />
-        <StatCard label="Patients" value="1,000+" sub="All time" color="green" />
-        <StatCard label="Lead Doctors" value={leadDoctors.length} sub="Bookable" color="blue" href="/admin/doctors" />
-        <StatCard label="Services" value={SERVICE_CATEGORIES_STATIC.length} sub="Categories" color="purple" href="/admin/services" />
-        <StatCard label="Testimonials" value={visibleTestimonials.length} sub={`of ${TESTIMONIALS_STATIC.length} total`} color="green" href="/admin/testimonials" />
-        <StatCard label="Showcase Slides" value={visibleSlides.length} sub="Visible" color="blue" href="/admin/showcase" />
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
 
         {/* Quick actions */}
         <div>
-          <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">Quick Actions</h3>
+          <h3 className="mb-4 font-heading text-xs font-semibold uppercase tracking-widest text-gray-400">Quick Actions</h3>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <QuickAction
-              label="Edit Showcase Slides"
-              desc="Update clinic photos & descriptions"
-              href="/admin/showcase"
+              label="Appointments"
+              desc="Confirm or cancel patient bookings"
+              href="/admin/appointments"
               icon={
                 <svg viewBox="0 0 16 16" fill="none" className="h-5 w-5" aria-hidden="true">
-                  <rect x="1" y="3" width="14" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
-                  <path d="M1 7h14" stroke="currentColor" strokeWidth="1.3" />
+                  <rect x="1" y="3" width="14" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+                  <path d="M5 1v3M11 1v3M1 7h14" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
                 </svg>
               }
             />
@@ -168,23 +201,23 @@ export default function DashboardPage() {
               }
             />
             <QuickAction
+              label="Edit Showcase"
+              desc="Update clinic photos & captions"
+              href="/admin/showcase"
+              icon={
+                <svg viewBox="0 0 16 16" fill="none" className="h-5 w-5" aria-hidden="true">
+                  <rect x="1" y="3" width="14" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+                  <path d="M1 7h14" stroke="currentColor" strokeWidth="1.3" />
+                </svg>
+              }
+            />
+            <QuickAction
               label="Add Testimonial"
               desc="Publish a new patient review"
               href="/admin/testimonials"
               icon={
                 <svg viewBox="0 0 16 16" fill="none" className="h-5 w-5" aria-hidden="true">
                   <path d="M14 10a2 2 0 01-2 2H5l-3 3V4a2 2 0 012-2h8a2 2 0 012 2v6z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-                </svg>
-              }
-            />
-            <QuickAction
-              label="Update Contact Info"
-              desc="Phone, email, hours, address"
-              href="/admin/settings/website"
-              icon={
-                <svg viewBox="0 0 16 16" fill="none" className="h-5 w-5" aria-hidden="true">
-                  <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.3" />
-                  <path d="M8 4.5V8l2.5 2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
                 </svg>
               }
             />
@@ -201,81 +234,83 @@ export default function DashboardPage() {
               }
             />
             <QuickAction
-              label="Homepage Sections"
-              desc="Show, hide & reorder sections"
-              href="/admin/homepage"
+              label="Website Settings"
+              desc="Phone, email, hours, address"
+              href="/admin/settings/website"
               icon={
                 <svg viewBox="0 0 16 16" fill="none" className="h-5 w-5" aria-hidden="true">
-                  <rect x="1" y="1" width="14" height="4" rx="1" stroke="currentColor" strokeWidth="1.3" />
-                  <rect x="1" y="7" width="14" height="4" rx="1" stroke="currentColor" strokeWidth="1.3" />
-                  <rect x="1" y="13" width="14" height="2.5" rx="1" stroke="currentColor" strokeWidth="1.3" />
+                  <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.3" />
+                  <circle cx="8" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.3" />
                 </svg>
               }
             />
           </div>
         </div>
 
-        {/* Activity feed */}
+        {/* Recent appointments */}
         <div>
-          <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">Recent Activity</h3>
-          <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-            <ActivityItem label="Showcase slide descriptions updated" time="Today, 10:32 AM" type="edit" />
-            <ActivityItem label="Dr. Sachin profile bio refreshed" time="Yesterday, 3:15 PM" type="edit" />
-            <ActivityItem label="New testimonial added — Priya Sharma" time="2 days ago" type="add" />
-            <ActivityItem label="FAQ category 'Cosmetic' updated" time="3 days ago" type="edit" />
-            <ActivityItem label="Website contact hours updated" time="5 days ago" type="edit" />
-            <ActivityItem label="Service: Dental Implants description updated" time="1 week ago" type="edit" />
-            <p className="mt-4 font-body text-xs text-gray-400 text-center">
-              Live activity feed available after backend integration (Phase G).
-            </p>
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400">Recent Bookings</h3>
+            <Link href="/admin/appointments" className="font-heading text-xs font-semibold text-primary hover:underline underline-offset-2">
+              View all
+            </Link>
+          </div>
+
+          <div className="rounded-2xl border border-gray-100 bg-white shadow-sm divide-y divide-gray-50">
+            {recentAppts.length === 0 && (
+              <div className="py-10 text-center">
+                <p className="font-body text-xs text-gray-400">No appointments yet.</p>
+                <p className="font-body text-[0.65rem] text-gray-300 mt-0.5">New bookings will appear here.</p>
+              </div>
+            )}
+            {recentAppts.map(appt => {
+              const badge = STATUS_BADGE[appt.status] ?? 'bg-gray-100 text-gray-500'
+              const doctor = doctorName(appt.notes)
+              const dateObj = new Date(appt.appointment_date + 'T00:00:00')
+              return (
+                <div key={appt.id} className="flex items-start gap-3 px-5 py-3.5">
+                  <div className="flex-shrink-0 w-10 text-center pt-0.5">
+                    <p className="font-heading text-sm font-bold text-gray-800 leading-none">{dateObj.getDate()}</p>
+                    <p className="font-body text-[0.6rem] text-gray-400">{dateObj.toLocaleDateString('en-GB', { month: 'short' })}</p>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-heading text-xs font-semibold text-gray-800 truncate">{appt.patient_name}</p>
+                    <p className="font-body text-[0.65rem] text-gray-400 truncate">
+                      {doctor && `${doctor} · `}{formatTime(appt.appointment_time)}
+                    </p>
+                  </div>
+                  <span className={`flex-shrink-0 rounded-full px-2 py-0.5 font-heading text-[0.58rem] font-bold ${badge}`}>
+                    {appt.status.charAt(0).toUpperCase() + appt.status.slice(1)}
+                  </span>
+                </div>
+              )
+            })}
           </div>
 
           {/* Content health */}
           <div className="mt-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-            <h4 className="font-heading text-xs font-semibold text-gray-700 mb-4">Content Health</h4>
+            <h4 className="mb-4 font-heading text-xs font-semibold text-gray-700">Content Health</h4>
             <div className="space-y-3">
               {[
-                { label: 'Showcase slides', count: visibleSlides.length, total: SHOWCASE_SLIDES_STATIC.length, ok: true },
-                { label: 'Lead doctors', count: leadDoctors.length, total: DOCTORS_STATIC.length, ok: true },
-                { label: 'Specialists', count: specialists.length, total: specialists.length, ok: true },
-                { label: 'Testimonials', count: visibleTestimonials.length, total: TESTIMONIALS_STATIC.length, ok: true },
-                { label: 'Services', count: SERVICE_CATEGORIES_STATIC.length, total: SERVICE_CATEGORIES_STATIC.length, ok: true },
-                { label: 'FAQs', count: visibleFaqs.length, total: FAQS_STATIC.length, ok: true },
-                { label: 'Before & After photos', count: 0, total: BEFORE_AFTER_STATIC.length, ok: false },
-              ].map((item) => (
+                { label: 'Showcase slides',    count: visibleSlides.length,      total: SHOWCASE_SLIDES_STATIC.length,    ok: visibleSlides.length > 0 },
+                { label: 'Lead doctors',       count: leadDoctors.length,         total: DOCTORS_STATIC.filter(d=>d.type==='lead').length, ok: true },
+                { label: 'Testimonials',       count: visibleTestimonials.length, total: TESTIMONIALS_STATIC.length,       ok: visibleTestimonials.length > 0 },
+                { label: 'Services',           count: SERVICE_CATEGORIES_STATIC.length, total: SERVICE_CATEGORIES_STATIC.length, ok: true },
+                { label: 'FAQs',              count: visibleFaqs.length,         total: FAQS_STATIC.length,               ok: visibleFaqs.length > 0 },
+                { label: 'Before & After',     count: 0,                          total: BEFORE_AFTER_STATIC.length,       ok: false },
+              ].map(item => (
                 <div key={item.label} className="flex items-center justify-between">
                   <span className="font-body text-xs text-gray-600">{item.label}</span>
                   <div className="flex items-center gap-2">
                     <span className={`font-heading text-xs font-semibold ${item.ok ? 'text-gray-700' : 'text-amber-600'}`}>
                       {item.count}/{item.total}
                     </span>
-                    <div className={`h-1.5 w-1.5 rounded-full ${item.ok ? 'bg-green-500' : 'bg-amber-400'}`} aria-hidden="true" />
+                    <div className={`h-1.5 w-1.5 rounded-full ${item.ok ? 'bg-green-500' : 'bg-amber-400'}`} />
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Phase status banner */}
-      <div className="rounded-2xl border border-amber-100 bg-amber-50 px-6 py-5">
-        <div className="flex flex-wrap items-center gap-4">
-          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-amber-100">
-            <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-amber-600" aria-hidden="true">
-              <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.3" />
-              <path d="M8 5v3.5M8 10.5h.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-heading text-xs font-semibold text-amber-800">Admin UI — Phase G Complete</p>
-            <p className="font-body text-xs text-amber-700 mt-0.5">
-              All CMS screens are live. Data is currently read from static constants. Phase H will connect everything to Supabase — changes made here will then persist.
-            </p>
-          </div>
-          <Link href="/admin/doctors" className="flex-shrink-0 rounded-xl bg-amber-500 px-4 py-2 font-heading text-xs font-semibold text-white transition-colors hover:bg-amber-600">
-            Start Editing
-          </Link>
         </div>
       </div>
 
