@@ -67,7 +67,7 @@ export default function PatientJourneySection() {
               How It Works
             </motion.span>
             <motion.h2 variants={fadeUp} className="font-display text-4xl text-dark sm:text-5xl tracking-display">
-              Your Journey to a Healthy Smile
+              Your Journey to a Brighter Smile
             </motion.h2>
             <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-gray-500 leading-relaxed">
               From your first call to your final follow-up, every step is designed around your comfort and confidence.
