@@ -1,6 +1,6 @@
 import { Resend } from 'resend'
 
-const FROM = `${process.env.RESEND_FROM_NAME ?? 'Bright Smile Dental Clinic'} <${process.env.RESEND_FROM_EMAIL ?? 'noreply@brightsmiledentalclinic.com.np'}>`
+const FROM = `${process.env.RESEND_FROM_NAME ?? 'Bright Smile Dental Clinic'} <onboarding@resend.dev>`
 const CLINIC_PHONE = '+977-1-4419594'
 const CLINIC_WHATSAPP = '+977-9851058733'
 
@@ -113,7 +113,7 @@ export async function sendAppointmentNotification({
   const client = resend()
   if (!client) return { skipped: true }
 
-  const adminEmail = process.env.RESEND_FROM_EMAIL ?? 'drsachin1108@gmail.com'
+  const adminEmail = process.env.CLINIC_NOTIFY_EMAIL ?? 'brightsmiledental1111@gmail.com'
 
   const html = `
 <!DOCTYPE html>
@@ -162,7 +162,7 @@ export async function sendContactNotification({
   const client = resend()
   if (!client) return { skipped: true }
 
-  const adminEmail = process.env.RESEND_FROM_EMAIL ?? 'drsachin1108@gmail.com'
+  const adminEmail = process.env.CLINIC_NOTIFY_EMAIL ?? 'brightsmiledental1111@gmail.com'
 
   const html = `
 <!DOCTYPE html>
