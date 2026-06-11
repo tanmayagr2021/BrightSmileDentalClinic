@@ -38,6 +38,7 @@ export default async function HomePage() {
     { data: sectionData },
     { data: doctorData },
     { data: serviceCategoryData },
+    { data: showcaseData },
   ] = await Promise.all([
     supabase
       .from('testimonials')
@@ -67,12 +68,18 @@ export default async function HomePage() {
       .select('id, slug, name, sort_order, is_visible')
       .eq('is_visible', true)
       .order('sort_order', { ascending: true }),
+    supabase
+      .from('showcase_slides')
+      .select('*')
+      .eq('is_visible', true)
+      .order('sort_order', { ascending: true }),
   ])
 
   const sections = sectionData ?? []
   const testimonials = testimonialData ?? []
   const faqs = faqData ?? []
   const doctors = doctorData ?? []
+  const showcaseSlides = showcaseData ?? []
 
   // Merge DB visibility/order with static content (shortDescription fallback, subServiceCount)
   const services = (serviceCategoryData ?? [])
@@ -96,7 +103,7 @@ export default async function HomePage() {
   return (
     <PublicLayout>
       {/* 1. Hero — full-screen cinematic clinic showcase (always visible) */}
-      <ShowcaseSection />
+      <ShowcaseSection slides={showcaseSlides} />
       {/* 2. Trust — stats + quick credentials */}
       {sectionVisible('stats') && <StatsSection />}
       {sectionVisible('trust') && <TrustSection />}

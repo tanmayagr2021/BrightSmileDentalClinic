@@ -3,9 +3,23 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { SHOWCASE_SLIDES_STATIC, CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
+import Image from 'next/image'
+import { CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
 
-const slides = SHOWCASE_SLIDES_STATIC.filter((s) => s.visible).sort((a, b) => a.sortOrder - b.sortOrder)
+type SlideData = {
+  id: string
+  title: string
+  subtitle: string | null
+  description: string | null
+  category: string
+  image_url: string | null
+  gradient_from: string
+  gradient_to: string
+  accent_color: string
+  sort_order: number
+  is_visible: boolean
+}
+
 const AUTO_MS = 5000
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -246,7 +260,7 @@ const textVariants = {
   }),
 }
 
-export default function ShowcaseSection() {
+export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
   const [active, setActive] = useState(0)
   const [direction, setDirection] = useState(1)
   const [isPaused, setIsPaused] = useState(false)
@@ -295,9 +309,9 @@ export default function ShowcaseSection() {
           className="absolute inset-0"
           style={{
             background: `
-              radial-gradient(ellipse at 65% 25%, ${current.accentColor}18 0%, transparent 55%),
-              radial-gradient(ellipse at 20% 80%, ${current.accentColor}0c 0%, transparent 40%),
-              linear-gradient(150deg, ${current.gradientFrom} 0%, ${current.gradientTo} 100%)
+              radial-gradient(ellipse at 65% 25%, ${current.accent_color}18 0%, transparent 55%),
+              radial-gradient(ellipse at 20% 80%, ${current.accent_color}0c 0%, transparent 40%),
+              linear-gradient(150deg, ${current.gradient_from} 0%, ${current.gradient_to} 100%)
             `,
           }}
         >
@@ -311,17 +325,33 @@ export default function ShowcaseSection() {
             <rect width="100%" height="100%" fill={`url(#grid-${current.id})`} />
           </svg>
 
-          {/* Large room illustration — centred, dramatic */}
-          <div className="absolute inset-0 flex items-center justify-center px-16 pt-16 pb-52 sm:pb-48 lg:pb-56">
-            <div className="h-full w-full max-w-3xl opacity-[0.28]">
-              <RoomIllustration category={current.category} accent={current.accentColor} />
+          {/* Real clinic photo — shown when uploaded */}
+          {current.image_url && (
+            <div className="absolute inset-0 overflow-hidden">
+              <Image
+                src={current.image_url}
+                alt={current.title}
+                fill
+                className="object-cover"
+                priority
+                sizes="100vw"
+              />
             </div>
-          </div>
+          )}
+
+          {/* Large room illustration — shown only when no real photo */}
+          {!current.image_url && (
+            <div className="absolute inset-0 flex items-center justify-center px-16 pt-16 pb-52 sm:pb-48 lg:pb-56">
+              <div className="h-full w-full max-w-3xl opacity-[0.28]">
+                <RoomIllustration category={current.category} accent={current.accent_color} />
+              </div>
+            </div>
+          )}
 
           {/* Accent line — top */}
           <motion.div
             className="absolute left-0 right-0 top-0 h-[2px]"
-            style={{ backgroundColor: current.accentColor, opacity: 0.7 }}
+            style={{ backgroundColor: current.accent_color, opacity: 0.7 }}
             initial={{ scaleX: 0, originX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 1.2, ease: EASE }}
@@ -350,7 +380,7 @@ export default function ShowcaseSection() {
             {i === active && (
               <motion.span
                 className="absolute inset-0 origin-left rounded-full"
-                style={{ backgroundColor: current.accentColor }}
+                style={{ backgroundColor: current.accent_color }}
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: isPaused ? undefined : 1 }}
                 transition={{ duration: AUTO_MS / 1000, ease: 'linear' }}
@@ -365,7 +395,7 @@ export default function ShowcaseSection() {
       <div className="absolute left-6 top-10 flex items-center gap-3 sm:left-10 lg:left-14" aria-hidden="true">
         <div
           className="h-1 w-1 rounded-full"
-          style={{ backgroundColor: current.accentColor }}
+          style={{ backgroundColor: current.accent_color }}
         />
         <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/35">
           Bright Smile Dental
@@ -399,10 +429,10 @@ export default function ShowcaseSection() {
                 >
                   <span
                     className="inline-block h-px w-6"
-                    style={{ backgroundColor: current.accentColor }}
+                    style={{ backgroundColor: current.accent_color }}
                   />
                   <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em]"
-                    style={{ color: current.accentColor }}
+                    style={{ color: current.accent_color }}
                   >
                     {current.subtitle}
                   </span>
@@ -533,7 +563,7 @@ export default function ShowcaseSection() {
               >
                 <span className="absolute inset-0 rounded-full bg-white/25" />
                 {i === active && (
-                  <span className="absolute inset-0 rounded-full" style={{ backgroundColor: current.accentColor }} />
+                  <span className="absolute inset-0 rounded-full" style={{ backgroundColor: current.accent_color }} />
                 )}
               </button>
             ))}
