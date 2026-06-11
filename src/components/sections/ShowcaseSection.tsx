@@ -357,11 +357,8 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
             transition={{ duration: 1.2, ease: EASE }}
           />
 
-          {/* Bottom gradient — deep, cinematic */}
-          <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/95 via-black/60 to-transparent" />
-
-          {/* Vignette sides */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/15" aria-hidden="true" />
+          {/* Bottom gradient — light, airy */}
+          <div className="absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
         </motion.div>
       </AnimatePresence>
 
@@ -415,8 +412,8 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
       <div className="absolute bottom-0 left-0 right-0 px-6 pb-10 sm:px-10 sm:pb-12 lg:px-14 lg:pb-14">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
 
-          {/* Left: text */}
-          <div className="max-w-lg">
+          {/* Left: text — glass panel */}
+          <div className="max-w-lg rounded-2xl border border-white/10 bg-white/5 px-6 py-5 backdrop-blur-md sm:px-8 sm:py-6">
             <AnimatePresence mode="wait">
               <motion.div key={`text-${active}`}>
                 {/* Category eyebrow */}
@@ -455,7 +452,7 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
                   variants={textVariants}
                   initial="hidden"
                   animate="visible"
-                  className="mt-3 max-w-sm font-body text-sm text-white/55 leading-relaxed lg:text-base"
+                  className="mt-3 max-w-sm font-body text-sm text-white/70 leading-relaxed lg:text-base"
                 >
                   {current.description}
                 </motion.p>
