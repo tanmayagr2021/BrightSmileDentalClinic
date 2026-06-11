@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { createAdminClient } from '@/lib/supabase/admin'
 import PublicLayout from '@/components/layout/PublicLayout'
 import ShowcaseSection from '@/components/sections/ShowcaseSection'
 import StatsSection from '@/components/sections/StatsSection'
@@ -11,6 +12,8 @@ import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import WhyChooseSection from '@/components/sections/WhyChooseSection'
 import FaqSection from '@/components/sections/FaqSection'
 import CtaSection from '@/components/sections/CtaSection'
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Bright Smile Dental Clinic | Dentist in Kathmandu, Nepal',
@@ -25,28 +28,65 @@ export const metadata: Metadata = {
   },
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = createAdminClient()
+
+  const [
+    { data: testimonialData },
+    { data: faqData },
+    { data: sectionData },
+  ] = await Promise.all([
+    supabase
+      .from('testimonials')
+      .select('*')
+      .eq('status', 'approved')
+      .is('deleted_at', null)
+      .order('sort_order', { ascending: true })
+      .limit(5),
+    supabase
+      .from('faqs')
+      .select('*')
+      .eq('is_visible', true)
+      .order('sort_order', { ascending: true })
+      .limit(8),
+    supabase
+      .from('homepage_sections')
+      .select('*')
+      .order('sort_order', { ascending: true }),
+  ])
+
+  const sections = sectionData ?? []
+  const testimonials = testimonialData ?? []
+  const faqs = faqData ?? []
+
+  const sectionVisible = (key: string): boolean => {
+    const found = sections.find((s) => s.section_key === key)
+    return found ? found.is_visible : true
+  }
+
   return (
     <PublicLayout>
-      {/* 1. Hero — full-screen cinematic clinic showcase */}
+      {/* 1. Hero — full-screen cinematic clinic showcase (always visible) */}
       <ShowcaseSection />
       {/* 2. Trust — stats + quick credentials */}
-      <StatsSection />
-      <TrustSection />
+      {sectionVisible('stats') && <StatsSection />}
+      {sectionVisible('trust') && <TrustSection />}
       {/* 3. How it works — patient journey timeline */}
       <PatientJourneySection />
       {/* 4. Services */}
-      <ServicesSection />
+      {sectionVisible('services') && <ServicesSection />}
       {/* 5. Lead dentists */}
-      <DoctorsSection />
+      {sectionVisible('doctors') && <DoctorsSection />}
       {/* 6. Social proof — before/after + testimonials */}
       <BeforeAfterSection />
-      <TestimonialsSection />
+      {sectionVisible('testimonials') && (
+        <TestimonialsSection testimonials={testimonials} />
+      )}
       {/* 7. Differentiation */}
       <WhyChooseSection />
       {/* 8. FAQs — overcome objections */}
-      <FaqSection />
-      {/* 9. Conversion CTA */}
+      {sectionVisible('faq') && <FaqSection faqs={faqs} />}
+      {/* 9. Conversion CTA (always visible) */}
       <CtaSection />
     </PublicLayout>
   )

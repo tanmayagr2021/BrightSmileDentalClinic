@@ -1,13 +1,24 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { createAdminClient } from '@/lib/supabase/admin'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Patient Testimonials',
   description: 'Read what patients say about their experience at Bright Smile Dental Clinic, Kathmandu.',
 }
 
-export default function TestimonialsPage() {
+export default async function TestimonialsPage() {
+  const supabase = createAdminClient()
+  const { data } = await supabase
+    .from('testimonials')
+    .select('*')
+    .eq('status', 'approved')
+    .is('deleted_at', null)
+    .order('sort_order', { ascending: true })
+
   return (
     <div className="bg-white">
       <div className="bg-tint border-b border-gray-100 py-16 lg:py-20">
@@ -21,7 +32,7 @@ export default function TestimonialsPage() {
           </h1>
         </div>
       </div>
-      <TestimonialsSection />
+      <TestimonialsSection testimonials={data ?? []} />
       <div className="pb-20 text-center">
         <Link href="/" className="font-body text-sm text-primary hover:underline underline-offset-2">← Back to home</Link>
       </div>

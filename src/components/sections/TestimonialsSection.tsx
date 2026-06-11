@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { fadeUp, stagger, scaleIn, blurFadeIn } from '@/lib/animations'
 import { TESTIMONIALS_STATIC } from '@/lib/constants'
+import type { TestimonialRow } from '@/types/db'
 
 function StarIcon({ filled }: { filled: boolean }) {
   return (
@@ -65,8 +66,40 @@ function InitialsAvatar({ name, size = 'md' }: { name: string; size?: 'sm' | 'md
   )
 }
 
-export default function TestimonialsSection() {
-  const allTestimonials = TESTIMONIALS_STATIC.filter((t) => t.visible).sort((a, b) => a.sortOrder - b.sortOrder)
+// Normalise both static and DB shapes into a common display format
+type DisplayTestimonial = {
+  id: string
+  name: string
+  rating: number
+  text: string
+  treatment: string | null
+}
+
+function normaliseDB(t: TestimonialRow): DisplayTestimonial {
+  return {
+    id: t.id,
+    name: t.patient_name,
+    rating: t.rating,
+    text: t.review_text,
+    treatment: t.treatment_type ?? null,
+  }
+}
+
+function normaliseStatic(t: typeof TESTIMONIALS_STATIC[number]): DisplayTestimonial {
+  return {
+    id: t.id,
+    name: t.name,
+    rating: t.rating,
+    text: t.text,
+    treatment: t.treatment ?? null,
+  }
+}
+
+export default function TestimonialsSection({ testimonials }: { testimonials?: TestimonialRow[] }) {
+  const allTestimonials: DisplayTestimonial[] = testimonials
+    ? testimonials.map(normaliseDB)
+    : TESTIMONIALS_STATIC.filter((t) => t.visible).sort((a, b) => a.sortOrder - b.sortOrder).map(normaliseStatic)
+
   const featured = allTestimonials[0]
   const rest = allTestimonials.slice(1, 4)
 
@@ -139,7 +172,6 @@ export default function TestimonialsSection() {
                   <InitialsAvatar name={featured.name} size="lg" />
                   <div>
                     <p className="font-heading text-base font-semibold text-dark">{featured.name}</p>
-                    <p className="font-body text-sm text-gray-400">{featured.location}</p>
                   </div>
                   <div className="ml-auto hidden sm:block">
                     <div className="flex items-center gap-1.5 rounded-xl border border-primary/15 bg-white px-3 py-2">
@@ -200,7 +232,6 @@ export default function TestimonialsSection() {
                 <InitialsAvatar name={t.name} size="sm" />
                 <div>
                   <p className="font-heading text-sm font-semibold text-dark">{t.name}</p>
-                  <p className="font-body text-xs text-gray-400">{t.location}</p>
                 </div>
               </div>
             </motion.div>

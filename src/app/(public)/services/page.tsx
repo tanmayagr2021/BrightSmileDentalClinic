@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { SERVICE_CATEGORIES_STATIC } from '@/lib/constants'
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Our Services',
@@ -8,8 +11,27 @@ export const metadata: Metadata = {
     'Comprehensive dental services at Bright Smile Dental Clinic — general dentistry, cosmetic dentistry, orthodontics, implants, oral surgery and paediatric dentistry.',
 }
 
-export default function ServicesPage() {
-  const services = SERVICE_CATEGORIES_STATIC.filter((s) => s.visible).sort((a, b) => a.sortOrder - b.sortOrder)
+export default async function ServicesPage() {
+  const supabase = createAdminClient()
+  const { data } = await supabase
+    .from('service_categories')
+    .select('*')
+    .eq('is_visible', true)
+    .order('sort_order', { ascending: true })
+
+  const visibleSlugs = new Set((data ?? []).map((s) => s.slug))
+
+  // Merge: only show categories that are visible in Supabase, in DB order
+  const dbOrder = (data ?? []).map((dbRow) => {
+    const staticEntry = SERVICE_CATEGORIES_STATIC.find((s) => s.slug === dbRow.slug)
+    return staticEntry ?? null
+  }).filter((s): s is typeof SERVICE_CATEGORIES_STATIC[number] => s !== null)
+
+  // Fallback: if Supabase query failed / empty, show static data
+  const services = dbOrder.length > 0
+    ? dbOrder
+    : SERVICE_CATEGORIES_STATIC.filter((s) => s.visible && visibleSlugs.size === 0 ? true : visibleSlugs.has(s.slug))
+        .sort((a, b) => a.sortOrder - b.sortOrder)
 
   return (
     <div className="bg-white">
@@ -56,7 +78,7 @@ export default function ServicesPage() {
                 <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
                   <span className="eyebrow mb-3 inline-flex items-center gap-2">
                     <span className="inline-block h-px w-5 bg-primary" />
-                    Treatment Category {String(service.sortOrder).padStart(2, '0')}
+                    Treatment Category {String(index + 1).padStart(2, '0')}
                   </span>
                   <h2 className="font-display text-3xl text-dark sm:text-4xl tracking-display">
                     {service.name}

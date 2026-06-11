@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { fadeUp, stagger } from '@/lib/animations'
 import { FAQS_STATIC } from '@/lib/constants'
+import type { FaqRow } from '@/types/db'
 import Script from 'next/script'
 
 function ChevronIcon({ open }: { open: boolean }) {
@@ -19,13 +20,27 @@ function ChevronIcon({ open }: { open: boolean }) {
   )
 }
 
-export default function FaqSection() {
+type DisplayFaq = { id: string; q: string; a: string }
+
+function normaliseDB(f: FaqRow): DisplayFaq {
+  return { id: f.id, q: f.question, a: f.answer }
+}
+
+function normaliseStatic(f: typeof FAQS_STATIC[number]): DisplayFaq {
+  return { id: f.id, q: f.q, a: f.a }
+}
+
+export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+
+  const displayFaqs: DisplayFaq[] = faqs
+    ? faqs.map(normaliseDB)
+    : FAQS_STATIC.filter((f) => f.visible).sort((a, b) => a.sortOrder - b.sortOrder).map(normaliseStatic)
 
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: FAQS_STATIC.map((faq) => ({
+    mainEntity: displayFaqs.map((faq) => ({
       '@type': 'Question',
       name: faq.q,
       acceptedAnswer: {
@@ -77,11 +92,11 @@ export default function FaqSection() {
           viewport={{ once: true, margin: '-60px' }}
           className="space-y-3"
         >
-          {FAQS_STATIC.map((faq, i) => {
+          {displayFaqs.map((faq, i) => {
             const isOpen = openIndex === i
             return (
               <motion.div
-                key={i}
+                key={faq.id}
                 variants={fadeUp}
                 className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm"
               >
