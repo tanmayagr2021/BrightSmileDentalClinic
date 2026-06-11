@@ -1,11 +1,23 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { CLINIC_STORY_STATIC, HOMEPAGE_STATS } from '@/lib/constants'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'About Us',
   description:
     'Learn about Bright Smile Dental Clinic — founded in 2013 in Kathmandu, our story, mission, vision and values behind a decade of trusted dental care.',
+}
+
+type AboutContent = {
+  founded?: string
+  story?: string
+  mission?: string
+  vision?: string
+  values?: { title: string; description: string }[]
+  why_choose_us?: string[]
 }
 
 const VALUE_ICONS: Record<string, string> = {
@@ -15,8 +27,24 @@ const VALUE_ICONS: Record<string, string> = {
   Innovation: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
 }
 
-export default function AboutPage() {
-  const storyParagraphs = CLINIC_STORY_STATIC.story.split('\n\n')
+export default async function AboutPage() {
+  const supabase = createAdminClient()
+  const { data } = await supabase
+    .from('site_settings')
+    .select('about_content')
+    .limit(1)
+    .single()
+
+  const db = (data?.about_content ?? null) as AboutContent | null
+
+  const founded = db?.founded ?? CLINIC_STORY_STATIC.founded
+  const story = db?.story ?? CLINIC_STORY_STATIC.story
+  const mission = db?.mission ?? CLINIC_STORY_STATIC.mission
+  const vision = db?.vision ?? CLINIC_STORY_STATIC.vision
+  const values = (db?.values ?? null) ?? CLINIC_STORY_STATIC.values
+  const whyChooseUs = (db?.why_choose_us ?? null) ?? CLINIC_STORY_STATIC.whyChooseUs
+
+  const storyParagraphs = story.split('\n\n')
 
   return (
     <div className="bg-white">
@@ -25,7 +53,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="eyebrow mb-4 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />
-            Founded {CLINIC_STORY_STATIC.founded}
+            Founded {founded}
           </span>
           <h1 className="font-display text-5xl text-dark sm:text-6xl tracking-display">
             Our Story
@@ -81,7 +109,7 @@ export default function AboutPage() {
                 Our Mission
               </p>
               <p className="font-body text-base text-white/85 leading-relaxed">
-                {CLINIC_STORY_STATIC.mission}
+                {mission}
               </p>
             </div>
             <div className="rounded-2xl border border-primary/20 bg-primary/5 p-7">
@@ -89,7 +117,7 @@ export default function AboutPage() {
                 Our Vision
               </p>
               <p className="font-body text-base text-gray-700 leading-relaxed">
-                {CLINIC_STORY_STATIC.vision}
+                {vision}
               </p>
             </div>
           </div>
@@ -107,7 +135,7 @@ export default function AboutPage() {
             <h2 className="font-display text-4xl text-dark tracking-display">Our Values</h2>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {CLINIC_STORY_STATIC.values.map((value) => (
+            {values.map((value) => (
               <div key={value.title} className="rounded-2xl bg-white p-7 shadow-sm">
                 <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
                   <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-primary" aria-hidden="true">
@@ -134,7 +162,7 @@ export default function AboutPage() {
               What Sets Us Apart
             </h2>
             <div className="space-y-4">
-              {CLINIC_STORY_STATIC.whyChooseUs.map((point) => (
+              {whyChooseUs.map((point) => (
                 <div key={point} className="flex items-start gap-4">
                   <svg viewBox="0 0 16 16" fill="none" className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" aria-hidden="true">
                     <circle cx="8" cy="8" r="7" fill="#4A9B6F" fillOpacity="0.12" />

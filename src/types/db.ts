@@ -86,3 +86,62 @@ export type ServiceCategoryRow = {
   created_at: string
   updated_at: string
 }
+
+export type BlogPostRow = {
+  id: string
+  title: string
+  slug: string
+  excerpt: string | null
+  content: string | null
+  cover_image_url: string | null
+  author_id: string | null
+  status: 'draft' | 'published' | 'archived'
+  published_at: string | null
+  meta_title: string | null
+  meta_description: string | null
+  og_image_url: string | null
+  read_time_minutes: number | null
+  is_featured: boolean
+  sort_order: number
+  created_by: string | null
+  updated_by: string | null
+  deleted_at: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type BlogCategoryRow = {
+  id: string
+  name: string
+  slug: string
+  description: string | null
+  sort_order: number
+  created_by: string | null
+  updated_by: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type DoctorAvailabilityRow = {
+  id: string
+  doctor_id: string
+  day_of_week: number
+  is_available: boolean
+  start_time: string | null
+  end_time: string | null
+  slot_duration_minutes: number
+  max_appointments_per_day: number | null
+  updated_by: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type BlockedDateRow = {
+  id: string
+  doctor_id: string
+  blocked_date: string
+  reason: string | null
+  created_by: string | null
+  created_at: string
+  updated_at: string
+}

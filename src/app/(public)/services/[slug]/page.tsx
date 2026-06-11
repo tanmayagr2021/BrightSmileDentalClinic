@@ -1,34 +1,80 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { SERVICE_CATEGORIES_STATIC } from '@/lib/constants'
+import type { ServiceCategoryRow } from '@/types/db'
+
+export const dynamic = 'force-dynamic'
 
 type Props = { params: Promise<{ slug: string }> }
 
-export async function generateStaticParams() {
-  return SERVICE_CATEGORIES_STATIC.filter((s) => s.visible).map((s) => ({
-    slug: s.slug,
-  }))
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const service = SERVICE_CATEGORIES_STATIC.find((s) => s.slug === slug)
-  if (!service) return {}
-  return {
-    title: service.name,
-    description: service.shortDescription,
-  }
+  const staticEntry = SERVICE_CATEGORIES_STATIC.find((s) => s.slug === slug)
+  const supabase = createAdminClient()
+  const { data } = await supabase
+    .from('service_categories')
+    .select('name, description')
+    .eq('slug', slug)
+    .single()
+
+  const name = data?.name ?? staticEntry?.name ?? ''
+  const description = data?.description ?? staticEntry?.shortDescription ?? ''
+  return { title: name, description }
 }
+
+type SubService = { id?: string; name: string; description?: string; short_description?: string }
 
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params
-  const service = SERVICE_CATEGORIES_STATIC.find((s) => s.slug === slug && s.visible)
-  if (!service) notFound()
+  const staticEntry = SERVICE_CATEGORIES_STATIC.find((s) => s.slug === slug)
 
-  const currentIndex = SERVICE_CATEGORIES_STATIC.findIndex((s) => s.slug === slug)
-  const next = SERVICE_CATEGORIES_STATIC[(currentIndex + 1) % SERVICE_CATEGORIES_STATIC.length]
-  const prev = SERVICE_CATEGORIES_STATIC[(currentIndex - 1 + SERVICE_CATEGORIES_STATIC.length) % SERVICE_CATEGORIES_STATIC.length]
+  const supabase = createAdminClient()
+
+  const [{ data: categoryData }, { data: subServicesData }, { data: allCategoriesData }] = await Promise.all([
+    supabase
+      .from('service_categories')
+      .select('*')
+      .eq('slug', slug)
+      .single(),
+    supabase
+      .from('services')
+      .select('id, name, slug, short_description, sort_order')
+      .eq('category_id', (await supabase.from('service_categories').select('id').eq('slug', slug).single()).data?.id ?? '')
+      .eq('is_active', true)
+      .is('deleted_at', null)
+      .order('sort_order', { ascending: true }),
+    supabase
+      .from('service_categories')
+      .select('id, name, slug, is_visible, sort_order')
+      .eq('is_visible', true)
+      .order('sort_order', { ascending: true }),
+  ])
+
+  if (!categoryData && !staticEntry) notFound()
+
+  const category = (categoryData as ServiceCategoryRow | null) ?? {
+    id: '',
+    name: staticEntry!.name,
+    slug: staticEntry!.slug,
+    description: staticEntry!.description,
+    icon_name: null,
+    sort_order: staticEntry!.sortOrder,
+    is_visible: staticEntry!.visible,
+    created_by: null,
+    updated_by: null,
+    created_at: '',
+    updated_at: '',
+  }
+
+  const dbSubServices = subServicesData ?? []
+  const subServices: SubService[] =
+    dbSubServices.length > 0
+      ? (dbSubServices as SubService[])
+      : (staticEntry?.subServices ?? []).map((s) => ({ name: s.name, short_description: s.description }))
+
+  const otherCategories = (allCategoriesData ?? []) as ServiceCategoryRow[]
 
   return (
     <div className="bg-white">
@@ -42,17 +88,17 @@ export default async function ServiceDetailPage({ params }: Props) {
             <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-gray-300" aria-hidden="true">
               <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <span className="font-body text-sm text-gray-600">{service.name}</span>
+            <span className="font-body text-sm text-gray-600">{category.name}</span>
           </div>
           <span className="eyebrow mb-4 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />
             Treatment Category
           </span>
           <h1 className="font-display text-5xl text-dark sm:text-6xl tracking-display">
-            {service.name}
+            {category.name}
           </h1>
           <p className="mt-5 max-w-2xl font-body text-lg text-gray-500 leading-relaxed">
-            {service.description}
+            {category.description ?? staticEntry?.description}
           </p>
           <div className="mt-8 flex gap-3">
             <Link
@@ -83,50 +129,53 @@ export default async function ServiceDetailPage({ params }: Props) {
                 Treatments Included
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {service.subServices.map((sub, i) => (
-                  <div key={i} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                {subServices.map((sub, i) => (
+                  <div key={sub.id ?? i} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
                     <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
                       <span className="font-heading text-xs font-bold text-primary">{String(i + 1).padStart(2, '0')}</span>
                     </div>
                     <h3 className="font-heading text-sm font-semibold text-dark">{sub.name}</h3>
-                    <p className="mt-2 font-body text-sm text-gray-500 leading-relaxed">{sub.description}</p>
+                    <p className="mt-2 font-body text-sm text-gray-500 leading-relaxed">
+                      {sub.short_description ?? sub.description ?? ''}
+                    </p>
                   </div>
                 ))}
               </div>
             </section>
 
-            {/* Treatment Process */}
-            <section>
-              <h2 className="font-display text-3xl text-dark tracking-display mb-8">
-                What to Expect
-              </h2>
-              <div className="relative">
-                {/* Vertical line */}
-                <div className="absolute left-4 top-0 bottom-0 w-px bg-gray-100" aria-hidden="true" />
-                <div className="space-y-0">
-                  {service.processSteps.map((step, i) => (
-                    <div key={i} className="relative flex gap-6 pb-8 last:pb-0">
-                      <div className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary text-white">
-                        <span className="font-heading text-[0.65rem] font-bold">{step.step}</span>
+            {/* Treatment Process — static fallback */}
+            {staticEntry && staticEntry.processSteps.length > 0 && (
+              <section>
+                <h2 className="font-display text-3xl text-dark tracking-display mb-8">
+                  What to Expect
+                </h2>
+                <div className="relative">
+                  <div className="absolute left-4 top-0 bottom-0 w-px bg-gray-100" aria-hidden="true" />
+                  <div className="space-y-0">
+                    {staticEntry.processSteps.map((step, i) => (
+                      <div key={i} className="relative flex gap-6 pb-8 last:pb-0">
+                        <div className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary text-white">
+                          <span className="font-heading text-[0.65rem] font-bold">{step.step}</span>
+                        </div>
+                        <div className="pt-0.5 pb-2">
+                          <h3 className="font-heading text-base font-semibold text-dark">{step.title}</h3>
+                          <p className="mt-1.5 font-body text-sm text-gray-500 leading-relaxed">{step.description}</p>
+                        </div>
                       </div>
-                      <div className="pt-0.5 pb-2">
-                        <h3 className="font-heading text-base font-semibold text-dark">{step.title}</h3>
-                        <p className="mt-1.5 font-body text-sm text-gray-500 leading-relaxed">{step.description}</p>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            )}
 
-            {/* Service FAQs */}
-            {service.faqs.length > 0 && (
+            {/* Service FAQs — static fallback */}
+            {staticEntry && staticEntry.faqs.length > 0 && (
               <section>
                 <h2 className="font-display text-3xl text-dark tracking-display mb-8">
                   Common Questions
                 </h2>
                 <div className="space-y-4">
-                  {service.faqs.map((faq, i) => (
+                  {staticEntry.faqs.map((faq, i) => (
                     <div key={i} className="rounded-2xl border border-gray-100 bg-white p-6">
                       <h3 className="font-heading text-sm font-semibold text-dark">{faq.q}</h3>
                       <p className="mt-3 font-body text-sm text-gray-500 leading-relaxed">{faq.a}</p>
@@ -148,7 +197,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               </h3>
               <p className="font-display text-xl text-white leading-snug">
                 Book a consultation for<br />
-                <span className="text-primary">{service.name}</span>
+                <span className="text-primary">{category.name}</span>
               </p>
               <p className="mt-3 font-body text-sm text-white/50">
                 Our team will assess your needs and explain the most suitable treatment options.
@@ -167,31 +216,36 @@ export default async function ServiceDetailPage({ params }: Props) {
               </a>
             </div>
 
-            {/* Benefits */}
-            <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
-                Key Benefits
-              </h3>
-              <div className="space-y-3">
-                {service.benefits.map((b) => (
-                  <div key={b} className="flex items-start gap-3">
-                    <svg viewBox="0 0 16 16" fill="none" className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" aria-hidden="true">
-                      <circle cx="8" cy="8" r="7" fill="#4A9B6F" fillOpacity="0.12" />
-                      <path d="M5 8l2 2 4-4" stroke="#4A9B6F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="font-body text-sm text-gray-600">{b}</span>
-                  </div>
-                ))}
+            {/* Benefits — static fallback */}
+            {staticEntry && staticEntry.benefits.length > 0 && (
+              <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
+                  Key Benefits
+                </h3>
+                <div className="space-y-3">
+                  {staticEntry.benefits.map((b) => (
+                    <div key={b} className="flex items-start gap-3">
+                      <svg viewBox="0 0 16 16" fill="none" className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" aria-hidden="true">
+                        <circle cx="8" cy="8" r="7" fill="#4A9B6F" fillOpacity="0.12" />
+                        <path d="M5 8l2 2 4-4" stroke="#4A9B6F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span className="font-body text-sm text-gray-600">{b}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* All services */}
+            {/* All services from DB */}
             <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
               <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
                 Other Services
               </h3>
               <div className="space-y-2">
-                {SERVICE_CATEGORIES_STATIC.filter((s) => s.slug !== service.slug && s.visible).map((s) => (
+                {(otherCategories.length > 0
+                  ? otherCategories.filter((c) => c.slug !== slug)
+                  : SERVICE_CATEGORIES_STATIC.filter((s) => s.slug !== slug && s.visible)
+                ).map((s) => (
                   <Link
                     key={s.slug}
                     href={`/services/${s.slug}`}
@@ -206,34 +260,6 @@ export default async function ServiceDetailPage({ params }: Props) {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Prev / Next navigation */}
-        <div className="mt-20 grid grid-cols-2 gap-4 border-t border-gray-100 pt-12">
-          <Link
-            href={`/services/${prev.slug}`}
-            className="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
-          >
-            <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-gray-400 group-hover:text-primary transition-colors" aria-hidden="true">
-              <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <div>
-              <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-wide text-gray-400">Previous</p>
-              <p className="font-heading text-sm font-semibold text-dark group-hover:text-primary transition-colors">{prev.name}</p>
-            </div>
-          </Link>
-          <Link
-            href={`/services/${next.slug}`}
-            className="group flex items-center justify-end gap-3 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-primary/30 hover:shadow-md text-right"
-          >
-            <div>
-              <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-wide text-gray-400">Next</p>
-              <p className="font-heading text-sm font-semibold text-dark group-hover:text-primary transition-colors">{next.name}</p>
-            </div>
-            <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-gray-400 group-hover:text-primary transition-colors" aria-hidden="true">
-              <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </Link>
         </div>
       </div>
     </div>

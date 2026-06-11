@@ -23,6 +23,8 @@ const NAV = [
       { href: '/admin/testimonials', label: 'Testimonials', icon: IconTestimonials },
       { href: '/admin/faqs', label: 'FAQs', icon: IconFaqs },
       { href: '/admin/gallery', label: 'Gallery', icon: IconGallery },
+      { href: '/admin/blog', label: 'Blog', icon: IconBlog },
+      { href: '/admin/about', label: 'About Page', icon: IconAbout },
     ],
   },
   {
@@ -50,6 +52,8 @@ const PAGE_TITLES: Record<string, string> = {
   '/admin/faqs': 'FAQs',
   '/admin/gallery': 'Gallery',
   '/admin/appointments': 'Appointments',
+  '/admin/blog': 'Blog Posts',
+  '/admin/about': 'About Page',
   '/admin/settings/website': 'Website Settings',
   '/admin/settings/seo': 'SEO Settings',
 }
@@ -151,6 +155,23 @@ function IconSeo() {
       <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.3" />
       <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       <path d="M5 7h4M7 5v4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  )
+}
+function IconBlog() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-[15px] w-[15px]" aria-hidden="true">
+      <rect x="1.5" y="2" width="13" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M4.5 5.5h7M4.5 8h7M4.5 10.5h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  )
+}
+function IconAbout() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-[15px] w-[15px]" aria-hidden="true">
+      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M8 7v5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <circle cx="8" cy="5" r="0.7" fill="currentColor" />
     </svg>
   )
 }

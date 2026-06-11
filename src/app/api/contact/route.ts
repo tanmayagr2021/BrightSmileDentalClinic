@@ -8,7 +8,7 @@ export const runtime = 'nodejs'
 
 const Schema = z.object({
   name: z.string().min(2).max(100),
-  email: z.string().email(),
+  email: z.string().email().optional(),
   phone: z.string().max(20).optional(),
   treatment: z.string().max(100).optional(),
   message: z.string().min(5).max(1000),
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     .from('contact_submissions')
     .insert({
       name,
-      email,
+      email: email ?? '',
       phone: phone ?? null,
       message: fullMessage,
       is_read: false,
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Send notification email (non-fatal)
-  await sendContactNotification({ name, email, phone, message: fullMessage }).catch((err) =>
+  await sendContactNotification({ name, email: email ?? '', phone, message: fullMessage }).catch((err) =>
     console.error('[Contact] Email error:', err)
   )
 
