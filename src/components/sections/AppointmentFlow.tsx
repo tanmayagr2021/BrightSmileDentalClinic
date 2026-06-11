@@ -3,9 +3,34 @@
 import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { DOCTORS_STATIC, CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
+import { CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
+import type { DoctorRow } from '@/types/db'
 
-const bookableDoctors = DOCTORS_STATIC.filter((d) => d.bookable && d.visible)
+type BookableDoctor = {
+  slug: string
+  color: string
+  initials: string
+  name: string
+  shortName: string
+  role: string
+  specializations: string[]
+  nmc: string
+  experience: string
+}
+
+function adaptDoctor(d: DoctorRow): BookableDoctor {
+  return {
+    slug: d.slug,
+    color: d.color_hex ?? '#4A9B6F',
+    initials: d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2),
+    name: d.full_name,
+    shortName: d.short_name ?? d.full_name,
+    role: d.title ?? '',
+    specializations: d.specializations ?? [],
+    nmc: d.nmc_number ?? '',
+    experience: d.experience_text ?? '',
+  }
+}
 
 // Steps
 type Step = 'doctor' | 'date' | 'time' | 'details' | 'confirm' | 'success'
@@ -54,13 +79,13 @@ const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 // ─── Step components ─────────────────────────────────────────
 
-function StepDoctor({ selected, onSelect }: { selected: string | null; onSelect: (slug: string) => void }) {
+function StepDoctor({ selected, onSelect, doctors }: { selected: string | null; onSelect: (slug: string) => void; doctors: BookableDoctor[] }) {
   return (
     <div>
       <h2 className="font-display text-2xl text-dark tracking-display mb-2">Select Your Dentist</h2>
       <p className="font-body text-sm text-gray-500 mb-8">Choose from our lead dentists. Appointments are available with both.</p>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        {bookableDoctors.map((doc) => (
+        {doctors.map((doc) => (
           <button
             key={doc.slug}
             onClick={() => onSelect(doc.slug)}
@@ -335,7 +360,7 @@ function StepConfirm({
   time,
   form,
 }: {
-  doctor: typeof bookableDoctors[number]
+  doctor: BookableDoctor
   date: Date
   time: string
   form: FormData
@@ -381,7 +406,7 @@ function Row({ label, value }: { label: string; value: string }) {
   )
 }
 
-function StepSuccess({ doctor, date, time, name }: { doctor: typeof bookableDoctors[number]; date: Date; time: string; name: string }) {
+function StepSuccess({ doctor, date, time, name }: { doctor: BookableDoctor; date: Date; time: string; name: string }) {
   return (
     <div className="py-6 text-center">
       {/* Animated check */}
@@ -496,7 +521,9 @@ function ProgressBar({ currentStep }: { currentStep: number }) {
 
 // ─── Main component ───────────────────────────────────────────
 
-export default function AppointmentFlow() {
+export default function AppointmentFlow({ doctors: doctorRows }: { doctors: DoctorRow[] }) {
+  const bookableDoctors = doctorRows.filter((d) => d.is_bookable && d.is_active).map(adaptDoctor)
+
   const [step, setStep] = useState<Step>('doctor')
   const [selectedDoctorSlug, setSelectedDoctorSlug] = useState<string | null>(null)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
@@ -586,7 +613,7 @@ export default function AppointmentFlow() {
                 transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               >
                 {step === 'doctor' && (
-                  <StepDoctor selected={selectedDoctorSlug} onSelect={(s) => { setSelectedDoctorSlug(s); setSelectedTime(null) }} />
+                  <StepDoctor selected={selectedDoctorSlug} onSelect={(s) => { setSelectedDoctorSlug(s); setSelectedTime(null) }} doctors={bookableDoctors} />
                 )}
                 {step === 'date' && (
                   <StepDate selected={selectedDate} onSelect={(d) => { setSelectedDate(d); setSelectedTime(null) }} />

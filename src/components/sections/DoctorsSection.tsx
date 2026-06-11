@@ -3,10 +3,11 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { fadeUp, stagger, slideInLeft, slideInRight, blurFadeIn } from '@/lib/animations'
-import { DOCTORS_STATIC } from '@/lib/constants'
+import type { DoctorRow } from '@/types/db'
 
-const leadDoctors = DOCTORS_STATIC.filter((d) => d.type === 'lead' && d.visible)
-const specialistCount = DOCTORS_STATIC.filter((d) => d.type === 'specialist' && d.visible).length
+function dColor(d: DoctorRow) { return d.color_hex ?? '#4A9B6F' }
+function dInitials(d: DoctorRow) { return d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
+function dShortName(d: DoctorRow) { return d.short_name ?? d.full_name }
 
 function ArrowRight({ className = 'h-4 w-4' }: { className?: string }) {
   return (
@@ -34,7 +35,10 @@ function CalIcon() {
   )
 }
 
-export default function DoctorsSection() {
+export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
+  const leadDoctors = doctors.filter((d) => d.doctor_type === 'lead' && d.is_active)
+  const specialistCount = doctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).length
+
   return (
     <section className="bg-white py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -86,7 +90,7 @@ export default function DoctorsSection() {
               {/* Coloured banner */}
               <div
                 className="relative flex items-end justify-between overflow-hidden px-8 pt-12 pb-9"
-                style={{ backgroundColor: doc.color }}
+                style={{ backgroundColor: dColor(doc) }}
               >
                 {/* Decorative circles */}
                 <div className="pointer-events-none absolute -right-14 -top-14 h-52 w-52 rounded-full bg-white/[0.04]" aria-hidden="true" />
@@ -104,7 +108,7 @@ export default function DoctorsSection() {
                 {/* Avatar */}
                 <div className="relative">
                   <div className="flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-2xl bg-white/15 ring-2 ring-white/25 transition-transform duration-300 group-hover:scale-105">
-                    <span className="font-display text-3xl font-bold text-white">{doc.initials}</span>
+                    <span className="font-display text-3xl font-bold text-white">{dInitials(doc)}</span>
                   </div>
                   {/* Live indicator */}
                   <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-400 ring-2 ring-white/30">
@@ -117,9 +121,9 @@ export default function DoctorsSection() {
                     {doc.qualification}
                   </span>
                   <p className="mt-2 font-heading text-[0.62rem] font-semibold uppercase tracking-wider text-white/55">
-                    {doc.nmc}
+                    {doc.nmc_number}
                   </p>
-                  <p className="mt-0.5 font-heading text-[0.65rem] text-white/45">{doc.experience}</p>
+                  <p className="mt-0.5 font-heading text-[0.65rem] text-white/45">{doc.experience_text}</p>
                 </div>
               </div>
 
@@ -127,8 +131,8 @@ export default function DoctorsSection() {
               <div className="px-8 py-7">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="font-heading text-xl font-semibold text-dark">{doc.name}</h3>
-                    <p className="mt-0.5 font-body text-sm font-medium text-primary">{doc.role}</p>
+                    <h3 className="font-heading text-xl font-semibold text-dark">{doc.full_name}</h3>
+                    <p className="mt-0.5 font-body text-sm font-medium text-primary">{doc.title}</p>
                   </div>
                   <div className="flex items-center gap-1.5 rounded-full bg-primary/8 px-2.5 py-1 flex-shrink-0">
                     <NmcBadge />
@@ -137,12 +141,12 @@ export default function DoctorsSection() {
                 </div>
 
                 <p className="mt-4 font-body text-sm text-gray-500 leading-relaxed line-clamp-3">
-                  {doc.bio}
+                  {doc.full_bio ?? doc.short_bio}
                 </p>
 
                 {/* Specializations */}
                 <div className="mt-5 flex flex-wrap gap-2">
-                  {doc.specializations.slice(0, 4).map((s) => (
+                  {(doc.specializations ?? []).slice(0, 4).map((s) => (
                     <span key={s} className="rounded-lg bg-tint px-2.5 py-1 font-heading text-[0.62rem] font-semibold text-dark/60">
                       {s}
                     </span>
@@ -157,10 +161,10 @@ export default function DoctorsSection() {
                         <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.2" />
                         <path d="M1 7h12M7 1a10 10 0 010 12M7 1a10 10 0 000 12" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
                       </svg>
-                      {doc.languages.join(' · ')}
+                      {(doc.languages ?? []).join(' · ')}
                     </span>
                     <span>·</span>
-                    <span>{doc.education.split(' — ')[0]}</span>
+                    <span>{(doc.education ?? '').split(' — ')[0]}</span>
                   </div>
                 </div>
 
@@ -171,7 +175,7 @@ export default function DoctorsSection() {
                     className="group/btn inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.97]"
                   >
                     <CalIcon />
-                    Book with {doc.shortName.replace('Dr. ', 'Dr ')}
+                    Book with {dShortName(doc).replace('Dr. ', 'Dr ')}
                   </Link>
                   <Link
                     href={`/doctors/${doc.slug}`}
@@ -251,14 +255,14 @@ export default function DoctorsSection() {
                 {/* Specialist avatars */}
                 <div className="mt-3 flex items-center gap-2">
                   <div className="flex -space-x-1.5">
-                    {DOCTORS_STATIC.filter((d) => d.type === 'specialist').slice(0, 4).map((d, i) => (
+                    {doctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).slice(0, 4).map((d, i) => (
                       <div
                         key={d.slug}
                         className="flex h-6 w-6 items-center justify-center rounded-full text-[0.5rem] font-bold text-white ring-1 ring-tint"
-                        style={{ backgroundColor: d.color, zIndex: 10 - i }}
-                        title={d.name}
+                        style={{ backgroundColor: dColor(d), zIndex: 10 - i }}
+                        title={d.full_name}
                       >
-                        {d.initials}
+                        {dInitials(d)}
                       </div>
                     ))}
                   </div>

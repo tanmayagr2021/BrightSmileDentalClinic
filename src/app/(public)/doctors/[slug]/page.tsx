@@ -1,35 +1,64 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { DOCTORS_STATIC, CLINIC_CONTACT } from '@/lib/constants'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { CLINIC_CONTACT } from '@/lib/constants'
+import type { DoctorRow } from '@/types/db'
+
+export const dynamic = 'force-dynamic'
 
 type Props = { params: Promise<{ slug: string }> }
 
-export async function generateStaticParams() {
-  return DOCTORS_STATIC.filter((d) => d.visible).map((d) => ({ slug: d.slug }))
-}
+function dColor(d: DoctorRow) { return d.color_hex ?? '#4A9B6F' }
+function dInitials(d: DoctorRow) { return d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
+function dShortName(d: DoctorRow) { return d.short_name ?? d.full_name }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const doctor = DOCTORS_STATIC.find((d) => d.slug === slug)
+  const supabase = createAdminClient()
+  const { data: doctor } = await supabase
+    .from('doctors')
+    .select('full_name, title, nmc_number')
+    .eq('slug', slug)
+    .eq('is_active', true)
+    .is('deleted_at', null)
+    .single()
   if (!doctor) return {}
   return {
-    title: `${doctor.name} — ${doctor.role}`,
-    description: `${doctor.name} is ${doctor.role} at Bright Smile Dental Clinic, Kathmandu. ${doctor.nmc}.`,
+    title: `${doctor.full_name} — ${doctor.title}`,
+    description: `${doctor.full_name} is ${doctor.title} at Bright Smile Dental Clinic, Kathmandu. ${doctor.nmc_number}.`,
   }
 }
 
 export default async function DoctorProfilePage({ params }: Props) {
   const { slug } = await params
-  const doctor = DOCTORS_STATIC.find((d) => d.slug === slug && d.visible)
+  const supabase = createAdminClient()
+
+  const [{ data: doctor }, { data: othersData }] = await Promise.all([
+    supabase
+      .from('doctors')
+      .select('*')
+      .eq('slug', slug)
+      .eq('is_active', true)
+      .is('deleted_at', null)
+      .single(),
+    supabase
+      .from('doctors')
+      .select('*')
+      .eq('is_active', true)
+      .is('deleted_at', null)
+      .neq('slug', slug)
+      .order('sort_order', { ascending: true }),
+  ])
+
   if (!doctor) notFound()
 
-  const otherDoctors = DOCTORS_STATIC.filter((d) => d.slug !== slug && d.visible)
+  const otherDoctors: DoctorRow[] = othersData ?? []
 
   return (
     <div className="bg-white">
       {/* Hero */}
-      <div className="border-b border-gray-100 py-20 lg:py-28" style={{ backgroundColor: `${doctor.color}12` }}>
+      <div className="border-b border-gray-100 py-20 lg:py-28" style={{ backgroundColor: `${dColor(doctor)}12` }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <div className="mb-6 flex items-center gap-2">
@@ -39,35 +68,35 @@ export default async function DoctorProfilePage({ params }: Props) {
             <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-gray-300" aria-hidden="true">
               <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <span className="font-body text-sm text-gray-600">{doctor.name}</span>
+            <span className="font-body text-sm text-gray-600">{doctor.full_name}</span>
           </div>
 
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
             {/* Avatar */}
             <div
               className="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-2xl text-2xl font-bold text-white shadow-lg sm:h-32 sm:w-32 sm:text-3xl"
-              style={{ backgroundColor: doctor.color }}
+              style={{ backgroundColor: dColor(doctor) }}
             >
-              {doctor.initials}
+              {dInitials(doctor)}
             </div>
 
             <div>
               <span className="eyebrow mb-3 inline-flex items-center gap-2">
                 <span className="inline-block h-px w-5 bg-primary" />
-                {doctor.nmc}
+                {doctor.nmc_number}
               </span>
               <h1 className="font-display text-4xl text-dark sm:text-5xl tracking-display">
-                {doctor.name}
+                {doctor.full_name}
               </h1>
-              <p className="mt-2 font-heading text-base font-semibold text-gray-500">{doctor.role}</p>
+              <p className="mt-2 font-heading text-base font-semibold text-gray-500">{doctor.title}</p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 font-heading text-xs font-semibold text-primary">
                   {doctor.qualification}
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 font-heading text-xs font-semibold text-gray-600">
-                  {doctor.experience} Experience
+                  {doctor.experience_text}
                 </span>
-                {doctor.bookable && (
+                {doctor.is_bookable && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 font-heading text-xs font-semibold text-green-700">
                     <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
                     Accepting Patients
@@ -87,15 +116,15 @@ export default async function DoctorProfilePage({ params }: Props) {
 
             {/* Bio */}
             <section>
-              <h2 className="font-display text-3xl text-dark tracking-display mb-5">About {doctor.shortName}</h2>
-              <p className="font-body text-base text-gray-600 leading-relaxed">{doctor.bio}</p>
+              <h2 className="font-display text-3xl text-dark tracking-display mb-5">About {dShortName(doctor)}</h2>
+              <p className="font-body text-base text-gray-600 leading-relaxed">{doctor.full_bio ?? doctor.short_bio}</p>
             </section>
 
             {/* Specializations */}
             <section>
               <h2 className="font-display text-3xl text-dark tracking-display mb-6">Areas of Expertise</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {doctor.specializations.map((spec, i) => (
+                {(doctor.specializations ?? []).map((spec: string, i: number) => (
                   <div key={spec} className="flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                     <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
                       <span className="font-heading text-xs font-bold text-primary">{String(i + 1).padStart(2, '0')}</span>
@@ -115,7 +144,7 @@ export default async function DoctorProfilePage({ params }: Props) {
               <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
                 <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">Languages</h3>
                 <div className="flex flex-wrap gap-2">
-                  {doctor.languages.map((lang) => (
+                  {(doctor.languages ?? []).map((lang: string) => (
                     <span key={lang} className="rounded-lg bg-tint px-3 py-1.5 font-heading text-xs font-semibold text-gray-600">
                       {lang}
                     </span>
@@ -136,12 +165,12 @@ export default async function DoctorProfilePage({ params }: Props) {
               </h3>
               <p className="font-display text-xl text-white leading-snug">
                 Consult with<br />
-                <span className="text-primary">{doctor.shortName}</span>
+                <span className="text-primary">{dShortName(doctor)}</span>
               </p>
-              {doctor.bookable ? (
+              {doctor.is_bookable ? (
                 <>
                   <p className="mt-3 font-body text-sm text-white/50">
-                    {doctor.shortName} is currently accepting new patients.
+                    {dShortName(doctor)} is currently accepting new patients.
                   </p>
                   <Link
                     href="/appointments"
@@ -152,7 +181,7 @@ export default async function DoctorProfilePage({ params }: Props) {
                 </>
               ) : (
                 <p className="mt-3 font-body text-sm text-white/50">
-                  {doctor.shortName} sees patients by referral. Call us to discuss your needs.
+                  {dShortName(doctor)} sees patients by referral. Call us to discuss your needs.
                 </p>
               )}
               <a
@@ -177,13 +206,13 @@ export default async function DoctorProfilePage({ params }: Props) {
                   >
                     <div
                       className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                      style={{ backgroundColor: d.color }}
+                      style={{ backgroundColor: dColor(d) }}
                     >
-                      {d.initials}
+                      {dInitials(d)}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="font-heading text-sm font-semibold text-dark group-hover:text-primary transition-colors leading-tight">{d.name}</p>
-                      <p className="font-body text-xs text-gray-400 leading-tight truncate">{d.role}</p>
+                      <p className="font-heading text-sm font-semibold text-dark group-hover:text-primary transition-colors leading-tight">{d.full_name}</p>
+                      <p className="font-body text-xs text-gray-400 leading-tight truncate">{d.title}</p>
                     </div>
                     <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-gray-300 group-hover:text-primary transition-colors" aria-hidden="true">
                       <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

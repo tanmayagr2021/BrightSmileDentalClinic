@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
+import { createAdminClient } from '@/lib/supabase/admin'
 import AppointmentFlow from '@/components/sections/AppointmentFlow'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Book an Appointment | Bright Smile Dental Clinic',
@@ -15,6 +18,15 @@ export default async function AppointmentsPage({
   const params = await searchParams
   const cancelled = params.cancelled === 'true'
   const cancelError = params.cancel_error
+
+  const supabase = createAdminClient()
+  const { data: doctorData } = await supabase
+    .from('doctors')
+    .select('*')
+    .eq('is_active', true)
+    .is('deleted_at', null)
+    .order('sort_order', { ascending: true })
+  const doctors = doctorData ?? []
 
   return (
     <div className="bg-white">
@@ -61,7 +73,7 @@ export default async function AppointmentsPage({
       )}
 
       {/* Multi-step flow */}
-      <AppointmentFlow />
+      <AppointmentFlow doctors={doctors} />
     </div>
   )
 }

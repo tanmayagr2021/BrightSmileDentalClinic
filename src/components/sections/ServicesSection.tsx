@@ -3,7 +3,12 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { fadeUp, stagger, scaleIn } from '@/lib/animations'
-import { SERVICE_CATEGORIES_STATIC } from '@/lib/constants'
+export type ServiceDisplay = {
+  slug: string
+  name: string
+  shortDescription: string
+  subServiceCount: number
+}
 
 const SERVICE_ICONS: Record<string, () => React.ReactElement> = {
   'general-dentistry': () => (
@@ -53,9 +58,7 @@ function ArrowRight() {
   )
 }
 
-export default function ServicesSection() {
-  const services = SERVICE_CATEGORIES_STATIC.filter((s) => s.visible).sort((a, b) => a.sortOrder - b.sortOrder)
-
+export default function ServicesSection({ services }: { services: ServiceDisplay[] }) {
   return (
     <section className="bg-tint py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -112,7 +115,7 @@ export default function ServicesSection() {
                 {/* Sub-service count */}
                 <div className="mt-4 flex items-center gap-2">
                   <span className="font-heading text-[0.65rem] font-semibold text-gray-400">
-                    {service.subServices.length} treatments
+                    {service.subServiceCount} treatments
                   </span>
                   <span className="h-px flex-1 bg-gray-100" />
                 </div>

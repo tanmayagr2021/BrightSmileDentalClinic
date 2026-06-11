@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { DOCTORS_STATIC, TEAM_MEMBERS_STATIC, CLINIC_CONTACT } from '@/lib/constants'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { TEAM_MEMBERS_STATIC, CLINIC_CONTACT } from '@/lib/constants'
+import type { DoctorRow } from '@/types/db'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Our Doctors & Care Team',
@@ -8,9 +12,8 @@ export const metadata: Metadata = {
     'Meet the complete care team at Bright Smile Dental Clinic — two lead dentists, four visiting specialists, and dedicated hygienists and clinical support staff.',
 }
 
-const leadDoctors = DOCTORS_STATIC.filter((d) => d.type === 'lead' && d.visible)
-const specialists = DOCTORS_STATIC.filter((d) => d.type === 'specialist' && d.visible)
-const supportTeam = TEAM_MEMBERS_STATIC.filter((m) => m.visible)
+function dColor(d: DoctorRow) { return d.color_hex ?? '#4A9B6F' }
+function dInitials(d: DoctorRow) { return d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
 
 const SUPPORT_ROLES = [
   { role: 'Reception Team', description: 'Your first point of contact — scheduling, enquiries and a warm welcome.', icon: 'M8 7a4 4 0 100-8 4 4 0 000 8zm0 2a8 8 0 00-8 8h16a8 8 0 00-8-8z' },
@@ -26,7 +29,20 @@ function NmcBadge() {
   )
 }
 
-export default function DoctorsPage() {
+export default async function DoctorsPage() {
+  const supabase = createAdminClient()
+  const { data } = await supabase
+    .from('doctors')
+    .select('*')
+    .eq('is_active', true)
+    .is('deleted_at', null)
+    .order('sort_order', { ascending: true })
+
+  const allDoctors: DoctorRow[] = data ?? []
+  const leadDoctors = allDoctors.filter((d) => d.doctor_type === 'lead')
+  const specialists = allDoctors.filter((d) => d.doctor_type === 'specialist')
+  const supportTeam = TEAM_MEMBERS_STATIC.filter((m) => m.visible)
+
   return (
     <div className="bg-white">
 
@@ -75,19 +91,19 @@ export default function DoctorsPage() {
               {/* Banner */}
               <div
                 className="relative flex items-end justify-between overflow-hidden px-8 pt-12 pb-8"
-                style={{ backgroundColor: doc.color }}
+                style={{ backgroundColor: dColor(doc) }}
               >
                 <div className="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-white/[0.04]" aria-hidden="true" />
                 <div className="pointer-events-none absolute -bottom-6 -left-6 h-32 w-32 rounded-full bg-white/[0.04]" aria-hidden="true" />
                 <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-white/15 ring-2 ring-white/25 transition-transform duration-300 group-hover:scale-105">
-                  <span className="font-display text-3xl font-bold text-white">{doc.initials}</span>
+                  <span className="font-display text-3xl font-bold text-white">{dInitials(doc)}</span>
                 </div>
                 <div className="relative text-right">
                   <span className="rounded-xl bg-white/20 px-3 py-1.5 font-heading text-xs font-semibold text-white backdrop-blur-sm">
                     {doc.qualification}
                   </span>
-                  <p className="mt-2 font-heading text-[0.62rem] font-semibold uppercase tracking-wider text-white/55">{doc.nmc}</p>
-                  <p className="mt-0.5 font-heading text-[0.65rem] text-white/45">{doc.experience} experience</p>
+                  <p className="mt-2 font-heading text-[0.62rem] font-semibold uppercase tracking-wider text-white/55">{doc.nmc_number}</p>
+                  <p className="mt-0.5 font-heading text-[0.65rem] text-white/45">{doc.experience_text}</p>
                 </div>
               </div>
 
@@ -95,8 +111,8 @@ export default function DoctorsPage() {
               <div className="px-8 py-7">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h2 className="font-heading text-xl font-semibold text-dark">{doc.name}</h2>
-                    <p className="mt-0.5 font-body text-sm font-medium text-primary">{doc.role}</p>
+                    <h2 className="font-heading text-xl font-semibold text-dark">{doc.full_name}</h2>
+                    <p className="mt-0.5 font-body text-sm font-medium text-primary">{doc.title}</p>
                   </div>
                   <div className="flex items-center gap-1.5 rounded-full bg-primary/8 px-2.5 py-1 flex-shrink-0">
                     <NmcBadge />
@@ -104,10 +120,10 @@ export default function DoctorsPage() {
                   </div>
                 </div>
 
-                <p className="mt-4 font-body text-sm text-gray-500 leading-relaxed">{doc.bio}</p>
+                <p className="mt-4 font-body text-sm text-gray-500 leading-relaxed">{doc.full_bio ?? doc.short_bio}</p>
 
                 <div className="mt-5 flex flex-wrap gap-2">
-                  {doc.specializations.map((s) => (
+                  {(doc.specializations ?? []).map((s) => (
                     <span key={s} className="rounded-lg bg-tint px-2.5 py-1 font-heading text-[0.62rem] font-semibold text-dark/60">
                       {s}
                     </span>
@@ -174,11 +190,11 @@ export default function DoctorsPage() {
                 {/* Compact header */}
                 <div
                   className="relative flex h-[7.5rem] items-center justify-center overflow-hidden"
-                  style={{ backgroundColor: doc.color }}
+                  style={{ backgroundColor: dColor(doc) }}
                 >
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-black/15" aria-hidden="true" />
                   <div className="flex h-[4.25rem] w-[4.25rem] items-center justify-center rounded-xl bg-white/15 ring-2 ring-white/20 transition-transform duration-300 group-hover:scale-105">
-                    <span className="font-display text-2xl font-bold text-white">{doc.initials}</span>
+                    <span className="font-display text-2xl font-bold text-white">{dInitials(doc)}</span>
                   </div>
                   <span className="absolute right-3 top-3 rounded-lg bg-white/20 px-2 py-0.5 font-heading text-[0.58rem] font-semibold text-white backdrop-blur-sm">
                     {doc.qualification}
@@ -186,12 +202,12 @@ export default function DoctorsPage() {
                 </div>
 
                 <div className="p-5">
-                  <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-widest text-primary">{doc.nmc}</p>
-                  <h3 className="mt-1 font-heading text-sm font-semibold text-dark leading-snug">{doc.name}</h3>
-                  <p className="mt-0.5 font-body text-xs text-gray-500">{doc.role}</p>
+                  <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-widest text-primary">{doc.nmc_number}</p>
+                  <h3 className="mt-1 font-heading text-sm font-semibold text-dark leading-snug">{doc.full_name}</h3>
+                  <p className="mt-0.5 font-body text-xs text-gray-500">{doc.title}</p>
 
                   <div className="mt-3 flex flex-wrap gap-1.5">
-                    {doc.specializations.slice(0, 2).map((s) => (
+                    {(doc.specializations ?? []).slice(0, 2).map((s) => (
                       <span key={s} className="rounded bg-tint px-2 py-0.5 font-heading text-[0.58rem] font-medium text-gray-600">
                         {s}
                       </span>

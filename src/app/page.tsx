@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { SERVICE_CATEGORIES_STATIC } from '@/lib/constants'
 import PublicLayout from '@/components/layout/PublicLayout'
 import ShowcaseSection from '@/components/sections/ShowcaseSection'
 import StatsSection from '@/components/sections/StatsSection'
@@ -35,6 +36,8 @@ export default async function HomePage() {
     { data: testimonialData },
     { data: faqData },
     { data: sectionData },
+    { data: doctorData },
+    { data: serviceCategoryData },
   ] = await Promise.all([
     supabase
       .from('testimonials')
@@ -53,11 +56,37 @@ export default async function HomePage() {
       .from('homepage_sections')
       .select('*')
       .order('sort_order', { ascending: true }),
+    supabase
+      .from('doctors')
+      .select('*')
+      .eq('is_active', true)
+      .is('deleted_at', null)
+      .order('sort_order', { ascending: true }),
+    supabase
+      .from('service_categories')
+      .select('id, slug, name, sort_order, is_visible')
+      .eq('is_visible', true)
+      .order('sort_order', { ascending: true }),
   ])
 
   const sections = sectionData ?? []
   const testimonials = testimonialData ?? []
   const faqs = faqData ?? []
+  const doctors = doctorData ?? []
+
+  // Merge DB visibility/order with static content (shortDescription, subServiceCount)
+  const services = (serviceCategoryData ?? [])
+    .map((dbRow) => {
+      const staticEntry = SERVICE_CATEGORIES_STATIC.find((s) => s.slug === dbRow.slug)
+      if (!staticEntry) return null
+      return {
+        slug: dbRow.slug,
+        name: dbRow.name,
+        shortDescription: staticEntry.shortDescription,
+        subServiceCount: staticEntry.subServices.length,
+      }
+    })
+    .filter((s): s is NonNullable<typeof s> => s !== null)
 
   const sectionVisible = (key: string): boolean => {
     const found = sections.find((s) => s.section_key === key)
@@ -74,9 +103,9 @@ export default async function HomePage() {
       {/* 3. How it works — patient journey timeline */}
       <PatientJourneySection />
       {/* 4. Services */}
-      {sectionVisible('services') && <ServicesSection />}
+      {sectionVisible('services') && <ServicesSection services={services} />}
       {/* 5. Lead dentists */}
-      {sectionVisible('doctors') && <DoctorsSection />}
+      {sectionVisible('doctors') && <DoctorsSection doctors={doctors} />}
       {/* 6. Social proof — before/after + testimonials */}
       <BeforeAfterSection />
       {sectionVisible('testimonials') && (
