@@ -74,7 +74,7 @@ export default async function HomePage() {
   const faqs = faqData ?? []
   const doctors = doctorData ?? []
 
-  // Merge DB visibility/order with static content (shortDescription, subServiceCount)
+  // Merge DB visibility/order with static content (shortDescription fallback, subServiceCount)
   const services = (serviceCategoryData ?? [])
     .map((dbRow) => {
       const staticEntry = SERVICE_CATEGORIES_STATIC.find((s) => s.slug === dbRow.slug)
@@ -82,7 +82,7 @@ export default async function HomePage() {
       return {
         slug: dbRow.slug,
         name: dbRow.name,
-        shortDescription: staticEntry.shortDescription,
+        shortDescription: (dbRow as Record<string, unknown>).short_description as string | null ?? staticEntry.shortDescription,
         subServiceCount: staticEntry.subServices.length,
       }
     })

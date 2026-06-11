@@ -1,21 +1,36 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
+import { createAdminClient } from '@/lib/supabase/admin'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Gallery',
   description: 'View our dental clinic gallery — our facilities, team, and patient transformations.',
 }
 
-const placeholderItems = [
-  { label: 'Our Clinic', color: '#F0F7F2' },
-  { label: 'Treatment Rooms', color: '#E8F5ED' },
-  { label: 'Reception', color: '#F0F7F2' },
-  { label: 'Equipment', color: '#E8F5ED' },
-  { label: 'Our Team', color: '#F0F7F2' },
-  { label: 'Patient Smiles', color: '#E8F5ED' },
-]
+export default async function GalleryPage() {
+  const supabase = createAdminClient()
 
-export default function GalleryPage() {
+  const [{ data: items }, { data: groups }] = await Promise.all([
+    supabase
+      .from('gallery')
+      .select('*, gallery_groups(id, name, slug)')
+      .is('deleted_at', null)
+      .eq('is_visible', true)
+      .order('sort_order', { ascending: true }),
+    supabase
+      .from('gallery_groups')
+      .select('*')
+      .is('deleted_at', null)
+      .eq('is_visible', true)
+      .order('sort_order', { ascending: true }),
+  ])
+
+  const galleryItems = items ?? []
+  const galleryGroups = groups ?? []
+
   return (
     <div className="bg-white">
       <div className="bg-tint border-b border-gray-100 py-16 lg:py-20">
@@ -32,32 +47,56 @@ export default function GalleryPage() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mb-6 rounded-2xl bg-tint border border-dashed border-primary/30 p-6 text-center">
-          <p className="font-body text-sm text-gray-500">
-            Photos are being collected and will be published soon.
-          </p>
-        </div>
+        {galleryItems.length === 0 ? (
+          <div className="rounded-2xl bg-tint border border-dashed border-primary/30 p-12 text-center">
+            <p className="font-body text-sm text-gray-500">Photos are being collected and will be published soon.</p>
+            <Link href="/appointments" className="mt-4 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-primary-dark">
+              Book an Appointment
+            </Link>
+          </div>
+        ) : (
+          <>
+            {/* Group filters — only show if items exist in multiple groups */}
+            {galleryGroups.length > 1 && (
+              <div className="mb-8 flex flex-wrap gap-2">
+                {galleryGroups.map((g) => (
+                  <span key={g.id} className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 font-heading text-xs font-semibold text-gray-600">
+                    {g.name}
+                  </span>
+                ))}
+              </div>
+            )}
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {placeholderItems.map((item, i) => (
-            <div
-              key={i}
-              className="aspect-[4/3] rounded-2xl flex flex-col items-center justify-center gap-2"
-              style={{ backgroundColor: item.color }}
-            >
-              <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8 text-primary/30" aria-hidden="true">
-                <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.5" />
-                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" fillOpacity="0.3" />
-                <path d="M21 15l-5-5L5 21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span className="font-heading text-xs text-gray-400">{item.label}</span>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              {galleryItems.map((item) => (
+                <div key={item.id} className="group relative overflow-hidden rounded-2xl bg-gray-100 aspect-square">
+                  {item.image_url ? (
+                    <Image
+                      src={item.image_url}
+                      alt={item.alt_text ?? 'Clinic photo'}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center bg-tint">
+                      <svg viewBox="0 0 24 24" fill="none" className="h-10 w-10 text-gray-300" aria-hidden="true">
+                        <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.5" />
+                        <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="1.5" />
+                        <path d="M3 15l5-4 4 4 2-2 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                  )}
+                  {item.caption && (
+                    <div className="absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-black/60 to-transparent px-3 pb-3 pt-6 transition-transform duration-300 group-hover:translate-y-0">
+                      <p className="font-body text-xs text-white">{item.caption}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <Link href="/" className="font-body text-sm text-primary hover:underline underline-offset-2">← Back to home</Link>
-        </div>
+          </>
+        )}
       </div>
     </div>
   )

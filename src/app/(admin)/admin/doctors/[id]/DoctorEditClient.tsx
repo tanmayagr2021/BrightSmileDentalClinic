@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { DoctorRow } from '@/types/db'
 
 export default function DoctorEditClient({ doctor }: { doctor: DoctorRow }) {
@@ -11,6 +12,31 @@ export default function DoctorEditClient({ doctor }: { doctor: DoctorRow }) {
   const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null)
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
+  const [photoUrl, setPhotoUrl] = useState<string | null>(doctor.profile_image_url ?? null)
+  const photoRef = useRef<HTMLInputElement>(null)
+
+  const handlePhotoUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0) return
+    setUploadingPhoto(true)
+    const fd = new FormData()
+    fd.append('file', files[0])
+    fd.append('bucket', 'doctor-photos')
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+    if (!res.ok) { showToast('Upload failed', false); setUploadingPhoto(false); return }
+    const { url } = await res.json()
+    setPhotoUrl(url)
+    // Immediately save the new photo URL
+    await fetch(`/api/admin/doctors/${doctor.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ profile_image_url: url }),
+    })
+    setUploadingPhoto(false)
+    showToast('Photo updated', true)
+    startTransition(() => router.refresh())
+    if (photoRef.current) photoRef.current.value = ''
+  }
 
   const [form, setForm] = useState({
     full_name:       doctor.full_name,
@@ -54,9 +80,10 @@ export default function DoctorEditClient({ doctor }: { doctor: DoctorRow }) {
           full_bio:        form.full_bio.trim() || null,
           specializations: form.specializations.split(',').map((s) => s.trim()).filter(Boolean),
           languages:       form.languages.split(',').map((s) => s.trim()).filter(Boolean),
-          doctor_type:     form.doctor_type,
-          is_active:       form.is_active,
-          is_bookable:     form.is_bookable,
+          doctor_type:         form.doctor_type,
+          is_active:           form.is_active,
+          is_bookable:         form.is_bookable,
+          profile_image_url:   photoUrl,
         }),
       })
       const data = await res.json()
@@ -108,15 +135,35 @@ export default function DoctorEditClient({ doctor }: { doctor: DoctorRow }) {
 
       {/* Header */}
       <div className="mb-6 flex items-start gap-4">
-        <div
-          className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl text-xl font-bold text-white font-heading"
-          style={{ backgroundColor: color }}
-        >
-          {initials}
+        {/* Avatar / photo upload */}
+        <div className="relative flex-shrink-0">
+          <div
+            className="flex h-16 w-16 items-center justify-center rounded-2xl overflow-hidden text-xl font-bold text-white font-heading"
+            style={{ backgroundColor: color }}
+          >
+            {photoUrl ? (
+              <Image src={photoUrl} alt={doctor.full_name} fill className="object-cover" sizes="64px" />
+            ) : initials}
+          </div>
+          <button
+            onClick={() => photoRef.current?.click()}
+            disabled={uploadingPhoto}
+            className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white shadow border border-gray-200 text-gray-500 hover:text-primary transition-colors"
+            title="Upload profile photo"
+          >
+            {uploadingPhoto
+              ? <span className="h-3 w-3 animate-spin rounded-full border border-primary border-t-transparent" />
+              : <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3"><path d="M6 1v8M2 5l4-4 4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /><path d="M1 11h10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" /></svg>
+            }
+          </button>
+          <input ref={photoRef} type="file" accept="image/*" className="hidden" onChange={(e) => handlePhotoUpload(e.target.files)} />
         </div>
         <div>
           <h2 className="font-display text-xl text-gray-900 tracking-tight">{doctor.full_name}</h2>
           <p className="font-body text-sm text-gray-500">{doctor.title ?? 'No title set'}</p>
+          <button onClick={() => photoRef.current?.click()} className="mt-1 font-heading text-[0.62rem] font-semibold text-primary hover:underline">
+            {photoUrl ? 'Change photo' : 'Upload profile photo'}
+          </button>
         </div>
       </div>
 
