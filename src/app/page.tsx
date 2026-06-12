@@ -109,10 +109,10 @@ export default async function HomePage() {
       {sectionVisible('trust') && <TrustSection />}
       {/* 3. How it works — patient journey timeline */}
       <PatientJourneySection />
-      {/* 4. Services */}
-      {sectionVisible('services') && <ServicesSection services={services} />}
-      {/* 5. Lead dentists */}
+      {/* 4. Lead dentists — meet the team before seeing services */}
       {sectionVisible('doctors') && <DoctorsSection doctors={doctors} />}
+      {/* 5. Services */}
+      {sectionVisible('services') && <ServicesSection services={services} />}
       {/* 6. Social proof — before/after + testimonials */}
       <BeforeAfterSection />
       {sectionVisible('testimonials') && (

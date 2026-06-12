@@ -22,24 +22,6 @@ const CATEGORY_ORDER: Array<BeforeAfterCategory | 'all'> = [
   'implants',
 ]
 
-function LockIcon() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
-      <rect x="3" y="7" width="10" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
-      <path d="M5 7V5.5a3 3 0 016 0V7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-      <circle cx="8" cy="11" r="1" fill="currentColor" />
-    </svg>
-  )
-}
-
-function CameraIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7" aria-hidden="true">
-      <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <circle cx="12" cy="13" r="4" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  )
-}
 
 export default function BeforeAfterSection() {
   const [activeCategory, setActiveCategory] = useState<BeforeAfterCategory | 'all'>('all')
@@ -127,10 +109,12 @@ export default function BeforeAfterSection() {
                   {/* Before half */}
                   <div
                     className="absolute inset-y-0 left-0 w-1/2"
-                    style={{ background: `linear-gradient(135deg, ${item.beforeGradient}, ${item.beforeGradient}cc)` }}
+                    style={{ background: `linear-gradient(160deg, ${item.beforeGradient} 0%, #1a0f0f 100%)` }}
                     aria-hidden="true"
                   >
-                    <div className="absolute bottom-3 left-3 rounded-full bg-white/10 px-2 py-1 font-heading text-[0.55rem] font-bold text-white/60 backdrop-blur-sm tracking-wider">
+                    {/* Decorative depth circle */}
+                    <div className="absolute -bottom-6 -left-6 h-20 w-20 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)' }} />
+                    <div className="absolute bottom-3 left-3 rounded-full bg-black/30 px-2.5 py-1 font-heading text-[0.52rem] font-bold tracking-[0.12em] text-white/50 backdrop-blur-sm">
                       BEFORE
                     </div>
                   </div>
@@ -138,28 +122,28 @@ export default function BeforeAfterSection() {
                   {/* After half */}
                   <div
                     className="absolute inset-y-0 right-0 w-1/2"
-                    style={{ background: `linear-gradient(135deg, ${item.afterGradient}cc, ${item.afterGradient})` }}
+                    style={{ background: `linear-gradient(160deg, #0a2318 0%, ${item.afterGradient} 100%)` }}
                     aria-hidden="true"
                   >
-                    <div className="absolute bottom-3 right-3 rounded-full bg-primary/30 px-2 py-1 font-heading text-[0.55rem] font-bold text-primary-foreground backdrop-blur-sm tracking-wider">
+                    <div className="absolute -top-6 -right-6 h-20 w-20 rounded-full opacity-25" style={{ background: 'radial-gradient(circle, rgba(74,155,111,0.5) 0%, transparent 70%)' }} />
+                    <div className="absolute bottom-3 right-3 rounded-full bg-primary/20 px-2.5 py-1 font-heading text-[0.52rem] font-bold tracking-[0.12em] text-primary backdrop-blur-sm border border-primary/20">
                       AFTER
                     </div>
                   </div>
 
                   {/* Center divider */}
-                  <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-white/20" aria-hidden="true" />
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-full bg-white/15 backdrop-blur-sm ring-1 ring-white/20" aria-hidden="true">
-                    <span className="font-heading text-[0.5rem] font-black text-white/70">B|A</span>
+                  <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-white/12" aria-hidden="true" />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.08] backdrop-blur-md ring-1 ring-white/15" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-white/50" aria-hidden="true">
+                      <path d="M5 4l-3 4 3 4M11 4l3 4-3 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   </div>
 
-                  {/* Photo placeholder overlay */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white/60">
-                      <CameraIcon />
-                    </div>
-                    <div className="flex items-center gap-1.5 rounded-full bg-black/40 px-3 py-1.5 text-white/70 backdrop-blur-sm">
-                      <LockIcon />
-                      <span className="font-heading text-[0.6rem] font-semibold">Photos coming soon</span>
+                  {/* Premium "coming soon" overlay — always visible, not just on hover */}
+                  <div className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-center gap-2.5 pb-6 pt-4" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)' }}>
+                    <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-3.5 py-2 backdrop-blur-sm">
+                      <div className="h-1.5 w-1.5 rounded-full bg-primary/70" />
+                      <span className="font-heading text-[0.6rem] font-semibold tracking-[0.08em] text-white/55">Photos — Awaiting Patient Consent</span>
                     </div>
                   </div>
                 </div>

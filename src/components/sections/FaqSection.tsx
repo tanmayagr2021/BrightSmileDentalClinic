@@ -7,18 +7,6 @@ import { FAQS_STATIC } from '@/lib/constants'
 import type { FaqRow } from '@/types/db'
 import Script from 'next/script'
 
-function ChevronIcon({ open }: { open: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 20 20"
-      fill="none"
-      className={`h-5 w-5 flex-shrink-0 text-primary transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
-      aria-hidden="true"
-    >
-      <path d="M5 7.5l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
 
 type DisplayFaq = { id: string; q: string; a: string }
 
@@ -51,14 +39,14 @@ export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
   }
 
   return (
-    <section className="bg-white py-24 lg:py-32">
+    <section className="bg-ivory py-24 lg:py-32">
       <Script
         id="faq-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
 
         {/* Heading */}
         <motion.div
@@ -90,7 +78,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className="space-y-3"
+          className="space-y-2"
         >
           {displayFaqs.map((faq, i) => {
             const isOpen = openIndex === i
@@ -98,17 +86,25 @@ export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
               <motion.div
                 key={faq.id}
                 variants={fadeUp}
-                className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm"
+                className={`overflow-hidden rounded-2xl border transition-all duration-300 ${
+                  isOpen
+                    ? 'border-primary/20 border-l-[3px] border-l-primary bg-white shadow-glass'
+                    : 'border-gray-100 bg-white/60 hover:bg-white hover:border-gray-200 hover:shadow-sm'
+                }`}
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-tint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
                   aria-expanded={isOpen}
                 >
-                  <span className="font-heading text-sm font-semibold text-dark sm:text-base">
+                  <span className={`font-heading font-semibold leading-snug transition-colors duration-200 text-base sm:text-[1.05rem] ${isOpen ? 'text-dark' : 'text-gray-700'}`}>
                     {faq.q}
                   </span>
-                  <ChevronIcon open={isOpen} />
+                  <div className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${isOpen ? 'bg-primary text-white' : 'bg-gray-100 text-gray-400'}`}>
+                    <svg viewBox="0 0 20 20" fill="none" className={`h-3.5 w-3.5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true">
+                      <path d="M5 7.5l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -118,10 +114,11 @@ export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <div className="border-t border-gray-50 px-6 pb-5 pt-4">
-                        <p className="font-body text-sm leading-relaxed text-gray-500">
+                      <div className="px-6 pb-6 pt-0">
+                        <div className="h-px w-full bg-primary/8 mb-4" />
+                        <p className="font-body text-[0.9rem] leading-relaxed text-gray-500">
                           {faq.a}
                         </p>
                       </div>

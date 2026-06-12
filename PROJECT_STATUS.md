@@ -290,6 +290,82 @@ Design inspiration: Stripe, Vercel, Notion, Linear. Clean, fast, professional.
 
 ---
 
+### Premium Design Review Round 3 (2026-06-12)
+**Goal: Elevate from "functional/clean" (7/10) to "premium/luxury" (10/10). No backend changes.**
+
+- ShowcaseSection: clamp() heading (up to 4.75rem), cinematic blur transitions, deeper bottom gradient (h-[72%]), glass panel max-w-2xl, "The Bright Smile Experience" label
+- ServicesSection: ivory bg, per-service accent colours (green/teal/dark/blue/amber), 4px coloured top border, hover gradient fill, assurance strip, "Most Popular" badge
+- PatientJourneySection: renamed "A Day at Bright Smile", deep emerald gradient bg, glassmorphism cards, ghost step numbers, Row 1/Row 2 distinct styling, connector arrow
+- DoctorsSection: ivory bg, Complete Care Team strip — Hygienists (Jitendra Kumar, Parbati Gurung, Justin Shrestha) + Reception/Admin avatars with teal/primary coloring
+- StatsSection: deep emerald gradient bg, radial glow accents (primary + teal), SVG architectural grid overlay, animated per-stat divider lines
+- TrustSection: white bg, 4px coloured top border per indicator card, liftIn animation, 14×14 icon containers
+- TestimonialsSection: ivory bg, featured card on dark emerald gradient, white text on featured card
+- CtaSection: deep emerald gradient, clamp() heading, architectural SVG grid, trust micro-row (NMC Registered · Free Consultation · No Commitment)
+- tailwind.config.ts: added ivory, teal (DEFAULT/light/dark), emerald-rich, shadow-premium, shadow-glow-primary tokens
+- Build: clean · 0 errors · Commit: 2a56e5b
+
+---
+
+### Final UI Excellence Pass (2026-06-12)
+**Goal: $50,000 design agency quality. Every section premium, intentional, narrative-driven.**
+
+**CRITICAL RULE: No database, Supabase, CMS, admin, auth, permissions, APIs, or routes changed.**
+
+#### Header — Transparent Glass on Homepage
+- New `scrolled` state: header transparent when `scrollY <= 60` on homepage
+- Nav links: `text-white/80` on dark hero → `text-gray-600` on scroll
+- Book Appointment button: `bg-white text-dark` over hero → `bg-primary text-white` on scroll
+- Logo: wrapped in `rounded-xl bg-white/90` capsule when over dark hero
+- Mobile drawer: dark emerald gradient `linear-gradient(160deg, #0A1F14, #1A3D2B)`
+
+#### ShowcaseSection — Full-Viewport Hero
+- Negative margin trick: `-mt-[4.75rem] lg:-mt-[6.5rem]` pulls showcase behind fixed header
+- `minHeight: '100vh'` for true full-viewport hero
+- Top gradient overlay (`h-40 from-black/40`) for header readability
+- Progress bars repositioned: `top-[4.75rem] lg:top-[6.5rem]`
+- Slide enter/exit transitions: `filter: blur(4px)` for cinematic feel
+- Side readability gradient: `left-0 w-[55%] from-black/30`
+
+#### WhyChooseSection — Editorial Numbered List
+- Complete rewrite: generic 6-card grid → editorial horizontal rule list
+- Split header: title left + body text/CTA right (2-column lg)
+- Each reason: `01`–`06` micro label + icon chip + title + description (3-col lg)
+- Hover: subtle green tint accent on full row
+- Credentials strip at bottom: shield icons per cert, issuer + year
+- Background: `bg-white`
+
+#### FaqSection — Premium Accordion
+- Background: `bg-ivory`
+- Open state: `border-l-[3px] border-l-primary bg-white shadow-glass`
+- Chevron replaced with circular badge: green filled when open, gray when closed
+- Separator inside open panel: `h-px bg-primary/8`
+- Question font size: `text-base sm:text-[1.05rem]`
+
+#### Footer — Premium Brand Polish
+- Text logo replaced with actual `logo.jpg` image (`h-16 rounded-xl bg-white/10`)
+- Pre-footer brand strip: dark emerald gradient, tagline + "Est. 2013 · Nagpokhari, Naxal, Kathmandu" + Book Appointment CTA
+- Social icons: `h-10 w-10 rounded-xl` with hover `border-primary/50 text-primary bg-primary/10`
+- Contact column: PhoneIcon, WhatsAppIcon, MailIcon inline with each contact item
+- Hours column: flex justify-between days/hours
+- Bottom bar: added NMC Registered Clinic text + divider
+
+#### Section Narrative Reorder (page.tsx)
+- DoctorsSection moved BEFORE ServicesSection (narrative: Meet the team → then see what they offer)
+- New order: Showcase → Stats → Trust → PatientJourney → Doctors → Services → BeforeAfter → Testimonials → WhyChoose → FAQ → CTA
+
+#### BeforeAfterSection — Premium Placeholder Treatment
+- Before gradient: `linear-gradient(160deg, beforeGradient, #1a0f0f)`
+- After gradient: `linear-gradient(160deg, #0a2318, afterGradient)`
+- Depth circles: radial white/primary glow circles in each half
+- Center divider: `←|→` icon badge instead of "B|A" text
+- Persistent "Photos — Awaiting Patient Consent" strip (bottom gradient, not hover-only)
+- Removed unused LockIcon and CameraIcon
+
+#### Build
+62 pages · 0 TypeScript errors · 0 lint warnings
+
+---
+
 ## What Is NOT Built Yet
 - Admin dashboard CMS writes to Supabase (currently UI-only with useState — Phase I)
 - Real email templates (currently plain-text; needs Resend key)

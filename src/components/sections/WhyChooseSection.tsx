@@ -1,153 +1,176 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { stagger, fadeUp, liftIn } from '@/lib/animations'
+import Link from 'next/link'
 import { WHY_CHOOSE_STATIC, CERTIFICATIONS_STATIC } from '@/lib/constants'
 
-function ReasonIcon({ id }: { id: string }) {
-  switch (id) {
-    case 'experienced-team':
-      return (
-        <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
-          <circle cx="9" cy="7" r="3" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          <circle cx="18" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M16 19c0-2.2 1.3-4 3-4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-      )
-    case 'modern-equipment':
-      return (
-        <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
-          <rect x="2" y="6" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M16 10l4-2v8l-4-2" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-          <path d="M6 11l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      )
-    case 'personalised-care':
-      return (
-        <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
-          <path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 000-7.8z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-        </svg>
-      )
-    case 'specialist-network':
-      return (
-        <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
-          <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="4.5" cy="7" r="2" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="19.5" cy="7" r="2" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="4.5" cy="17" r="2" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="19.5" cy="17" r="2" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M6.5 8l4 3M17.5 8l-4 3M6.5 16l4-3M17.5 16l-4-3" stroke="currentColor" strokeWidth="1.2" />
-        </svg>
-      )
-    case 'convenient-location':
-      return (
-        <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
-          <path d="M12 2a7 7 0 017 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 017-7z" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5" />
-        </svg>
-      )
-    case 'transparent-pricing':
-      return (
-        <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
-          <rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M8 8h8M8 12h5M8 16h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M16 14.5l1.5 1.5-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      )
-    default:
-      return null
-  }
+const REASON_ICONS: Record<string, React.ReactNode> = {
+  'experienced-team': (
+    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+      <circle cx="7" cy="6" r="3" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M2 18c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <circle cx="15" cy="7" r="2.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M13 17c0-1.8 1-3.3 2.5-3.8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  ),
+  'modern-equipment': (
+    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+      <rect x="2" y="5" width="11" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M13 8.5l4-2v7l-4-2" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M5 9l2 2 3.5-3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  'personalised-care': (
+    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+      <path d="M17.4 3.6a4.5 4.5 0 00-6.3 0L10 4.7l-1.1-1A4.5 4.5 0 002.6 10l7.4 7.4 7.4-7.4a4.5 4.5 0 000-6.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+    </svg>
+  ),
+  'specialist-network': (
+    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+      <circle cx="10" cy="10" r="2" stroke="currentColor" strokeWidth="1.4" />
+      <circle cx="3.5" cy="5.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+      <circle cx="16.5" cy="5.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+      <circle cx="3.5" cy="14.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+      <circle cx="16.5" cy="14.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M5 6.5l4 3M15 6.5l-4 3M5 13.5l4-3M15 13.5l-4-3" stroke="currentColor" strokeWidth="1.2" />
+    </svg>
+  ),
+  'convenient-location': (
+    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+      <path d="M10 2a5.5 5.5 0 015.5 5.5c0 4.1-5.5 10.5-5.5 10.5S4.5 11.6 4.5 7.5A5.5 5.5 0 0110 2z" stroke="currentColor" strokeWidth="1.4" />
+      <circle cx="10" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
+  ),
+  'transparent-pricing': (
+    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+      <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M10 6v1.5m0 5V14M7.5 11h3a1.5 1.5 0 000-3H9a1.5 1.5 0 010-3H12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  ),
 }
 
-const CERT_ICON = (
-  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
-    <path d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z" fill="#4A9B6F" fillOpacity="0.12" stroke="#4A9B6F" strokeWidth="1.2" strokeLinejoin="round" />
-    <path d="M5.5 8l2 2 3.5-3.5" stroke="#4A9B6F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+const CERT_SHIELD = (
+  <svg viewBox="0 0 14 14" fill="none" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
+    <path d="M7 1L2 3.2v4.3c0 3 2.3 5.7 5 6.5 2.7-0.8 5-3.5 5-6.5V3.2L7 1z" fill="#4A9B6F" fillOpacity="0.14" stroke="#4A9B6F" strokeWidth="1.1" strokeLinejoin="round" />
+    <path d="M4.5 7l2 2 3-3" stroke="#4A9B6F" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
+
+const numLabels = ['01', '02', '03', '04', '05', '06']
 
 export default function WhyChooseSection() {
   const reasons = WHY_CHOOSE_STATIC.filter((r) => r.visible).sort((a, b) => a.sortOrder - b.sortOrder)
   const certs = CERTIFICATIONS_STATIC.filter((c) => c.visible).sort((a, b) => a.sortOrder - b.sortOrder)
 
   return (
-    <section className="bg-tint py-24 lg:py-32">
+    <section className="bg-white py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        {/* Section header */}
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-          className="mb-16 text-center"
-        >
-          <motion.span variants={fadeUp} className="eyebrow mb-3 inline-flex items-center gap-2">
-            <span className="inline-block h-px w-5 bg-primary" />
-            Why Choose Us
-            <span className="inline-block h-px w-5 bg-primary" />
-          </motion.span>
-          <motion.h2 variants={fadeUp} className="font-display text-4xl text-dark sm:text-5xl tracking-display">
-            The Bright Smile Difference
-          </motion.h2>
-          <motion.p variants={fadeUp} className="mt-4 mx-auto max-w-2xl font-body text-base text-gray-500 leading-relaxed">
-            Six reasons why patients across Kathmandu choose Bright Smile — and keep coming back.
-          </motion.p>
-        </motion.div>
+        {/* Split header */}
+        <div className="mb-20 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-end">
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="eyebrow mb-4 inline-flex items-center gap-2">
+              <span className="inline-block h-px w-6 bg-primary/50" />
+              The Difference
+            </span>
+            <h2 className="font-display text-4xl text-dark sm:text-5xl lg:text-[3.25rem] tracking-display leading-[1.06]">
+              The Bright Smile<br />Difference
+            </h2>
+          </motion.div>
 
-        {/* 6-reason grid */}
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {reasons.map((reason) => (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="lg:pb-2"
+          >
+            <p className="font-body text-base leading-relaxed text-gray-500 max-w-lg">
+              Six reasons why patients across Kathmandu choose Bright Smile — and keep coming back for a lifetime of dental care.
+            </p>
+            <Link
+              href="/appointments"
+              className="mt-6 inline-flex items-center gap-2 font-heading text-sm font-semibold text-primary transition-all hover:gap-3"
+            >
+              Book your visit
+              <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Reasons — editorial numbered list */}
+        <div className="divide-y divide-gray-100">
+          {reasons.map((reason, i) => (
             <motion.div
               key={reason.id}
-              variants={liftIn}
-              whileHover={{ y: -4, transition: { type: 'spring', stiffness: 320, damping: 22 } }}
-              className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-7 shadow-sm hover:shadow-lg hover:shadow-gray-200/60 transition-shadow duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: i * 0.06 }}
+              className="group relative grid grid-cols-[auto_1fr] gap-8 py-8 lg:grid-cols-[80px_1fr_1fr] lg:gap-12 lg:py-9"
             >
-              {/* Top accent line */}
-              <div className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100 rounded-t-2xl" aria-hidden="true" />
+              {/* Hover accent */}
+              <div className="pointer-events-none absolute inset-0 -mx-4 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:-mx-6 lg:-mx-8" style={{ background: 'rgba(74,155,111,0.03)' }} aria-hidden="true" />
 
-              {/* Icon */}
-              <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/8 text-primary transition-colors group-hover:bg-primary/12">
-                <ReasonIcon id={reason.id} />
+              {/* Number */}
+              <div className="relative flex-shrink-0 pt-1">
+                <span className="font-heading text-[0.7rem] font-bold tabular-nums tracking-[0.15em] text-gray-300 transition-colors duration-200 group-hover:text-primary">
+                  {numLabels[i] ?? `0${i + 1}`}
+                </span>
               </div>
 
-              <h3 className="font-heading text-base font-semibold text-dark mb-2">{reason.title}</h3>
-              <p className="font-body text-sm text-gray-500 leading-relaxed">{reason.description}</p>
+              {/* Title + Icon */}
+              <div className="relative flex items-start gap-3 lg:items-center">
+                <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/8 text-primary transition-colors group-hover:bg-primary/14 lg:mt-0">
+                  {REASON_ICONS[reason.id]}
+                </div>
+                <h3 className="font-heading text-base font-semibold text-dark leading-snug sm:text-[1.05rem]">
+                  {reason.title}
+                </h3>
+              </div>
+
+              {/* Description */}
+              <div className="relative col-start-2 lg:col-start-3 lg:col-auto">
+                <p className="font-body text-sm leading-relaxed text-gray-500">
+                  {reason.description}
+                </p>
+              </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
-        {/* Certifications strip */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-12 rounded-2xl border border-primary/12 bg-white/70 px-7 py-5"
-        >
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-            <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-400 flex-shrink-0">
-              Credentials
-            </p>
-            {certs.map((cert) => (
-              <div key={cert.id} className="flex items-center gap-2">
-                {CERT_ICON}
-                <div>
-                  <p className="font-heading text-xs font-semibold text-dark">{cert.title}</p>
-                  <p className="font-body text-[0.62rem] text-gray-400">{cert.issuer} · {cert.year}</p>
+        {/* Credentials strip */}
+        {certs.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-16 rounded-2xl border border-gray-100 bg-ivory px-7 py-6"
+          >
+            <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
+              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gray-400 flex-shrink-0">
+                Credentials & Registrations
+              </p>
+              {certs.map((cert) => (
+                <div key={cert.id} className="flex items-center gap-2.5">
+                  {CERT_SHIELD}
+                  <div>
+                    <p className="font-heading text-xs font-semibold text-dark">{cert.title}</p>
+                    <p className="font-body text-[0.62rem] text-gray-400">{cert.issuer} · {cert.year}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
       </div>
     </section>

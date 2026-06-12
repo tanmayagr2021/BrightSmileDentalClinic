@@ -239,8 +239,8 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
 
   return (
     <section
-      className="relative overflow-hidden bg-[#0a1f14]"
-      style={{ minHeight: 'calc(100vh - 4.75rem)' }}
+      className="relative overflow-hidden bg-[#0a1f14] -mt-[4.75rem] lg:-mt-[6.5rem]"
+      style={{ minHeight: '100vh' }}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       aria-label="The Bright Smile Experience"
@@ -296,6 +296,9 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
             </div>
           )}
 
+          {/* Top gradient for header readability */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/40 to-transparent" aria-hidden="true" />
+
           {/* Accent top line */}
           <motion.div
             className="absolute left-0 right-0 top-0 h-[2.5px]"
@@ -314,7 +317,7 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
       </AnimatePresence>
 
       {/* ── Progress bars ── */}
-      <div className="absolute left-0 right-0 top-0 flex gap-1.5 px-6 pt-6 sm:px-10 lg:px-14" aria-hidden="true">
+      <div className="absolute left-0 right-0 top-[4.75rem] lg:top-[6.5rem] flex gap-1.5 px-6 pt-4 sm:px-10 lg:px-14 lg:pt-5" aria-hidden="true">
         {slides.map((_, i) => (
           <button
             key={i}
@@ -338,7 +341,7 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
       </div>
 
       {/* ── Top metadata bar ── */}
-      <div className="absolute left-0 right-0 top-0 flex items-center justify-between px-6 pt-10 sm:px-10 lg:px-14" aria-hidden="true">
+      <div className="absolute left-0 right-0 top-[4.75rem] lg:top-[6.5rem] flex items-center justify-between px-6 pt-10 sm:px-10 lg:px-14 lg:pt-12" aria-hidden="true">
         <div className="flex items-center gap-3">
           <div
             className="h-1.5 w-1.5 rounded-full"
