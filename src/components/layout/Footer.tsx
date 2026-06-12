@@ -179,7 +179,7 @@ export default async function Footer() {
   const instagram = settings?.instagram_url ?? CLINIC_CONTACT.instagram
   const addressParts = [settings?.address_line1, settings?.address_line2, settings?.address_city].filter(Boolean)
   const clinicAddress = addressParts.length > 0 ? addressParts.join(', ') : CLINIC_CONTACT.addressFull
-  const clinicMapsUrl = settings?.google_maps_url || 'https://maps.google.com/?q=Bright+Smile+Dental+Clinic+Nagpokhari+Naxal+Kathmandu+Nepal'
+  const clinicMapsUrl = settings?.google_maps_url || 'https://maps.app.goo.gl/1zc3q43cxKxpcoEM6'
   const hours = buildHours(hoursData ?? [])
 
   return (

@@ -15,7 +15,7 @@ export const CLINIC_CONTACT = {
   emailAppointments: 'brightsmiledentalclinic1111@gmail.com',
   address: 'Nagpokhari, Naxal',
   addressFull: 'Nagpokhari, Naxal, Kathmandu, Nepal',
-  googleMapsUrl: '',
+  googleMapsUrl: 'https://maps.app.goo.gl/1zc3q43cxKxpcoEM6',
   facebook: 'https://www.facebook.com/brightsmilenepal/',
   instagram: '',
 } as const

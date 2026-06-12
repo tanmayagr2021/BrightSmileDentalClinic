@@ -414,7 +414,7 @@ export default function ContactClient({
         >
           <h2 className="font-heading text-sm font-semibold uppercase tracking-widest text-gray-400 mb-4">Find Us</h2>
           <a
-            href={mapsUrl || 'https://maps.google.com/?q=Bright+Smile+Dental+Clinic+Nagpokhari+Naxal+Kathmandu+Nepal'}
+            href={mapsUrl || 'https://maps.app.goo.gl/1zc3q43cxKxpcoEM6'}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open Bright Smile Dental Clinic on Google Maps"
