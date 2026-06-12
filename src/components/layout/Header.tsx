@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { NAV_LINKS } from '@/lib/constants'
+import { NAV_LINKS, CLINIC_NAME_SHORT, CLINIC_SUBTITLE, CLINIC_TAGLINE } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 
 function BrandMark({ inverted = false }: { inverted?: boolean }) {
@@ -13,13 +13,13 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
     <Link
       href="/"
       aria-label="Bright Smile Dental Clinic — home"
-      className="flex items-center gap-3.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm group"
+      className="flex items-center gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm group"
     >
       {/* Logo image */}
       <div className={cn(
-        'flex-shrink-0 overflow-hidden transition-all duration-300 group-hover:opacity-90',
+        'flex-shrink-0 overflow-hidden transition-all duration-400 group-hover:opacity-90',
         inverted
-          ? 'rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.12)]'
+          ? 'rounded-xl shadow-[0_6px_24px_rgba(0,0,0,0.65),0_0_0_1px_rgba(255,255,255,0.14)]'
           : ''
       )}>
         <Image
@@ -28,31 +28,37 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
           width={280}
           height={112}
           className={cn(
-            'w-auto object-contain transition-all duration-300',
+            'w-auto object-contain transition-all duration-400',
             inverted
-              ? 'h-[2.75rem] lg:h-[3.5rem] bg-white px-2 py-1'
-              : 'h-[3.5rem] lg:h-[5rem]'
+              ? 'h-[2.75rem] lg:h-[3.75rem] bg-white px-2.5 py-1.5'
+              : 'h-[3.75rem] lg:h-[5.5rem]'
           )}
           priority
         />
       </div>
 
-      {/* Brand text — desktop only */}
+      {/* Brand identity text block — desktop only */}
       <div className={cn(
-        'hidden lg:flex flex-col leading-none gap-[0.28rem] pl-3.5 border-l transition-all duration-300',
-        inverted ? 'border-white/18' : 'border-gray-200/70'
+        'hidden lg:flex flex-col leading-none gap-[0.3rem] pl-4 border-l transition-all duration-400',
+        inverted ? 'border-white/15' : 'border-gray-200/60'
       )}>
         <span className={cn(
-          'font-display leading-none transition-colors duration-300',
-          inverted ? 'text-white text-[1.15rem]' : 'text-dark text-[1.15rem]'
+          'font-display leading-none tracking-[-0.018em] transition-colors duration-400',
+          inverted ? 'text-white text-[1.2rem]' : 'text-dark text-[1.2rem]'
         )}>
-          Bright Smile
+          {CLINIC_NAME_SHORT}
         </span>
         <span className={cn(
-          'font-heading font-semibold tracking-[0.2em] uppercase leading-none transition-colors duration-300',
-          inverted ? 'text-white/45 text-[0.48rem]' : 'text-gray-400 text-[0.48rem]'
+          'font-heading font-semibold leading-none tracking-[0.008em] transition-colors duration-400',
+          inverted ? 'text-white/65 text-[0.72rem]' : 'text-dark/65 text-[0.72rem]'
         )}>
-          Creating Smiles, Changing Lives
+          {CLINIC_SUBTITLE}
+        </span>
+        <span className={cn(
+          'font-heading font-medium uppercase leading-none tracking-[0.16em] transition-colors duration-400',
+          inverted ? 'text-white/32 text-[0.42rem]' : 'text-gray-400 text-[0.42rem]'
+        )}>
+          {CLINIC_TAGLINE}
         </span>
       </div>
     </Link>
