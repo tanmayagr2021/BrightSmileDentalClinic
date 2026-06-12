@@ -79,21 +79,107 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   )
 }
 
+function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
+  return (
+    <a
+      href={mapsUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Open Bright Smile Dental Clinic in Google Maps"
+      className="group relative block h-[200px] overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+    >
+      {/* Live OpenStreetMap — dark tinted to match footer palette */}
+      <iframe
+        src="https://www.openstreetmap.org/export/embed.html?bbox=85.3135%2C27.7130%2C85.3255%2C27.7200&layer=mapnik&marker=27.7165%2C85.3195"
+        title="Bright Smile Dental Clinic map location"
+        loading="lazy"
+        className="pointer-events-none absolute inset-0 h-[calc(100%+2px)] w-full"
+        style={{
+          border: 'none',
+          filter: 'invert(92%) hue-rotate(210deg) saturate(0.65) brightness(0.82)',
+          marginTop: '-1px',
+        }}
+      />
+
+      {/* Depth vignette */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-dark/30 via-transparent to-dark/80" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-dark/25 via-transparent to-dark/25" aria-hidden="true" />
+
+      {/* Live badge — top left */}
+      <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full border border-white/10 bg-dark/55 px-2.5 py-1 backdrop-blur-sm">
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-400" />
+        </span>
+        <span className="font-heading text-[0.52rem] font-semibold uppercase tracking-[0.18em] text-white/65">Live Map</span>
+      </div>
+
+      {/* Centre pin */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <div className="relative flex items-center justify-center">
+          {/* Outer pulse ring */}
+          <span className="absolute h-14 w-14 animate-ping rounded-full bg-primary/15" style={{ animationDuration: '2.2s' }} />
+          {/* Inner ring */}
+          <span className="absolute h-9 w-9 rounded-full bg-primary/20" />
+          {/* Pin body */}
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-primary shadow-[0_0_0_3px_rgba(74,155,111,0.25),0_6px_24px_rgba(74,155,111,0.45)] transition-transform duration-300 group-hover:scale-110">
+            <svg viewBox="0 0 24 24" fill="white" className="h-[18px] w-[18px]" aria-hidden="true">
+              <path d="M12 2a7 7 0 017 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 017-7zm0 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+            </svg>
+          </div>
+          {/* Pin shadow drop */}
+          <div className="absolute top-full mt-0.5 h-1 w-4 rounded-full bg-black/30 blur-sm" aria-hidden="true" />
+        </div>
+      </div>
+
+      {/* Bottom info strip */}
+      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between px-4 py-3.5">
+        <div className="min-w-0">
+          <p className="font-heading text-xs font-semibold leading-tight text-white drop-shadow-sm">
+            Bright Smile Dental Clinic
+          </p>
+          <p className="mt-0.5 truncate font-body text-[0.68rem] text-white/50 drop-shadow-sm">
+            {address}
+          </p>
+        </div>
+        <div className="ml-4 flex flex-shrink-0 items-center gap-1.5 rounded-xl border border-white/12 bg-dark/50 px-3 py-1.5 backdrop-blur-sm transition-all duration-200 group-hover:border-primary/40 group-hover:bg-primary/15">
+          <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 flex-shrink-0 text-primary" aria-hidden="true">
+            <path d="M8 2a4 4 0 014 4c0 3-4 8-4 8s-4-5-4-8a4 4 0 014-4zm0 2.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" stroke="currentColor" strokeWidth="1.2" />
+          </svg>
+          <span className="font-heading text-[0.6rem] font-semibold text-white/65 transition-colors group-hover:text-white">
+            Get Directions
+          </span>
+          <svg viewBox="0 0 16 16" fill="none" className="h-2.5 w-2.5 text-white/35 transition-all group-hover:translate-x-0.5 group-hover:text-primary" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+      </div>
+    </a>
+  )
+}
+
 export default async function Footer() {
   const year = new Date().getFullYear()
 
   const supabase = createAdminClient()
   const [{ data: settingsData }, { data: hoursData }] = await Promise.all([
-    supabase.from('site_settings').select('phone_primary, phone_whatsapp, email_appointments, facebook_url, instagram_url').limit(1).single(),
+    supabase.from('site_settings').select('phone_primary, phone_whatsapp, email_appointments, facebook_url, instagram_url, address_line1, address_line2, address_city, google_maps_url').limit(1).single(),
     supabase.from('opening_hours').select('day_of_week, is_open, open_time, close_time').order('day_of_week', { ascending: true }),
   ])
 
-  const settings = settingsData as { phone_primary?: string; phone_whatsapp?: string; email_appointments?: string; facebook_url?: string; instagram_url?: string } | null
+  const settings = settingsData as {
+    phone_primary?: string; phone_whatsapp?: string; email_appointments?: string
+    facebook_url?: string; instagram_url?: string
+    address_line1?: string; address_line2?: string; address_city?: string; google_maps_url?: string
+  } | null
   const phone = settings?.phone_primary ?? CLINIC_CONTACT.phone
   const phoneWhatsApp = settings?.phone_whatsapp ?? CLINIC_CONTACT.phoneWhatsApp
   const emailAppointments = settings?.email_appointments ?? CLINIC_CONTACT.emailAppointments
   const facebook = settings?.facebook_url ?? CLINIC_CONTACT.facebook
   const instagram = settings?.instagram_url ?? CLINIC_CONTACT.instagram
+  const addressParts = [settings?.address_line1, settings?.address_line2, settings?.address_city].filter(Boolean)
+  const clinicAddress = addressParts.length > 0 ? addressParts.join(', ') : CLINIC_CONTACT.addressFull
+  const clinicMapsUrl = settings?.google_maps_url || 'https://maps.google.com/?q=Bright+Smile+Dental+Clinic+Nagpokhari+Naxal+Kathmandu+Nepal'
   const hours = buildHours(hoursData ?? [])
 
   return (
@@ -191,6 +277,11 @@ export default async function Footer() {
               ))}
             </ul>
           </div>
+        </div>
+
+        {/* Live map — clinic location */}
+        <div className="border-b border-white/10 py-8">
+          <FooterMap address={clinicAddress} mapsUrl={clinicMapsUrl} />
         </div>
 
         {/* Bottom bar */}

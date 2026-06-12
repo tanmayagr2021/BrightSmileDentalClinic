@@ -45,7 +45,7 @@ const securityHeaders = [
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://*.supabase.co https://www.google-analytics.com",
       "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://vitals.vercel-analytics.com",
-      "frame-src 'none'",
+      "frame-src https://www.openstreetmap.org",
       "frame-ancestors 'none'",
       "form-action 'self'",
       "base-uri 'self'",
