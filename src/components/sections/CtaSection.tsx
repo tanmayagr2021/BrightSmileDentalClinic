@@ -21,7 +21,25 @@ function PhoneIcon() {
   )
 }
 
-export default function CtaSection() {
+export default function CtaSection({
+  phone,
+  email,
+  address,
+  mapsUrl,
+  openingHours,
+}: {
+  phone?: string
+  email?: string
+  address?: string
+  mapsUrl?: string
+  openingHours?: { days: string; hours: string; open: boolean }[]
+}) {
+  const displayPhone = phone ?? CLINIC_CONTACT.phone
+  const displayEmail = email ?? CLINIC_CONTACT.emailAppointments
+  const displayAddress = address ?? CLINIC_CONTACT.addressFull
+  const displayMapsUrl = mapsUrl ?? CLINIC_CONTACT.googleMapsUrl
+  const displayHours = (openingHours && openingHours.length > 0) ? openingHours : [...OPENING_HOURS]
+
   return (
     <section className="overflow-hidden" style={{ background: 'linear-gradient(140deg, #0A1F14 0%, #1A3D2B 55%, #0f2e1e 100%)' }}>
       <div className="mx-auto max-w-7xl">
@@ -74,11 +92,11 @@ export default function CtaSection() {
                 </span>
               </Link>
               <a
-                href={`tel:${CLINIC_CONTACT.phone.replace(/-/g, '')}`}
+                href={`tel:${displayPhone.replace(/-/g, '')}`}
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/14 px-9 py-4 font-heading text-sm font-semibold text-white/75 transition-all hover:border-white/28 hover:text-white active:scale-[0.98]"
               >
                 <PhoneIcon />
-                {CLINIC_CONTACT.phone}
+                {displayPhone}
               </a>
             </motion.div>
 
@@ -114,10 +132,12 @@ export default function CtaSection() {
             </h3>
 
             <div className="space-y-4 mb-10">
-              {OPENING_HOURS.map((slot) => (
+              {displayHours.map((slot) => (
                 <div key={slot.days} className="flex items-center justify-between border-b border-white/6 pb-4">
                   <span className="font-body text-sm text-white/60">{slot.days}</span>
-                  <span className="font-heading text-sm font-semibold text-white">{slot.hours}</span>
+                  <span className="font-heading text-sm font-semibold text-white">
+                    {('open' in slot && !slot.open) ? 'Closed' : slot.hours}
+                  </span>
                 </div>
               ))}
             </div>
@@ -126,10 +146,10 @@ export default function CtaSection() {
               <h3 className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white/35 mb-4">
                 Location
               </h3>
-              <p className="font-body text-sm text-white/60 leading-relaxed">{CLINIC_CONTACT.addressFull}</p>
-              {CLINIC_CONTACT.googleMapsUrl && (
+              <p className="font-body text-sm text-white/60 leading-relaxed">{displayAddress}</p>
+              {displayMapsUrl && (
                 <a
-                  href={CLINIC_CONTACT.googleMapsUrl}
+                  href={displayMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-3 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary transition-all hover:text-primary-light"
@@ -144,18 +164,18 @@ export default function CtaSection() {
                 Contact
               </h3>
               <div className="space-y-2.5">
-                <a href={`tel:${CLINIC_CONTACT.phone}`} className="flex items-center gap-2.5 font-body text-sm text-white/60 transition-colors hover:text-white">
+                <a href={`tel:${displayPhone}`} className="flex items-center gap-2.5 font-body text-sm text-white/60 transition-colors hover:text-white">
                   <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-primary/60" aria-hidden="true">
                     <path d="M2 2.5h2.5l1 2.5-1.5 1a8 8 0 004 4l1-1.5 2.5 1V12a1 1 0 01-1 1C5.5 13 2 8.5 2 3.5A1 1 0 012 2.5z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                  {CLINIC_CONTACT.phone}
+                  {displayPhone}
                 </a>
-                <a href={`mailto:${CLINIC_CONTACT.emailAppointments}`} className="flex items-center gap-2.5 font-body text-sm text-white/60 transition-colors hover:text-white">
+                <a href={`mailto:${displayEmail}`} className="flex items-center gap-2.5 font-body text-sm text-white/60 transition-colors hover:text-white">
                   <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-primary/60" aria-hidden="true">
                     <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
                     <path d="M1.5 6l6.5 4 6.5-4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
                   </svg>
-                  {CLINIC_CONTACT.emailAppointments}
+                  {displayEmail}
                 </a>
               </div>
             </div>

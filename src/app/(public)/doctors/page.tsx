@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { TEAM_MEMBERS_STATIC, CLINIC_CONTACT } from '@/lib/constants'
 import type { DoctorRow } from '@/types/db'
@@ -83,14 +84,18 @@ const SUPPORT_ROLES = [
 
 export default async function DoctorsPage() {
   const supabase = createAdminClient()
-  const { data } = await supabase
-    .from('doctors')
-    .select('*')
-    .eq('is_active', true)
-    .is('deleted_at', null)
-    .order('sort_order', { ascending: true })
+  const [{ data }, { data: settingsData }] = await Promise.all([
+    supabase
+      .from('doctors')
+      .select('*')
+      .eq('is_active', true)
+      .is('deleted_at', null)
+      .order('sort_order', { ascending: true }),
+    supabase.from('site_settings').select('phone_primary').limit(1).single(),
+  ])
 
   const allDoctors: DoctorRow[] = data ?? []
+  const clinicPhone = (settingsData as { phone_primary?: string } | null)?.phone_primary ?? CLINIC_CONTACT.phone
   const leadDoctors = allDoctors.filter((d) => d.doctor_type === 'lead')
   const specialists = allDoctors.filter((d) => d.doctor_type === 'specialist')
   const supportTeam = TEAM_MEMBERS_STATIC.filter((m) => m.visible)
@@ -210,8 +215,12 @@ export default async function DoctorsPage() {
 
                     {/* Large avatar — top */}
                     <div className="relative self-start">
-                      <div className="flex h-28 w-28 items-center justify-center rounded-2xl bg-white/15 ring-2 ring-white/22 transition-transform duration-300 group-hover:scale-105">
-                        <span className="font-display text-5xl font-bold text-white">{dInitials(doc)}</span>
+                      <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-2xl bg-white/15 ring-2 ring-white/22 transition-transform duration-300 group-hover:scale-105">
+                        {doc.profile_image_url ? (
+                          <Image src={doc.profile_image_url} alt={doc.full_name} fill className="object-cover object-top" sizes="112px" />
+                        ) : (
+                          <span className="font-display text-5xl font-bold text-white">{dInitials(doc)}</span>
+                        )}
                       </div>
                       <div className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-green-400 ring-2 ring-white/25">
                         <span className="h-2.5 w-2.5 rounded-full bg-white" />
@@ -358,7 +367,7 @@ export default async function DoctorsPage() {
             </div>
             <div>
               <a
-                href={`tel:${CLINIC_CONTACT.phone.replace(/\s/g, '')}`}
+                href={`tel:${clinicPhone.replace(/\s/g, '')}`}
                 className="inline-flex items-center gap-2.5 rounded-xl border border-white/12 bg-white/7 px-6 py-3 font-heading text-sm font-semibold text-white transition-all hover:bg-white/12 active:scale-[0.98]"
               >
                 Ask About Specialists
@@ -385,8 +394,12 @@ export default async function DoctorsPage() {
                     style={{ backgroundColor: '#fff' }}
                     aria-hidden="true"
                   />
-                  <div className="flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-xl bg-white/18 ring-2 ring-white/22 transition-transform duration-300 group-hover:scale-105">
-                    <span className="font-display text-2xl font-bold text-white">{dInitials(doc)}</span>
+                  <div className="relative flex h-[4.5rem] w-[4.5rem] items-center justify-center overflow-hidden rounded-xl bg-white/18 ring-2 ring-white/22 transition-transform duration-300 group-hover:scale-105">
+                    {doc.profile_image_url ? (
+                      <Image src={doc.profile_image_url} alt={doc.full_name} fill className="object-cover object-top" sizes="72px" />
+                    ) : (
+                      <span className="font-display text-2xl font-bold text-white">{dInitials(doc)}</span>
+                    )}
                   </div>
                   <span className="absolute right-3 top-3 rounded-lg bg-black/25 px-2 py-0.5 font-heading text-[0.55rem] font-semibold text-white backdrop-blur-sm">
                     {doc.qualification}
@@ -559,10 +572,10 @@ export default async function DoctorsPage() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <a
-                href={`tel:${CLINIC_CONTACT.phone.replace(/\s/g, '')}`}
+                href={`tel:${clinicPhone.replace(/\s/g, '')}`}
                 className="inline-flex items-center gap-2.5 rounded-xl border border-white/12 bg-white/8 px-8 py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-white/14"
               >
-                {CLINIC_CONTACT.phone}
+                {clinicPhone}
               </a>
             </div>
           </div>

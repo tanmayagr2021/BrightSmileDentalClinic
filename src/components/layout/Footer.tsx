@@ -6,7 +6,39 @@ import {
   FOOTER_QUICK_LINKS,
   OPENING_HOURS,
 } from '@/lib/constants'
+import { createAdminClient } from '@/lib/supabase/admin'
 import Container from '@/components/ui/Container'
+
+type HourRow = { day_of_week: number; is_open: boolean; open_time: string | null; close_time: string | null }
+
+function fmtTime(t: string): string {
+  const [h, m] = t.split(':').map(Number)
+  const p = h < 12 ? 'AM' : 'PM'
+  const h12 = h % 12 || 12
+  return m === 0 ? `${h12}:00 ${p}` : `${h12}:${String(m).padStart(2, '0')} ${p}`
+}
+
+function buildHours(rows: HourRow[]): { days: string; hours: string }[] {
+  if (!rows.length) return OPENING_HOURS.map((h) => ({ days: h.days, hours: h.hours }))
+  const DAY = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  const sorted = [...rows].sort((a, b) => a.day_of_week - b.day_of_week)
+  const groups: { days: string[]; hours: string }[] = []
+  for (const row of sorted) {
+    const hrs = row.is_open && row.open_time && row.close_time
+      ? `${fmtTime(row.open_time)} – ${fmtTime(row.close_time)}`
+      : 'Closed'
+    const last = groups[groups.length - 1]
+    if (last && last.hours === hrs) {
+      last.days.push(DAY[row.day_of_week])
+    } else {
+      groups.push({ days: [DAY[row.day_of_week]], hours: hrs })
+    }
+  }
+  return groups.map((g) => ({
+    days: g.days.length === 1 ? g.days[0] : `${g.days[0]} – ${g.days[g.days.length - 1]}`,
+    hours: g.hours,
+  }))
+}
 
 function FooterLogo() {
   return (
@@ -47,8 +79,22 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   )
 }
 
-export default function Footer() {
+export default async function Footer() {
   const year = new Date().getFullYear()
+
+  const supabase = createAdminClient()
+  const [{ data: settingsData }, { data: hoursData }] = await Promise.all([
+    supabase.from('site_settings').select('phone_primary, phone_whatsapp, email_appointments, facebook_url, instagram_url').limit(1).single(),
+    supabase.from('opening_hours').select('day_of_week, is_open, open_time, close_time').order('day_of_week', { ascending: true }),
+  ])
+
+  const settings = settingsData as { phone_primary?: string; phone_whatsapp?: string; email_appointments?: string; facebook_url?: string; instagram_url?: string } | null
+  const phone = settings?.phone_primary ?? CLINIC_CONTACT.phone
+  const phoneWhatsApp = settings?.phone_whatsapp ?? CLINIC_CONTACT.phoneWhatsApp
+  const emailAppointments = settings?.email_appointments ?? CLINIC_CONTACT.emailAppointments
+  const facebook = settings?.facebook_url ?? CLINIC_CONTACT.facebook
+  const instagram = settings?.instagram_url ?? CLINIC_CONTACT.instagram
+  const hours = buildHours(hoursData ?? [])
 
   return (
     <footer className="bg-dark" aria-labelledby="footer-heading">
@@ -108,27 +154,27 @@ export default function Footer() {
             <FooterHeading>Contact</FooterHeading>
             <address className="not-italic space-y-3">
               <a
-                href={`tel:${CLINIC_CONTACT.phone.replace(/\s/g, '')}`}
+                href={`tel:${phone.replace(/\s/g, '')}`}
                 className="flex items-center gap-2 font-body text-sm text-white/55 transition-colors hover:text-white"
               >
                 <PhoneIcon />
-                {CLINIC_CONTACT.phone}
+                {phone}
               </a>
               <a
-                href={`https://wa.me/${CLINIC_CONTACT.phoneWhatsApp.replace(/[^0-9]/g, '')}`}
+                href={`https://wa.me/${phoneWhatsApp.replace(/[^0-9]/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 font-body text-sm text-white/55 transition-colors hover:text-white"
               >
                 <WhatsAppIcon />
-                {CLINIC_CONTACT.phoneWhatsApp}
+                {phoneWhatsApp}
               </a>
               <a
-                href={`mailto:${CLINIC_CONTACT.emailAppointments}`}
+                href={`mailto:${emailAppointments}`}
                 className="flex items-center gap-2 font-body text-sm text-white/55 transition-colors hover:text-white"
               >
                 <MailIcon />
-                {CLINIC_CONTACT.emailAppointments}
+                {emailAppointments}
               </a>
             </address>
           </div>
@@ -137,7 +183,7 @@ export default function Footer() {
           <div>
             <FooterHeading>Opening Hours</FooterHeading>
             <ul className="space-y-3">
-              {OPENING_HOURS.map((item) => (
+              {hours.map((item) => (
                 <li key={item.days} className="flex items-start justify-between gap-4">
                   <p className="font-body text-sm text-white/55">{item.days}</p>
                   <p className="font-body text-sm font-medium text-white/80 text-right">{item.hours}</p>
@@ -153,9 +199,9 @@ export default function Footer() {
             &copy; {year} Bright Smile Dental Clinic Pvt. Ltd. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
-            {CLINIC_CONTACT.facebook && (
+            {facebook && (
               <a
-                href={CLINIC_CONTACT.facebook}
+                href={facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Bright Smile Dental Clinic on Facebook"
@@ -164,9 +210,9 @@ export default function Footer() {
                 <FacebookIcon />
               </a>
             )}
-            {CLINIC_CONTACT.instagram && (
+            {instagram && (
               <a
-                href={CLINIC_CONTACT.instagram}
+                href={instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Bright Smile Dental Clinic on Instagram"

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { CLINIC_CONTACT } from '@/lib/constants'
 import type { DoctorRow } from '@/types/db'
@@ -34,7 +35,7 @@ export default async function DoctorProfilePage({ params }: Props) {
   const { slug } = await params
   const supabase = createAdminClient()
 
-  const [{ data: doctor }, { data: othersData }] = await Promise.all([
+  const [{ data: doctor }, { data: othersData }, { data: settingsData }] = await Promise.all([
     supabase
       .from('doctors')
       .select('*')
@@ -49,11 +50,13 @@ export default async function DoctorProfilePage({ params }: Props) {
       .is('deleted_at', null)
       .neq('slug', slug)
       .order('sort_order', { ascending: true }),
+    supabase.from('site_settings').select('phone_primary').limit(1).single(),
   ])
 
   if (!doctor) notFound()
 
   const otherDoctors: DoctorRow[] = othersData ?? []
+  const clinicPhone = (settingsData as { phone_primary?: string } | null)?.phone_primary ?? CLINIC_CONTACT.phone
 
   return (
     <div className="bg-white">
@@ -74,10 +77,14 @@ export default async function DoctorProfilePage({ params }: Props) {
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
             {/* Avatar */}
             <div
-              className="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-2xl text-2xl font-bold text-white shadow-lg sm:h-32 sm:w-32 sm:text-3xl"
+              className="relative flex h-24 w-24 flex-shrink-0 items-center justify-center overflow-hidden rounded-2xl text-2xl font-bold text-white shadow-lg sm:h-32 sm:w-32 sm:text-3xl"
               style={{ backgroundColor: dColor(doctor) }}
             >
-              {dInitials(doctor)}
+              {doctor.profile_image_url ? (
+                <Image src={doctor.profile_image_url} alt={doctor.full_name} fill className="object-cover object-top" sizes="(max-width: 640px) 96px, 128px" />
+              ) : (
+                dInitials(doctor)
+              )}
             </div>
 
             <div>
@@ -185,10 +192,10 @@ export default async function DoctorProfilePage({ params }: Props) {
                 </p>
               )}
               <a
-                href={`tel:${CLINIC_CONTACT.phone}`}
+                href={`tel:${clinicPhone}`}
                 className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3.5 font-heading text-sm font-semibold text-white/70 transition-all hover:border-white/25 hover:text-white active:scale-[0.98]"
               >
-                Call {CLINIC_CONTACT.phone}
+                Call {clinicPhone}
               </a>
             </div>
 

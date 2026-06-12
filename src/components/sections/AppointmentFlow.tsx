@@ -406,7 +406,7 @@ function Row({ label, value }: { label: string; value: string }) {
   )
 }
 
-function StepSuccess({ doctor, date, time, name }: { doctor: BookableDoctor; date: Date; time: string; name: string }) {
+function StepSuccess({ doctor, date, time, name, phone }: { doctor: BookableDoctor; date: Date; time: string; name: string; phone: string }) {
   return (
     <div className="py-6 text-center">
       {/* Animated check */}
@@ -479,8 +479,8 @@ function StepSuccess({ doctor, date, time, name }: { doctor: BookableDoctor; dat
 
         <p className="mt-8 font-body text-xs text-gray-400">
           Need to speak to us directly?{' '}
-          <a href={`tel:${CLINIC_CONTACT.phone}`} className="text-primary hover:underline">
-            {CLINIC_CONTACT.phone}
+          <a href={`tel:${phone}`} className="text-primary hover:underline">
+            {phone}
           </a>
         </p>
       </motion.div>
@@ -521,7 +521,23 @@ function ProgressBar({ currentStep }: { currentStep: number }) {
 
 // ─── Main component ───────────────────────────────────────────
 
-export default function AppointmentFlow({ doctors: doctorRows }: { doctors: DoctorRow[] }) {
+export default function AppointmentFlow({
+  doctors: doctorRows,
+  phone,
+  phoneWhatsApp,
+  address,
+  openingHours,
+}: {
+  doctors: DoctorRow[]
+  phone?: string
+  phoneWhatsApp?: string
+  address?: string
+  openingHours?: { days: string; hours: string; open: boolean }[]
+}) {
+  const displayPhone = phone ?? CLINIC_CONTACT.phone
+  const displayPhoneWhatsApp = phoneWhatsApp ?? CLINIC_CONTACT.phoneWhatsApp
+  const displayAddress = address ?? CLINIC_CONTACT.addressFull
+  const displayHours = (openingHours && openingHours.length > 0) ? openingHours : [...OPENING_HOURS]
   const bookableDoctors = doctorRows.filter((d) => d.is_bookable && d.is_active).map(adaptDoctor)
 
   const [step, setStep] = useState<Step>('doctor')
@@ -628,7 +644,7 @@ export default function AppointmentFlow({ doctors: doctorRows }: { doctors: Doct
                   <StepConfirm doctor={selectedDoctor} date={selectedDate} time={selectedTime} form={form} />
                 )}
                 {step === 'success' && selectedDate && selectedTime && (
-                  <StepSuccess doctor={selectedDoctor} date={selectedDate} time={selectedTime} name={form.name} />
+                  <StepSuccess doctor={selectedDoctor} date={selectedDate} time={selectedTime} name={form.name} phone={displayPhone} />
                 )}
               </motion.div>
             </AnimatePresence>
@@ -687,10 +703,12 @@ export default function AppointmentFlow({ doctors: doctorRows }: { doctors: Doct
               <div className="rounded-2xl border border-gray-100 bg-tint p-6">
                 <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">Opening Hours</h3>
                 <div className="space-y-2.5">
-                  {OPENING_HOURS.map((h) => (
+                  {displayHours.map((h) => (
                     <div key={h.days} className="flex justify-between">
                       <span className="font-body text-sm text-gray-500">{h.days}</span>
-                      <span className="font-heading text-sm font-semibold text-dark">{h.hours}</span>
+                      <span className="font-heading text-sm font-semibold text-dark">
+                        {('open' in h && !h.open) ? 'Closed' : h.hours}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -700,7 +718,7 @@ export default function AppointmentFlow({ doctors: doctorRows }: { doctors: Doct
               <div className="rounded-2xl border border-gray-100 bg-white p-6">
                 <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">Prefer to Call?</h3>
                 <a
-                  href={`tel:${CLINIC_CONTACT.phone}`}
+                  href={`tel:${displayPhone}`}
                   className="flex items-center gap-3 rounded-xl bg-primary/8 px-4 py-3.5 text-primary transition-colors hover:bg-primary/12"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 flex-shrink-0" aria-hidden="true">
@@ -708,11 +726,11 @@ export default function AppointmentFlow({ doctors: doctorRows }: { doctors: Doct
                   </svg>
                   <div>
                     <p className="font-heading text-xs font-semibold">Call Us Now</p>
-                    <p className="font-body text-sm font-medium">{CLINIC_CONTACT.phone}</p>
+                    <p className="font-body text-sm font-medium">{displayPhone}</p>
                   </div>
                 </a>
                 <a
-                  href={`https://wa.me/${CLINIC_CONTACT.phoneWhatsApp.replace(/[^0-9]/g, '')}`}
+                  href={`https://wa.me/${displayPhoneWhatsApp.replace(/[^0-9]/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-2 flex items-center gap-3 rounded-xl border border-gray-200 px-4 py-3.5 text-dark transition-colors hover:border-primary hover:text-primary"
@@ -723,7 +741,7 @@ export default function AppointmentFlow({ doctors: doctorRows }: { doctors: Doct
                   </svg>
                   <div>
                     <p className="font-heading text-xs font-semibold">WhatsApp</p>
-                    <p className="font-body text-sm">{CLINIC_CONTACT.phoneWhatsApp}</p>
+                    <p className="font-body text-sm">{displayPhoneWhatsApp}</p>
                   </div>
                 </a>
               </div>
@@ -731,7 +749,7 @@ export default function AppointmentFlow({ doctors: doctorRows }: { doctors: Doct
               {/* Location */}
               <div className="rounded-2xl border border-gray-100 bg-white p-6">
                 <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Find Us</h3>
-                <p className="font-body text-sm text-dark leading-relaxed">{CLINIC_CONTACT.addressFull}</p>
+                <p className="font-body text-sm text-dark leading-relaxed">{displayAddress}</p>
               </div>
             </div>
           )}

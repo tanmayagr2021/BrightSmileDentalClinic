@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { fadeUp, stagger, slideInLeft, slideInRight, blurFadeIn } from '@/lib/animations'
 import type { DoctorRow } from '@/types/db'
 
@@ -116,8 +117,12 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
 
                 {/* Avatar */}
                 <div className="relative">
-                  <div className="flex h-[5rem] w-[5rem] items-center justify-center rounded-2xl bg-white/15 ring-2 ring-white/25 transition-transform duration-300 group-hover:scale-105">
-                    <span className="font-display text-[2rem] font-bold text-white">{dInitials(doc)}</span>
+                  <div className="relative flex h-[5rem] w-[5rem] items-center justify-center overflow-hidden rounded-2xl bg-white/15 ring-2 ring-white/25 transition-transform duration-300 group-hover:scale-105">
+                    {doc.profile_image_url ? (
+                      <Image src={doc.profile_image_url} alt={doc.full_name} fill className="object-cover object-top" sizes="80px" />
+                    ) : (
+                      <span className="font-display text-[2rem] font-bold text-white">{dInitials(doc)}</span>
+                    )}
                   </div>
                   <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-400 ring-2 ring-white/30">
                     <span className="h-2 w-2 rounded-full bg-white" />

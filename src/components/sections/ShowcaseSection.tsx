@@ -6,6 +6,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
 
+type HourRow = { days: string; hours: string; open: boolean }
+
 type SlideData = {
   id: string
   title: string
@@ -208,7 +210,17 @@ const textVariants = {
   }),
 }
 
-export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
+export default function ShowcaseSection({
+  slides,
+  openingHours,
+  phone,
+}: {
+  slides: SlideData[]
+  openingHours?: HourRow[]
+  phone?: string
+}) {
+  const displayHours = openingHours && openingHours.length > 0 ? openingHours : [...OPENING_HOURS]
+  const displayPhone = phone ?? CLINIC_CONTACT.phone
   const [active, setActive] = useState(0)
   const [direction, setDirection] = useState(1)
   const [isPaused, setIsPaused] = useState(false)
@@ -489,13 +501,13 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
 
                 {/* Hours */}
                 <div className="space-y-2.5">
-                  {OPENING_HOURS.map((h) => (
+                  {displayHours.map((h) => (
                     <div key={h.days} className="flex items-center justify-between gap-3">
                       <span className="font-body text-[0.72rem] text-white/40 truncate">
                         {h.days.replace('Sunday – ', 'Sun – ').replace('Saturday', 'Sat')}
                       </span>
                       <span className="flex-shrink-0 font-heading text-[0.72rem] font-semibold text-white/70">
-                        {h.hours.replace(' AM', 'am').replace(' PM', 'pm')}
+                        {h.open ? h.hours.replace(' AM', 'am').replace(' PM', 'pm') : 'Closed'}
                       </span>
                     </div>
                   ))}
@@ -506,13 +518,13 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
 
                 {/* Phone */}
                 <a
-                  href={`tel:${CLINIC_CONTACT.phone.replace(/\s/g, '')}`}
+                  href={`tel:${displayPhone.replace(/\s/g, '')}`}
                   className="mb-3 flex items-center gap-2.5 font-body text-sm text-white/55 transition-colors hover:text-white"
                 >
                   <svg viewBox="0 0 14 14" fill="none" className="h-3 w-3 flex-shrink-0" style={{ color: current.accent_color }} aria-hidden="true">
                     <path d="M1.5 2h2l.75 2-1 .75A6 6 0 006.25 7.75L7 6.75l2 .75V9A.75.75 0 018.25 9.75C4.5 9.75 1.5 6.75 1.5 3A.75.75 0 011.5 2z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                  {CLINIC_CONTACT.phone}
+                  {displayPhone}
                 </a>
 
                 {/* Book CTA */}
