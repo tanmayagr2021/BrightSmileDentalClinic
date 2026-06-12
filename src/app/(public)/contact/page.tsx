@@ -388,7 +388,7 @@ export default function ContactPage() {
           </motion.div>
         </div>
 
-        {/* Map placeholder */}
+        {/* Map — clickable, opens Google Maps */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -397,34 +397,75 @@ export default function ContactPage() {
           className="mt-12"
         >
           <h2 className="font-heading text-sm font-semibold uppercase tracking-widest text-gray-400 mb-4">Find Us</h2>
-          <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-gradient-to-br from-[#1a3d2b] to-[#0f2419] h-64 sm:h-80 flex flex-col items-center justify-center gap-4">
-            {/* Grid overlay */}
-            <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.04]" aria-hidden="true">
+          <a
+            href="https://maps.google.com/?q=Bright+Smile+Dental+Clinic+Nagpokhari+Naxal+Kathmandu+Nepal"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Bright Smile Dental Clinic on Google Maps"
+            className="group relative block overflow-hidden rounded-2xl border border-gray-100 h-72 sm:h-80 transition-all duration-300 hover:shadow-premium hover:border-primary/20"
+            style={{ background: 'linear-gradient(145deg, #081912 0%, #1A3D2B 70%, #0f2a1a 100%)' }}
+          >
+            {/* Dot grid — stylized map */}
+            <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">
               <defs>
-                <pattern id="map-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
+                <pattern id="map-dots" width="28" height="28" patternUnits="userSpaceOnUse">
+                  <circle cx="1" cy="1" r="0.8" fill="white" fillOpacity="0.055" />
+                </pattern>
+                <pattern id="map-roads-h" width="112" height="112" patternUnits="userSpaceOnUse">
+                  <line x1="0" y1="56" x2="112" y2="56" stroke="white" strokeWidth="0.6" strokeOpacity="0.06" />
+                  <line x1="56" y1="0" x2="56" y2="112" stroke="white" strokeWidth="0.6" strokeOpacity="0.06" />
                 </pattern>
               </defs>
-              <rect width="100%" height="100%" fill="url(#map-grid)" />
+              <rect width="100%" height="100%" fill="url(#map-dots)" />
+              <rect width="100%" height="100%" fill="url(#map-roads-h)" />
             </svg>
 
-            {/* Pin marker */}
-            <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/30">
-              <svg viewBox="0 0 24 24" fill="white" className="h-7 w-7" aria-hidden="true">
-                <path d="M12 2a7 7 0 017 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 017-7zm0 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+            {/* Road lines — decorative */}
+            <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.08]" aria-hidden="true">
+              <line x1="0" y1="55%" x2="100%" y2="55%" stroke="white" strokeWidth="1.5" />
+              <line x1="35%" y1="0" x2="35%" y2="100%" stroke="white" strokeWidth="1" />
+              <line x1="70%" y1="0" x2="70%" y2="100%" stroke="white" strokeWidth="0.7" />
+              <line x1="0" y1="25%" x2="100%" y2="25%" stroke="white" strokeWidth="0.7" />
+              <line x1="0" y1="78%" x2="100%" y2="78%" stroke="white" strokeWidth="0.5" />
+            </svg>
+
+            {/* Accent glow */}
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
+              <div className="h-48 w-48 rounded-full bg-primary/12 blur-3xl" />
+            </div>
+
+            {/* Centre content */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+              {/* Pin */}
+              <div className="relative">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary shadow-[0_8px_32px_rgba(74,155,111,0.45)] transition-transform duration-300 group-hover:scale-110">
+                  <svg viewBox="0 0 24 24" fill="white" className="h-8 w-8" aria-hidden="true">
+                    <path d="M12 2a7 7 0 017 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 017-7zm0 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+                  </svg>
+                </div>
+                {/* Pin shadow */}
+                <div className="mx-auto mt-1 h-1.5 w-6 rounded-full bg-black/25 blur-sm" />
+              </div>
+
+              <div className="text-center">
+                <p className="font-heading text-base font-semibold text-white">Bright Smile Dental Clinic</p>
+                <p className="mt-1 font-body text-sm text-white/50">{CLINIC_CONTACT.addressFull}</p>
+              </div>
+            </div>
+
+            {/* "Open in Maps" CTA — bottom */}
+            <div className="absolute bottom-0 inset-x-0 flex items-center justify-center gap-2.5 border-t border-white/8 bg-white/[0.04] py-3.5 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/[0.08]">
+              <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-primary flex-shrink-0" aria-hidden="true">
+                <path d="M8 2a4 4 0 014 4c0 3-4 8-4 8s-4-5-4-8a4 4 0 014-4zm0 2.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" stroke="currentColor" strokeWidth="1.2" />
               </svg>
-              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 bg-primary" aria-hidden="true" />
+              <span className="font-heading text-xs font-semibold text-white/65 group-hover:text-white transition-colors">
+                Open in Google Maps
+              </span>
+              <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-white/35 group-hover:text-white/70 transition-all group-hover:translate-x-0.5" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </div>
-
-            <div className="relative text-center">
-              <p className="font-heading text-sm font-semibold text-white">Bright Smile Dental Clinic</p>
-              <p className="font-body text-xs text-white/50 mt-1">{CLINIC_CONTACT.addressFull}</p>
-            </div>
-
-            <p className="absolute bottom-4 font-body text-xs text-white/25">
-              Interactive map coming soon
-            </p>
-          </div>
+          </a>
         </motion.div>
 
         {/* Directions */}

@@ -17,7 +17,7 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
     >
       {/* Logo image */}
       <div className={cn(
-        'flex-shrink-0 overflow-hidden transition-all duration-400 group-hover:opacity-90',
+        'flex-shrink-0 overflow-hidden transition-all duration-500 group-hover:opacity-90',
         inverted
           ? 'rounded-xl shadow-[0_6px_24px_rgba(0,0,0,0.65),0_0_0_1px_rgba(255,255,255,0.14)]'
           : ''
@@ -28,39 +28,29 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
           width={280}
           height={112}
           className={cn(
-            'w-auto object-contain transition-all duration-400',
+            'w-auto object-contain transition-all duration-500',
             inverted
-              ? 'h-[2.75rem] lg:h-[3.75rem] bg-white px-2.5 py-1.5'
-              : 'h-[3.75rem] lg:h-[5.5rem]'
+              ? 'h-[2.75rem] lg:h-[3.5rem] bg-white px-2.5 py-1.5'
+              : 'h-[1.75rem] lg:h-[2.25rem]'
           )}
           priority
         />
       </div>
 
-      {/* Brand identity text block — desktop only */}
-      <div className={cn(
-        'hidden lg:flex flex-col leading-none gap-[0.3rem] pl-4 border-l transition-all duration-400',
-        inverted ? 'border-white/15' : 'border-gray-200/60'
-      )}>
-        <span className={cn(
-          'font-display leading-none tracking-[-0.018em] transition-colors duration-400',
-          inverted ? 'text-white text-[1.2rem]' : 'text-dark text-[1.2rem]'
-        )}>
-          {CLINIC_NAME_SHORT}
-        </span>
-        <span className={cn(
-          'font-heading font-semibold leading-none tracking-[0.008em] transition-colors duration-400',
-          inverted ? 'text-white/65 text-[0.72rem]' : 'text-dark/65 text-[0.72rem]'
-        )}>
-          {CLINIC_SUBTITLE}
-        </span>
-        <span className={cn(
-          'font-heading font-medium uppercase leading-none tracking-[0.16em] transition-colors duration-400',
-          inverted ? 'text-white/32 text-[0.42rem]' : 'text-gray-400 text-[0.42rem]'
-        )}>
-          {CLINIC_TAGLINE}
-        </span>
-      </div>
+      {/* Brand identity text block — desktop, transparent/hero state only */}
+      {inverted && (
+        <div className="hidden lg:flex flex-col leading-none gap-[0.3rem] pl-4 border-l border-white/15">
+          <span className="font-display leading-none tracking-[-0.018em] text-white text-[1.15rem]">
+            {CLINIC_NAME_SHORT}
+          </span>
+          <span className="font-heading font-semibold leading-none tracking-[0.008em] text-white/65 text-[0.7rem]">
+            {CLINIC_SUBTITLE}
+          </span>
+          <span className="font-heading font-medium uppercase leading-none tracking-[0.16em] text-white/32 text-[0.4rem]">
+            {CLINIC_TAGLINE}
+          </span>
+        </div>
+      )}
     </Link>
   )
 }
@@ -106,7 +96,10 @@ export default function Header() {
             : 'bg-white/97 border-b border-gray-100/80 backdrop-blur-2xl shadow-[0_1px_40px_rgba(0,0,0,0.07)]'
         )}
       >
-        <div className="mx-auto flex h-[4.75rem] max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-[6.5rem] lg:px-8">
+        <div className={cn(
+            'mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 transition-all duration-500',
+            isTransparent ? 'h-[4.75rem] lg:h-[6.5rem]' : 'h-[3.25rem] lg:h-[4rem]'
+          )}>
           <BrandMark inverted={isTransparent} />
 
           {/* Desktop navigation */}

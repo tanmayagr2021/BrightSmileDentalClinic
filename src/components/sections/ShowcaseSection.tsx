@@ -284,6 +284,8 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
                 priority
                 sizes="100vw"
               />
+              {/* Base image darkening overlay — guarantees text contrast regardless of photo */}
+              <div className="absolute inset-0 bg-black/35" />
             </div>
           )}
 
@@ -308,11 +310,11 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
             transition={{ duration: 1.3, ease: EASE }}
           />
 
-          {/* Cinematic bottom gradient — deeper */}
-          <div className="absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t from-black/70 via-black/22 to-transparent" />
+          {/* Cinematic bottom gradient — deep protection for text */}
+          <div className="absolute inset-x-0 bottom-0 h-[75%] bg-gradient-to-t from-black/88 via-black/40 to-transparent" />
 
           {/* Side gradient for text readability */}
-          <div className="absolute inset-y-0 left-0 w-[55%] bg-gradient-to-r from-black/30 to-transparent" />
+          <div className="absolute inset-y-0 left-0 w-[62%] bg-gradient-to-r from-black/60 to-transparent" />
         </motion.div>
       </AnimatePresence>
 
@@ -467,11 +469,11 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
                 {/* Card header */}
                 <div className="mb-5 flex items-center justify-between">
                   <div>
-                    <p className="font-heading text-[0.48rem] font-semibold uppercase tracking-[0.28em] text-white/30">
-                      Bright Smile Dental
+                    <p className="font-heading text-[0.46rem] font-semibold uppercase tracking-[0.26em] text-white/28">
+                      Bright Smile Dental Clinic
                     </p>
-                    <p className="mt-0.5 font-display text-[0.88rem] leading-tight text-white/90">
-                      Book a Visit
+                    <p className="mt-1 font-display text-[0.9rem] leading-tight text-white">
+                      Opening Hours
                     </p>
                   </div>
                   <div
@@ -479,49 +481,44 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
                     style={{ backgroundColor: `${current.accent_color}22`, border: `1px solid ${current.accent_color}44` }}
                   >
                     <svg viewBox="0 0 14 14" fill="none" className="h-3.5 w-3.5" style={{ color: current.accent_color }} aria-hidden="true">
-                      <rect x="1.5" y="2" width="11" height="10.5" rx="1.8" stroke="currentColor" strokeWidth="1.2" />
-                      <path d="M1.5 5.5h11M4.5 1v2.5M9.5 1v2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-                      <path d="M4 8h2M7.5 8h2M4 10.5h2" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+                      <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.2" />
+                      <path d="M7 4v3l2 1.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
                     </svg>
                   </div>
                 </div>
-
-                {/* Phone CTA */}
-                <a
-                  href={`tel:${CLINIC_CONTACT.phone.replace(/\s/g, '')}`}
-                  className="mb-3.5 flex items-center gap-3.5 rounded-xl px-4 py-3.5 transition-all hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
-                  style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)' }}
-                >
-                  <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: `${current.accent_color}20` }}>
-                    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" style={{ color: current.accent_color }} aria-hidden="true">
-                      <path d="M2 2.5h2.5l1 2.5-1.5 1a8 8 0 004 4l1-1.5 2.5 1V12a1 1 0 01-1 1C5.5 13 2 8.5 2 3.5A1 1 0 012 2.5z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  <div>
-                    <p className="font-heading text-[0.46rem] font-semibold uppercase tracking-[0.16em] text-white/30">Call us now</p>
-                    <p className="font-heading text-[0.82rem] font-semibold text-white leading-tight">{CLINIC_CONTACT.phone}</p>
-                  </div>
-                </a>
 
                 {/* Hours */}
-                <div className="rounded-xl px-4 py-3.5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <p className="mb-2.5 font-heading text-[0.45rem] font-semibold uppercase tracking-[0.22em] text-white/28">
-                    Opening Hours
-                  </p>
-                  <div className="space-y-1.5">
-                    {OPENING_HOURS.map((h) => (
-                      <div key={h.days} className="flex items-center justify-between gap-3 font-body text-[0.72rem]">
-                        <span className="text-white/38 truncate">{h.days.replace('Sunday – ', 'Sun – ').replace('Saturday', 'Sat')}</span>
-                        <span className="flex-shrink-0 font-medium text-white/65">{h.hours.replace('AM', 'am').replace('PM', 'pm')}</span>
-                      </div>
-                    ))}
-                  </div>
+                <div className="space-y-2.5">
+                  {OPENING_HOURS.map((h) => (
+                    <div key={h.days} className="flex items-center justify-between gap-3">
+                      <span className="font-body text-[0.72rem] text-white/40 truncate">
+                        {h.days.replace('Sunday – ', 'Sun – ').replace('Saturday', 'Sat')}
+                      </span>
+                      <span className="flex-shrink-0 font-heading text-[0.72rem] font-semibold text-white/70">
+                        {h.hours.replace(' AM', 'am').replace(' PM', 'pm')}
+                      </span>
+                    </div>
+                  ))}
                 </div>
+
+                {/* Divider */}
+                <div className="my-4 h-px" style={{ background: 'rgba(255,255,255,0.07)' }} />
+
+                {/* Phone */}
+                <a
+                  href={`tel:${CLINIC_CONTACT.phone.replace(/\s/g, '')}`}
+                  className="mb-3 flex items-center gap-2.5 font-body text-sm text-white/55 transition-colors hover:text-white"
+                >
+                  <svg viewBox="0 0 14 14" fill="none" className="h-3 w-3 flex-shrink-0" style={{ color: current.accent_color }} aria-hidden="true">
+                    <path d="M1.5 2h2l.75 2-1 .75A6 6 0 006.25 7.75L7 6.75l2 .75V9A.75.75 0 018.25 9.75C4.5 9.75 1.5 6.75 1.5 3A.75.75 0 011.5 2z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {CLINIC_CONTACT.phone}
+                </a>
 
                 {/* Book CTA */}
                 <Link
                   href="/appointments"
-                  className="mt-3.5 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 font-heading text-[0.8rem] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97]"
+                  className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl py-3 font-heading text-[0.8rem] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97]"
                   style={{
                     background: `linear-gradient(135deg, ${current.accent_color} 0%, #3d8560 100%)`,
                     boxShadow: `0 4px 16px ${current.accent_color}40`,

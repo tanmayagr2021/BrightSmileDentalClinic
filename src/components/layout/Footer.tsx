@@ -86,37 +86,9 @@ export default function Footer() {
           {/* Col 1 — Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <FooterLogo />
-            <p className="mt-5 font-body text-sm leading-relaxed text-white/45 max-w-xs">
-              Providing trusted dental care in the heart of Kathmandu since 2013. NMC-registered specialists, modern equipment, transparent pricing.
+            <p className="mt-4 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/28">
+              Est. 2013 &nbsp;·&nbsp; Nagpokhari, Naxal, Kathmandu
             </p>
-
-            {/* Social links */}
-            {(CLINIC_CONTACT.facebook || CLINIC_CONTACT.instagram) && (
-              <div className="mt-6 flex items-center gap-3">
-                {CLINIC_CONTACT.facebook && (
-                  <a
-                    href={CLINIC_CONTACT.facebook}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Bright Smile Dental Clinic on Facebook"
-                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 text-white/45 transition-all hover:border-primary/50 hover:text-primary hover:bg-primary/10"
-                  >
-                    <FacebookIcon />
-                  </a>
-                )}
-                {CLINIC_CONTACT.instagram && (
-                  <a
-                    href={CLINIC_CONTACT.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Bright Smile Dental Clinic on Instagram"
-                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 text-white/45 transition-all hover:border-primary/50 hover:text-primary hover:bg-primary/10"
-                  >
-                    <InstagramIcon />
-                  </a>
-                )}
-              </div>
-            )}
           </div>
 
           {/* Col 2 — Quick Links */}
@@ -135,9 +107,6 @@ export default function Footer() {
           <div>
             <FooterHeading>Contact</FooterHeading>
             <address className="not-italic space-y-3">
-              <p className="font-body text-sm text-white/55 leading-relaxed">
-                {CLINIC_CONTACT.addressFull}
-              </p>
               <a
                 href={`tel:${CLINIC_CONTACT.phone.replace(/\s/g, '')}`}
                 className="flex items-center gap-2 font-body text-sm text-white/55 transition-colors hover:text-white"
@@ -179,19 +148,42 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col items-center justify-between gap-3 py-6 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-4 py-6 sm:flex-row">
           <p className="font-body text-xs text-white/25 text-center sm:text-left">
             &copy; {year} Bright Smile Dental Clinic Pvt. Ltd. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
+            {CLINIC_CONTACT.facebook && (
+              <a
+                href={CLINIC_CONTACT.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Bright Smile Dental Clinic on Facebook"
+                className="text-white/25 transition-colors hover:text-white/55"
+              >
+                <FacebookIcon />
+              </a>
+            )}
+            {CLINIC_CONTACT.instagram && (
+              <a
+                href={CLINIC_CONTACT.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Bright Smile Dental Clinic on Instagram"
+                className="text-white/25 transition-colors hover:text-white/55"
+              >
+                <InstagramIcon />
+              </a>
+            )}
+            <span className="h-3 w-px bg-white/12" aria-hidden="true" />
             <Link
               href="/privacy"
               className="font-body text-xs text-white/25 hover:text-white/55 transition-colors"
             >
               Privacy Policy
             </Link>
-            <span className="h-3 w-px bg-white/15" aria-hidden="true" />
-            <p className="font-body text-xs text-white/25">NMC Registered Clinic</p>
+            <span className="h-3 w-px bg-white/12" aria-hidden="true" />
+            <p className="font-body text-xs text-white/25">NMC Registered</p>
           </div>
         </div>
       </Container>
