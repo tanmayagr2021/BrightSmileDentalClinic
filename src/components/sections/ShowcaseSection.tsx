@@ -396,8 +396,11 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
                   variants={textVariants}
                   initial="hidden"
                   animate="visible"
-                  className="font-display leading-[1.04] text-white tracking-display"
-                  style={{ fontSize: 'clamp(2.4rem, 5vw, 4.75rem)' }}
+                  className="font-display leading-[1.03] text-white tracking-display"
+                  style={{
+                    fontSize: 'clamp(2.6rem, 5.5vw, 5rem)',
+                    textShadow: '0 2px 40px rgba(0,0,0,0.45)',
+                  }}
                 >
                   {current.title}
                 </motion.h1>
@@ -408,7 +411,8 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
                   variants={textVariants}
                   initial="hidden"
                   animate="visible"
-                  className="mt-4 max-w-md font-body text-[0.95rem] text-white/65 leading-relaxed lg:text-base"
+                  className="mt-5 max-w-md font-body text-[0.95rem] text-white/72 leading-relaxed lg:text-[1.02rem]"
+                  style={{ textShadow: '0 1px 12px rgba(0,0,0,0.3)' }}
                 >
                   {current.description}
                 </motion.p>
@@ -441,46 +445,94 @@ export default function ShowcaseSection({ slides }: { slides: SlideData[] }) {
             </AnimatePresence>
           </div>
 
-          {/* Right: floating contact card */}
+          {/* Right: floating appointment card — premium dark glass */}
           <div className="hidden lg:block flex-shrink-0">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="w-72 overflow-hidden rounded-2xl border border-white/10 bg-white/7 p-6 backdrop-blur-xl"
-              style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08)' }}
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 0.45, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="w-[17.5rem] overflow-hidden rounded-2xl"
+              style={{
+                background: 'rgba(6, 18, 12, 0.78)',
+                backdropFilter: 'blur(28px) saturate(200%)',
+                WebkitBackdropFilter: 'blur(28px) saturate(200%)',
+                border: '1px solid rgba(255,255,255,0.10)',
+                boxShadow: '0 24px 64px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)',
+              }}
             >
-              <p className="font-heading text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-white/35 mb-4">
-                Quick Contact
-              </p>
-              <a
-                href={`tel:${CLINIC_CONTACT.phone}`}
-                className="mb-3 flex items-center gap-3 rounded-xl bg-white/8 px-4 py-3 font-heading text-sm font-medium text-white transition-all hover:bg-white/14 focus-visible:outline-none"
-              >
-                <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-primary/20">
-                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-primary" aria-hidden="true">
-                    <path d="M2 2.5h2.5l1 2.5-1.5 1a8 8 0 004 4l1-1.5 2.5 1V12a1 1 0 01-1 1C5.5 13 2 8.5 2 3.5A1 1 0 012 2.5z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-                {CLINIC_CONTACT.phone}
-              </a>
+              {/* Accent line — matches current slide */}
+              <div style={{ height: '2px', backgroundColor: current.accent_color, opacity: 0.9 }} />
 
-              {/* Hours */}
-              <div className="space-y-2 rounded-xl bg-white/6 px-4 py-3">
-                {OPENING_HOURS.map((h) => (
-                  <div key={h.days} className="flex justify-between font-body text-xs">
-                    <span className="text-white/38">{h.days.replace('Sunday – ', 'Sun–').replace('Saturday', 'Sat')}</span>
-                    <span className="text-white/65">{h.hours.replace('AM', 'am').replace('PM', 'pm')}</span>
+              <div className="p-5">
+                {/* Card header */}
+                <div className="mb-5 flex items-center justify-between">
+                  <div>
+                    <p className="font-heading text-[0.48rem] font-semibold uppercase tracking-[0.28em] text-white/30">
+                      Bright Smile Dental
+                    </p>
+                    <p className="mt-0.5 font-display text-[0.88rem] leading-tight text-white/90">
+                      Book a Visit
+                    </p>
                   </div>
-                ))}
-              </div>
+                  <div
+                    className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full"
+                    style={{ backgroundColor: `${current.accent_color}22`, border: `1px solid ${current.accent_color}44` }}
+                  >
+                    <svg viewBox="0 0 14 14" fill="none" className="h-3.5 w-3.5" style={{ color: current.accent_color }} aria-hidden="true">
+                      <rect x="1.5" y="2" width="11" height="10.5" rx="1.8" stroke="currentColor" strokeWidth="1.2" />
+                      <path d="M1.5 5.5h11M4.5 1v2.5M9.5 1v2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                      <path d="M4 8h2M7.5 8h2M4 10.5h2" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </div>
 
-              <Link
-                href="/appointments"
-                className="mt-4 flex w-full items-center justify-center rounded-xl bg-primary py-3 font-heading text-[0.8rem] font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.97]"
-              >
-                Book Appointment
-              </Link>
+                {/* Phone CTA */}
+                <a
+                  href={`tel:${CLINIC_CONTACT.phone.replace(/\s/g, '')}`}
+                  className="mb-3.5 flex items-center gap-3.5 rounded-xl px-4 py-3.5 transition-all hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+                  style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)' }}
+                >
+                  <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: `${current.accent_color}20` }}>
+                    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" style={{ color: current.accent_color }} aria-hidden="true">
+                      <path d="M2 2.5h2.5l1 2.5-1.5 1a8 8 0 004 4l1-1.5 2.5 1V12a1 1 0 01-1 1C5.5 13 2 8.5 2 3.5A1 1 0 012 2.5z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                  <div>
+                    <p className="font-heading text-[0.46rem] font-semibold uppercase tracking-[0.16em] text-white/30">Call us now</p>
+                    <p className="font-heading text-[0.82rem] font-semibold text-white leading-tight">{CLINIC_CONTACT.phone}</p>
+                  </div>
+                </a>
+
+                {/* Hours */}
+                <div className="rounded-xl px-4 py-3.5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <p className="mb-2.5 font-heading text-[0.45rem] font-semibold uppercase tracking-[0.22em] text-white/28">
+                    Opening Hours
+                  </p>
+                  <div className="space-y-1.5">
+                    {OPENING_HOURS.map((h) => (
+                      <div key={h.days} className="flex items-center justify-between gap-3 font-body text-[0.72rem]">
+                        <span className="text-white/38 truncate">{h.days.replace('Sunday – ', 'Sun – ').replace('Saturday', 'Sat')}</span>
+                        <span className="flex-shrink-0 font-medium text-white/65">{h.hours.replace('AM', 'am').replace('PM', 'pm')}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Book CTA */}
+                <Link
+                  href="/appointments"
+                  className="mt-3.5 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 font-heading text-[0.8rem] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97]"
+                  style={{
+                    background: `linear-gradient(135deg, ${current.accent_color} 0%, #3d8560 100%)`,
+                    boxShadow: `0 4px 16px ${current.accent_color}40`,
+                  }}
+                >
+                  Book Appointment
+                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 opacity-85" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </Link>
+              </div>
             </motion.div>
           </div>
         </div>

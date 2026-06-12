@@ -37,16 +37,16 @@ const SERVICE_CONFIG: Record<string, { accent: string; bg: string; iconBg: strin
     dot: 'bg-dark',
   },
   'dental-implants': {
-    accent: '#1d4ed8',
-    bg: 'from-blue-600/[0.05] to-transparent',
-    iconBg: 'bg-blue-50 text-blue-700',
-    dot: 'bg-blue-600',
+    accent: '#0F766E',
+    bg: 'from-teal-dark/[0.05] to-transparent',
+    iconBg: 'bg-teal/10 text-teal-dark',
+    dot: 'bg-teal-dark',
   },
   'pediatric-dentistry': {
-    accent: '#d97706',
-    bg: 'from-amber-500/[0.05] to-transparent',
-    iconBg: 'bg-amber-50 text-amber-700',
-    dot: 'bg-amber-500',
+    accent: '#3d8560',
+    bg: 'from-primary/[0.06] to-transparent',
+    iconBg: 'bg-primary/10 text-primary-dark',
+    dot: 'bg-primary-dark',
   },
 }
 

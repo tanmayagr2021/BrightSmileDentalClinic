@@ -30,7 +30,7 @@ function Counter({ count, suffix }: { count: number; suffix: string }) {
 
 export default function StatsSection() {
   return (
-    <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0A1F14 0%, #1A3D2B 60%, #0f2e1e 100%)' }}>
+    <section className="relative overflow-hidden" style={{ background: 'linear-gradient(145deg, #081912 0%, #1A3D2B 55%, #0f2e1e 100%)' }}>
       {/* Architectural grid overlay */}
       <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.025]" aria-hidden="true">
         <defs>

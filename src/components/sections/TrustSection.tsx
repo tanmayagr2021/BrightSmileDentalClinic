@@ -58,11 +58,11 @@ export default function TrustSection() {
   const indicators = TRUST_INDICATORS_STATIC.filter((t) => t.visible).sort((a, b) => a.sortOrder - b.sortOrder)
 
   return (
-    <section className="bg-white py-20 lg:py-28">
-      {/* Subtle top gradient stripe */}
-      <div className="pointer-events-none h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" aria-hidden="true" />
+    <section className="relative bg-white py-20 lg:py-28">
+      {/* Section bridge — gradient from dark stats to white trust */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#0A1F14]/10 to-transparent" aria-hidden="true" />
 
-      <div className="mx-auto max-w-7xl px-4 pt-16 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 pt-14 sm:px-6 lg:px-8">
 
         {/* Section label */}
         <motion.div
