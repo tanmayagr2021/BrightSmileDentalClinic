@@ -9,6 +9,17 @@ function dColor(d: DoctorRow) { return d.color_hex ?? '#4A9B6F' }
 function dInitials(d: DoctorRow) { return d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
 function dShortName(d: DoctorRow) { return d.short_name ?? d.full_name }
 
+const HYGIENISTS = [
+  { name: 'Jitendra Kumar', initials: 'JK', role: 'Dental Hygienist' },
+  { name: 'Parbati Gurung', initials: 'PG', role: 'Dental Hygienist' },
+  { name: 'Justin Shrestha', initials: 'JS', role: 'Dental Hygienist' },
+]
+
+const SUPPORT_TEAM = [
+  { initials: 'RC', role: 'Reception', label: 'Front Desk' },
+  { initials: 'AD', role: 'Administration', label: 'Admin Team' },
+]
+
 function ArrowRight({ className = 'h-4 w-4' }: { className?: string }) {
   return (
     <svg viewBox="0 0 16 16" fill="none" className={className} aria-hidden="true">
@@ -40,7 +51,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
   const specialistCount = doctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).length
 
   return (
-    <section className="bg-white py-24 lg:py-32">
+    <section className="bg-ivory py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Section header */}
@@ -57,11 +68,11 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
           </motion.span>
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <motion.h2 variants={fadeUp} className="font-display text-4xl text-dark sm:text-5xl tracking-display">
+              <motion.h2 variants={fadeUp} className="font-display text-4xl text-dark sm:text-5xl lg:text-6xl tracking-display leading-[1.06]">
                 Meet Our Lead Dentists
               </motion.h2>
               <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-gray-500 leading-relaxed">
-                Appointments are available directly with our two lead dentists — both NMC-registered with a decade of experience between them.
+                Appointments are available directly with our two lead dentists — both NMC-registered with over a decade of combined experience.
               </motion.p>
             </div>
             <motion.div variants={fadeUp} className="flex-shrink-0">
@@ -84,19 +95,17 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-60px' }}
-              whileHover={{ y: -6, transition: { type: 'spring', stiffness: 280, damping: 20 } }}
-              className="group relative overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm hover:shadow-2xl hover:shadow-gray-200/70 transition-shadow duration-400"
+              whileHover={{ y: -7, transition: { type: 'spring', stiffness: 260, damping: 20 } }}
+              className="group relative overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-card hover:shadow-premium transition-all duration-400"
             >
               {/* Coloured banner */}
               <div
                 className="relative flex items-end justify-between overflow-hidden px-8 pt-12 pb-9"
                 style={{ backgroundColor: dColor(doc) }}
               >
-                {/* Decorative circles */}
                 <div className="pointer-events-none absolute -right-14 -top-14 h-52 w-52 rounded-full bg-white/[0.04]" aria-hidden="true" />
                 <div className="pointer-events-none absolute -bottom-8 -left-8 h-36 w-36 rounded-full bg-white/[0.04]" aria-hidden="true" />
-                {/* Grid pattern */}
-                <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05]" aria-hidden="true">
+                <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.045]" aria-hidden="true">
                   <defs>
                     <pattern id={`doc-grid-${doc.slug}`} width="24" height="24" patternUnits="userSpaceOnUse">
                       <path d="M 24 0 L 0 0 0 24" fill="none" stroke="white" strokeWidth="0.5" />
@@ -107,10 +116,9 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
 
                 {/* Avatar */}
                 <div className="relative">
-                  <div className="flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-2xl bg-white/15 ring-2 ring-white/25 transition-transform duration-300 group-hover:scale-105">
-                    <span className="font-display text-3xl font-bold text-white">{dInitials(doc)}</span>
+                  <div className="flex h-[5rem] w-[5rem] items-center justify-center rounded-2xl bg-white/15 ring-2 ring-white/25 transition-transform duration-300 group-hover:scale-105">
+                    <span className="font-display text-[2rem] font-bold text-white">{dInitials(doc)}</span>
                   </div>
-                  {/* Live indicator */}
                   <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-400 ring-2 ring-white/30">
                     <span className="h-2 w-2 rounded-full bg-white" />
                   </div>
@@ -121,7 +129,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                     {doc.qualification}
                   </span>
                   <p className="mt-2 font-heading text-[0.62rem] font-semibold uppercase tracking-wider text-white/55">
-                    {doc.nmc_number}
+                    NMC {doc.nmc_number}
                   </p>
                   <p className="mt-0.5 font-heading text-[0.65rem] text-white/45">{doc.experience_text}</p>
                 </div>
@@ -144,7 +152,6 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                   {doc.full_bio ?? doc.short_bio}
                 </p>
 
-                {/* Specializations */}
                 <div className="mt-5 flex flex-wrap gap-2">
                   {(doc.specializations ?? []).slice(0, 4).map((s) => (
                     <span key={s} className="rounded-lg bg-tint px-2.5 py-1 font-heading text-[0.62rem] font-semibold text-dark/60">
@@ -153,7 +160,6 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                   ))}
                 </div>
 
-                {/* Languages + education */}
                 <div className="mt-5 border-t border-gray-50 pt-5">
                   <div className="flex items-center gap-4 font-body text-xs text-gray-400">
                     <span className="flex items-center gap-1.5">
@@ -168,11 +174,10 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                   </div>
                 </div>
 
-                {/* CTAs */}
                 <div className="mt-6 grid grid-cols-2 gap-3">
                   <Link
                     href="/appointments"
-                    className="group/btn inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.97]"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.97]"
                   >
                     <CalIcon />
                     Book with {dShortName(doc).replace('Dr. ', 'Dr ')}
@@ -190,15 +195,14 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
           ))}
         </div>
 
-        {/* Care pathway — "we coordinate specialists for you" */}
+        {/* Care pathway */}
         <motion.div
           variants={blurFadeIn}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
-          className="mt-10 overflow-hidden rounded-2xl border border-gray-100 bg-tint"
+          className="mt-10 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card"
         >
-          {/* Header row */}
           <div className="flex items-center justify-between border-b border-gray-100 px-7 py-4">
             <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-400">
               How Your Care Works
@@ -211,10 +215,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
             </Link>
           </div>
 
-          {/* 3-step flow */}
-          <div className="grid grid-cols-1 divide-y divide-gray-100 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-
-            {/* Step 1 */}
+          <div className="grid grid-cols-1 divide-y divide-gray-50 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
             <div className="flex items-start gap-4 px-7 py-6">
               <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
                 <span className="font-heading text-xs font-bold text-primary">01</span>
@@ -227,7 +228,6 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
               </div>
             </div>
 
-            {/* Step 2 */}
             <div className="flex items-start gap-4 px-7 py-6">
               <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
                 <span className="font-heading text-xs font-bold text-primary">02</span>
@@ -240,25 +240,21 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
               </div>
             </div>
 
-            {/* Step 3 — specialist callout */}
             <div className="flex items-start gap-4 px-7 py-6">
               <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-dark/8">
                 <span className="font-heading text-xs font-bold text-dark">03</span>
               </div>
               <div>
-                <p className="font-heading text-sm font-semibold text-dark">
-                  We Call the Right Specialist
-                </p>
+                <p className="font-heading text-sm font-semibold text-dark">We Call the Right Specialist</p>
                 <p className="mt-1 font-body text-xs text-gray-500 leading-relaxed">
-                  Implants, periodontics, oral surgery — our {specialistCount} visiting specialists join your care, coordinated entirely by us. You just show up.
+                  Implants, periodontics, oral surgery — our {specialistCount} visiting specialists join your care, coordinated entirely by us.
                 </p>
-                {/* Specialist avatars */}
                 <div className="mt-3 flex items-center gap-2">
                   <div className="flex -space-x-1.5">
                     {doctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).slice(0, 4).map((d, i) => (
                       <div
                         key={d.slug}
-                        className="flex h-6 w-6 items-center justify-center rounded-full text-[0.5rem] font-bold text-white ring-1 ring-tint"
+                        className="flex h-6 w-6 items-center justify-center rounded-full text-[0.5rem] font-bold text-white ring-1 ring-white"
                         style={{ backgroundColor: dColor(d), zIndex: 10 - i }}
                         title={d.full_name}
                       >
@@ -269,6 +265,74 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                   <span className="font-body text-[0.65rem] text-gray-400">{specialistCount} specialists on call</span>
                 </div>
               </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── Complete Care Team strip ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-8 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card"
+        >
+          <div className="border-b border-gray-50 px-7 py-4">
+            <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-400">
+              Complete Care Team
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-0 divide-y divide-gray-50 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+
+            {/* Hygienists */}
+            <div className="px-7 py-6">
+              <p className="mb-4 font-heading text-xs font-semibold text-gray-400 uppercase tracking-widest">
+                Dental Hygienists
+              </p>
+              <div className="flex flex-col gap-3">
+                {HYGIENISTS.map((h) => (
+                  <div key={h.name} className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-teal/10 font-heading text-xs font-bold text-teal">
+                      {h.initials}
+                    </div>
+                    <div>
+                      <p className="font-heading text-sm font-semibold text-dark leading-tight">{h.name}</p>
+                      <p className="font-body text-xs text-gray-400">{h.role}</p>
+                    </div>
+                    <div className="ml-auto flex items-center gap-1.5 rounded-full bg-teal/8 px-2.5 py-1">
+                      <div className="h-1.5 w-1.5 rounded-full bg-teal" />
+                      <span className="font-heading text-[0.58rem] font-semibold text-teal">Active</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Reception + admin */}
+            <div className="px-7 py-6">
+              <p className="mb-4 font-heading text-xs font-semibold text-gray-400 uppercase tracking-widest">
+                Reception & Administration
+              </p>
+              <div className="flex flex-col gap-3">
+                {SUPPORT_TEAM.map((s) => (
+                  <div key={s.role} className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-xs font-bold text-primary">
+                      {s.initials}
+                    </div>
+                    <div>
+                      <p className="font-heading text-sm font-semibold text-dark leading-tight">{s.label}</p>
+                      <p className="font-body text-xs text-gray-400">{s.role}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Link
+                href="/doctors"
+                className="mt-5 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary transition-all hover:gap-2.5"
+              >
+                Meet everyone <ArrowRight className="h-3 w-3" />
+              </Link>
             </div>
           </div>
         </motion.div>

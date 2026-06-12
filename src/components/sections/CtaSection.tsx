@@ -23,9 +23,9 @@ function PhoneIcon() {
 
 export default function CtaSection() {
   return (
-    <section className="overflow-hidden bg-dark py-0">
+    <section className="overflow-hidden" style={{ background: 'linear-gradient(140deg, #0A1F14 0%, #1A3D2B 55%, #0f2e1e 100%)' }}>
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
 
           {/* Left — CTA */}
           <motion.div
@@ -33,30 +33,40 @@ export default function CtaSection() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-80px' }}
-            className="relative overflow-hidden px-8 py-20 sm:px-12 lg:px-16 lg:py-24"
+            className="relative overflow-hidden px-8 py-20 sm:px-14 lg:px-18 lg:py-28"
           >
-            {/* Background blobs */}
-            <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-primary/10" aria-hidden="true" />
-            <div className="pointer-events-none absolute -bottom-12 -left-12 h-48 w-48 rounded-full bg-primary/5" aria-hidden="true" />
+            {/* Decorative blobs */}
+            <div className="pointer-events-none absolute -right-16 -top-16 h-80 w-80 rounded-full bg-primary/12 blur-2xl" aria-hidden="true" />
+            <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-teal/8 blur-2xl" aria-hidden="true" />
 
-            <motion.span variants={fadeUp} className="eyebrow mb-4 inline-flex items-center gap-2 text-primary">
-              <span className="inline-block h-px w-5 bg-primary" />
+            {/* Architectural grid */}
+            <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.02]" aria-hidden="true">
+              <defs>
+                <pattern id="cta-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#cta-grid)" />
+            </svg>
+
+            <motion.span variants={fadeUp} className="mb-5 inline-flex items-center gap-2.5 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-primary">
+              <span className="inline-block h-px w-7 bg-primary/60" />
               Get Started Today
             </motion.span>
 
-            <motion.h2 variants={fadeUp} className="font-display text-4xl leading-tight text-white sm:text-5xl tracking-display">
+            <motion.h2 variants={fadeUp} className="relative font-display leading-[1.04] text-white tracking-display" style={{ fontSize: 'clamp(2.5rem, 4.5vw, 4rem)' }}>
               Ready for Your<br />
               <span className="text-primary">Best Smile?</span>
             </motion.h2>
 
-            <motion.p variants={fadeUp} className="mt-5 max-w-md font-body text-base text-white/60 leading-relaxed">
-              Take the first step towards a healthier, more confident smile. Book your consultation today — we&apos;re here to help.
+            <motion.p variants={fadeUp} className="mt-6 max-w-md font-body text-base text-white/55 leading-relaxed">
+              Take the first step towards a healthier, more confident smile. Book your consultation today — our team is here to help every step of the way.
             </motion.p>
 
-            <motion.div variants={fadeUp} className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <motion.div variants={fadeUp} className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/appointments"
-                className="group inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-dark hover:shadow-primary/40 active:scale-[0.98]"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-primary px-9 py-4 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-dark hover:shadow-primary/40 active:scale-[0.98]"
               >
                 Book Appointment
                 <span className="transition-transform duration-200 group-hover:translate-x-1">
@@ -65,61 +75,86 @@ export default function CtaSection() {
               </Link>
               <a
                 href={`tel:${CLINIC_CONTACT.phone.replace(/-/g, '')}`}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-8 py-4 font-heading text-sm font-semibold text-white/80 transition-all hover:border-white/30 hover:text-white active:scale-[0.98]"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/14 px-9 py-4 font-heading text-sm font-semibold text-white/75 transition-all hover:border-white/28 hover:text-white active:scale-[0.98]"
               >
                 <PhoneIcon />
                 {CLINIC_CONTACT.phone}
               </a>
             </motion.div>
+
+            {/* Trust micro-row */}
+            <motion.div
+              variants={fadeUp}
+              className="mt-10 flex flex-wrap items-center gap-5"
+            >
+              {['NMC Registered', 'Free Consultation Call', 'No Commitment Required'].map((item) => (
+                <span key={item} className="flex items-center gap-2 font-body text-xs text-white/35">
+                  <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3 flex-shrink-0 text-primary/70" aria-hidden="true">
+                    <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {item}
+                </span>
+              ))}
+            </motion.div>
           </motion.div>
 
-          {/* Right — Opening hours */}
+          {/* Right — Hours + location */}
           <motion.div
             variants={slideInRight}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-80px' }}
-            className="border-l border-white/8 px-8 py-20 sm:px-12 lg:px-16 lg:py-24"
+            className="relative border-l border-white/6 px-8 py-20 sm:px-12 lg:px-14 lg:py-28"
           >
-            <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-white/40">
+            {/* Subtle right-side glow */}
+            <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-white/[0.02] to-transparent" aria-hidden="true" />
+
+            <h3 className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white/35 mb-6">
               Opening Hours
             </h3>
 
-            <div className="mt-6 space-y-4">
+            <div className="space-y-4 mb-10">
               {OPENING_HOURS.map((slot) => (
-                <div key={slot.days} className="flex items-center justify-between border-b border-white/8 pb-4">
-                  <span className="font-body text-sm text-white/70">{slot.days}</span>
+                <div key={slot.days} className="flex items-center justify-between border-b border-white/6 pb-4">
+                  <span className="font-body text-sm text-white/60">{slot.days}</span>
                   <span className="font-heading text-sm font-semibold text-white">{slot.hours}</span>
                 </div>
               ))}
             </div>
 
-            <div className="mt-8">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-white/40">
+            <div className="mb-8">
+              <h3 className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white/35 mb-4">
                 Location
               </h3>
-              <p className="mt-3 font-body text-sm text-white/70">{CLINIC_CONTACT.addressFull}</p>
+              <p className="font-body text-sm text-white/60 leading-relaxed">{CLINIC_CONTACT.addressFull}</p>
               {CLINIC_CONTACT.googleMapsUrl && (
                 <a
                   href={CLINIC_CONTACT.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary hover:text-primary-dark"
+                  className="mt-3 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary transition-all hover:text-primary-light"
                 >
                   Get Directions <ArrowRight />
                 </a>
               )}
             </div>
 
-            <div className="mt-8">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-white/40">
+            <div>
+              <h3 className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white/35 mb-4">
                 Contact
               </h3>
-              <div className="mt-3 space-y-2">
-                <a href={`tel:${CLINIC_CONTACT.phone}`} className="block font-body text-sm text-white/70 transition-colors hover:text-white">
+              <div className="space-y-2.5">
+                <a href={`tel:${CLINIC_CONTACT.phone}`} className="flex items-center gap-2.5 font-body text-sm text-white/60 transition-colors hover:text-white">
+                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-primary/60" aria-hidden="true">
+                    <path d="M2 2.5h2.5l1 2.5-1.5 1a8 8 0 004 4l1-1.5 2.5 1V12a1 1 0 01-1 1C5.5 13 2 8.5 2 3.5A1 1 0 012 2.5z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                   {CLINIC_CONTACT.phone}
                 </a>
-                <a href={`mailto:${CLINIC_CONTACT.emailAppointments}`} className="block font-body text-sm text-white/70 transition-colors hover:text-white">
+                <a href={`mailto:${CLINIC_CONTACT.emailAppointments}`} className="flex items-center gap-2.5 font-body text-sm text-white/60 transition-colors hover:text-white">
+                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-primary/60" aria-hidden="true">
+                    <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+                    <path d="M1.5 6l6.5 4 6.5-4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                  </svg>
                   {CLINIC_CONTACT.emailAppointments}
                 </a>
               </div>

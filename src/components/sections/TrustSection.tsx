@@ -1,8 +1,31 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { fadeUp, stagger, scaleIn } from '@/lib/animations'
+import { stagger, liftIn } from '@/lib/animations'
 import { TRUST_INDICATORS_STATIC } from '@/lib/constants'
+
+const INDICATOR_CONFIG: Record<string, { gradient: string; iconBg: string; borderColor: string }> = {
+  'nmc-registered': {
+    gradient: 'from-primary/5 to-transparent',
+    iconBg: 'bg-primary/10 text-primary',
+    borderColor: 'border-t-primary/60',
+  },
+  'modern-technology': {
+    gradient: 'from-teal/5 to-transparent',
+    iconBg: 'bg-teal/10 text-teal',
+    borderColor: 'border-t-teal/60',
+  },
+  'gentle-care': {
+    gradient: 'from-primary/5 to-transparent',
+    iconBg: 'bg-primary/10 text-primary',
+    borderColor: 'border-t-primary/60',
+  },
+  'transparent-pricing': {
+    gradient: 'from-dark/5 to-transparent',
+    iconBg: 'bg-dark/8 text-dark',
+    borderColor: 'border-t-dark/40',
+  },
+}
 
 const icons: Record<string, () => React.ReactElement> = {
   'nmc-registered': () => (
@@ -35,8 +58,26 @@ export default function TrustSection() {
   const indicators = TRUST_INDICATORS_STATIC.filter((t) => t.visible).sort((a, b) => a.sortOrder - b.sortOrder)
 
   return (
-    <section className="bg-tint py-20 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="bg-white py-20 lg:py-28">
+      {/* Subtle top gradient stripe */}
+      <div className="pointer-events-none h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" aria-hidden="true" />
+
+      <div className="mx-auto max-w-7xl px-4 pt-16 sm:px-6 lg:px-8">
+
+        {/* Section label */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-14 text-center"
+        >
+          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-primary">
+            <span className="inline-block h-px w-8 bg-primary/40" />
+            Why Patients Trust Us
+            <span className="inline-block h-px w-8 bg-primary/40" />
+          </span>
+        </motion.div>
 
         <motion.div
           variants={stagger}
@@ -47,19 +88,30 @@ export default function TrustSection() {
         >
           {indicators.map((item) => {
             const Icon = icons[item.id]
+            const config = INDICATOR_CONFIG[item.id] ?? {
+              gradient: 'from-primary/5 to-transparent',
+              iconBg: 'bg-primary/10 text-primary',
+              borderColor: 'border-t-primary/60',
+            }
             return (
               <motion.div
                 key={item.id}
-                variants={scaleIn}
-                className="flex flex-col items-start rounded-2xl bg-white p-7 shadow-sm shadow-gray-100 border border-white"
+                variants={liftIn}
+                whileHover={{ y: -6, transition: { type: 'spring', stiffness: 300, damping: 22 } }}
+                className={`group relative flex flex-col items-start overflow-hidden rounded-2xl border border-gray-100 border-t-4 ${config.borderColor} bg-white p-7 shadow-card hover:shadow-card-hover transition-all duration-300`}
               >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                {/* Card gradient background */}
+                <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${config.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-100`} aria-hidden="true" />
+
+                {/* Icon */}
+                <div className={`relative mb-6 flex h-14 w-14 items-center justify-center rounded-2xl ${config.iconBg} transition-transform duration-200 group-hover:scale-105`}>
                   {Icon && <Icon />}
                 </div>
-                <h3 className="font-heading text-sm font-semibold text-dark">
+
+                <h3 className="relative font-heading text-[0.95rem] font-semibold text-dark leading-snug">
                   {item.title}
                 </h3>
-                <p className="mt-2 font-body text-sm leading-relaxed text-gray-500">
+                <p className="relative mt-2.5 font-body text-sm leading-relaxed text-gray-500">
                   {item.description}
                 </p>
               </motion.div>
@@ -68,11 +120,11 @@ export default function TrustSection() {
         </motion.div>
 
         <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-10 text-center font-body text-sm text-gray-400"
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="mt-12 text-center font-body text-sm text-gray-400"
         >
           Serving Kathmandu since 2013 &mdash; Over 1,000 patients trust us with their smiles.
         </motion.p>

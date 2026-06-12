@@ -104,7 +104,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
   const rest = allTestimonials.slice(1, 4)
 
   return (
-    <section className="bg-white py-24 lg:py-32">
+    <section className="bg-ivory py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Section header */}
@@ -120,7 +120,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
             Patient Stories
             <span className="inline-block h-px w-5 bg-primary" />
           </motion.span>
-          <motion.h2 variants={fadeUp} className="font-display text-4xl text-dark sm:text-5xl tracking-display">
+          <motion.h2 variants={fadeUp} className="font-display text-4xl text-dark sm:text-5xl lg:text-6xl tracking-display leading-[1.06]">
             What Our Patients Say
           </motion.h2>
           <motion.div variants={fadeUp} className="mt-5 flex items-center justify-center gap-2.5">
@@ -141,10 +141,11 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="relative mb-8 overflow-hidden rounded-3xl border border-primary/12 bg-gradient-to-br from-tint via-white to-tint p-8 sm:p-10 lg:p-12"
+            className="relative mb-8 overflow-hidden rounded-3xl p-8 sm:p-10 lg:p-12"
+          style={{ background: 'linear-gradient(140deg, #0D2318 0%, #1A3D2B 60%, #0f2e1e 100%)' }}
           >
             {/* Large quote mark */}
-            <div className="absolute right-8 top-8" aria-hidden="true">
+            <div className="absolute right-8 top-8 opacity-30" aria-hidden="true">
               <QuoteIcon size="lg" />
             </div>
 
@@ -157,13 +158,13 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                 </div>
 
                 {featured.treatment && (
-                  <span className="mb-4 inline-block rounded-full bg-primary/10 px-3 py-1 font-heading text-[0.65rem] font-semibold uppercase tracking-wide text-primary">
+                  <span className="mb-4 inline-block rounded-full bg-primary/20 px-3 py-1 font-heading text-[0.65rem] font-semibold uppercase tracking-wide text-primary">
                     {featured.treatment}
                   </span>
                 )}
 
                 <blockquote>
-                  <p className="font-display text-xl text-dark leading-relaxed sm:text-2xl tracking-display">
+                  <p className="font-display text-xl text-white leading-relaxed sm:text-2xl tracking-display">
                     &ldquo;{featured.text}&rdquo;
                   </p>
                 </blockquote>
@@ -171,12 +172,12 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                 <div className="mt-7 flex items-center gap-4">
                   <InitialsAvatar name={featured.name} size="lg" />
                   <div>
-                    <p className="font-heading text-base font-semibold text-dark">{featured.name}</p>
+                    <p className="font-heading text-base font-semibold text-white">{featured.name}</p>
                   </div>
                   <div className="ml-auto hidden sm:block">
-                    <div className="flex items-center gap-1.5 rounded-xl border border-primary/15 bg-white px-3 py-2">
+                    <div className="flex items-center gap-1.5 rounded-xl border border-primary/25 bg-primary/10 px-3 py-2">
                       <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-primary" aria-hidden="true">
-                        <path d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z" fill="#4A9B6F" fillOpacity="0.12" stroke="#4A9B6F" strokeWidth="1.2" strokeLinejoin="round" />
+                        <path d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z" fill="#4A9B6F" fillOpacity="0.2" stroke="#4A9B6F" strokeWidth="1.2" strokeLinejoin="round" />
                         <path d="M5.5 8l2 2 3.5-3.5" stroke="#4A9B6F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                       <span className="font-heading text-[0.6rem] font-semibold text-primary">Verified Patient</span>
