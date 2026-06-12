@@ -5,12 +5,16 @@ import { useInView, motion } from 'framer-motion'
 import { HOMEPAGE_STATS } from '@/lib/constants'
 
 function Counter({ count, suffix }: { count: number; suffix: string }) {
-  const [display, setDisplay] = useState(0)
+  // Start at actual count so SSR/no-JS users always see the real value.
+  // Animation resets to 0 and counts up when the section enters the viewport.
+  const [display, setDisplay] = useState(count)
   const ref = useRef<HTMLSpanElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-40px' })
+  const animated = useRef(false)
 
   useEffect(() => {
-    if (!isInView) return
+    if (!isInView || animated.current) return
+    animated.current = true
     const duration = 1800
     const startTime = performance.now()
     const tick = (now: number) => {

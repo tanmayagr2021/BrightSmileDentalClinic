@@ -124,26 +124,56 @@ export default async function AboutPage() {
         </div>
       </div>
 
-      {/* Values */}
-      <div className="bg-tint border-y border-gray-100 py-20">
+      {/* Values — editorial dark section */}
+      <div
+        className="border-y border-gray-100 py-20 lg:py-28"
+        style={{ background: 'linear-gradient(150deg, #081912 0%, #1A3D2B 100%)' }}
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <span className="eyebrow mb-3 inline-flex items-center gap-2">
-              <span className="inline-block h-px w-5 bg-primary" />
+          <div className="mb-16">
+            <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-primary">
+              <span className="inline-block h-px w-7 bg-primary/60" />
               What Guides Us
             </span>
-            <h2 className="font-display text-4xl text-dark tracking-display">Our Values</h2>
+            <h2 className="font-display text-4xl text-white tracking-display leading-[1.06] sm:text-5xl">
+              Our Values
+            </h2>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {values.map((value) => (
-              <div key={value.title} className="rounded-2xl bg-white p-7 shadow-sm">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
-                  <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-primary" aria-hidden="true">
-                    <path d={VALUE_ICONS[value.title] ?? ''} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2">
+            {values.map((value, i) => (
+              <div
+                key={value.title}
+                className={[
+                  'group relative py-10 lg:py-12',
+                  i % 2 === 0 ? 'sm:pr-12 lg:pr-20' : 'sm:pl-12 lg:pl-20 sm:border-l sm:border-white/[0.06]',
+                  i >= 2 ? 'border-t border-white/[0.06]' : '',
+                  i < 2 ? 'border-b border-white/[0.06] sm:border-b-0' : '',
+                ].join(' ')}
+              >
+                {/* Ghost numeral */}
+                <span
+                  className="pointer-events-none absolute right-0 top-4 select-none font-display font-bold leading-none text-white/[0.035] transition-colors duration-300 group-hover:text-white/[0.06]"
+                  style={{ fontSize: 'clamp(5rem, 10vw, 7rem)' }}
+                  aria-hidden="true"
+                >
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+
+                <div className="relative">
+                  <div className="mb-5 flex items-center gap-4">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/15">
+                      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-primary" aria-hidden="true">
+                        <path d={VALUE_ICONS[value.title] ?? ''} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                    <span className="font-heading text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-white/28">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-2xl text-white tracking-display">{value.title}</h3>
+                  <p className="mt-3 max-w-sm font-body text-sm text-white/48 leading-relaxed">{value.description}</p>
                 </div>
-                <h3 className="font-heading text-base font-semibold text-dark mb-2">{value.title}</h3>
-                <p className="font-body text-sm text-gray-500 leading-relaxed">{value.description}</p>
               </div>
             ))}
           </div>

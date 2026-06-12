@@ -124,11 +124,11 @@ export default function Footer() {
                 {CLINIC_CONTACT.phoneWhatsApp}
               </a>
               <a
-                href={`mailto:${CLINIC_CONTACT.email}`}
+                href={`mailto:${CLINIC_CONTACT.emailAppointments}`}
                 className="flex items-center gap-2 font-body text-sm text-white/55 transition-colors hover:text-white"
               >
                 <MailIcon />
-                {CLINIC_CONTACT.email}
+                {CLINIC_CONTACT.emailAppointments}
               </a>
             </address>
           </div>

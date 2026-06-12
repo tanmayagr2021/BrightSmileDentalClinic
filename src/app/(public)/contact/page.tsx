@@ -338,9 +338,6 @@ export default function ContactPage() {
                 <a href={`mailto:${CLINIC_CONTACT.emailAppointments}`} className="block font-body text-sm font-medium text-dark hover:text-primary transition-colors break-all">
                   {CLINIC_CONTACT.emailAppointments}
                 </a>
-                <a href={`mailto:${CLINIC_CONTACT.email}`} className="block font-body text-xs text-gray-400 hover:text-primary transition-colors mt-0.5 break-all">
-                  {CLINIC_CONTACT.email}
-                </a>
               </InfoCard>
             </motion.div>
 

@@ -22,7 +22,7 @@ export const CLINIC_CONTACT = {
 
 export const NAV_LINKS = [
   { label: 'Services', href: '/services' },
-  { label: 'Our Doctors', href: '/doctors' },
+  { label: 'Doctors', href: '/doctors' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
@@ -31,11 +31,10 @@ export const NAV_LINKS = [
 export const FOOTER_QUICK_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Services', href: '/services' },
-  { label: 'Our Doctors', href: '/doctors' },
+  { label: 'Doctors', href: '/doctors' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
-  { label: 'Book Appointment', href: '/appointments' },
 ] as const
 
 export const OPENING_HOURS = [

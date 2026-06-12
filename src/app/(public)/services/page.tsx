@@ -49,12 +49,12 @@ export default async function ServicesPage() {
             Comprehensive dental care for the whole family — from routine check-ups to
             advanced specialist treatments, all under one roof.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-2">
             {services.map((s) => (
               <Link
                 key={s.slug}
                 href={`#${s.slug}`}
-                className="rounded-full border border-gray-200 bg-white px-4 py-2 font-heading text-xs font-semibold text-gray-600 transition-all hover:border-primary hover:text-primary scroll-smooth"
+                className="rounded-full border border-gray-200 bg-white px-4 py-2 font-heading text-xs font-semibold text-gray-600 shadow-sm transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary scroll-smooth active:scale-[0.97]"
               >
                 {s.name}
               </Link>
@@ -142,25 +142,35 @@ export default async function ServicesPage() {
         </div>
       </div>
 
-      {/* CTA */}
-      <div className="bg-tint border-t border-gray-100 py-16">
+      {/* CTA — dark emerald strip */}
+      <div
+        className="py-20 lg:py-24"
+        style={{ background: 'linear-gradient(135deg, #081912 0%, #1A3D2B 100%)' }}
+      >
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <h2 className="font-display text-3xl text-dark tracking-display">
-            Not sure which treatment is right for you?
+          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.24em] text-primary">
+            <span className="h-px w-6 bg-primary/60" />
+            Free Consultation
+          </span>
+          <h2 className="font-display text-3xl text-white tracking-display sm:text-4xl">
+            Not sure which treatment<br className="hidden sm:block" /> is right for you?
           </h2>
-          <p className="mt-4 font-body text-base text-gray-500">
+          <p className="mt-4 font-body text-base text-white/48 leading-relaxed">
             Book a consultation and our team will assess your needs and explain all available options — clearly and without pressure.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/appointments"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark active:scale-[0.98]"
+              className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-primary px-8 py-4 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-dark hover:shadow-primary/35 active:scale-[0.97]"
             >
               Book a Consultation
+              <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-8 py-4 font-heading text-sm font-semibold text-gray-700 transition-all hover:border-primary hover:text-primary active:scale-[0.98]"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/6 px-8 py-4 font-heading text-sm font-semibold text-white/75 transition-all hover:bg-white/12 hover:text-white active:scale-[0.97]"
             >
               Ask a Question
             </Link>
