@@ -39,7 +39,7 @@ export default async function ServicesPage() {
       {/* ── Hero — full dark ── */}
       <div
         className="relative overflow-hidden py-28 lg:py-36"
-        style={{ background: '#0F172A' }}
+        style={{ background: '#0A1128' }}
       >
         {/* Architectural grid overlay */}
         <svg
@@ -56,8 +56,8 @@ export default async function ServicesPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Eyebrow */}
-          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
-            <span className="inline-block h-px w-6 bg-primary/60" />
+          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+            <span className="inline-block h-px w-6 bg-gold/60" />
             What We Offer
           </span>
 
@@ -181,11 +181,11 @@ export default async function ServicesPage() {
       {/* ── CTA strip — dark centered ── */}
       <div
         className="py-20 lg:py-24"
-        style={{ background: '#0F172A' }}
+        style={{ background: '#0A1128' }}
       >
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-primary">
-            <span className="h-px w-6 bg-primary/60" />
+          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-gold">
+            <span className="h-px w-6 bg-gold/60" />
             Free Consultation
           </span>
           <h2 className="font-display text-3xl text-white tracking-display sm:text-4xl">
@@ -197,7 +197,7 @@ export default async function ServicesPage() {
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/appointments"
-              className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-primary px-8 py-4 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-dark hover:shadow-primary/35 active:scale-[0.97]"
+              className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-gold px-8 py-4 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
             >
               Book a Consultation
               <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">

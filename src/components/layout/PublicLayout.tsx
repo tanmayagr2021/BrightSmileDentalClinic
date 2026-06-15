@@ -1,5 +1,7 @@
 import Header from './Header'
 import Footer from './Footer'
+import MobileActionBar from '@/components/ui/MobileActionBar'
+import { CLINIC_CONTACT } from '@/lib/constants'
 
 interface PublicLayoutProps {
   children: React.ReactNode
@@ -18,11 +20,15 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
       <Header />
 
-      <main id="main-content" className="min-h-screen pt-[4.75rem] lg:pt-[6.5rem]">
+      {/* pb-[4.5rem] on mobile reserves space above the fixed action bar */}
+      <main id="main-content" className="min-h-screen pt-[4.75rem] pb-[4.5rem] lg:pb-0 lg:pt-[6.5rem]">
         {children}
       </main>
 
       <Footer />
+
+      {/* Fixed mobile action bar — visible only on mobile */}
+      <MobileActionBar phone={CLINIC_CONTACT.phone} />
     </>
   )
 }

@@ -67,7 +67,7 @@ export default function HeroSection() {
         <svg className="absolute inset-0 h-full w-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="hero-dots" width="32" height="32" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.5" fill="#0F172A" />
+              <circle cx="2" cy="2" r="1.5" fill="#0A1128" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#hero-dots)" />

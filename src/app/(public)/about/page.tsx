@@ -52,7 +52,7 @@ export default async function AboutPage() {
       {/* ── Hero — full dark with ghost founding year ── */}
       <div
         className="relative overflow-hidden py-28 lg:py-40"
-        style={{ background: '#0F172A' }}
+        style={{ background: '#0A1128' }}
       >
         {/* Architectural grid overlay */}
         <svg
@@ -78,8 +78,8 @@ export default async function AboutPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Eyebrow */}
-          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
-            <span className="inline-block h-px w-6 bg-primary/60" />
+          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+            <span className="inline-block h-px w-6 bg-gold/60" />
             Founded {founded}
           </span>
 
@@ -164,12 +164,12 @@ export default async function AboutPage() {
       {/* ── Values — horizontal editorial rows ── */}
       <div
         className="py-24 lg:py-32"
-        style={{ background: '#0F172A' }}
+        style={{ background: '#0A1128' }}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
-              <span className="inline-block h-px w-6 bg-primary/60" />
+            <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+              <span className="inline-block h-px w-6 bg-gold/60" />
               What Guides Us
             </span>
             <h2 className="mt-5 font-display text-5xl text-white tracking-display sm:text-6xl">

@@ -99,7 +99,7 @@ export default function PatientJourneySection() {
   return (
     <section
       className="relative overflow-hidden py-24 lg:py-32"
-      style={{ background: '#0F172A' }}
+      style={{ background: '#0A1128' }}
     >
       {/* Architectural grid overlay */}
       <svg
@@ -134,14 +134,14 @@ export default function PatientJourneySection() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
-              <span className="inline-block h-px w-7 bg-primary/60" />
+            <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+              <span className="inline-block h-px w-7 bg-gold/60" />
               The Experience
             </span>
             <h2 className="font-display text-4xl leading-[1.06] text-white sm:text-5xl lg:text-6xl tracking-display">
               A Day at
               <br />
-              <span className="text-primary">Bright Smile</span>
+              <span className="text-gold">Bright Smile</span>
             </h2>
             <p className="mt-4 max-w-lg font-body text-base text-white/50 leading-relaxed">
               From your first call to your final follow-up — every moment is crafted around your
@@ -158,7 +158,7 @@ export default function PatientJourneySection() {
           >
             <Link
               href="/appointments"
-              className="inline-flex items-center gap-2.5 rounded-xl bg-primary px-7 py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98]"
+              className="inline-flex items-center gap-2.5 rounded-xl bg-gold px-7 py-3.5 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark active:scale-[0.98]"
             >
               Start Your Journey
               <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
@@ -258,7 +258,7 @@ export default function PatientJourneySection() {
             </a>
             <Link
               href="/appointments"
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark"
+              className="inline-flex items-center gap-2 rounded-xl bg-gold px-5 py-2.5 font-heading text-xs font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark"
             >
               Book Online
             </Link>

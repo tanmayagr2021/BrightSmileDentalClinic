@@ -70,7 +70,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
   return (
     <>
       {/* ─── Part 1 — Dark editorial feature ─────────────────────────────── */}
-      <section className="bg-[#0F172A] py-24 lg:py-32">
+      <section className="bg-[#0A1128] py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
           {/* Section header — left-aligned */}
@@ -83,9 +83,9 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
           >
             <motion.span
               variants={fadeUp}
-              className="mb-3 inline-flex items-center gap-2 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-primary"
+              className="mb-3 inline-flex items-center gap-2 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-gold"
             >
-              <span className="inline-block h-px w-5 bg-primary" aria-hidden="true" />
+              <span className="inline-block h-px w-5 bg-gold" aria-hidden="true" />
               Patient Stories
             </motion.span>
             <motion.h2

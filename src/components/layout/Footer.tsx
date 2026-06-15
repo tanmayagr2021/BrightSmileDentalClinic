@@ -187,7 +187,7 @@ export default async function Footer() {
       <h2 id="footer-heading" className="sr-only">Footer</h2>
 
       {/* Pre-footer brand strip */}
-      <div className="bg-[#0F172A] border-b border-white/[0.06]">
+      <div className="bg-[#0A1128] border-b border-white/[0.06]">
         <Container>
           <div className="flex flex-col items-center justify-between gap-6 py-12 text-center sm:flex-row sm:text-left">
             <div>
@@ -200,7 +200,7 @@ export default async function Footer() {
             </div>
             <Link
               href="/appointments"
-              className="inline-flex flex-shrink-0 items-center gap-2.5 rounded-xl bg-primary px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark hover:shadow-primary/35 active:scale-[0.97]"
+              className="inline-flex flex-shrink-0 items-center gap-2.5 rounded-xl bg-gold px-7 py-3.5 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
             >
               Book an Appointment
               <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">

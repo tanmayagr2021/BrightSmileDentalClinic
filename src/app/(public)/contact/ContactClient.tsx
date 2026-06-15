@@ -172,7 +172,7 @@ export default function ContactClient({
       <div className="flex min-h-[calc(100vh-56px)] flex-col lg:flex-row">
 
         {/* LEFT PANEL — dark, contact info */}
-        <div className="relative flex flex-col overflow-hidden bg-[#0F172A] px-8 py-14 lg:w-[42%] lg:px-14 lg:py-20 xl:px-16">
+        <div className="relative flex flex-col overflow-hidden bg-[#0A1128] px-8 py-14 lg:w-[42%] lg:px-14 lg:py-20 xl:px-16">
           {/* Architectural grid overlay */}
           <svg
             className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.025]"
@@ -196,8 +196,8 @@ export default function ContactClient({
           <div className="relative z-10 flex flex-col h-full">
             {/* Top: eyebrow + heading + desc */}
             <div>
-              <span className="inline-flex items-center gap-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
-                <span className="inline-block h-px w-5 bg-primary" />
+              <span className="inline-flex items-center gap-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+                <span className="inline-block h-px w-5 bg-gold" />
                 Get in Touch
               </span>
               <h1 className="mt-4 font-display text-5xl text-white tracking-display leading-[1.06] lg:text-6xl">
@@ -469,7 +469,7 @@ export default function ContactClient({
               rel="noopener noreferrer"
               aria-label="Open Bright Smile Dental Clinic on Google Maps"
               className="group relative block overflow-hidden rounded-2xl border border-gray-100 h-80 sm:h-96 transition-all duration-300 hover:shadow-premium hover:border-primary/20"
-              style={{ background: '#0F172A' }}
+              style={{ background: '#0A1128' }}
             >
               {/* Dot grid */}
               <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">

@@ -3,10 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #0EA5A4;
-  --color-primary-dark: #0d9488;
-  --color-primary-light: #14b8a6;
-  --color-dark: #0F172A;
+  --color-primary: #1A7A5E;
+  --color-primary-dark: #135F4A;
+  --color-primary-light: #22A07C;
+  --color-gold: #C5A059;
+  --color-gold-dark: #A8883C;
+  --color-dark: #0A1128;
   --color-slate: #1E293B;
   --color-tint: #F0F9FF;
   --color-text: #111827;
@@ -38,7 +40,7 @@
   }
 
   ::selection {
-    background-color: rgba(14, 165, 164, 0.16);
+    background-color: rgba(197, 160, 89, 0.18);
     color: var(--color-dark);
   }
 
@@ -69,7 +71,7 @@
 
   /* Dark glassmorphism — overlays on dark/image backgrounds */
   .glass-dark {
-    background: rgba(8, 12, 24, 0.72);
+    background: rgba(6, 8, 20, 0.72);
     backdrop-filter: blur(28px) saturate(200%);
     -webkit-backdrop-filter: blur(28px) saturate(200%);
     border: 1px solid rgba(255, 255, 255, 0.09);
@@ -86,9 +88,14 @@
     @apply h-px w-full bg-gray-100;
   }
 
-  /* Eyebrow / label text above headings */
+  /* Eyebrow / label on LIGHT backgrounds */
   .eyebrow {
     @apply font-heading text-xs font-semibold uppercase tracking-[0.2em] text-primary;
+  }
+
+  /* Eyebrow / label on DARK backgrounds — uses gold for visibility */
+  .eyebrow-dark {
+    @apply font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold;
   }
 
   /* Premium card — consistent design language */
@@ -99,6 +106,16 @@
   /* Section heading — premium scale */
   .heading-xl {
     @apply font-display text-4xl text-dark tracking-display leading-[1.06] sm:text-5xl lg:text-[3.5rem];
+  }
+
+  /* Gold CTA button — premium calls to action */
+  .btn-gold {
+    @apply inline-flex items-center gap-2.5 rounded-xl bg-gold px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold text-[#0A1128] shadow-button-gold transition-all duration-200 hover:bg-gold-dark active:scale-[0.97];
+  }
+
+  /* Primary CTA button */
+  .btn-primary {
+    @apply inline-flex items-center gap-2.5 rounded-xl bg-primary px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold text-white shadow-button transition-all duration-200 hover:bg-primary-dark active:scale-[0.97];
   }
 }
 

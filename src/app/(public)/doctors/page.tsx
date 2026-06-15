@@ -106,7 +106,7 @@ export default async function DoctorsPage() {
       {/* ── HERO — Dark Premium ── */}
       <section
         className="relative overflow-hidden py-24 lg:py-32"
-        style={{ background: '#0F172A' }}
+        style={{ background: '#0A1128' }}
       >
         {/* Architectural grid */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.022]" aria-hidden="true">
@@ -124,8 +124,8 @@ export default async function DoctorsPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Eyebrow */}
-          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-primary">
-            <span className="inline-block h-px w-7 bg-primary/60" />
+          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-gold">
+            <span className="inline-block h-px w-7 bg-gold/60" />
             Our People
           </span>
 
@@ -135,7 +135,7 @@ export default async function DoctorsPage() {
             style={{ fontSize: 'clamp(2.8rem, 6vw, 5.5rem)', textShadow: '0 2px 40px rgba(0,0,0,0.4)' }}
           >
             The Experts Behind<br />
-            <span className="text-primary">Every Smile</span>
+            <span className="text-gold">Every Smile</span>
           </h1>
 
           <p className="mt-6 max-w-2xl font-body text-[1rem] text-white/52 leading-relaxed lg:text-[1.05rem]">
@@ -336,7 +336,7 @@ export default async function DoctorsPage() {
       {/* ── SPECIALIST CONSULTANTS ── */}
       <section
         className="relative overflow-hidden py-24 lg:py-28"
-        style={{ background: '#0F172A' }}
+        style={{ background: '#0A1128' }}
       >
         {/* Subtle grid */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.02]" aria-hidden="true">
@@ -354,8 +354,8 @@ export default async function DoctorsPage() {
           {/* Header */}
           <div className="mb-14 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
-              <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-primary">
-                <span className="inline-block h-px w-7 bg-primary/60" />
+              <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-gold">
+                <span className="inline-block h-px w-7 bg-gold/60" />
                 Specialist Consultants
               </span>
               <h2 className="font-display text-4xl text-white tracking-display leading-[1.06] sm:text-5xl">
@@ -552,9 +552,9 @@ export default async function DoctorsPage() {
           {/* Closing CTA strip */}
           <div
             className="overflow-hidden rounded-2xl p-8 text-center lg:p-12"
-            style={{ background: '#0F172A' }}
+            style={{ background: '#0A1128' }}
           >
-            <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-primary mb-4">
+            <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-gold mb-4">
               Direct Bookings Available
             </p>
             <p className="font-display text-2xl text-white tracking-display sm:text-3xl">
@@ -566,7 +566,7 @@ export default async function DoctorsPage() {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/appointments"
-                className="inline-flex items-center gap-2.5 rounded-xl bg-primary px-8 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-dark hover:shadow-primary/35 active:scale-[0.97]"
+                className="inline-flex items-center gap-2.5 rounded-xl bg-gold px-8 py-3.5 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
               >
                 Book an Appointment
                 <ArrowRight className="h-4 w-4" />

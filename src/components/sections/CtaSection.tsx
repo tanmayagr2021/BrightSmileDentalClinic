@@ -41,7 +41,7 @@ export default function CtaSection({
   const displayHours = (openingHours && openingHours.length > 0) ? openingHours : [...OPENING_HOURS]
 
   return (
-    <section className="overflow-hidden bg-[#0F172A]">
+    <section className="overflow-hidden bg-[#0A1128]">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
 
@@ -63,14 +63,14 @@ export default function CtaSection({
               <rect width="100%" height="100%" fill="url(#cta-grid)" />
             </svg>
 
-            <motion.span variants={fadeUp} className="mb-5 inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
-              <span className="inline-block h-px w-7 bg-primary/60" />
+            <motion.span variants={fadeUp} className="mb-5 inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+              <span className="inline-block h-px w-7 bg-gold/60" />
               Get Started Today
             </motion.span>
 
             <motion.h2 variants={fadeUp} className="relative font-display leading-[1.04] text-white tracking-display" style={{ fontSize: 'clamp(2.5rem, 4.5vw, 4rem)' }}>
               Ready for Your<br />
-              <span className="text-primary">Best Smile?</span>
+              <span className="text-gold">Best Smile?</span>
             </motion.h2>
 
             <motion.p variants={fadeUp} className="mt-6 max-w-md font-body text-base text-white/55 leading-relaxed">
@@ -80,7 +80,7 @@ export default function CtaSection({
             <motion.div variants={fadeUp} className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/appointments"
-                className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-primary px-9 py-4 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-dark hover:shadow-primary/40 active:scale-[0.98]"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-gold px-9 py-4 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.98]"
               >
                 Book Appointment
                 <span className="transition-transform duration-200 group-hover:translate-x-1">

@@ -144,11 +144,11 @@ export default async function GalleryPage() {
   const galleryGroups = groups ?? []
 
   return (
-    <div style={{ background: '#0F172A' }} className="min-h-screen">
+    <div style={{ background: '#0A1128' }} className="min-h-screen">
       {/* Hero — integrated into dark page */}
       <div className="mx-auto max-w-7xl px-4 pt-28 pb-12 sm:px-6 lg:px-8">
-        <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
-          <span className="inline-block h-px w-6 bg-primary/60" />
+        <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+          <span className="inline-block h-px w-6 bg-gold/60" />
           Visual Tour
         </span>
         <h1 className="mt-6 font-display text-6xl text-white sm:text-7xl lg:text-[7rem] tracking-display leading-[0.95]">

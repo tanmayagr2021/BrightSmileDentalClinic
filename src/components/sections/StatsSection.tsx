@@ -34,7 +34,7 @@ function Counter({ count, suffix }: { count: number; suffix: string }) {
 
 export default function StatsSection() {
   return (
-    <section className="relative overflow-hidden bg-[#0F172A]">
+    <section className="relative overflow-hidden bg-[#0A1128]">
 
       {/* Subtle dot-grid texture */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -74,7 +74,7 @@ export default function StatsSection() {
                 </span>
                 {stat.suffix && (
                   <span
-                    className="ml-1 font-display text-3xl font-bold leading-none text-primary"
+                    className="ml-1 font-display text-3xl font-bold leading-none text-gold"
                     style={{ paddingTop: '0.35rem' }}
                   >
                     {stat.suffix}
@@ -88,7 +88,7 @@ export default function StatsSection() {
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.3 + i * 0.08 }}
-                className="mx-auto mt-4 block h-px w-12 origin-left bg-primary/60"
+                className="mx-auto mt-4 block h-px w-12 origin-left bg-gold/60"
                 aria-hidden="true"
               />
 
