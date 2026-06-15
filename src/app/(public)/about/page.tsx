@@ -48,32 +48,62 @@ export default async function AboutPage() {
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <div className="bg-tint border-b border-gray-100 py-20 lg:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <span className="eyebrow mb-4 inline-flex items-center gap-2">
-            <span className="inline-block h-px w-5 bg-primary" />
+
+      {/* ── Hero — full dark with ghost founding year ── */}
+      <div
+        className="relative overflow-hidden py-28 lg:py-40"
+        style={{ background: '#0F172A' }}
+      >
+        {/* Architectural grid overlay */}
+        <svg
+          className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.025]"
+          aria-hidden="true"
+        >
+          <defs>
+            <pattern id="about-grid" width="52" height="52" patternUnits="userSpaceOnUse">
+              <path d="M 52 0 L 0 0 0 52" fill="none" stroke="white" strokeWidth="0.5" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#about-grid)" />
+        </svg>
+
+        {/* Ghost founding year */}
+        <span
+          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 select-none font-display font-bold text-white/[0.03]"
+          style={{ fontSize: 'clamp(8rem, 20vw, 16rem)' }}
+          aria-hidden="true"
+        >
+          {founded}
+        </span>
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Eyebrow */}
+          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+            <span className="inline-block h-px w-6 bg-primary/60" />
             Founded {founded}
           </span>
-          <h1 className="font-display text-5xl text-dark sm:text-6xl tracking-display">
-            Our Story
+
+          {/* Headline */}
+          <h1 className="mt-5 font-display text-6xl text-white tracking-display leading-[0.95] sm:text-7xl lg:text-[7rem]">
+            Our<br />Story.
           </h1>
-          <p className="mt-5 max-w-2xl font-body text-lg text-gray-500 leading-relaxed">
+
+          {/* Description */}
+          <p className="mt-8 max-w-xl font-body text-base text-white/55 leading-relaxed">
             Over a decade of trusted dental care in the heart of Kathmandu — built on expertise, compassion and an uncompromising commitment to every patient.
           </p>
-        </div>
-      </div>
 
-      {/* Stats bar */}
-      <div className="border-b border-gray-100 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 divide-x divide-y divide-gray-100 sm:grid-cols-4 sm:divide-y-0">
+          {/* Stats strip */}
+          <div className="mt-16 grid grid-cols-2 border-t border-white/[0.07] pt-10 sm:grid-cols-4">
             {HOMEPAGE_STATS.map((stat) => (
-              <div key={stat.label} className="px-8 py-8 text-center">
-                <p className="font-display text-4xl text-primary tracking-tight">
+              <div
+                key={stat.label}
+                className="border-l border-white/[0.07] pl-6 first:border-l-0 first:pl-0"
+              >
+                <p className="font-display text-4xl text-white">
                   {stat.count}{stat.suffix}
                 </p>
-                <p className="mt-1 font-heading text-xs font-semibold uppercase tracking-widest text-gray-400">
+                <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/40">
                   {stat.label}
                 </p>
               </div>
@@ -82,138 +112,137 @@ export default async function AboutPage() {
         </div>
       </div>
 
-      {/* Story section */}
-      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-[3fr_2fr]">
-          <div>
-            <span className="eyebrow mb-4 inline-flex items-center gap-2">
-              <span className="inline-block h-px w-5 bg-primary" />
-              How We Started
-            </span>
-            <h2 className="font-display text-4xl text-dark tracking-display mb-8">
-              A Practice Built on Purpose
-            </h2>
+      {/* ── Story — editorial pull-quote split ── */}
+      <div className="py-24 lg:py-32">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-20 lg:grid-cols-[1fr_1.3fr] items-start">
+
+            {/* Left: pull-quote + mission / vision */}
+            <div>
+              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+                <span className="inline-block h-px w-6 bg-primary/60" />
+                How We Started
+              </span>
+
+              <blockquote className="mt-8 font-display text-3xl text-dark tracking-display leading-[1.2] sm:text-4xl">
+                &ldquo;{storyParagraphs[0]}&rdquo;
+              </blockquote>
+
+              <div className="mt-10 space-y-8 border-t border-gray-100 pt-10">
+                <div>
+                  <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+                    Our Mission
+                  </p>
+                  <p className="font-body text-base text-gray-600 leading-relaxed">
+                    {mission}
+                  </p>
+                </div>
+                <div>
+                  <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-400">
+                    Our Vision
+                  </p>
+                  <p className="font-body text-base text-gray-600 leading-relaxed">
+                    {vision}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: remaining story paragraphs */}
             <div className="space-y-5">
-              {storyParagraphs.map((para, i) => (
+              {storyParagraphs.slice(1).map((para, i) => (
                 <p key={i} className="font-body text-base text-gray-600 leading-relaxed">
                   {para}
                 </p>
               ))}
             </div>
-          </div>
 
-          {/* Mission & Vision */}
-          <div className="space-y-6">
-            <div className="rounded-2xl bg-dark p-7 text-white">
-              <p className="font-heading text-xs font-semibold uppercase tracking-widest text-white/40 mb-3">
-                Our Mission
-              </p>
-              <p className="font-body text-base text-white/85 leading-relaxed">
-                {mission}
-              </p>
-            </div>
-            <div className="rounded-2xl border border-primary/20 bg-primary/5 p-7">
-              <p className="font-heading text-xs font-semibold uppercase tracking-widest text-primary/70 mb-3">
-                Our Vision
-              </p>
-              <p className="font-body text-base text-gray-700 leading-relaxed">
-                {vision}
-              </p>
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Values — editorial dark section */}
+      {/* ── Values — horizontal editorial rows ── */}
       <div
-        className="border-y border-gray-100 py-20 lg:py-28"
-        style={{ background: 'linear-gradient(150deg, #081912 0%, #1A3D2B 100%)' }}
+        className="py-24 lg:py-32"
+        style={{ background: '#0F172A' }}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-primary">
-              <span className="inline-block h-px w-7 bg-primary/60" />
+            <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+              <span className="inline-block h-px w-6 bg-primary/60" />
               What Guides Us
             </span>
-            <h2 className="font-display text-4xl text-white tracking-display leading-[1.06] sm:text-5xl">
+            <h2 className="mt-5 font-display text-5xl text-white tracking-display sm:text-6xl">
               Our Values
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2">
+          <div>
             {values.map((value, i) => (
               <div
                 key={value.title}
                 className={[
-                  'group relative py-10 lg:py-12',
-                  i % 2 === 0 ? 'sm:pr-12 lg:pr-20' : 'sm:pl-12 lg:pl-20 sm:border-l sm:border-white/[0.06]',
-                  i >= 2 ? 'border-t border-white/[0.06]' : '',
-                  i < 2 ? 'border-b border-white/[0.06] sm:border-b-0' : '',
+                  'grid items-center border-b border-white/[0.06] py-12 lg:py-16',
+                  'grid-cols-[4rem_1fr] gap-8 sm:grid-cols-[6rem_1fr_1.5fr] sm:gap-12 lg:grid-cols-[8rem_1fr_2fr] lg:gap-20',
+                  i === 0 ? 'border-t border-white/[0.06]' : '',
                 ].join(' ')}
               >
-                {/* Ghost numeral */}
-                <span
-                  className="pointer-events-none absolute right-0 top-4 select-none font-display font-bold leading-none text-white/[0.035] transition-colors duration-300 group-hover:text-white/[0.06]"
-                  style={{ fontSize: 'clamp(5rem, 10vw, 7rem)' }}
-                  aria-hidden="true"
-                >
+                {/* Ghost number */}
+                <span className="select-none font-display text-4xl font-bold tabular-nums text-white/[0.07] sm:text-5xl lg:text-7xl">
                   {String(i + 1).padStart(2, '0')}
                 </span>
 
-                <div className="relative">
-                  <div className="mb-5 flex items-center gap-4">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/15">
-                      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-primary" aria-hidden="true">
-                        <path d={VALUE_ICONS[value.title] ?? ''} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
-                    <span className="font-heading text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-white/28">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <h3 className="font-display text-2xl text-white tracking-display">{value.title}</h3>
-                  <p className="mt-3 max-w-sm font-body text-sm text-white/48 leading-relaxed">{value.description}</p>
-                </div>
+                {/* Title */}
+                <h3 className="font-display text-2xl text-white tracking-display sm:text-3xl">
+                  {value.title}
+                </h3>
+
+                {/* Description — hidden on mobile */}
+                <p className="hidden font-body text-sm text-white/55 leading-relaxed sm:block">
+                  {value.description}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Why choose us */}
-      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-          <div>
-            <span className="eyebrow mb-4 inline-flex items-center gap-2">
-              <span className="inline-block h-px w-5 bg-primary" />
-              Why Bright Smile
-            </span>
-            <h2 className="font-display text-4xl text-dark tracking-display mb-8">
-              What Sets Us Apart
-            </h2>
-            <div className="space-y-4">
-              {whyChooseUs.map((point) => (
-                <div key={point} className="flex items-start gap-4">
-                  <svg viewBox="0 0 16 16" fill="none" className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" aria-hidden="true">
-                    <circle cx="8" cy="8" r="7" fill="#4A9B6F" fillOpacity="0.12" />
-                    <path d="M5 8l2 2 4-4" stroke="#4A9B6F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  <span className="font-body text-base text-gray-600 leading-snug">{point}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+      {/* ── Why Choose Us — editorial numbered list + inline CTA ── */}
+      <div className="py-24 lg:py-32">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-20 lg:grid-cols-2 lg:gap-24 items-start">
 
-          {/* CTA card */}
-          <div className="flex items-center">
-            <div className="w-full rounded-2xl border border-gray-100 bg-tint p-10 text-center shadow-sm">
-              <h3 className="font-display text-2xl text-dark tracking-display">
+            {/* Left: numbered list */}
+            <div>
+              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+                <span className="inline-block h-px w-6 bg-primary/60" />
+                Why Bright Smile
+              </span>
+              <h2 className="mt-5 font-display text-4xl text-dark tracking-display">
+                What Sets Us Apart
+              </h2>
+
+              <div className="mt-10 divide-y divide-gray-100">
+                {whyChooseUs.map((point, i) => (
+                  <div key={point} className="flex items-center gap-8 py-6">
+                    <span className="w-12 flex-shrink-0 font-display text-4xl font-bold tabular-nums text-gray-100">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span className="font-body text-base text-gray-600 leading-snug">{point}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: inline CTA — no card */}
+            <div>
+              <h3 className="font-display text-3xl text-dark tracking-display leading-snug">
                 Ready to experience the difference?
               </h3>
-              <p className="mt-4 font-body text-base text-gray-500 leading-relaxed">
+              <p className="mt-5 font-body text-base text-gray-500 leading-relaxed">
                 Join over 1,000 patients who trust Bright Smile for their dental care. Book your first appointment today.
               </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/appointments"
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark active:scale-[0.98]"
@@ -228,9 +257,11 @@ export default async function AboutPage() {
                 </Link>
               </div>
             </div>
+
           </div>
         </div>
       </div>
+
     </div>
   )
 }

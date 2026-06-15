@@ -67,7 +67,7 @@ export default function HeroSection() {
         <svg className="absolute inset-0 h-full w-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="hero-dots" width="32" height="32" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.5" fill="#1A3D2B" />
+              <circle cx="2" cy="2" r="1.5" fill="#0F172A" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#hero-dots)" />
@@ -122,9 +122,10 @@ export default function HeroSection() {
               </Link>
               <Link
                 href="/services"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white/80 px-8 py-4 font-heading text-sm font-semibold text-gray-700 backdrop-blur-sm transition-all duration-200 hover:border-primary/40 hover:text-primary active:scale-[0.98]"
+                className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-gray-500 transition-colors duration-200 hover:text-primary"
               >
                 Explore Services
+                <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </motion.div>
 
@@ -166,9 +167,6 @@ export default function HeroSection() {
                         {doc.qualification} · {doc.experience}
                       </p>
                     </div>
-                    <span className="ml-auto flex-shrink-0 rounded-full bg-primary/10 px-2 py-0.5 font-heading text-[0.6rem] font-semibold uppercase tracking-wide text-primary">
-                      Bookable
-                    </span>
                   </div>
                 ))}
               </div>
@@ -192,10 +190,10 @@ export default function HeroSection() {
                 <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-white/40">
                   Ready to Book?
                 </p>
-                <h2 className="mt-2 font-display text-2xl text-white leading-snug">
+                <h3 className="mt-2 font-display text-2xl text-white leading-snug">
                   Your smile starts<br />
                   <span className="text-primary">with a conversation.</span>
-                </h2>
+                </h3>
                 <p className="mt-2 font-body text-sm text-white/50">
                   Appointments available with our lead dentists.
                 </p>

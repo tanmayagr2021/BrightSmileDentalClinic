@@ -111,7 +111,7 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
           <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-400" />
         </span>
-        <span className="font-heading text-[0.52rem] font-semibold uppercase tracking-[0.18em] text-white/65">Live Map</span>
+        <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/65">Live Map</span>
       </div>
 
       {/* Centre pin */}
@@ -122,7 +122,7 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
           {/* Inner ring */}
           <span className="absolute h-9 w-9 rounded-full bg-primary/20" />
           {/* Pin body */}
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-primary shadow-[0_0_0_3px_rgba(74,155,111,0.25),0_6px_24px_rgba(74,155,111,0.45)] transition-transform duration-300 group-hover:scale-110">
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-primary shadow-[0_0_0_3px_rgba(14,165,164,0.22),0_6px_24px_rgba(14,165,164,0.40)] transition-transform duration-300 group-hover:scale-110">
             <svg viewBox="0 0 24 24" fill="white" className="h-[18px] w-[18px]" aria-hidden="true">
               <path d="M12 2a7 7 0 017 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 017-7zm0 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
             </svg>
@@ -187,7 +187,7 @@ export default async function Footer() {
       <h2 id="footer-heading" className="sr-only">Footer</h2>
 
       {/* Pre-footer brand strip */}
-      <div style={{ background: 'linear-gradient(135deg, #0A1F14 0%, #1A3D2B 100%)' }} className="border-b border-white/[0.06]">
+      <div className="bg-[#0F172A] border-b border-white/[0.06]">
         <Container>
           <div className="flex flex-col items-center justify-between gap-6 py-12 text-center sm:flex-row sm:text-left">
             <div>

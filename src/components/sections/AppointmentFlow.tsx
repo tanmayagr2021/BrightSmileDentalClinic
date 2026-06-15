@@ -119,7 +119,7 @@ function StepDoctor({ selected, onSelect, doctors }: { selected: string | null; 
 
             <div className="mt-4 flex flex-wrap gap-1.5">
               {doc.specializations.slice(0, 3).map((s) => (
-                <span key={s} className="rounded-lg bg-tint px-2 py-0.5 font-heading text-[0.58rem] font-semibold text-dark/60">
+                <span key={s} className="rounded-lg bg-tint px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-dark/60">
                   {s}
                 </span>
               ))}

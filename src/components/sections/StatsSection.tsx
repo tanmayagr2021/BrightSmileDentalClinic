@@ -34,22 +34,21 @@ function Counter({ count, suffix }: { count: number; suffix: string }) {
 
 export default function StatsSection() {
   return (
-    <section className="relative overflow-hidden" style={{ background: 'linear-gradient(145deg, #081912 0%, #1A3D2B 55%, #0f2e1e 100%)' }}>
-      {/* Architectural grid overlay */}
-      <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.025]" aria-hidden="true">
-        <defs>
-          <pattern id="stats-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#stats-grid)" />
-      </svg>
+    <section className="relative overflow-hidden bg-[#0F172A]">
 
-      {/* Radial glow accents */}
-      <div className="pointer-events-none absolute left-1/4 top-0 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/15 blur-3xl" aria-hidden="true" />
-      <div className="pointer-events-none absolute right-1/4 bottom-0 h-48 w-48 translate-x-1/2 translate-y-1/2 rounded-full bg-teal/10 blur-3xl" aria-hidden="true" />
+      {/* Subtle dot-grid texture */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="stat-dot-grid" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="1" fill="white" fillOpacity="0.04" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#stat-dot-grid)" />
+        </svg>
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="grid grid-cols-2 gap-0 sm:grid-cols-4">
           {HOMEPAGE_STATS.map((stat, i) => (
             <motion.div
@@ -62,25 +61,38 @@ export default function StatsSection() {
             >
               {/* Vertical separator */}
               {i > 0 && (
-                <span className="pointer-events-none absolute left-0 top-1/2 hidden h-16 w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-white/10 to-transparent sm:block" aria-hidden="true" />
+                <span
+                  className="pointer-events-none absolute left-0 top-1/2 hidden h-16 w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-white/10 to-transparent sm:block"
+                  aria-hidden="true"
+                />
               )}
 
-              {/* Number */}
-              <span className="font-display text-[3rem] font-bold leading-none text-primary sm:text-[3.5rem] lg:text-[4.5rem] tabular-nums">
-                <Counter count={stat.count} suffix={stat.suffix} />
-              </span>
+              {/* Number + superscript suffix */}
+              <div className="inline-flex items-start">
+                <span className="font-display text-6xl font-bold leading-none text-white tabular-nums sm:text-7xl lg:text-[6rem]">
+                  <Counter count={stat.count} suffix="" />
+                </span>
+                {stat.suffix && (
+                  <span
+                    className="ml-1 font-display text-3xl font-bold leading-none text-primary"
+                    style={{ paddingTop: '0.35rem' }}
+                  >
+                    {stat.suffix}
+                  </span>
+                )}
+              </div>
 
-              {/* Thin accent line */}
+              {/* Accent line */}
               <motion.span
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.3 + i * 0.08 }}
-                className="mx-auto mt-3 block h-px w-8 origin-left bg-primary/40"
+                className="mx-auto mt-4 block h-px w-12 origin-left bg-primary/60"
                 aria-hidden="true"
               />
 
-              <span className="mt-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/40 sm:text-xs">
+              <span className="mt-4 font-heading text-sm font-semibold uppercase tracking-[0.2em] text-white/55">
                 {stat.label}
               </span>
             </motion.div>

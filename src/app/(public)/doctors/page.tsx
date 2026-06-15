@@ -106,7 +106,7 @@ export default async function DoctorsPage() {
       {/* ── HERO — Dark Premium ── */}
       <section
         className="relative overflow-hidden py-24 lg:py-32"
-        style={{ background: 'linear-gradient(155deg, #081912 0%, #1A3D2B 60%, #0a1e14 100%)' }}
+        style={{ background: '#0F172A' }}
       >
         {/* Architectural grid */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.022]" aria-hidden="true">
@@ -242,7 +242,7 @@ export default async function DoctorsPage() {
                       </h2>
                       <p className="mt-1 font-body text-sm text-white/68">{doc.title}</p>
                       {doc.experience_text && (
-                        <p className="mt-2 font-heading text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-white/42">
+                        <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/60">
                           {doc.experience_text}
                         </p>
                       )}
@@ -276,7 +276,7 @@ export default async function DoctorsPage() {
                       {/* Specializations */}
                       {(doc.specializations ?? []).length > 0 && (
                         <div className="mt-7">
-                          <p className="mb-3 font-heading text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-gray-400">
+                          <p className="mb-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-400">
                             Areas of Focus
                           </p>
                           <div className="flex flex-wrap gap-2">
@@ -336,7 +336,7 @@ export default async function DoctorsPage() {
       {/* ── SPECIALIST CONSULTANTS ── */}
       <section
         className="relative overflow-hidden py-24 lg:py-28"
-        style={{ background: 'linear-gradient(145deg, #081912 0%, #1A3D2B 100%)' }}
+        style={{ background: '#0F172A' }}
       >
         {/* Subtle grid */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.02]" aria-hidden="true">
@@ -401,13 +401,13 @@ export default async function DoctorsPage() {
                       <span className="font-display text-2xl font-bold text-white">{dInitials(doc)}</span>
                     )}
                   </div>
-                  <span className="absolute right-3 top-3 rounded-lg bg-black/25 px-2 py-0.5 font-heading text-[0.55rem] font-semibold text-white backdrop-blur-sm">
+                  <span className="absolute right-3 top-3 rounded-lg bg-black/25 px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-white backdrop-blur-sm">
                     {doc.qualification}
                   </span>
                 </div>
 
                 <div className="p-5">
-                  <p className="font-heading text-[0.55rem] font-semibold uppercase tracking-[0.18em] text-primary">
+                  <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-primary">
                     NMC {doc.nmc_number}
                   </p>
                   <h3 className="mt-1.5 font-heading text-sm font-semibold leading-snug text-white">{doc.full_name}</h3>
@@ -415,7 +415,7 @@ export default async function DoctorsPage() {
 
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(doc.specializations ?? []).slice(0, 2).map((s) => (
-                      <span key={s} className="rounded-lg bg-white/8 px-2 py-0.5 font-heading text-[0.56rem] font-semibold text-white/55">
+                      <span key={s} className="rounded-lg bg-white/8 px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-white/70">
                         {s}
                       </span>
                     ))}
@@ -498,7 +498,7 @@ export default async function DoctorsPage() {
 
                     <div className="mt-4 flex items-center gap-2">
                       <div className="h-1.5 w-1.5 rounded-full bg-teal" />
-                      <span className="font-heading text-[0.58rem] font-semibold uppercase tracking-wide text-teal">
+                      <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-wide text-teal">
                         {meta.strength}
                       </span>
                     </div>
@@ -552,7 +552,7 @@ export default async function DoctorsPage() {
           {/* Closing CTA strip */}
           <div
             className="overflow-hidden rounded-2xl p-8 text-center lg:p-12"
-            style={{ background: 'linear-gradient(135deg, #0A1F14 0%, #1A3D2B 100%)' }}
+            style={{ background: '#0F172A' }}
           >
             <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-primary mb-4">
               Direct Bookings Available

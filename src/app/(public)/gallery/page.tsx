@@ -12,78 +12,103 @@ const PLACEHOLDER_TILES = [
   { icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', label: 'Before & After', aspect: 'wide' },
 ]
 
+function TileInner({ icon, label, index }: { icon: string; label: string; index: number }) {
+  return (
+    <>
+      {/* Dot grid */}
+      <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.045]" aria-hidden="true">
+        <defs>
+          <pattern id={`gallery-dots-${index}`} width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="0.8" fill="white" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#gallery-dots-${index})`} />
+      </svg>
+
+      {/* Subtle glow */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <div className="h-32 w-32 rounded-full bg-primary/[0.07] blur-3xl" />
+      </div>
+
+      {/* Icon + label */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-5">
+        <div className="h-14 w-14 flex items-center justify-center rounded-2xl border border-white/[0.07] bg-white/[0.04]">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-7 w-7 text-white/20"
+            aria-hidden="true"
+          >
+            <path d={icon} />
+          </svg>
+        </div>
+        <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/20 text-center">
+          {label}
+        </span>
+      </div>
+
+      {/* Coming soon strip */}
+      <div className="absolute bottom-0 inset-x-0 flex items-center justify-center gap-1.5 border-t border-white/[0.05] bg-black/10 py-2 backdrop-blur-sm">
+        <span className="h-1 w-1 rounded-full bg-primary/50" />
+        <span className="font-heading text-[0.65rem] font-semibold tracking-[0.1em] text-white/35">
+          Photo coming soon
+        </span>
+      </div>
+    </>
+  )
+}
+
+const TILE_BASE = 'relative overflow-hidden rounded-2xl transition-all duration-300 hover:ring-1 hover:ring-primary/30'
+const TILE_BG = { background: '#0d1425' } as const
+
 function GalleryEmptyState() {
   return (
     <div>
-      {/* Intro text */}
-      <div className="mb-12 max-w-xl">
-        <p className="font-body text-base text-gray-500 leading-relaxed">
-          Our gallery is growing — photos of our clinic, team and patient transformations
-          are published with full consent. Check back soon, or come see us in person.
-        </p>
+      {/* Row 1 — asymmetric 2 + 1 */}
+      <div className="grid grid-cols-3 gap-3 h-[55vh] min-h-[360px]">
+        <div className={`col-span-2 ${TILE_BASE}`} style={TILE_BG}>
+          <TileInner icon={PLACEHOLDER_TILES[0].icon} label={PLACEHOLDER_TILES[0].label} index={0} />
+        </div>
+        <div className={`col-span-1 ${TILE_BASE}`} style={TILE_BG}>
+          <TileInner icon={PLACEHOLDER_TILES[1].icon} label={PLACEHOLDER_TILES[1].label} index={1} />
+        </div>
       </div>
 
-      {/* Placeholder tile grid */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-3 lg:gap-4">
-        {PLACEHOLDER_TILES.map((tile, i) => (
-          <div
-            key={tile.label}
-            className={`group relative overflow-hidden rounded-2xl border border-gray-100 transition-all duration-300 hover:border-primary/20 hover:shadow-card-hover ${
-              tile.aspect === 'tall' ? 'aspect-[3/4]' : 'aspect-[4/3]'
-            } ${i === 1 ? 'sm:col-span-1' : ''}`}
-            style={{ background: `linear-gradient(${145 + i * 15}deg, #0A1F14 0%, #1A3D2B 100%)` }}
-          >
-            {/* Dot grid */}
-            <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.04]" aria-hidden="true">
-              <defs>
-                <pattern id={`gallery-dots-${i}`} width="20" height="20" patternUnits="userSpaceOnUse">
-                  <circle cx="1" cy="1" r="0.8" fill="white" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill={`url(#gallery-dots-${i})`} />
-            </svg>
-
-            {/* Glow */}
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
-              <div className="h-24 w-24 rounded-full bg-primary/10 blur-2xl" />
-            </div>
-
-            {/* Icon + label */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06]">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-white/30" aria-hidden="true">
-                  <path d={tile.icon} />
-                </svg>
-              </div>
-              <span className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-white/22">
-                {tile.label}
-              </span>
-            </div>
-
-            {/* Coming soon label */}
-            <div className="absolute bottom-3 inset-x-3 flex items-center justify-center gap-1.5 rounded-xl border border-white/8 bg-black/20 py-1.5 backdrop-blur-sm">
-              <span className="h-1 w-1 rounded-full bg-primary/60" />
-              <span className="font-heading text-[0.52rem] font-semibold tracking-[0.12em] text-white/30">
-                Photo coming soon
-              </span>
-            </div>
+      {/* Row 2 — three equal columns */}
+      <div className="mt-3 grid grid-cols-3 gap-3 h-[32vh] min-h-[200px]">
+        {PLACEHOLDER_TILES.slice(2, 5).map((tile, idx) => (
+          <div key={tile.label} className={`col-span-1 ${TILE_BASE}`} style={TILE_BG}>
+            <TileInner icon={tile.icon} label={tile.label} index={idx + 2} />
           </div>
         ))}
       </div>
 
+      {/* Row 3 — full-width panoramic */}
+      <div className={`mt-3 w-full aspect-[21/6] ${TILE_BASE}`} style={TILE_BG}>
+        <TileInner
+          icon={PLACEHOLDER_TILES[5].icon}
+          label={PLACEHOLDER_TILES[5].label}
+          index={5}
+        />
+      </div>
+
       {/* CTA */}
-      <div className="mt-14 flex flex-col items-center gap-4 text-center">
-        <p className="font-heading text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
-          Want to see the clinic in person?
+      <div className="mt-16 flex flex-col items-center gap-6 text-center">
+        <p className="font-display text-3xl text-white tracking-display">
+          Come see us in person.
+        </p>
+        <p className="font-body text-sm text-white/40">
+          Our clinic speaks for itself. Book a visit and tour our space.
         </p>
         <Link
           href="/appointments"
-          className="inline-flex items-center gap-2.5 rounded-xl bg-primary px-8 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark hover:shadow-primary/30 active:scale-[0.97]"
+          className="rounded-xl bg-primary px-8 py-4 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark"
         >
           Book a Visit
-          <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
         </Link>
       </div>
     </div>
@@ -119,39 +144,49 @@ export default async function GalleryPage() {
   const galleryGroups = groups ?? []
 
   return (
-    <div className="bg-white">
-      <div className="bg-tint border-b border-gray-100 py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <span className="eyebrow mb-3 inline-flex items-center gap-2">
-            <span className="inline-block h-px w-5 bg-primary" />
-            Our Space
-          </span>
-          <h1 className="font-display text-4xl text-dark sm:text-5xl tracking-display">Gallery</h1>
-          <p className="mt-4 max-w-xl font-body text-base text-gray-500 leading-relaxed">
-            A look inside our modern clinic and the smiles we create every day.
-          </p>
-        </div>
+    <div style={{ background: '#0F172A' }} className="min-h-screen">
+      {/* Hero — integrated into dark page */}
+      <div className="mx-auto max-w-7xl px-4 pt-28 pb-12 sm:px-6 lg:px-8">
+        <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+          <span className="inline-block h-px w-6 bg-primary/60" />
+          Visual Tour
+        </span>
+        <h1 className="mt-6 font-display text-6xl text-white sm:text-7xl lg:text-[7rem] tracking-display leading-[0.95]">
+          Our<br />Space.
+        </h1>
+        <p className="mt-5 max-w-md font-body text-base text-white/45 leading-relaxed">
+          A look inside our clinic — spaces designed for comfort, equipment built for precision.
+          Photos added with patient consent.
+        </p>
+        <div className="mt-12 h-px bg-white/[0.06]" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      {/* Content */}
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {galleryItems.length === 0 ? (
           <GalleryEmptyState />
         ) : (
           <>
-            {/* Group filters — only show if items exist in multiple groups */}
+            {/* Group filters */}
             {galleryGroups.length > 1 && (
               <div className="mb-8 flex flex-wrap gap-2">
                 {galleryGroups.map((g) => (
-                  <span key={g.id} className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 font-heading text-xs font-semibold text-gray-600">
+                  <span
+                    key={g.id}
+                    className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 font-heading text-xs font-semibold text-white/50"
+                  >
                     {g.name}
                   </span>
                 ))}
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
               {galleryItems.map((item) => (
-                <div key={item.id} className="group relative overflow-hidden rounded-2xl bg-gray-100 aspect-square">
+                <div
+                  key={item.id}
+                  className="group relative overflow-hidden rounded-2xl bg-gray-100 aspect-square"
+                >
                   {item.image_url ? (
                     <Image
                       src={item.image_url}

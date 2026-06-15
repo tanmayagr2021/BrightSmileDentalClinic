@@ -114,14 +114,14 @@ export default function WhyChooseSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: i * 0.06 }}
-              className="group relative grid grid-cols-[auto_1fr] gap-8 py-8 lg:grid-cols-[80px_1fr_1fr] lg:gap-12 lg:py-9"
+              className="group relative grid grid-cols-[3rem_1fr] gap-8 py-8 lg:grid-cols-[6rem_1fr_1fr] lg:gap-12 lg:py-9"
             >
               {/* Hover accent */}
               <div className="pointer-events-none absolute inset-0 -mx-4 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:-mx-6 lg:-mx-8" style={{ background: 'rgba(74,155,111,0.03)' }} aria-hidden="true" />
 
               {/* Number */}
-              <div className="relative flex-shrink-0 pt-1">
-                <span className="font-heading text-[0.7rem] font-bold tabular-nums tracking-[0.15em] text-gray-300 transition-colors duration-200 group-hover:text-primary">
+              <div className="relative flex-shrink-0 pt-0.5">
+                <span className="font-display text-4xl font-bold tabular-nums text-gray-100 transition-colors duration-300 group-hover:text-primary lg:text-5xl">
                   {numLabels[i] ?? `0${i + 1}`}
                 </span>
               </div>

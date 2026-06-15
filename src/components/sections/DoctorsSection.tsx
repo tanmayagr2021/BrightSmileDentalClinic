@@ -307,7 +307,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                     </div>
                     <div className="ml-auto flex items-center gap-1.5 rounded-full bg-teal/8 px-2.5 py-1">
                       <div className="h-1.5 w-1.5 rounded-full bg-teal" />
-                      <span className="font-heading text-[0.58rem] font-semibold text-teal">Active</span>
+                      <span className="font-heading text-[0.65rem] font-semibold text-teal">Active</span>
                     </div>
                   </div>
                 ))}

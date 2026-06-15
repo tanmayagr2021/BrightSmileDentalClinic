@@ -41,7 +41,7 @@ export default function CtaSection({
   const displayHours = (openingHours && openingHours.length > 0) ? openingHours : [...OPENING_HOURS]
 
   return (
-    <section className="overflow-hidden" style={{ background: 'linear-gradient(140deg, #0A1F14 0%, #1A3D2B 55%, #0f2e1e 100%)' }}>
+    <section className="overflow-hidden bg-[#0F172A]">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
 
@@ -53,10 +53,6 @@ export default function CtaSection({
             viewport={{ once: true, margin: '-80px' }}
             className="relative overflow-hidden px-8 py-20 sm:px-14 lg:px-18 lg:py-28"
           >
-            {/* Decorative blobs */}
-            <div className="pointer-events-none absolute -right-16 -top-16 h-80 w-80 rounded-full bg-primary/12 blur-2xl" aria-hidden="true" />
-            <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-teal/8 blur-2xl" aria-hidden="true" />
-
             {/* Architectural grid */}
             <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.02]" aria-hidden="true">
               <defs>
@@ -67,7 +63,7 @@ export default function CtaSection({
               <rect width="100%" height="100%" fill="url(#cta-grid)" />
             </svg>
 
-            <motion.span variants={fadeUp} className="mb-5 inline-flex items-center gap-2.5 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-primary">
+            <motion.span variants={fadeUp} className="mb-5 inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
               <span className="inline-block h-px w-7 bg-primary/60" />
               Get Started Today
             </motion.span>
@@ -105,7 +101,7 @@ export default function CtaSection({
               variants={fadeUp}
               className="mt-10 flex flex-wrap items-center gap-5"
             >
-              {['NMC Registered', 'Free Consultation Call', 'No Commitment Required'].map((item) => (
+              {['NMC Registered', 'Call Before You Commit', 'No Hidden Charges'].map((item) => (
                 <span key={item} className="flex items-center gap-2 font-body text-xs text-white/35">
                   <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3 flex-shrink-0 text-primary/70" aria-hidden="true">
                     <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -127,7 +123,7 @@ export default function CtaSection({
             {/* Subtle right-side glow */}
             <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-white/[0.02] to-transparent" aria-hidden="true" />
 
-            <h3 className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white/35 mb-6">
+            <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50 mb-6">
               Opening Hours
             </h3>
 
@@ -143,7 +139,7 @@ export default function CtaSection({
             </div>
 
             <div className="mb-8">
-              <h3 className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white/35 mb-4">
+              <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50 mb-4">
                 Location
               </h3>
               <p className="font-body text-sm text-white/60 leading-relaxed">{displayAddress}</p>
@@ -160,7 +156,7 @@ export default function CtaSection({
             </div>
 
             <div>
-              <h3 className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white/35 mb-4">
+              <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50 mb-4">
                 Contact
               </h3>
               <div className="space-y-2.5">

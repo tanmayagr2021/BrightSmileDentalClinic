@@ -114,7 +114,7 @@ export default function BeforeAfterSection() {
                   >
                     {/* Decorative depth circle */}
                     <div className="absolute -bottom-6 -left-6 h-20 w-20 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)' }} />
-                    <div className="absolute bottom-3 left-3 rounded-full bg-black/30 px-2.5 py-1 font-heading text-[0.52rem] font-bold tracking-[0.12em] text-white/50 backdrop-blur-sm">
+                    <div className="absolute bottom-3 left-3 rounded-full bg-black/30 px-2.5 py-1 font-heading text-[0.65rem] font-bold tracking-[0.12em] text-white/50 backdrop-blur-sm">
                       BEFORE
                     </div>
                   </div>
@@ -122,11 +122,11 @@ export default function BeforeAfterSection() {
                   {/* After half */}
                   <div
                     className="absolute inset-y-0 right-0 w-1/2"
-                    style={{ background: `linear-gradient(160deg, #0a2318 0%, ${item.afterGradient} 100%)` }}
+                    style={{ background: `linear-gradient(160deg, #0a0f1d 0%, ${item.afterGradient} 100%)` }}
                     aria-hidden="true"
                   >
                     <div className="absolute -top-6 -right-6 h-20 w-20 rounded-full opacity-25" style={{ background: 'radial-gradient(circle, rgba(74,155,111,0.5) 0%, transparent 70%)' }} />
-                    <div className="absolute bottom-3 right-3 rounded-full bg-primary/20 px-2.5 py-1 font-heading text-[0.52rem] font-bold tracking-[0.12em] text-primary backdrop-blur-sm border border-primary/20">
+                    <div className="absolute bottom-3 right-3 rounded-full bg-primary/20 px-2.5 py-1 font-heading text-[0.65rem] font-bold tracking-[0.12em] text-primary backdrop-blur-sm border border-primary/20">
                       AFTER
                     </div>
                   </div>
@@ -143,14 +143,14 @@ export default function BeforeAfterSection() {
                   <div className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-center gap-2.5 pb-6 pt-4" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)' }}>
                     <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-3.5 py-2 backdrop-blur-sm">
                       <div className="h-1.5 w-1.5 rounded-full bg-primary/70" />
-                      <span className="font-heading text-[0.6rem] font-semibold tracking-[0.08em] text-white/55">Photos — Awaiting Patient Consent</span>
+                      <span className="font-heading text-[0.65rem] font-semibold tracking-[0.08em] text-white/65">Photos — Awaiting Patient Consent</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-5">
-                  <span className="inline-block mb-2 rounded-full bg-primary/15 px-2.5 py-1 font-heading text-[0.6rem] font-semibold text-primary tracking-wide uppercase">
+                  <span className="inline-block mb-2 rounded-full bg-primary/15 px-2.5 py-1 font-heading text-[0.65rem] font-semibold text-primary tracking-wide uppercase">
                     {CATEGORY_LABELS[item.category]}
                   </span>
                   <h3 className="font-heading text-sm font-semibold text-white">{item.title}</h3>
@@ -160,7 +160,7 @@ export default function BeforeAfterSection() {
                       <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1" />
                       <path d="M6 3.5V6l2 1.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
                     </svg>
-                    <span className="font-body text-[0.65rem] text-white/30">Treatment duration: {item.duration}</span>
+                    <span className="font-body text-[0.65rem] text-white/55">Treatment duration: {item.duration}</span>
                   </div>
                 </div>
               </motion.div>

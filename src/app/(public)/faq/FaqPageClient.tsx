@@ -166,7 +166,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
                       aria-expanded={isOpen}
                     >
                       <div className="flex items-start gap-3">
-                        <span className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-[0.55rem] font-bold transition-colors ${
+                        <span className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-[0.65rem] font-bold transition-colors ${
                           isOpen ? 'bg-primary text-white' : 'bg-gray-100 text-gray-400'
                         }`} aria-hidden="true">
                           {i + 1}
@@ -193,7 +193,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
                             </p>
                             {faq.category && (
                               <div className="mt-4 flex items-center gap-3">
-                                <span className="inline-block rounded-full bg-tint px-2.5 py-1 font-heading text-[0.58rem] font-semibold text-primary uppercase tracking-wide">
+                                <span className="inline-block rounded-full bg-tint px-2.5 py-1 font-heading text-[0.65rem] font-semibold text-primary uppercase tracking-wide">
                                   {CATEGORY_LABELS[faq.category] ?? faq.category}
                                 </span>
                               </div>

@@ -183,7 +183,7 @@ export default function Header() {
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
               className="fixed right-0 top-0 bottom-0 z-50 flex w-full max-w-[340px] flex-col lg:hidden"
-              style={{ background: 'linear-gradient(160deg, #0A1F14 0%, #1A3D2B 100%)' }}
+              style={{ background: '#0F172A' }}
               aria-label="Mobile navigation"
             >
               <div className="flex items-center justify-between border-b border-white/8 px-6 py-5">
