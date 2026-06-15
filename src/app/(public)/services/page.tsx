@@ -67,7 +67,7 @@ export default async function ServicesPage() {
           </h1>
 
           {/* Description */}
-          <p className="mt-6 max-w-lg font-body text-base text-white/55 leading-relaxed">
+          <p className="mt-6 max-w-lg font-body text-base text-white/72 leading-relaxed">
             Comprehensive dental care for the whole family — from routine check-ups to
             advanced specialist treatments, all under one roof.
           </p>
@@ -83,7 +83,7 @@ export default async function ServicesPage() {
                 <span className="w-8 flex-shrink-0 font-display text-xl font-bold text-white/20 transition-colors group-hover:text-primary">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="font-heading text-sm font-semibold text-white/45 transition-colors group-hover:text-white">
+                <span className="font-heading text-sm font-semibold text-white/72 transition-colors group-hover:text-white">
                   {s.name}
                 </span>
               </Link>

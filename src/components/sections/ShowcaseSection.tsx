@@ -124,7 +124,7 @@ export default function ShowcaseSection({
           </h1>
 
           {/* Sub-copy */}
-          <p className="mt-7 max-w-[38ch] font-body text-[0.95rem] leading-[1.8] text-white/58">
+          <p className="mt-7 max-w-[38ch] font-body text-[0.95rem] leading-[1.8] text-white/75">
             Modern dentistry with genuine care — six experienced specialists, transparent treatment planning, and results built to last.
           </p>
 

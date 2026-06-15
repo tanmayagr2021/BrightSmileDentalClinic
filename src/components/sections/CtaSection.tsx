@@ -73,7 +73,7 @@ export default function CtaSection({
               <span className="text-gold">Best Smile?</span>
             </motion.h2>
 
-            <motion.p variants={fadeUp} className="mt-6 max-w-md font-body text-base text-white/55 leading-relaxed">
+            <motion.p variants={fadeUp} className="mt-6 max-w-md font-body text-base text-white/72 leading-relaxed">
               Take the first step towards a healthier, more confident smile. Book your consultation today — our team is here to help every step of the way.
             </motion.p>
 
@@ -102,8 +102,8 @@ export default function CtaSection({
               className="mt-10 flex flex-wrap items-center gap-5"
             >
               {['NMC Registered', 'Call Before You Commit', 'No Hidden Charges'].map((item) => (
-                <span key={item} className="flex items-center gap-2 font-body text-xs text-white/35">
-                  <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3 flex-shrink-0 text-primary/70" aria-hidden="true">
+                <span key={item} className="flex items-center gap-2 font-body text-xs text-white/62">
+                  <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3 flex-shrink-0 text-gold" aria-hidden="true">
                     <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                   {item}

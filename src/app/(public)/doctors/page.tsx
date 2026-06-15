@@ -138,7 +138,7 @@ export default async function DoctorsPage() {
             <span className="text-gold">Every Smile</span>
           </h1>
 
-          <p className="mt-6 max-w-2xl font-body text-[1rem] text-white/52 leading-relaxed lg:text-[1.05rem]">
+          <p className="mt-6 max-w-2xl font-body text-[1rem] text-white/75 leading-relaxed lg:text-[1.05rem]">
             Six NMC-registered dentists and specialists, supported by a dedicated clinical and administrative team — all committed to exceptional dental care in Kathmandu.
           </p>
 
@@ -150,8 +150,8 @@ export default async function DoctorsPage() {
               'Serving Kathmandu since 2013',
               'Nagpokhari, Naxal',
             ].map((item) => (
-              <span key={item} className="flex items-center gap-2.5 font-heading text-[0.68rem] font-medium text-white/38">
-                <span className="h-1 w-1 flex-shrink-0 rounded-full bg-primary/60" />
+              <span key={item} className="flex items-center gap-2.5 font-heading text-[0.68rem] font-medium text-white/70">
+                <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gold" />
                 {item}
               </span>
             ))}
@@ -361,7 +361,7 @@ export default async function DoctorsPage() {
               <h2 className="font-display text-4xl text-white tracking-display leading-[1.06] sm:text-5xl">
                 Where Specialists<br />Join Your Care
               </h2>
-              <p className="mt-4 max-w-xl font-body text-base text-white/48 leading-relaxed">
+              <p className="mt-4 max-w-xl font-body text-base text-white/72 leading-relaxed">
                 For treatments requiring advanced expertise — implants, periodontics, oral surgery — our visiting specialists work within your coordinated care plan, arranged by your lead dentist.
               </p>
             </div>
@@ -411,7 +411,7 @@ export default async function DoctorsPage() {
                     NMC {doc.nmc_number}
                   </p>
                   <h3 className="mt-1.5 font-heading text-sm font-semibold leading-snug text-white">{doc.full_name}</h3>
-                  <p className="mt-0.5 font-body text-xs text-white/50">{doc.title}</p>
+                  <p className="mt-0.5 font-body text-xs text-white/68">{doc.title}</p>
 
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(doc.specializations ?? []).slice(0, 2).map((s) => (
@@ -560,7 +560,7 @@ export default async function DoctorsPage() {
             <p className="font-display text-2xl text-white tracking-display sm:text-3xl">
               Ready to meet the team?
             </p>
-            <p className="mx-auto mt-3 max-w-lg font-body text-sm text-white/48 leading-relaxed">
+            <p className="mx-auto mt-3 max-w-lg font-body text-sm text-white/72 leading-relaxed">
               Direct appointments are available with Dr. Sachin Agrawal and Dr. Binita Adhikari. Specialist and hygienist sessions are coordinated as part of your personalised care plan.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

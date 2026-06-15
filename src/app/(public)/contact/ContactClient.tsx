@@ -203,7 +203,7 @@ export default function ContactClient({
               <h1 className="mt-4 font-display text-5xl text-white tracking-display leading-[1.06] lg:text-6xl">
                 Let&apos;s talk about<br />your smile.
               </h1>
-              <p className="mt-5 max-w-xs font-body text-sm text-white/50 leading-relaxed">
+              <p className="mt-5 max-w-xs font-body text-sm text-white/70 leading-relaxed">
                 We&apos;re here to answer your questions — no commitment, no pressure. Reach us
                 by phone, WhatsApp, email, or the form.
               </p>
@@ -213,7 +213,7 @@ export default function ContactClient({
             <div className="mt-14 lg:mt-auto lg:pt-16">
               {/* Phone */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/30">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50">
                   Phone
                 </p>
                 <a
@@ -226,7 +226,7 @@ export default function ContactClient({
 
               {/* WhatsApp */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/30">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50">
                   WhatsApp
                 </p>
                 <a
@@ -241,7 +241,7 @@ export default function ContactClient({
 
               {/* Email */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/30">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50">
                   Email
                 </p>
                 <a
@@ -254,21 +254,21 @@ export default function ContactClient({
 
               {/* Address */}
               <div>
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/30">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50">
                   Address
                 </p>
-                <p className="font-body text-sm text-white/50 leading-relaxed">{address}</p>
+                <p className="font-body text-sm text-white/68 leading-relaxed">{address}</p>
               </div>
 
               {/* Opening Hours */}
               <div className="mt-8 border-t border-white/[0.06] pt-8">
-                <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/30">
+                <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50">
                   Opening Hours
                 </p>
                 <div className="divide-y divide-white/[0.04]">
                   {hours.map((h) => (
                     <div key={h.days} className="flex justify-between gap-3 py-2">
-                      <span className="font-body text-xs text-white/40">{h.days}</span>
+                      <span className="font-body text-xs text-white/65">{h.days}</span>
                       <span className="flex-shrink-0 font-heading text-xs font-semibold text-white/60">
                         {h.open ? h.hours : 'Closed'}
                       </span>

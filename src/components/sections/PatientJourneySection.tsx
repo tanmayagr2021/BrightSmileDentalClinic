@@ -143,7 +143,7 @@ export default function PatientJourneySection() {
               <br />
               <span className="text-gold">Bright Smile</span>
             </h2>
-            <p className="mt-4 max-w-lg font-body text-base text-white/50 leading-relaxed">
+            <p className="mt-4 max-w-lg font-body text-base text-white/70 leading-relaxed">
               From your first call to your final follow-up — every moment is crafted around your
               comfort, clarity, and confidence.
             </p>
@@ -237,7 +237,7 @@ export default function PatientJourneySection() {
             <p className="font-heading text-sm font-semibold text-white">
               Ready to start your journey?
             </p>
-            <p className="mt-1 font-body text-xs text-white/40">
+            <p className="mt-1 font-body text-xs text-white/62">
               Our team answers questions before you book — no commitment needed.
             </p>
           </div>
