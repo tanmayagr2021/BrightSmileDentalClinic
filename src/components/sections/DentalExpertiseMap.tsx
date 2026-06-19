@@ -198,7 +198,7 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
   const [lines, setLines]                 = useState<LinePos[]>([])
 
-  const inView = useInView(sectionRef, { once: true, margin: '-80px' })
+  const inView = useInView(sectionRef, { once: true, margin: '0px' })
 
   // Mutable refs so computeLines doesn't need them as effect deps
   const activeDoctorIdsRef = useRef<Set<string>>(new Set())
@@ -285,13 +285,8 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
   return (
     <div ref={sectionRef} className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-      {/* Heading */}
-      <motion.div
-        className="mb-14 text-center"
-        initial={prefersReduced ? false : { opacity: 0, y: 12 }}
-        animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-        transition={{ duration: 0.5, delay: d(0) }}
-      >
+      {/* Heading — always visible, no opacity gate */}
+      <div className="mb-14 text-center">
         <span className="inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-gold">
           <span className="inline-block h-px w-8 bg-gold/50" />
           Dental Coverage Map
@@ -303,7 +298,7 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
         <p className="mx-auto mt-4 max-w-lg font-body text-[0.94rem] leading-relaxed text-white/72">
           A coordinated network covering the full spectrum of dental care — hover any doctor or region to explore.
         </p>
-      </motion.div>
+      </div>
 
       {/* 3-column layout */}
       <div
@@ -379,14 +374,14 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
               width={VIEW_W} height={VIEW_H}
               fill="url(#dem-grid)"
               initial={{ opacity: 0 }}
-              animate={show ? { opacity: 1 } : { opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: d(0) }}
             />
 
             {/* Layer 2: Construction lines */}
             <motion.g
               initial={{ opacity: 0 }}
-              animate={show ? { opacity: 1 } : { opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: d(1.1) }}
             >
               <line x1={CX} y1={0}      x2={CX}     y2={VIEW_H} stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
@@ -398,7 +393,7 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
             {/* Layer 3: Measurement annotations */}
             <motion.g
               initial={{ opacity: 0 }}
-              animate={show ? { opacity: 1 } : { opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: d(0.9) }}
               fontSize="5"
               fill="rgba(255,255,255,0.25)"
@@ -416,47 +411,47 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
               <line x1="512" y1="472" x2="524" y2="472" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
             </motion.g>
 
-            {/* Layer 4: Arch outline paths */}
+            {/* Layer 4: Arch outline paths — always animate to drawn */}
             <motion.path
               d={UPPER_OUTLINE}
               fill="none"
-              stroke="rgba(255,255,255,0.12)"
-              strokeWidth="0.8"
+              stroke="rgba(255,255,255,0.28)"
+              strokeWidth="1"
               strokeDasharray="4 3"
               initial={{ pathLength: 0 }}
-              animate={show ? { pathLength: 1 } : { pathLength: 0 }}
+              animate={{ pathLength: 1 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: d(0.15) }}
             />
             <motion.path
               d={LOWER_OUTLINE}
               fill="none"
-              stroke="rgba(255,255,255,0.12)"
-              strokeWidth="0.8"
+              stroke="rgba(255,255,255,0.28)"
+              strokeWidth="1"
               strokeDasharray="4 3"
               initial={{ pathLength: 0 }}
-              animate={show ? { pathLength: 1 } : { pathLength: 0 }}
+              animate={{ pathLength: 1 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: d(0.25) }}
             />
 
-            {/* Layer 5: Gum arcs */}
+            {/* Layer 5: Gum arcs — always animate to drawn */}
             <motion.path
               d={UPPER_GUM}
               fill="none"
-              stroke="rgba(255,255,255,0.18)"
-              strokeWidth="1.5"
+              stroke="rgba(255,255,255,0.45)"
+              strokeWidth="1.8"
               strokeLinecap="round"
               initial={{ pathLength: 0 }}
-              animate={show ? { pathLength: 1 } : { pathLength: 0 }}
+              animate={{ pathLength: 1 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: d(0.4) }}
             />
             <motion.path
               d={LOWER_GUM}
               fill="none"
-              stroke="rgba(255,255,255,0.18)"
-              strokeWidth="1.5"
+              stroke="rgba(255,255,255,0.45)"
+              strokeWidth="1.8"
               strokeLinecap="round"
               initial={{ pathLength: 0 }}
-              animate={show ? { pathLength: 1 } : { pathLength: 0 }}
+              animate={{ pathLength: 1 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: d(0.5) }}
             />
 
@@ -488,12 +483,12 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
                   height={tooth.h}
                   rx={2}
                   transform={`translate(${tooth.x.toFixed(2)},${tooth.y.toFixed(2)}) rotate(${tooth.rot.toFixed(1)})`}
-                  fill={active ? 'rgba(197,160,89,0.88)' : 'rgba(255,255,255,0.07)'}
-                  stroke={active ? '#C5A059' : 'rgba(255,255,255,0.25)'}
-                  strokeWidth={active ? 1.2 : 0.8}
+                  fill={active ? 'rgba(197,160,89,0.88)' : 'rgba(255,255,255,0.13)'}
+                  stroke={active ? '#C5A059' : 'rgba(255,255,255,0.4)'}
+                  strokeWidth={active ? 1.4 : 0.9}
                   style={{ transition: 'fill 0.25s ease, stroke 0.25s ease, stroke-width 0.25s ease' }}
                   initial={{ opacity: 0 }}
-                  animate={show ? { opacity: 1 } : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{ duration: 0.25, delay: d(0.55 + i * 0.015) }}
                 />
               )
@@ -528,7 +523,7 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
                     fontSize="7"
                     letterSpacing="1.2"
                     fontWeight={active ? 700 : 500}
-                    fill={active ? '#C5A059' : 'rgba(255,255,255,0.4)'}
+                    fill={active ? '#C5A059' : 'rgba(255,255,255,0.6)'}
                     style={{
                       textTransform: 'uppercase',
                       transition: 'fill 0.3s ease',
@@ -538,7 +533,7 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
                     onMouseEnter={() => setHoveredRegion(rg.region)}
                     onMouseLeave={() => setHoveredRegion(null)}
                     initial={{ opacity: 0 }}
-                    animate={show ? { opacity: 1 } : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ duration: 0.25, delay: d(1.3 + i * 0.06) }}
                   >
                     {REGION_LABEL[rg.region]}
@@ -557,7 +552,7 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
                 fill="#C5A059"
                 fillOpacity={0}
                 initial={{ scale: 0, opacity: 0 }}
-                animate={show ? { scale: [0, 1.2, 1], opacity: [0, 0.6, 0] } : { scale: 0, opacity: 0 }}
+                animate={{ scale: [0, 1.2, 1], opacity: [0, 0.6, 0] }}
                 transition={{ duration: 0.5, delay: d(1.8 + i * 0.08), ease: 'easeOut' }}
                 style={{ originX: `${rg.centroid.x}px`, originY: `${rg.centroid.y}px` }}
               />
@@ -568,7 +563,7 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
           <motion.div
             className="mt-5 flex flex-wrap justify-center gap-2"
             initial={{ opacity: 0 }}
-            animate={show ? { opacity: 1 } : { opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: d(1.4) }}
           >
             {CROSS_ARCH_PILLS.map(pill => {
