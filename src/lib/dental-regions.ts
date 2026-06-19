@@ -3,20 +3,23 @@
 // no schema change required.
 
 export const SPECIALTY_TO_REGIONS: Record<string, string[]> = {
-  'General Dentistry': ['full-arch'],
-  'Cosmetic Dentistry': ['upper-front', 'lower-front'],
-  'Teeth Whitening': ['upper-front', 'lower-front'],
-  'Smile Design': ['upper-front', 'lower-front'],
-  Orthodontics: ['full-arch'],
-  'Dental Implants': ['upper-left', 'upper-right', 'lower-left', 'lower-right'],
-  'Oral Surgery': ['surgical'],
-  'Wisdom Tooth Removal': ['surgical'],
-  Periodontics: ['full-arch'],
-  Endodontics: ['upper-front', 'lower-front'],
-  Pedodontics: ['full-arch'],
-  'Pediatric Dentistry': ['full-arch'],
-  'Restorative Dentistry': ['full-arch'],
-  Prosthodontics: ['upper-left', 'upper-right', 'lower-left', 'lower-right'],
+  'General Dentistry':        ['full-arch'],
+  'Cosmetic Dentistry':       ['upper-front', 'lower-front'],
+  'Teeth Whitening':          ['upper-front', 'lower-front'],
+  'Smile Design':             ['upper-front', 'lower-front'],
+  'Orthodontics':             ['full-arch', 'orthodontics'],
+  'Dental Implants':          ['implants', 'upper-left', 'upper-right', 'lower-left', 'lower-right'],
+  'Oral Surgery':             ['surgical'],
+  'Wisdom Tooth Removal':     ['surgical'],
+  'Periodontics':             ['periodontics', 'full-arch'],
+  'Endodontics':              ['upper-front', 'lower-front'],
+  'Pedodontics':              ['full-arch'],
+  'Pediatric Dentistry':      ['full-arch'],
+  'Restorative Dentistry':    ['full-arch'],
+  'Prosthodontics':           ['implants', 'upper-left', 'upper-right', 'lower-left', 'lower-right'],
+  'Preventive Care':          ['full-arch', 'periodontics'],
+  'Oral Medicine':            ['full-arch'],
+  'Oral Radiology':           ['full-arch'],
 }
 
 export function regionsFromSpecializations(specializations: string[]): string[] {

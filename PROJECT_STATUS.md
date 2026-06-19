@@ -379,15 +379,22 @@ Design inspiration: Stripe, Vercel, Notion, Linear. Clean, fast, professional.
 #### Favicon
 - `src/app/icon.svg` — teal rounded-square with white tooth silhouette; fixes 404 console error
 
-#### Doctors Page — Interactive Dental Expertise Map
-- New `src/components/sections/DentalExpertiseMap.tsx` (client component, ~500 lines)
-- Blueprint SVG dental arch: 14 upper teeth + 14 lower teeth on elliptical arcs, gum paths, region shading
-- Doctor cards in left/right columns flanking the arch; hover highlights corresponding teeth + region label in gold
-- Connector lines from doctor to region centroid; animated draw-on with Framer Motion `pathLength`
-- CMS-driven: derives regions from existing `specializations` field via `SPECIALTY_TO_REGIONS` mapping
-- `src/lib/dental-regions.ts` — pure utility (no `'use client'`) for safe server + client import
-- All animations use `viewport={{ once: true }}` + `useReducedMotion` respect
-- Section inserted between hero and lead dentists on `/doctors` page
+#### Doctors Page — Interactive Dental Expertise Map (Premium Rebuild)
+- `src/components/sections/DentalExpertiseMap.tsx` — complete rebuild (~700 lines, client component)
+- **SVG Architecture**: occlusal (top-down) view, 32 teeth (16 upper + 16 lower) on parametric elliptical arcs
+  - Upper arch: cx=270, cy=28, rx=208, ry=200, angles 20°–160°
+  - Lower arch: cx=270, cy=472, rx=193, ry=208, angles 200°–340°
+  - Tooth sizes vary by type: centrals 8.5×13, laterals 7.5×12, canines 8×12.5, premolars 10×9.5, molars 12.5×8
+  - Teeth oriented radially using `rotate(atan2(archCenter - toothPos))` for correct anatomy
+- **Blueprint layers (bottom to top)**: grid pattern → construction lines → measurement annotations (UL/UR/LL/LR) → arch outline dashes → gum arcs → region polygon fills → teeth → crosshair → region labels + hit targets → centroid pulses
+- **Region polygon fills**: outer band (tooth + 14px outward) + inner band (tooth − 7px inward) for realistic arch-band shape; gold fill + drop-shadow on hover
+- **Connection lines**: overlay `<svg position:absolute>` over the 3-column layout; `useRef` + `ResizeObserver` measures card DOM positions, converts SVG region centroid to DOM coordinates, draws animated `pathLength` bezier lines on hover (desktop only)
+- **Animation sequence**: grid 0.0s → arch outlines 0.15s → gum arcs 0.4s → teeth stagger 0.55s (0.015s per tooth) → annotations 0.9s → construction lines 1.1s → labels 1.3s → cards 1.5s → centroid pulses 1.8s
+- **12 regions**: upper-right, upper-front, upper-left, lower-right, lower-front, lower-left + cross-arch: full-arch, surgical, implants, orthodontics, periodontics
+- CMS-driven: `specializations` field → `SPECIALTY_TO_REGIONS` mapping → regions auto-derived (no DB schema change)
+- Doctor cards: glassmorphism, gold active state, specialty chips, click navigates to `/doctors/[slug]`
+- `src/lib/dental-regions.ts` — updated with 17 specialty mappings including Preventive Care, Oral Medicine, Oral Radiology
+- Section inserted between hero and lead dentists; `slug` field added to `mapDoctors` construction in page.tsx
 
 #### Footer — Minimal Redesign (Apple/Linear/Notion style)
 - Single `#0A1128` background (removed light pre-footer band)

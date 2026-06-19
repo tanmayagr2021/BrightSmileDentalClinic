@@ -113,6 +113,7 @@ export default async function DoctorsPage() {
     title: d.title,
     specializations: d.specializations ?? [],
     regions: regionsFromSpecializations(d.specializations ?? []),
+    slug: d.slug ?? undefined,
   }))
 
   return (
