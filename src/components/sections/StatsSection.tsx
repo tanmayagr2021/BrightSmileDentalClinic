@@ -92,7 +92,7 @@ export default function StatsSection() {
                 aria-hidden="true"
               />
 
-              <span className="mt-4 font-heading text-sm font-semibold uppercase tracking-[0.2em] text-white/55">
+              <span className="mt-4 font-heading text-sm font-semibold uppercase tracking-[0.2em] text-white/75">
                 {stat.label}
               </span>
             </motion.div>

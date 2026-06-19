@@ -118,7 +118,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
                     >
                       <div className="px-6 pb-6 pt-0">
                         <div className="h-px w-full bg-primary/8 mb-4" />
-                        <p className="font-body text-[0.9rem] leading-relaxed text-gray-500">
+                        <p className="font-body text-[0.9rem] leading-relaxed text-zinc-600">
                           {faq.a}
                         </p>
                       </div>

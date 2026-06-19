@@ -4,11 +4,14 @@ import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { TEAM_MEMBERS_STATIC, CLINIC_CONTACT } from '@/lib/constants'
 import type { DoctorRow } from '@/types/db'
+import DentalExpertiseMap from '@/components/sections/DentalExpertiseMap'
+import type { MapDoctor } from '@/components/sections/DentalExpertiseMap'
+import { regionsFromSpecializations } from '@/lib/dental-regions'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Our Doctors & Care Team | Bright Smile Dental Clinic',
+  title: 'Our Doctors & Care Team',
   description:
     'Meet the experts behind every smile at Bright Smile Dental Clinic — two lead dentists, four visiting specialists, and a dedicated clinical and administrative team committed to exceptional dental care.',
 }
@@ -100,6 +103,18 @@ export default async function DoctorsPage() {
   const specialists = allDoctors.filter((d) => d.doctor_type === 'specialist')
   const supportTeam = TEAM_MEMBERS_STATIC.filter((m) => m.visible)
 
+  // Build MapDoctor list — regions auto-derived from each doctor's specializations
+  const mapDoctors: MapDoctor[] = allDoctors.map((d) => ({
+    id: d.id,
+    name: d.full_name,
+    shortName: d.short_name ?? d.full_name.split(' ').slice(-1)[0],
+    initials: d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2),
+    color: d.color_hex ?? '#1A7A5E',
+    title: d.title,
+    specializations: d.specializations ?? [],
+    regions: regionsFromSpecializations(d.specializations ?? []),
+  }))
+
   return (
     <div>
 
@@ -158,6 +173,27 @@ export default async function DoctorsPage() {
           </div>
         </div>
       </section>
+
+      {/* ── DENTAL EXPERTISE MAP — Interactive blueprint diagram ── */}
+      {mapDoctors.length > 0 && (
+        <section
+          className="relative overflow-hidden py-20 lg:py-28"
+          style={{ background: '#0A1128' }}
+        >
+          {/* Subtle grid background */}
+          <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.018]" aria-hidden="true">
+            <defs>
+              <pattern id="map-bg-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#map-bg-grid)" />
+          </svg>
+          <div className="pointer-events-none absolute left-1/4 top-0 h-72 w-72 -translate-y-1/2 rounded-full bg-primary/8 blur-3xl" aria-hidden="true" />
+          <div className="pointer-events-none absolute right-1/4 bottom-0 h-64 w-64 translate-y-1/2 rounded-full bg-gold/6 blur-3xl" aria-hidden="true" />
+          <DentalExpertiseMap doctors={mapDoctors} />
+        </section>
+      )}
 
       {/* ── LEAD DENTISTS — Editorial Feature Cards ── */}
       <section className="bg-ivory py-24 lg:py-32">

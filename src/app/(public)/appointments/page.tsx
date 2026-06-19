@@ -38,7 +38,7 @@ function buildHours(rows: DbHour[]): { days: string; hours: string; open: boolea
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Book an Appointment | Bright Smile Dental Clinic',
+  title: 'Book an Appointment',
   description:
     'Book a dental appointment with Dr. Sachin Agrawal or Dr. Binita Adhikari at Bright Smile Dental Clinic, Nagpokhari, Naxal, Kathmandu. Quick and easy online request.',
 }

@@ -148,7 +148,7 @@ export default function ContactClient({
     <div className="bg-white">
       {/* Emergency banner */}
       <div className="bg-red-50 border-b border-red-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center gap-3">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center gap-x-3 gap-y-2">
           <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 flex-shrink-0 text-red-500" aria-hidden="true">
             <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.3" />
             <path d="M8 4.5V8.5M8 11h.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -213,7 +213,7 @@ export default function ContactClient({
             <div className="mt-14 lg:mt-auto lg:pt-16">
               {/* Phone */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/72">
                   Phone
                 </p>
                 <a
@@ -226,14 +226,14 @@ export default function ContactClient({
 
               {/* WhatsApp */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/72">
                   WhatsApp
                 </p>
                 <a
                   href={`https://wa.me/${phoneWhatsApp.replace(/[^0-9]/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-body text-base text-white/65 transition-colors hover:text-white"
+                  className="font-body text-base text-white/75 transition-colors hover:text-white"
                 >
                   {phoneWhatsApp}
                 </a>
@@ -241,12 +241,12 @@ export default function ContactClient({
 
               {/* Email */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/72">
                   Email
                 </p>
                 <a
                   href={`mailto:${email}`}
-                  className="break-all font-body text-sm text-white/55 transition-colors hover:text-white"
+                  className="break-all font-body text-sm text-white/75 transition-colors hover:text-white"
                 >
                   {email}
                 </a>
@@ -254,7 +254,7 @@ export default function ContactClient({
 
               {/* Address */}
               <div>
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/72">
                   Address
                 </p>
                 <p className="font-body text-sm text-white/68 leading-relaxed">{address}</p>
@@ -262,14 +262,14 @@ export default function ContactClient({
 
               {/* Opening Hours */}
               <div className="mt-8 border-t border-white/[0.06] pt-8">
-                <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/50">
+                <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/72">
                   Opening Hours
                 </p>
                 <div className="divide-y divide-white/[0.04]">
                   {hours.map((h) => (
                     <div key={h.days} className="flex justify-between gap-3 py-2">
-                      <span className="font-body text-xs text-white/65">{h.days}</span>
-                      <span className="flex-shrink-0 font-heading text-xs font-semibold text-white/60">
+                      <span className="font-body text-xs text-white/75">{h.days}</span>
+                      <span className="flex-shrink-0 font-heading text-xs font-semibold text-white/75">
                         {h.open ? h.hours : 'Closed'}
                       </span>
                     </div>
@@ -283,7 +283,7 @@ export default function ContactClient({
                   href={`https://wa.me/${phoneWhatsApp.replace(/[^0-9]/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 font-heading text-xs font-semibold text-white/55 transition-all hover:border-white/15 hover:text-white"
+                  className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 font-heading text-xs font-semibold text-white/75 transition-all hover:border-white/15 hover:text-white"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -295,7 +295,7 @@ export default function ContactClient({
                   href={facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 font-heading text-xs font-semibold text-white/55 transition-all hover:border-white/15 hover:text-white"
+                  className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 font-heading text-xs font-semibold text-white/75 transition-all hover:border-white/15 hover:text-white"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
                     <path d="M18 10a8 8 0 10-9.25 7.903V12.89H7.078V10H8.75V8.124c0-1.653.995-2.565 2.492-2.565.722 0 1.477.128 1.477.128v1.622h-.832c-.82 0-1.075.508-1.075 1.03V10h1.83l-.292 2.89H10.81v5.013A8.002 8.002 0 0018 10z" />
@@ -319,7 +319,7 @@ export default function ContactClient({
               <>
                 <motion.div variants={fadeUp} className="mb-7">
                   <h2 className="font-display text-3xl text-dark tracking-display">Send Us a Message</h2>
-                  <p className="mt-2 font-body text-sm text-gray-500">
+                  <p className="mt-2 font-body text-sm text-zinc-600">
                     We&apos;ll respond within 24 hours on working days.
                   </p>
                 </motion.div>
@@ -432,7 +432,7 @@ export default function ContactClient({
                   </svg>
                 </div>
                 <h2 className="font-display text-2xl text-dark tracking-display">Message Sent!</h2>
-                <p className="mt-2 font-body text-sm text-gray-500 max-w-xs leading-relaxed">
+                <p className="mt-2 font-body text-sm text-zinc-600 max-w-xs leading-relaxed">
                   Thank you, <strong className="text-dark">{form.name}</strong>. We&apos;ll get back to you within 24 hours.
                 </p>
                 <button
@@ -512,7 +512,7 @@ export default function ContactClient({
                 </div>
                 <div className="text-center">
                   <p className="font-heading text-base font-semibold text-white">Bright Smile Dental Clinic</p>
-                  <p className="mt-1 font-body text-sm text-white/50">{address}</p>
+                  <p className="mt-1 font-body text-sm text-white/72">{address}</p>
                 </div>
               </div>
 
@@ -521,7 +521,7 @@ export default function ContactClient({
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-primary flex-shrink-0" aria-hidden="true">
                   <path d="M8 2a4 4 0 014 4c0 3-4 8-4 8s-4-5-4-8a4 4 0 014-4zm0 2.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" stroke="currentColor" strokeWidth="1.2" />
                 </svg>
-                <span className="font-heading text-xs font-semibold text-white/65 transition-colors group-hover:text-white">
+                <span className="font-heading text-xs font-semibold text-white/75 transition-colors group-hover:text-white">
                   Open in Google Maps
                 </span>
                 <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-white/35 transition-all group-hover:translate-x-0.5 group-hover:text-white/70" aria-hidden="true">
@@ -565,7 +565,7 @@ export default function ContactClient({
                   <span className="text-xl flex-shrink-0">{dir.icon}</span>
                   <div>
                     <p className="font-heading text-xs font-semibold text-dark">{dir.label}</p>
-                    <p className="mt-1 font-body text-xs text-gray-500 leading-relaxed">{dir.desc}</p>
+                    <p className="mt-1 font-body text-xs text-zinc-600 leading-relaxed">{dir.desc}</p>
                   </div>
                 </motion.div>
               ))}

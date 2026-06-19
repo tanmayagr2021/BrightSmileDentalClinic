@@ -6,7 +6,7 @@ import ContactClient from './ContactClient'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Contact Us | Bright Smile Dental Clinic',
+  title: 'Contact Us',
   description:
     'Get in touch with Bright Smile Dental Clinic — call, WhatsApp, email, or use our contact form. Find us at Nagpokhari, Naxal, Kathmandu.',
 }

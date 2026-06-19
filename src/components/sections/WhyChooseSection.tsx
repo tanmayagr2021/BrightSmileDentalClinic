@@ -90,7 +90,7 @@ export default function WhyChooseSection() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             className="lg:pb-2"
           >
-            <p className="font-body text-base leading-relaxed text-gray-500 max-w-lg">
+            <p className="font-body text-base leading-relaxed text-zinc-600 max-w-lg">
               Six reasons why patients across Kathmandu choose Bright Smile — and keep coming back for a lifetime of dental care.
             </p>
             <Link
@@ -138,7 +138,7 @@ export default function WhyChooseSection() {
 
               {/* Description */}
               <div className="relative col-start-2 lg:col-start-3 lg:col-auto">
-                <p className="font-body text-sm leading-relaxed text-gray-500">
+                <p className="font-body text-sm leading-relaxed text-zinc-600">
                   {reason.description}
                 </p>
               </div>

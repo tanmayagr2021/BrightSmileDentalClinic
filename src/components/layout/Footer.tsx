@@ -3,7 +3,6 @@ import Image from 'next/image'
 import {
   CLINIC_TAGLINE,
   CLINIC_CONTACT,
-  FOOTER_QUICK_LINKS,
   OPENING_HOURS,
 } from '@/lib/constants'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -58,27 +57,6 @@ function FooterLogo() {
   )
 }
 
-function FooterHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="font-heading text-xs font-semibold uppercase tracking-[0.16em] text-white/40 mb-4">
-      {children}
-    </h3>
-  )
-}
-
-function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <li>
-      <Link
-        href={href}
-        className="font-body text-sm text-white/55 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white"
-      >
-        {children}
-      </Link>
-    </li>
-  )
-}
-
 function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
   return (
     <a
@@ -86,7 +64,7 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Open Bright Smile Dental Clinic in Google Maps"
-      className="group relative block h-[200px] overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      className="group relative block h-full min-h-[240px] overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     >
       {/* Live OpenStreetMap — dark tinted to match footer palette */}
       <iframe
@@ -111,7 +89,7 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
           <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-400" />
         </span>
-        <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/65">Live Map</span>
+        <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/75">Live Map</span>
       </div>
 
       {/* Centre pin */}
@@ -138,7 +116,7 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
           <p className="font-heading text-xs font-semibold leading-tight text-white drop-shadow-sm">
             Bright Smile Dental Clinic
           </p>
-          <p className="mt-0.5 truncate font-body text-[0.68rem] text-white/50 drop-shadow-sm">
+          <p className="mt-0.5 truncate font-body text-[0.68rem] text-white/72 drop-shadow-sm">
             {address}
           </p>
         </div>
@@ -146,14 +124,34 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
           <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 flex-shrink-0 text-primary" aria-hidden="true">
             <path d="M8 2a4 4 0 014 4c0 3-4 8-4 8s-4-5-4-8a4 4 0 014-4zm0 2.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" stroke="currentColor" strokeWidth="1.2" />
           </svg>
-          <span className="font-heading text-[0.6rem] font-semibold text-white/65 transition-colors group-hover:text-white">
+          <span className="font-heading text-[0.6rem] font-semibold text-white/75 transition-colors group-hover:text-white">
             Get Directions
           </span>
-          <svg viewBox="0 0 16 16" fill="none" className="h-2.5 w-2.5 text-white/35 transition-all group-hover:translate-x-0.5 group-hover:text-primary" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" className="h-2.5 w-2.5 text-white/45 transition-all group-hover:translate-x-0.5 group-hover:text-primary" aria-hidden="true">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
       </div>
+    </a>
+  )
+}
+
+function ContactRow({ icon, href, external, children }: {
+  icon: React.ReactNode
+  href: string
+  external?: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <a
+      href={href}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      className="group flex items-center gap-3 font-body text-sm text-white/75 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white"
+    >
+      <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-primary transition-colors group-hover:border-primary/30 group-hover:bg-primary/10">
+        {icon}
+      </span>
+      <span className="min-w-0 break-words">{children}</span>
     </a>
   )
 }
@@ -183,111 +181,76 @@ export default async function Footer() {
   const hours = buildHours(hoursData ?? [])
 
   return (
-    <footer className="bg-dark" aria-labelledby="footer-heading">
+    <footer className="bg-[#0A1128]" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">Footer</h2>
 
-      {/* Pre-footer brand strip */}
-      <div className="bg-[#0A1128] border-b border-white/[0.06]">
-        <Container>
-          <div className="flex flex-col items-center justify-between gap-6 py-12 text-center sm:flex-row sm:text-left">
-            <div>
-              <p className="font-display text-2xl tracking-tight text-white sm:text-3xl">
-                {CLINIC_TAGLINE}
-              </p>
-              <p className="mt-1.5 font-body text-sm text-white/40">
-                Est. 2013 &nbsp;·&nbsp; Nagpokhari, Naxal, Kathmandu
-              </p>
-            </div>
-            <Link
-              href="/appointments"
-              className="inline-flex flex-shrink-0 items-center gap-2.5 rounded-xl bg-gold px-7 py-3.5 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
-            >
-              Book an Appointment
-              <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
-          </div>
-        </Container>
-      </div>
-
       <Container>
-        {/* Main grid */}
-        <div className="grid grid-cols-1 gap-10 border-b border-white/10 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        {/* Brand */}
+        <div className="pt-16 pb-10 lg:pt-20">
+          <FooterLogo />
+          <p className="mt-5 font-display text-2xl tracking-tight text-white sm:text-[1.75rem]">
+            Bright Smile Dental Clinic
+          </p>
+          <p className="mt-1.5 font-body text-sm text-white/72">
+            {CLINIC_TAGLINE}
+          </p>
+        </div>
 
-          {/* Col 1 — Brand */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <FooterLogo />
-            <p className="mt-4 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/28">
-              Est. 2013 &nbsp;·&nbsp; Nagpokhari, Naxal, Kathmandu
-            </p>
-          </div>
+        {/* Two-column: map + contact card */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {/* Map embed */}
+          <FooterMap address={clinicAddress} mapsUrl={clinicMapsUrl} />
 
-          {/* Col 2 — Quick Links */}
-          <div>
-            <FooterHeading>Quick Links</FooterHeading>
-            <ul className="space-y-2.5">
-              {FOOTER_QUICK_LINKS.map((link) => (
-                <FooterLink key={link.href} href={link.href}>
-                  {link.label}
-                </FooterLink>
-              ))}
-            </ul>
-          </div>
+          {/* Contact info card */}
+          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-7 backdrop-blur-sm lg:p-8">
+            <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold">
+              Visit &amp; Contact
+            </h3>
 
-          {/* Col 3 — Contact */}
-          <div>
-            <FooterHeading>Contact</FooterHeading>
-            <address className="not-italic space-y-3">
-              <a
-                href={`tel:${phone.replace(/\s/g, '')}`}
-                className="flex items-center gap-2 font-body text-sm text-white/55 transition-colors hover:text-white"
-              >
-                <PhoneIcon />
-                {phone}
-              </a>
-              <a
-                href={`https://wa.me/${phoneWhatsApp.replace(/[^0-9]/g, '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 font-body text-sm text-white/55 transition-colors hover:text-white"
-              >
-                <WhatsAppIcon />
-                {phoneWhatsApp}
-              </a>
-              <a
-                href={`mailto:${emailAppointments}`}
-                className="flex items-center gap-2 font-body text-sm text-white/55 transition-colors hover:text-white"
-              >
-                <MailIcon />
-                {emailAppointments}
-              </a>
-            </address>
-          </div>
-
-          {/* Col 4 — Hours */}
-          <div>
-            <FooterHeading>Opening Hours</FooterHeading>
-            <ul className="space-y-3">
+            {/* Hours — compact */}
+            <dl className="mt-5 space-y-2">
               {hours.map((item) => (
-                <li key={item.days} className="flex items-start justify-between gap-4">
-                  <p className="font-body text-sm text-white/55">{item.days}</p>
-                  <p className="font-body text-sm font-medium text-white/80 text-right">{item.hours}</p>
-                </li>
+                <div key={item.days} className="flex items-baseline justify-between gap-4">
+                  <dt className="font-body text-sm text-white/72">{item.days}</dt>
+                  <dd className="font-heading text-sm font-medium text-white text-right">{item.hours}</dd>
+                </div>
               ))}
-            </ul>
+            </dl>
+
+            <div className="my-6 h-px w-full bg-white/10" />
+
+            {/* Contact list */}
+            <div className="space-y-3.5">
+              <div className="flex items-start gap-3">
+                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-primary">
+                  <LocationIcon />
+                </span>
+                <p className="font-body text-sm text-white/75 leading-relaxed">{clinicAddress}</p>
+              </div>
+              <ContactRow icon={<PhoneIcon />} href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</ContactRow>
+              <ContactRow icon={<WhatsAppIcon />} href={`https://wa.me/${phoneWhatsApp.replace(/[^0-9]/g, '')}`} external>{phoneWhatsApp}</ContactRow>
+              <ContactRow icon={<MailIcon />} href={`mailto:${emailAppointments}`}>{emailAppointments}</ContactRow>
+            </div>
           </div>
         </div>
 
-        {/* Live map — clinic location */}
-        <div className="border-b border-white/10 py-8">
-          <FooterMap address={clinicAddress} mapsUrl={clinicMapsUrl} />
+        {/* Gold CTA */}
+        <div className="mt-6 flex justify-stretch sm:justify-end">
+          <Link
+            href="/appointments"
+            className="inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-gold px-8 py-4 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97] sm:w-auto"
+          >
+            Book an Appointment
+            <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col items-center justify-between gap-4 py-6 sm:flex-row">
-          <p className="font-body text-xs text-white/25 text-center sm:text-left">
-            &copy; {year} Bright Smile Dental Clinic Pvt. Ltd. All rights reserved.
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 py-7 sm:flex-row">
+          <p className="font-body text-xs text-white/35 text-center sm:text-left">
+            &copy; {year} Bright Smile Dental Clinic Pvt. Ltd. · All rights reserved.
           </p>
           <div className="flex items-center gap-5">
             {facebook && (
@@ -296,7 +259,7 @@ export default async function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Bright Smile Dental Clinic on Facebook"
-                className="text-white/25 transition-colors hover:text-white/55"
+                className="text-white/35 transition-colors hover:text-white/70"
               >
                 <FacebookIcon />
               </a>
@@ -307,20 +270,25 @@ export default async function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Bright Smile Dental Clinic on Instagram"
-                className="text-white/25 transition-colors hover:text-white/55"
+                className="text-white/35 transition-colors hover:text-white/70"
               >
                 <InstagramIcon />
               </a>
             )}
-            <span className="h-3 w-px bg-white/12" aria-hidden="true" />
+            <span className="h-3 w-px bg-white/15" aria-hidden="true" />
             <Link
               href="/privacy"
-              className="font-body text-xs text-white/25 hover:text-white/55 transition-colors"
+              className="font-body text-xs text-white/35 hover:text-white/70 transition-colors"
             >
-              Privacy Policy
+              Privacy
             </Link>
-            <span className="h-3 w-px bg-white/12" aria-hidden="true" />
-            <p className="font-body text-xs text-white/25">NMC Registered</p>
+            <span className="h-3 w-px bg-white/15" aria-hidden="true" />
+            <span className="flex items-center gap-1.5 font-body text-xs text-white/35">
+              <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-primary" aria-hidden="true">
+                <path d="M4 8.5l2.5 2.5L12 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              NMC Registered
+            </span>
           </div>
         </div>
       </Container>
@@ -348,7 +316,7 @@ function InstagramIcon() {
 
 function PhoneIcon() {
   return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="flex-shrink-0 text-white/30">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="flex-shrink-0">
       <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.95 1.18 2 2 0 012.92 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z" />
     </svg>
   )
@@ -356,7 +324,7 @@ function PhoneIcon() {
 
 function WhatsAppIcon() {
   return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="flex-shrink-0 text-white/30">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="flex-shrink-0">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
     </svg>
   )
@@ -364,9 +332,18 @@ function WhatsAppIcon() {
 
 function MailIcon() {
   return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="flex-shrink-0 text-white/30">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="flex-shrink-0">
       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
       <polyline points="22,6 12,13 2,6" />
+    </svg>
+  )
+}
+
+function LocationIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="flex-shrink-0">
+      <path d="M12 2a7 7 0 017 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 017-7z" />
+      <circle cx="12" cy="9" r="2.5" />
     </svg>
   )
 }

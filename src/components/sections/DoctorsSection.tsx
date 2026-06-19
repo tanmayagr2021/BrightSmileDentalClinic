@@ -72,7 +72,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
               <motion.h2 variants={fadeUp} className="font-display text-4xl text-dark sm:text-5xl lg:text-6xl tracking-display leading-[1.06]">
                 Meet Our Lead Dentists
               </motion.h2>
-              <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-gray-500 leading-relaxed">
+              <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-zinc-600 leading-relaxed">
                 Appointments are available directly with our two lead dentists — both NMC-registered with over a decade of combined experience.
               </motion.p>
             </div>
@@ -153,7 +153,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                   </div>
                 </div>
 
-                <p className="mt-4 font-body text-sm text-gray-500 leading-relaxed line-clamp-3">
+                <p className="mt-4 font-body text-sm text-zinc-600 leading-relaxed line-clamp-3">
                   {doc.full_bio ?? doc.short_bio}
                 </p>
 

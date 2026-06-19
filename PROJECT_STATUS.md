@@ -366,6 +366,56 @@ Design inspiration: Stripe, Vercel, Notion, Linear. Clean, fast, professional.
 
 ---
 
+---
+
+### Pre-Launch Premium UI Polish (2026-06-19)
+**Goal: Launch-ready premium public site. Apple/Linear/Stripe aesthetic. No backend changes.**
+
+#### Readability Audit
+- All `text-white/50`–`text-white/65` on dark backgrounds raised to `text-white/72`–`text-white/75` (WCAG AA)
+- All `text-gray-500` body text on light backgrounds changed to `text-zinc-600` / `text-zinc-700`
+- Affected: StatsSection, CtaSection, BeforeAfterSection, DoctorsSection, PatientJourneySection, HeroSection, TrustSection, TestimonialsSection, WhyChooseSection, FaqSection, ContactClient
+
+#### Favicon
+- `src/app/icon.svg` — teal rounded-square with white tooth silhouette; fixes 404 console error
+
+#### Doctors Page — Interactive Dental Expertise Map
+- New `src/components/sections/DentalExpertiseMap.tsx` (client component, ~500 lines)
+- Blueprint SVG dental arch: 14 upper teeth + 14 lower teeth on elliptical arcs, gum paths, region shading
+- Doctor cards in left/right columns flanking the arch; hover highlights corresponding teeth + region label in gold
+- Connector lines from doctor to region centroid; animated draw-on with Framer Motion `pathLength`
+- CMS-driven: derives regions from existing `specializations` field via `SPECIALTY_TO_REGIONS` mapping
+- `src/lib/dental-regions.ts` — pure utility (no `'use client'`) for safe server + client import
+- All animations use `viewport={{ once: true }}` + `useReducedMotion` respect
+- Section inserted between hero and lead dentists on `/doctors` page
+
+#### Footer — Minimal Redesign (Apple/Linear/Notion style)
+- Single `#0A1128` background (removed light pre-footer band)
+- Brand block: logo + clinic name + tagline
+- 2-column grid: OpenStreetMap embed (left) + contact card with hours/address/phone/WhatsApp/email (right)
+- Gold full-width "Book an Appointment" CTA
+- Bottom bar: copyright + social icons + Privacy link at `text-white/35`
+
+#### Services Page — Premium Hierarchy
+- Three premium services (Cosmetic Dentistry, Orthodontics, Dental Implants) as large dark feature cards
+- Gold number badge, price-from indicator, glass sub-service grid, gold Book Now CTA per premium card
+- Remaining services in compact 2-column grid with sub-service chips
+- Hero padding tightened; gold glow accent added
+
+#### Page Title Deduplication
+- Removed ` | Bright Smile Dental Clinic` suffix from individual page `title` exports
+- Root layout `template: '%s | Bright Smile Dental Clinic'` now handles suffix for all pages
+- Fixed: Contact, Appointments, Doctors pages
+
+#### Contact Page Fixes
+- `text-white/50` → `text-white/72`, `text-white/55` → `text-white/75`
+- Emergency banner: `py-2.5 flex-wrap` for mobile wrapping
+
+#### Build
+- Clean production build · 0 TypeScript errors · All pages compile · `/doctors` returns 200
+
+---
+
 ## What Is NOT Built Yet
 - Admin dashboard CMS writes to Supabase (currently UI-only with useState — Phase I)
 - Real email templates (currently plain-text; needs Resend key)
