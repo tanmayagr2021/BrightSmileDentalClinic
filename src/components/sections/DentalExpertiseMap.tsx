@@ -9,7 +9,7 @@
  */
 
 import { useMemo, useState, useRef, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence, useReducedMotion, useInView } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 
 // Re-export from shared lib so server components can import without touching 'use client'
@@ -198,8 +198,6 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
   const [lines, setLines]                 = useState<LinePos[]>([])
 
-  const inView = useInView(sectionRef, { once: true, margin: '0px' })
-
   // Mutable refs so computeLines doesn't need them as effect deps
   const activeDoctorIdsRef = useRef<Set<string>>(new Set())
   const doctorsRef         = useRef<MapDoctor[]>(doctors)
@@ -276,7 +274,6 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
 
   // ── Animation helpers ──────────────────────────────────────────────────────
   const d = (base: number) => prefersReduced ? 0 : base
-  const show = inView
 
   const isToothActive   = (tooth: ToothData) => tooth.regions.some(r => activeRegions.has(r))
   const isRegionActive  = (region: string)   => activeRegions.has(region) || (activeRegions.has('full-arch') && region !== 'surgical')
