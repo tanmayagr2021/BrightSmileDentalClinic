@@ -1,6 +1,7 @@
 import Header from './Header'
 import Footer from './Footer'
 import MobileActionBar from '@/components/ui/MobileActionBar'
+import BrightAILoader from '@/components/ai/BrightAILoader'
 import { CLINIC_CONTACT } from '@/lib/constants'
 
 interface PublicLayoutProps {
@@ -29,6 +30,9 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
       {/* Fixed mobile action bar — visible only on mobile */}
       <MobileActionBar phone={CLINIC_CONTACT.phone} />
+
+      {/* Bright AI floating receptionist — lazy loaded, no SSR */}
+      <BrightAILoader />
     </>
   )
 }

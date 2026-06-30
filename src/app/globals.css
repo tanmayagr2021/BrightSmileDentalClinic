@@ -138,4 +138,30 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Bright AI panel — gold-tinted thin scrollbar */
+  .scrollbar-ai {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(197, 160, 89, 0.2) transparent;
+  }
+  .scrollbar-ai::-webkit-scrollbar {
+    width: 4px;
+  }
+  .scrollbar-ai::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-ai::-webkit-scrollbar-thumb {
+    background: rgba(197, 160, 89, 0.2);
+    border-radius: 2px;
+  }
+  .scrollbar-ai::-webkit-scrollbar-thumb:hover {
+    background: rgba(197, 160, 89, 0.35);
+  }
+}
+
+/* Print styles — medical history detail view */
+@media print {
+  body > *:not(#print-target) { display: none !important; }
+  .print\\:hidden { display: none !important; }
+  header, footer, nav, aside { display: none !important; }
 }

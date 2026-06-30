@@ -145,3 +145,28 @@ export type BlockedDateRow = {
   created_at: string
   updated_at: string
 }
+
+export type MedicalHistoryRow = {
+  id: string
+  session_id: string
+  patient_name: string
+  patient_age: string | null
+  patient_gender: 'male' | 'female' | 'other' | 'prefer_not_to_say' | null
+  patient_phone: string | null
+  patient_email: string | null
+  chief_complaint: string | null
+  medical_conditions: string[]
+  allergies: string[]
+  current_medications: string | null
+  last_dental_visit: string | null
+  previous_treatments: string | null
+  dental_anxiety_level: 'none' | 'mild' | 'moderate' | 'severe' | null
+  appointment_id: string | null
+  status: 'pending' | 'reviewed' | 'attached'
+  submitted_at: string
+  reviewed_at: string | null
+  reviewed_by: string | null
+  admin_notes: string | null
+  created_at: string
+  updated_at: string
+}

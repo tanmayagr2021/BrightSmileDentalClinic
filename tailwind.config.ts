@@ -43,6 +43,9 @@ const config: Config = {
         'fade-up': 'fadeUp 0.6s ease-out forwards',
         'fade-in': 'fadeIn 0.4s ease-out forwards',
         'counter': 'counter 2s ease-out forwards',
+        'breathe': 'breathe 3s ease-in-out infinite',
+        'breathe-glow': 'breatheGlow 3s ease-in-out infinite',
+        'dots': 'dots 1.1s ease-in-out infinite',
       },
       keyframes: {
         fadeUp: {
@@ -52,6 +55,18 @@ const config: Config = {
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
+        },
+        breathe: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.08)' },
+        },
+        breatheGlow: {
+          '0%, 100%': { opacity: '0.6', transform: 'scale(1)' },
+          '50%': { opacity: '0', transform: 'scale(1.55)' },
+        },
+        dots: {
+          '0%, 80%, 100%': { opacity: '0.3', transform: 'translateY(0)' },
+          '40%': { opacity: '1', transform: 'translateY(-3px)' },
         },
       },
       boxShadow: {

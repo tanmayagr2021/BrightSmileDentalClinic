@@ -31,6 +31,7 @@ const NAV = [
     section: 'Clinic',
     items: [
       { href: '/admin/appointments', label: 'Appointments', icon: IconAppointments },
+      { href: '/admin/medical-histories', label: 'Medical Histories', icon: IconMedicalHistory },
     ],
   },
   {
@@ -52,6 +53,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/admin/faqs': 'FAQs',
   '/admin/gallery': 'Gallery',
   '/admin/appointments': 'Appointments',
+  '/admin/medical-histories': 'Medical Histories',
   '/admin/blog': 'Blog Posts',
   '/admin/about': 'About Page',
   '/admin/settings/website': 'Website Settings',
@@ -172,6 +174,16 @@ function IconAbout() {
       <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.3" />
       <path d="M8 7v5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
       <circle cx="8" cy="5" r="0.7" fill="currentColor" />
+    </svg>
+  )
+}
+function IconMedicalHistory() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-[15px] w-[15px]" aria-hidden="true">
+      <rect x="2" y="1.5" width="10" height="13" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M5 5.5h4M5 8h4M5 10.5h2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M13 5.5v5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M11 8h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   )
 }
