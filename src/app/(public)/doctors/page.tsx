@@ -154,7 +154,7 @@ export default async function DoctorsPage() {
             <span className="text-gold">Every Smile</span>
           </h1>
 
-          <p className="mt-6 max-w-2xl font-body text-[1rem] text-white/75 leading-relaxed lg:text-[1.05rem]">
+          <p className="mt-6 max-w-2xl font-body text-[1rem] text-white/90 leading-relaxed lg:text-[1.05rem]">
             Six NMC-registered dentists and specialists, supported by a dedicated clinical and administrative team — all committed to exceptional dental care in Kathmandu.
           </p>
 
@@ -166,7 +166,7 @@ export default async function DoctorsPage() {
               'Serving Kathmandu since 2013',
               'Nagpokhari, Naxal',
             ].map((item) => (
-              <span key={item} className="flex items-center gap-2.5 font-heading text-[0.68rem] font-medium text-white/70">
+              <span key={item} className="flex items-center gap-2.5 font-heading text-[0.68rem] font-medium text-white/90">
                 <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gold" />
                 {item}
               </span>
@@ -277,9 +277,9 @@ export default async function DoctorsPage() {
                       <h2 className="font-display text-2xl text-white sm:text-[1.9rem] leading-tight">
                         {doc.full_name}
                       </h2>
-                      <p className="mt-1 font-body text-sm text-white/68">{doc.title}</p>
+                      <p className="mt-1 font-body text-sm text-white/85">{doc.title}</p>
                       {doc.experience_text && (
-                        <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/60">
+                        <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/75">
                           {doc.experience_text}
                         </p>
                       )}
@@ -398,7 +398,7 @@ export default async function DoctorsPage() {
               <h2 className="font-display text-4xl text-white tracking-display leading-[1.06] sm:text-5xl">
                 Where Specialists<br />Join Your Care
               </h2>
-              <p className="mt-4 max-w-xl font-body text-base text-white/72 leading-relaxed">
+              <p className="mt-4 max-w-xl font-body text-base text-white/85 leading-relaxed">
                 For treatments requiring advanced expertise — implants, periodontics, oral surgery — our visiting specialists work within your coordinated care plan, arranged by your lead dentist.
               </p>
             </div>
@@ -448,11 +448,11 @@ export default async function DoctorsPage() {
                     NMC {doc.nmc_number}
                   </p>
                   <h3 className="mt-1.5 font-heading text-sm font-semibold leading-snug text-white">{doc.full_name}</h3>
-                  <p className="mt-0.5 font-body text-xs text-white/68">{doc.title}</p>
+                  <p className="mt-0.5 font-body text-xs text-white/90">{doc.title}</p>
 
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(doc.specializations ?? []).slice(0, 2).map((s) => (
-                      <span key={s} className="rounded-lg bg-white/8 px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-white/70">
+                      <span key={s} className="rounded-lg bg-white/8 px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-white/90">
                         {s}
                       </span>
                     ))}
@@ -460,7 +460,7 @@ export default async function DoctorsPage() {
 
                   <Link
                     href={`/doctors/${doc.slug}`}
-                    className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-white/12 bg-white/6 px-4 py-2.5 font-heading text-xs font-semibold text-white/75 transition-all hover:bg-white/12 hover:text-white active:scale-[0.97]"
+                    className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-white/12 bg-white/6 px-4 py-2.5 font-heading text-xs font-semibold text-white/85 transition-all hover:bg-white/12 hover:text-white active:scale-[0.97]"
                   >
                     View Profile <ArrowRight className="h-3 w-3" />
                   </Link>
@@ -597,7 +597,7 @@ export default async function DoctorsPage() {
             <p className="font-display text-2xl text-white tracking-display sm:text-3xl">
               Ready to meet the team?
             </p>
-            <p className="mx-auto mt-3 max-w-lg font-body text-sm text-white/72 leading-relaxed">
+            <p className="mx-auto mt-3 max-w-lg font-body text-sm text-white/85 leading-relaxed">
               Direct appointments are available with Dr. Sachin Agrawal and Dr. Binita Adhikari. Specialist and hygienist sessions are coordinated as part of your personalised care plan.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

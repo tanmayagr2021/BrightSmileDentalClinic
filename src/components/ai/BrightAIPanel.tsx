@@ -11,11 +11,12 @@ import type { ChatMessage as ChatMessageType, PanelView } from '@/types/ai'
 interface BrightAIPanelProps {
   isOpen: boolean
   messages: ChatMessageType[]
+  streamingContent: string
   input: string
   isStreaming: boolean
   sessionId: string
   onInputChange: (value: string) => void
-  onSend: () => void
+  onSend: (directContent?: string) => void
   onClose: () => void
 }
 
@@ -29,6 +30,7 @@ const INITIAL_QUICK_REPLIES = [
 export default function BrightAIPanel({
   isOpen,
   messages,
+  streamingContent,
   input,
   isStreaming,
   sessionId,
@@ -73,19 +75,17 @@ export default function BrightAIPanel({
 
   const handleQuickReply = useCallback(
     (reply: string) => {
-      onInputChange(reply)
-      // Slight delay so the input update is captured before send
-      setTimeout(() => onSend(), 50)
+      onSend(reply)
     },
-    [onInputChange, onSend]
+    [onSend]
   )
 
   const handleInitialQuickReply = useCallback(
     (reply: string) => {
       setShowInitialQuickReplies(false)
-      handleQuickReply(reply)
+      onSend(reply)
     },
-    [handleQuickReply]
+    [onSend]
   )
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -183,7 +183,10 @@ export default function BrightAIPanel({
                       />
                     ))}
 
-                    {isStreaming && <TypingIndicator />}
+                    {isStreaming && streamingContent.length === 0 && <TypingIndicator />}
+                    {isStreaming && streamingContent.length > 0 && (
+                      <StreamingBubble content={streamingContent} />
+                    )}
                   </div>
 
                   {/* Initial quick replies — shown before first message */}
@@ -251,7 +254,7 @@ export default function BrightAIPanel({
                         aria-label="Message Bright AI"
                       />
                       <button
-                        onClick={onSend}
+                        onClick={() => onSend()}
                         disabled={!input.trim() || isStreaming}
                         className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-200 hover:opacity-80 active:scale-95 disabled:opacity-30"
                         style={{
@@ -266,7 +269,7 @@ export default function BrightAIPanel({
                       className="mt-1.5 text-center text-[10px]"
                       style={{ color: 'rgba(255,255,255,0.2)', fontFamily: 'var(--font-inter)' }}
                     >
-                      Bright AI · Powered by Claude · Not a substitute for clinical advice
+                      Bright AI · Digital Receptionist · Not a substitute for clinical advice
                     </p>
                   </div>
                 </div>
@@ -299,20 +302,19 @@ function PanelHeader({
       className="flex items-center gap-3 border-b px-4 py-3"
       style={{ borderColor: 'rgba(255,255,255,0.08)' }}
     >
-      {/* Logo */}
+      {/* Logo — matches the floating button */}
       <div
         className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
         style={{
-          background: 'linear-gradient(135deg, #0A1128 0%, #1a2540 100%)',
-          border: '1.5px solid rgba(197,160,89,0.4)',
-          boxShadow: '0 0 16px rgba(197,160,89,0.15)',
+          background: 'linear-gradient(145deg, #FB923C 0%, #F97316 45%, #EA580C 100%)',
+          boxShadow: '0 4px 12px rgba(249,115,22,0.4)',
         }}
       >
         <span
           style={{
             fontFamily: 'Georgia, serif',
             fontSize: '15px',
-            color: '#C5A059',
+            color: 'white',
             lineHeight: 1,
           }}
         >
@@ -412,5 +414,49 @@ function SendIcon() {
         strokeWidth="0.5"
       />
     </svg>
+  )
+}
+
+function StreamingBubble({ content }: { content: string }) {
+  // Strip action tokens — same as FormattedContent
+  const cleaned = content
+    .replace(/\[NAVIGATE:[^\]]+\]/g, '')
+    .replace(/\[QUICKREPLIES:[^\]]+\]/g, '')
+    .replace(/\[MEDICAL_HISTORY\]/g, '')
+    .trim()
+
+  return (
+    <div className="flex items-end gap-2 px-4 py-0.5">
+      {/* Avatar */}
+      <span
+        className="flex h-7 w-7 shrink-0 items-center justify-center self-end rounded-full text-[10px] font-semibold"
+        style={{
+          background: 'linear-gradient(145deg, #FB923C 0%, #EA580C 100%)',
+          color: 'white',
+          fontFamily: 'Georgia, serif',
+        }}
+        aria-hidden="true"
+      >
+        B
+      </span>
+      <div className="max-w-[82%]">
+        <div
+          className="rounded-2xl rounded-bl-sm px-4 py-2.5 text-sm leading-relaxed"
+          style={{
+            background: 'rgba(255,255,255,0.055)',
+            border: '1px solid rgba(255,255,255,0.09)',
+            color: 'rgba(255,255,255,0.88)',
+            fontFamily: 'var(--font-inter)',
+          }}
+        >
+          {cleaned || ' '}
+          <span
+            className="ml-0.5 inline-block h-3.5 w-0.5 animate-pulse align-middle"
+            style={{ background: 'rgba(249,115,22,0.8)', borderRadius: '1px' }}
+            aria-hidden="true"
+          />
+        </div>
+      </div>
+    </div>
   )
 }

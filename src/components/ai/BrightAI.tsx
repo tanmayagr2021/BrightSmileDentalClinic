@@ -129,8 +129,8 @@ export default function BrightAI() {
     return () => window.removeEventListener('keydown', handler)
   }, [state.isOpen])
 
-  const sendMessage = useCallback(async () => {
-    const content = state.input.trim()
+  const sendMessage = useCallback(async (directContent?: string) => {
+    const content = (directContent !== undefined ? directContent : state.input).trim()
     if (!content || state.chatState === 'streaming') return
 
     const userMsg: ChatMessage = {
@@ -233,6 +233,7 @@ export default function BrightAI() {
       <BrightAIPanel
         isOpen={state.isOpen}
         messages={state.messages}
+        streamingContent={state.streamingContent}
         input={state.input}
         isStreaming={state.chatState === 'streaming'}
         sessionId={state.sessionId}

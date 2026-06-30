@@ -108,7 +108,7 @@ export default async function ServicesPage() {
           </h1>
 
           {/* Description */}
-          <p className="mt-6 max-w-lg font-body text-base text-white/75 leading-relaxed">
+          <p className="mt-6 max-w-lg font-body text-base text-white/88 leading-relaxed">
             Comprehensive dental care for the whole family — from routine check-ups to
             advanced specialist treatments, all under one roof.
           </p>
@@ -121,10 +121,10 @@ export default async function ServicesPage() {
                 href={`#${s.slug}`}
                 className="group flex items-center gap-3 scroll-smooth"
               >
-                <span className="w-8 flex-shrink-0 font-display text-xl font-bold text-white/25 transition-colors group-hover:text-gold">
+                <span className="w-8 flex-shrink-0 font-display text-xl font-bold text-white/75 transition-colors group-hover:text-gold">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="font-heading text-sm font-semibold text-white/75 transition-colors group-hover:text-white">
+                <span className="font-heading text-sm font-semibold text-white/85 transition-colors group-hover:text-white">
                   {s.name}
                 </span>
               </Link>
@@ -186,7 +186,7 @@ export default async function ServicesPage() {
                       <h3 className="mt-6 font-display text-3xl text-white tracking-display leading-tight sm:text-4xl">
                         {service.name}
                       </h3>
-                      <p className="mt-4 font-body text-[0.95rem] text-white/75 leading-relaxed">
+                      <p className="mt-4 font-body text-[0.95rem] text-white/90 leading-relaxed">
                         {service.description}
                       </p>
 
@@ -197,7 +197,7 @@ export default async function ServicesPage() {
                             <span className="mt-0.5 flex-shrink-0 text-gold">
                               <Check />
                             </span>
-                            <span className="font-body text-sm text-white/75 leading-relaxed">{b}</span>
+                            <span className="font-body text-sm text-white/85 leading-relaxed">{b}</span>
                           </li>
                         ))}
                       </ul>
@@ -205,7 +205,7 @@ export default async function ServicesPage() {
                       {/* Price + CTA */}
                       <div className="mt-8 flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-6">
                         <div>
-                          <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-white/60">
+                          <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-white/85">
                             Starting from
                           </p>
                           <p className="mt-1 font-display text-2xl text-white">
@@ -241,7 +241,7 @@ export default async function ServicesPage() {
                             className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm transition-all duration-300 hover:border-gold/30 hover:bg-white/[0.07]"
                           >
                             <p className="font-heading text-sm font-semibold text-white leading-snug">{sub.name}</p>
-                            <p className="mt-1.5 font-body text-sm text-white/72 leading-relaxed">{sub.description}</p>
+                            <p className="mt-1.5 font-body text-sm text-white/85 leading-relaxed">{sub.description}</p>
                           </div>
                         ))}
                       </div>
@@ -338,7 +338,7 @@ export default async function ServicesPage() {
           <h2 className="font-display text-3xl text-white tracking-display sm:text-4xl">
             Not sure which treatment<br className="hidden sm:block" /> is right for you?
           </h2>
-          <p className="mt-4 font-body text-base text-white/75 leading-relaxed">
+          <p className="mt-4 font-body text-base text-white/88 leading-relaxed">
             Book a consultation and our team will assess your needs and explain all available options — clearly and without pressure.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">

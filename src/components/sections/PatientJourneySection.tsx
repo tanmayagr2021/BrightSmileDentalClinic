@@ -143,7 +143,7 @@ export default function PatientJourneySection() {
               <br />
               <span className="text-gold">Bright Smile</span>
             </h2>
-            <p className="mt-4 max-w-lg font-body text-base text-white/70 leading-relaxed">
+            <p className="mt-4 max-w-lg font-body text-base text-white/85 leading-relaxed">
               From your first call to your final follow-up — every moment is crafted around your
               comfort, clarity, and confidence.
             </p>
@@ -212,12 +212,12 @@ export default function PatientJourneySection() {
                 </h3>
 
                 {/* Sublabel */}
-                <p className="mt-1 font-heading text-[0.65rem] font-medium text-primary/70">
+                <p className="mt-1 font-heading text-[0.65rem] font-medium text-primary/90">
                   {arrival.sublabel}
                 </p>
 
                 {/* Description */}
-                <p className="mt-3 font-body text-xs leading-relaxed text-white/65">
+                <p className="mt-3 font-body text-xs leading-relaxed text-white/90">
                   {step.description}
                 </p>
               </motion.div>
@@ -237,14 +237,14 @@ export default function PatientJourneySection() {
             <p className="font-heading text-sm font-semibold text-white">
               Ready to start your journey?
             </p>
-            <p className="mt-1 font-body text-xs text-white/62">
+            <p className="mt-1 font-body text-xs text-white/80">
               Our team answers questions before you book — no commitment needed.
             </p>
           </div>
           <div className="flex flex-shrink-0 gap-3">
             <a
               href="tel:+97714419594"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/6 px-5 py-2.5 font-heading text-xs font-semibold text-white/70 transition-all hover:border-white/25 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/6 px-5 py-2.5 font-heading text-xs font-semibold text-white/85 transition-all hover:border-white/25 hover:text-white"
             >
               <svg
                 viewBox="0 0 16 16"

@@ -78,7 +78,9 @@ export type ServiceCategoryRow = {
   name: string
   slug: string
   description: string | null
+  long_description: string | null
   icon_name: string | null
+  icon_svg: string | null
   sort_order: number
   is_visible: boolean
   created_by: string | null

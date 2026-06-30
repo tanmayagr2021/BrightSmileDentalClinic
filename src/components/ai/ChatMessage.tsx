@@ -30,9 +30,8 @@ export default function ChatMessage({
         <span
           className="flex h-7 w-7 shrink-0 items-center justify-center self-end rounded-full text-[10px] font-semibold"
           style={{
-            background: 'linear-gradient(135deg, #0A1128 0%, #1a2540 100%)',
-            border: '1px solid rgba(197,160,89,0.35)',
-            color: '#C5A059',
+            background: 'linear-gradient(145deg, #FB923C 0%, #EA580C 100%)',
+            color: 'white',
             fontFamily: 'Georgia, serif',
           }}
           aria-hidden="true"

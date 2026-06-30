@@ -41,14 +41,14 @@ export default function BeforeAfterSection() {
           className="mb-14 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between"
         >
           <div>
-            <motion.span variants={fadeUp} className="eyebrow mb-3 inline-flex items-center gap-2 text-primary/70">
-              <span className="inline-block h-px w-5 bg-primary" />
+            <motion.span variants={fadeUp} className="mb-3 inline-flex items-center gap-2 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-gold">
+              <span className="inline-block h-px w-5 bg-gold/60" />
               Results
             </motion.span>
             <motion.h2 variants={fadeUp} className="font-display text-4xl text-white sm:text-5xl tracking-display">
               Before & After
             </motion.h2>
-            <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-white/50 leading-relaxed">
+            <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-white/85 leading-relaxed">
               Real transformations from our patients. Photos will be added as patients provide consent — check back soon.
             </motion.p>
           </div>
@@ -80,7 +80,7 @@ export default function BeforeAfterSection() {
               className={`rounded-full px-4 py-2 font-heading text-xs font-semibold transition-all ${
                 activeCategory === cat
                   ? 'bg-primary text-white'
-                  : 'border border-white/10 text-white/50 hover:border-white/25 hover:text-white/80'
+                  : 'border border-white/10 text-white/75 hover:border-white/25 hover:text-white'
               }`}
             >
               {CATEGORY_LABELS[cat]}
@@ -114,7 +114,7 @@ export default function BeforeAfterSection() {
                   >
                     {/* Decorative depth circle */}
                     <div className="absolute -bottom-6 -left-6 h-20 w-20 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)' }} />
-                    <div className="absolute bottom-3 left-3 rounded-full bg-black/30 px-2.5 py-1 font-heading text-[0.65rem] font-bold tracking-[0.12em] text-white/50 backdrop-blur-sm">
+                    <div className="absolute bottom-3 left-3 rounded-full bg-black/30 px-2.5 py-1 font-heading text-[0.65rem] font-bold tracking-[0.12em] text-white/85 backdrop-blur-sm">
                       BEFORE
                     </div>
                   </div>
@@ -143,7 +143,7 @@ export default function BeforeAfterSection() {
                   <div className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-center gap-2.5 pb-6 pt-4" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)' }}>
                     <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-3.5 py-2 backdrop-blur-sm">
                       <div className="h-1.5 w-1.5 rounded-full bg-primary/70" />
-                      <span className="font-heading text-[0.65rem] font-semibold tracking-[0.08em] text-white/65">Photos — Awaiting Patient Consent</span>
+                      <span className="font-heading text-[0.65rem] font-semibold tracking-[0.08em] text-white/85">Photos — Awaiting Patient Consent</span>
                     </div>
                   </div>
                 </div>
@@ -154,13 +154,13 @@ export default function BeforeAfterSection() {
                     {CATEGORY_LABELS[item.category]}
                   </span>
                   <h3 className="font-heading text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 font-body text-xs text-white/40 leading-relaxed">{item.treatmentDetails}</p>
+                  <p className="mt-1 font-body text-xs text-white/80 leading-relaxed">{item.treatmentDetails}</p>
                   <div className="mt-4 flex items-center gap-1.5">
                     <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3 text-white/30" aria-hidden="true">
                       <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1" />
                       <path d="M6 3.5V6l2 1.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
                     </svg>
-                    <span className="font-body text-[0.65rem] text-white/55">Treatment duration: {item.duration}</span>
+                    <span className="font-body text-[0.65rem] text-white/75">Treatment duration: {item.duration}</span>
                   </div>
                 </div>
               </motion.div>
@@ -174,7 +174,7 @@ export default function BeforeAfterSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mt-10 text-center font-body text-xs text-white/25"
+          className="mt-10 text-center font-body text-xs text-white/80"
         >
           Patient photos are uploaded by our clinical team with full written consent. All cases are genuine.
         </motion.p>

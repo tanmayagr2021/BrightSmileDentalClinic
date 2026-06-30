@@ -7,8 +7,13 @@ export const runtime = 'nodejs'
 
 type Params = { params: Promise<{ id: string }> }
 
-export async function GET(_req: NextRequest, { params }: Params) {
+async function getAuthUser() {
   const { data: { user } } = await (await createClient()).auth.getUser()
+  return user
+}
+
+export async function GET(_req: NextRequest, { params }: Params) {
+  const user = await getAuthUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { id } = await params
@@ -24,15 +29,19 @@ export async function GET(_req: NextRequest, { params }: Params) {
   return NextResponse.json(data)
 }
 
+// PATCH — update editable content fields for a single service
 export async function PATCH(req: NextRequest, { params }: Params) {
-  const { data: { user } } = await (await createClient()).auth.getUser()
+  const user = await getAuthUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { id } = await params
-  const body = await req.json()
+  const body = await req.json() as Record<string, unknown>
 
-  const allowed = ['name', 'description', 'short_description', 'icon_name', 'is_visible', 'sort_order']
-  const updates: Record<string, unknown> = { updated_at: new Date().toISOString() }
+  const allowed = ['name', 'description', 'long_description', 'icon_name', 'is_visible', 'sort_order']
+  const updates: Record<string, unknown> = {
+    updated_by: user.id,
+    updated_at: new Date().toISOString(),
+  }
   for (const key of allowed) {
     if (key in body) updates[key] = body[key]
   }
@@ -50,4 +59,24 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   revalidatePath('/')
   revalidatePath('/services')
   return NextResponse.json(data)
+}
+
+// DELETE — permanently remove a service category
+export async function DELETE(_req: NextRequest, { params }: Params) {
+  const user = await getAuthUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const { id } = await params
+  const supabase = createAdminClient()
+
+  const { error } = await supabase
+    .from('service_categories')
+    .delete()
+    .eq('id', id)
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  revalidatePath('/')
+  revalidatePath('/services')
+  return NextResponse.json({ success: true })
 }
