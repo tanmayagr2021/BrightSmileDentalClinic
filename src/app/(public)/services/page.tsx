@@ -15,13 +15,6 @@ export const metadata: Metadata = {
 const PREMIUM_ORDER = ['cosmetic-dentistry', 'orthodontics', 'dental-implants'] as const
 const PREMIUM_SLUGS = new Set<string>(PREMIUM_ORDER)
 
-// Indicative "from" pricing (placeholder — no price column in DB yet)
-const PRICE_FROM: Record<string, string> = {
-  'cosmetic-dentistry': 'NPR 8,000',
-  orthodontics: 'NPR 60,000',
-  'dental-implants': 'NPR 45,000',
-}
-
 function ArrowRight({ className = 'h-4 w-4' }: { className?: string }) {
   return (
     <svg viewBox="0 0 16 16" fill="none" className={className} aria-hidden="true">
@@ -227,30 +220,20 @@ export default async function ServicesPage() {
                         ))}
                       </ul>
 
-                      {/* Price + CTA */}
-                      <div className="mt-8 flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-6">
-                        <div>
-                          <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-white/85">
-                            Starting from
-                          </p>
-                          <p className="mt-1 font-display text-2xl text-white">
-                            {PRICE_FROM[service.slug] ?? 'On consultation'}
-                          </p>
-                        </div>
-                        <div className="flex gap-3">
-                          <Link
-                            href={`/services/${service.slug}`}
-                            className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] px-5 py-3 font-heading text-sm font-semibold text-white transition-all hover:bg-white/[0.1] active:scale-[0.97]"
-                          >
-                            Details
-                          </Link>
-                          <Link
-                            href="/appointments"
-                            className="inline-flex items-center gap-2 rounded-xl bg-gold px-6 py-3 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
-                          >
-                            Book Now <ArrowRight className="h-3.5 w-3.5" />
-                          </Link>
-                        </div>
+                      {/* CTA */}
+                      <div className="mt-8 flex flex-wrap gap-3 border-t border-white/10 pt-6">
+                        <Link
+                          href={`/services/${service.slug}`}
+                          className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] px-5 py-3 font-heading text-sm font-semibold text-white transition-all hover:bg-white/[0.1] active:scale-[0.97]"
+                        >
+                          Details
+                        </Link>
+                        <Link
+                          href="/appointments"
+                          className="inline-flex items-center gap-2 rounded-xl bg-gold px-6 py-3 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
+                        >
+                          Book Now <ArrowRight className="h-3.5 w-3.5" />
+                        </Link>
                       </div>
                     </div>
 
