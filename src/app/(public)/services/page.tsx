@@ -126,7 +126,7 @@ export default async function ServicesPage() {
           </h1>
 
           {/* Description */}
-          <p className="mt-6 max-w-lg font-body text-base text-white/88 leading-relaxed">
+          <p className="mt-6 max-w-lg font-body text-base text-white/90 leading-relaxed">
             Comprehensive dental care for the whole family — from routine check-ups to
             advanced specialist treatments, all under one roof.
           </p>
@@ -346,7 +346,7 @@ export default async function ServicesPage() {
           <h2 className="font-display text-3xl text-white tracking-display sm:text-4xl">
             Not sure which treatment<br className="hidden sm:block" /> is right for you?
           </h2>
-          <p className="mt-4 font-body text-base text-white/88 leading-relaxed">
+          <p className="mt-4 font-body text-base text-white/90 leading-relaxed">
             Book a consultation and our team will assess your needs and explain all available options — clearly and without pressure.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">

@@ -116,7 +116,7 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
           <p className="font-heading text-xs font-semibold leading-tight text-white drop-shadow-sm">
             Bright Smile Dental Clinic
           </p>
-          <p className="mt-0.5 truncate font-body text-[0.68rem] text-white/72 drop-shadow-sm">
+          <p className="mt-0.5 truncate font-body text-[0.68rem] text-white/75 drop-shadow-sm">
             {address}
           </p>
         </div>
@@ -191,7 +191,7 @@ export default async function Footer() {
           <p className="mt-5 font-display text-2xl tracking-tight text-white sm:text-[1.75rem]">
             Bright Smile Dental Clinic
           </p>
-          <p className="mt-1.5 font-body text-sm text-white/72">
+          <p className="mt-1.5 font-body text-sm text-white/75">
             {CLINIC_TAGLINE}
           </p>
         </div>
@@ -211,7 +211,7 @@ export default async function Footer() {
             <dl className="mt-5 space-y-2">
               {hours.map((item) => (
                 <div key={item.days} className="flex items-baseline justify-between gap-4">
-                  <dt className="font-body text-sm text-white/72">{item.days}</dt>
+                  <dt className="font-body text-sm text-white/75">{item.days}</dt>
                   <dd className="font-heading text-sm font-medium text-white text-right">{item.hours}</dd>
                 </div>
               ))}

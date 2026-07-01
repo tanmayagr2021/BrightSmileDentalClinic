@@ -43,7 +43,7 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
           <span className="font-display leading-none tracking-[-0.018em] text-white text-[1.15rem]">
             {CLINIC_NAME_SHORT}
           </span>
-          <span className="font-heading font-semibold leading-none tracking-[0.008em] text-white/82 text-[0.7rem]">
+          <span className="font-heading font-semibold leading-none tracking-[0.008em] text-white/85 text-[0.7rem]">
             {CLINIC_SUBTITLE}
           </span>
           <span className="font-heading font-medium uppercase leading-none tracking-[0.16em] text-white/55 text-[0.4rem]">

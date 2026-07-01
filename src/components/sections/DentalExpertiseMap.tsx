@@ -599,7 +599,7 @@ function DoctorAnnotationCard({
             {doctor.shortName}
           </p>
           {doctor.title && (
-            <p className="mt-0.5 truncate font-heading text-[0.58rem] leading-tight text-white/72">
+            <p className="mt-0.5 truncate font-heading text-[0.58rem] leading-tight text-white/75">
               {doctor.title}
             </p>
           )}
