@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { fadeUp, stagger, slideInRight } from '@/lib/animations'
 import { CLINIC_CONTACT, OPENING_HOURS, DOCTORS_STATIC } from '@/lib/constants'
+import MagneticWrap from '@/components/motion/MagneticWrap'
+import Parallax from '@/components/motion/Parallax'
 
 const leadDoctors = DOCTORS_STATIC.filter((d) => d.type === 'lead')
 
@@ -59,10 +61,14 @@ function LocationIcon() {
 export default function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-white flex items-center py-20 lg:min-h-[90vh] lg:py-0">
-      {/* Decorative mesh */}
+      {/* Decorative mesh — drifts gently on scroll for a layered feel */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute -right-64 -top-64 h-[800px] w-[800px] rounded-full bg-tint opacity-60" />
-        <div className="absolute -left-32 bottom-0 h-[600px] w-[600px] rounded-full bg-tint opacity-40" />
+        <Parallax strength={0.08} className="absolute -right-64 -top-64 h-[800px] w-[800px]">
+          <div className="h-[800px] w-[800px] rounded-full bg-tint opacity-60" />
+        </Parallax>
+        <Parallax strength={0.06} className="absolute -left-32 bottom-0 h-[600px] w-[600px]">
+          <div className="h-[600px] w-[600px] rounded-full bg-tint opacity-40" />
+        </Parallax>
         {/* Grid dots */}
         <svg className="absolute inset-0 h-full w-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -111,15 +117,17 @@ export default function HeroSection() {
               variants={fadeUp}
               className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
-              <Link
-                href="/appointments"
-                className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-primary px-8 py-4 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all duration-200 hover:bg-primary-dark hover:shadow-primary/35 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              >
-                Book an Appointment
-                <span className="transition-transform duration-200 group-hover:translate-x-1">
-                  <ArrowRight />
-                </span>
-              </Link>
+              <MagneticWrap strength={0.25} className="inline-block">
+                <Link
+                  href="/appointments"
+                  className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-primary px-8 py-4 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all duration-200 hover:bg-primary-dark hover:shadow-primary/35 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                >
+                  Book an Appointment
+                  <span className="transition-transform duration-200 group-hover:translate-x-1">
+                    <ArrowRight />
+                  </span>
+                </Link>
+              </MagneticWrap>
               <Link
                 href="/services"
                 className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-gray-500 transition-colors duration-200 hover:text-primary"
@@ -205,7 +213,7 @@ export default function HeroSection() {
                   <Link
                     key={doc.slug}
                     href="/appointments"
-                    className="group flex items-center gap-4 rounded-2xl bg-white/8 px-4 py-3.5 transition-all hover:bg-white/14"
+                    className="group flex items-center gap-4 rounded-2xl bg-white/10 px-4 py-3.5 transition-all hover:bg-white/15"
                   >
                     <div
                       className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold text-white ring-2 ring-white/15"
@@ -232,12 +240,12 @@ export default function HeroSection() {
               <div className="relative mt-7 space-y-3">
                 <a
                   href={`tel:${CLINIC_CONTACT.phone.replace(/-/g, '')}`}
-                  className="flex items-center gap-3 rounded-xl bg-white/8 px-4 py-3 font-body text-sm text-white/85 transition-colors hover:bg-white/14 hover:text-white"
+                  className="flex items-center gap-3 rounded-xl bg-white/10 px-4 py-3 font-body text-sm text-white/85 transition-colors hover:bg-white/15 hover:text-white"
                 >
                   <span className="text-primary"><PhoneIcon /></span>
                   {CLINIC_CONTACT.phone}
                 </a>
-                <div className="flex items-start gap-3 rounded-xl bg-white/8 px-4 py-3 font-body text-sm text-white/85">
+                <div className="flex items-start gap-3 rounded-xl bg-white/10 px-4 py-3 font-body text-sm text-white/85">
                   <span className="mt-0.5 text-primary"><ClockIcon /></span>
                   <div className="space-y-0.5">
                     {OPENING_HOURS.map((h) => (
@@ -248,7 +256,7 @@ export default function HeroSection() {
                     ))}
                   </div>
                 </div>
-                <div className="flex items-center gap-3 rounded-xl bg-white/8 px-4 py-3 font-body text-sm text-white/70">
+                <div className="flex items-center gap-3 rounded-xl bg-white/10 px-4 py-3 font-body text-sm text-white/70">
                   <span className="text-primary"><LocationIcon /></span>
                   {CLINIC_CONTACT.addressFull}
                 </div>

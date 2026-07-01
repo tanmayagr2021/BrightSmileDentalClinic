@@ -75,7 +75,7 @@ function InfoCard({
 }) {
   return (
     <div className="flex gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/8 text-primary">
+      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
         {icon}
       </div>
       <div>
@@ -497,7 +497,7 @@ export default function ContactClient({
 
               {/* Accent glow */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
-                <div className="h-48 w-48 rounded-full bg-primary/12 blur-3xl" />
+                <div className="h-48 w-48 rounded-full bg-primary/10 blur-3xl" />
               </div>
 
               {/* Centre content */}
@@ -517,7 +517,7 @@ export default function ContactClient({
               </div>
 
               {/* Open in Maps CTA */}
-              <div className="absolute bottom-0 inset-x-0 flex items-center justify-center gap-2.5 border-t border-white/8 bg-white/[0.04] py-3.5 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/[0.08]">
+              <div className="absolute bottom-0 inset-x-0 flex items-center justify-center gap-2.5 border-t border-white/10 bg-white/[0.04] py-3.5 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/[0.08]">
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-primary flex-shrink-0" aria-hidden="true">
                   <path d="M8 2a4 4 0 014 4c0 3-4 8-4 8s-4-5-4-8a4 4 0 014-4zm0 2.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" stroke="currentColor" strokeWidth="1.2" />
                 </svg>

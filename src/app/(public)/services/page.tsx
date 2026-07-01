@@ -108,7 +108,7 @@ export default async function ServicesPage() {
 
         {/* Gold accent glow — right side */}
         <div className="pointer-events-none absolute right-0 top-1/4 h-80 w-80 translate-x-1/3 rounded-full bg-gold/10 blur-3xl" aria-hidden="true" />
-        <div className="pointer-events-none absolute left-1/4 -bottom-20 h-64 w-64 rounded-full bg-primary/8 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute left-1/4 -bottom-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl" aria-hidden="true" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Eyebrow */}
@@ -359,7 +359,7 @@ export default async function ServicesPage() {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/6 px-8 py-4 font-heading text-sm font-semibold text-white/80 transition-all hover:bg-white/12 hover:text-white active:scale-[0.97]"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-8 py-4 font-heading text-sm font-semibold text-white/80 transition-all hover:bg-white/10 hover:text-white active:scale-[0.97]"
             >
               Ask a Question
             </Link>

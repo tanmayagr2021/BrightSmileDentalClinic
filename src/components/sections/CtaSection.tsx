@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { fadeUp, stagger, slideInRight } from '@/lib/animations'
 import { CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
+import MagneticWrap from '@/components/motion/MagneticWrap'
 
 function ArrowRight() {
   return (
@@ -78,18 +79,20 @@ export default function CtaSection({
             </motion.p>
 
             <motion.div variants={fadeUp} className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/appointments"
-                className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-gold px-9 py-4 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.98]"
-              >
-                Book Appointment
-                <span className="transition-transform duration-200 group-hover:translate-x-1">
-                  <ArrowRight />
-                </span>
-              </Link>
+              <MagneticWrap strength={0.25} className="inline-block">
+                <Link
+                  href="/appointments"
+                  className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-gold px-9 py-4 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.98]"
+                >
+                  Book Appointment
+                  <span className="transition-transform duration-200 group-hover:translate-x-1">
+                    <ArrowRight />
+                  </span>
+                </Link>
+              </MagneticWrap>
               <a
                 href={`tel:${displayPhone.replace(/-/g, '')}`}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/14 px-9 py-4 font-heading text-sm font-semibold text-white/85 transition-all hover:border-white/28 hover:text-white active:scale-[0.98]"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-9 py-4 font-heading text-sm font-semibold text-white/85 transition-all hover:border-white/30 hover:text-white active:scale-[0.98]"
               >
                 <PhoneIcon />
                 {displayPhone}
@@ -118,7 +121,7 @@ export default function CtaSection({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-80px' }}
-            className="relative border-l border-white/6 px-8 py-20 sm:px-12 lg:px-14 lg:py-28"
+            className="relative border-l border-white/5 px-8 py-20 sm:px-12 lg:px-14 lg:py-28"
           >
             {/* Subtle right-side glow */}
             <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-white/[0.02] to-transparent" aria-hidden="true" />
@@ -129,7 +132,7 @@ export default function CtaSection({
 
             <div className="space-y-4 mb-10">
               {displayHours.map((slot) => (
-                <div key={slot.days} className="flex items-center justify-between border-b border-white/6 pb-4">
+                <div key={slot.days} className="flex items-center justify-between border-b border-white/5 pb-4">
                   <span className="font-body text-sm text-white/85">{slot.days}</span>
                   <span className="font-heading text-sm font-semibold text-white">
                     {('open' in slot && !slot.open) ? 'Closed' : slot.hours}

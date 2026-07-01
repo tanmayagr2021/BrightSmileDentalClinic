@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { DM_Serif_Display, Poppins, Inter } from 'next/font/google'
+import { MotionConfig } from 'framer-motion'
 import './globals.css'
 
 const dmSerifDisplay = DM_Serif_Display({
@@ -57,7 +58,11 @@ export default function RootLayout({
       className={`${dmSerifDisplay.variable} ${poppins.variable} ${inter.variable}`}
     >
       <body className="font-body text-clinic-text antialiased">
-        {children}
+        {/* Auto-disables transform/scale/rotate animations (keeps fades) when
+            the OS-level reduced-motion preference is on — covers every
+            Framer Motion animation site-wide, since Framer drives its own
+            animation engine and never touches CSS `transition`. */}
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </body>
     </html>
   )

@@ -128,7 +128,7 @@ export default function WhyChooseSection() {
 
               {/* Title + Icon */}
               <div className="relative flex items-start gap-3 lg:items-center">
-                <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/8 text-primary transition-colors group-hover:bg-primary/14 lg:mt-0">
+                <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/15 lg:mt-0">
                   {REASON_ICONS[reason.id]}
                 </div>
                 <h3 className="font-heading text-base font-semibold text-dark leading-snug sm:text-[1.05rem]">

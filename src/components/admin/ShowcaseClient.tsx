@@ -252,7 +252,7 @@ export default function ShowcaseClient({ slides: initialSlides }: { slides: Slid
                   <button onClick={() => moveDown(i)} disabled={i === slides.length - 1} className="flex h-6 w-6 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-30">
                     <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3"><path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   </button>
-                  <button onClick={() => startEdit(slide)} className={`flex h-6 w-6 items-center justify-center rounded-lg border transition-colors ${editingId === slide.id ? 'border-primary bg-primary/8 text-primary' : 'border-gray-200 text-gray-400 hover:border-primary/30 hover:text-primary'}`}>
+                  <button onClick={() => startEdit(slide)} className={`flex h-6 w-6 items-center justify-center rounded-lg border transition-colors ${editingId === slide.id ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 text-gray-400 hover:border-primary/30 hover:text-primary'}`}>
                     <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3"><path d="M8.5 1.5l2 2L4 10H2V8l6.5-6.5z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" /></svg>
                   </button>
                   <button onClick={() => deleteSlide(slide)} className="flex h-6 w-6 items-center justify-center rounded-lg border border-red-100 text-red-400 hover:bg-red-50">

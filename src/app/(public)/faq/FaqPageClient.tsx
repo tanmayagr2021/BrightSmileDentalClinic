@@ -233,7 +233,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mt-12 rounded-2xl border border-primary/12 bg-tint p-7 sm:p-8"
+          className="mt-12 rounded-2xl border border-primary/10 bg-tint p-7 sm:p-8"
         >
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div>

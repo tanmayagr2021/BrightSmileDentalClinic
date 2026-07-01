@@ -136,7 +136,7 @@ export default async function DoctorsPage() {
 
         {/* Glow accents */}
         <div className="pointer-events-none absolute left-1/3 top-0 h-96 w-96 -translate-y-1/3 rounded-full bg-primary/10 blur-3xl" aria-hidden="true" />
-        <div className="pointer-events-none absolute right-1/4 bottom-0 h-64 w-64 rounded-full bg-teal/6 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute right-1/4 bottom-0 h-64 w-64 rounded-full bg-teal/5 blur-3xl" aria-hidden="true" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Eyebrow */}
@@ -190,8 +190,8 @@ export default async function DoctorsPage() {
             </defs>
             <rect width="100%" height="100%" fill="url(#map-bg-grid)" />
           </svg>
-          <div className="pointer-events-none absolute left-1/4 top-0 h-72 w-72 -translate-y-1/2 rounded-full bg-primary/8 blur-3xl" aria-hidden="true" />
-          <div className="pointer-events-none absolute right-1/4 bottom-0 h-64 w-64 translate-y-1/2 rounded-full bg-gold/6 blur-3xl" aria-hidden="true" />
+          <div className="pointer-events-none absolute left-1/4 top-0 h-72 w-72 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" aria-hidden="true" />
+          <div className="pointer-events-none absolute right-1/4 bottom-0 h-64 w-64 translate-y-1/2 rounded-full bg-gold/5 blur-3xl" aria-hidden="true" />
           <DentalExpertiseMap doctors={mapDoctors} />
         </section>
       )}
@@ -215,7 +215,7 @@ export default async function DoctorsPage() {
               </p>
             </div>
             <div className="flex items-center gap-3 flex-shrink-0">
-              <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-4 py-2">
+              <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
                 <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
                 <span className="font-heading text-xs font-semibold text-primary">Accepting New Patients</span>
               </div>
@@ -252,7 +252,7 @@ export default async function DoctorsPage() {
 
                     {/* Large avatar — top */}
                     <div className="relative self-start">
-                      <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-2xl bg-white/15 ring-2 ring-white/22 transition-transform duration-300 group-hover:scale-105">
+                      <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-2xl bg-white/15 ring-2 ring-white/20 transition-transform duration-300 group-hover:scale-105">
                         {doc.profile_image_url ? (
                           <Image src={doc.profile_image_url} alt={doc.full_name} fill className="object-cover object-top" sizes="112px" />
                         ) : (
@@ -270,7 +270,7 @@ export default async function DoctorsPage() {
                         <span className="rounded-xl bg-white/20 px-3 py-1.5 font-heading text-xs font-semibold text-white backdrop-blur-sm">
                           {doc.qualification}
                         </span>
-                        <span className="rounded-xl bg-white/12 px-3 py-1.5 font-heading text-[0.6rem] font-semibold tracking-wide text-white/80">
+                        <span className="rounded-xl bg-white/10 px-3 py-1.5 font-heading text-[0.6rem] font-semibold tracking-wide text-white/80">
                           NMC {doc.nmc_number}
                         </span>
                       </div>
@@ -291,7 +291,7 @@ export default async function DoctorsPage() {
                     <div>
                       {/* Credential badges */}
                       <div className="mb-7 flex flex-wrap items-center gap-3">
-                        <div className="flex items-center gap-2 rounded-full border border-primary/18 bg-primary/6 px-3.5 py-1.5">
+                        <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 py-1.5">
                           <NmcBadge />
                           <span className="font-heading text-[0.65rem] font-semibold text-primary">
                             NMC Verified · {doc.nmc_number}
@@ -384,7 +384,7 @@ export default async function DoctorsPage() {
           </defs>
           <rect width="100%" height="100%" fill="url(#spec-grid)" />
         </svg>
-        <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 translate-x-1/3 -translate-y-1/3 rounded-full bg-teal/8 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 translate-x-1/3 -translate-y-1/3 rounded-full bg-teal/10 blur-3xl" aria-hidden="true" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
@@ -405,7 +405,7 @@ export default async function DoctorsPage() {
             <div>
               <a
                 href={`tel:${clinicPhone.replace(/\s/g, '')}`}
-                className="inline-flex items-center gap-2.5 rounded-xl border border-white/12 bg-white/7 px-6 py-3 font-heading text-sm font-semibold text-white transition-all hover:bg-white/12 active:scale-[0.98]"
+                className="inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 px-6 py-3 font-heading text-sm font-semibold text-white transition-all hover:bg-white/10 active:scale-[0.98]"
               >
                 Ask About Specialists
                 <ArrowRight className="h-4 w-4" />
@@ -418,7 +418,7 @@ export default async function DoctorsPage() {
             {specialists.map((doc) => (
               <div
                 key={doc.slug}
-                className="group relative overflow-hidden rounded-2xl border border-white/8 bg-white/[0.04] backdrop-blur-sm transition-all duration-300 hover:border-white/16 hover:bg-white/[0.07]"
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm transition-all duration-300 hover:border-white/15 hover:bg-white/[0.07]"
               >
                 {/* Colored header strip */}
                 <div
@@ -431,7 +431,7 @@ export default async function DoctorsPage() {
                     style={{ backgroundColor: '#fff' }}
                     aria-hidden="true"
                   />
-                  <div className="relative flex h-[4.5rem] w-[4.5rem] items-center justify-center overflow-hidden rounded-xl bg-white/18 ring-2 ring-white/22 transition-transform duration-300 group-hover:scale-105">
+                  <div className="relative flex h-[4.5rem] w-[4.5rem] items-center justify-center overflow-hidden rounded-xl bg-white/20 ring-2 ring-white/20 transition-transform duration-300 group-hover:scale-105">
                     {doc.profile_image_url ? (
                       <Image src={doc.profile_image_url} alt={doc.full_name} fill className="object-cover object-top" sizes="72px" />
                     ) : (
@@ -452,7 +452,7 @@ export default async function DoctorsPage() {
 
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(doc.specializations ?? []).slice(0, 2).map((s) => (
-                      <span key={s} className="rounded-lg bg-white/8 px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-white/90">
+                      <span key={s} className="rounded-lg bg-white/10 px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-white/90">
                         {s}
                       </span>
                     ))}
@@ -460,7 +460,7 @@ export default async function DoctorsPage() {
 
                   <Link
                     href={`/doctors/${doc.slug}`}
-                    className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-white/12 bg-white/6 px-4 py-2.5 font-heading text-xs font-semibold text-white/85 transition-all hover:bg-white/12 hover:text-white active:scale-[0.97]"
+                    className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 font-heading text-xs font-semibold text-white/85 transition-all hover:bg-white/10 hover:text-white active:scale-[0.97]"
                   >
                     View Profile <ArrowRight className="h-3 w-3" />
                   </Link>
@@ -610,7 +610,7 @@ export default async function DoctorsPage() {
               </Link>
               <a
                 href={`tel:${clinicPhone.replace(/\s/g, '')}`}
-                className="inline-flex items-center gap-2.5 rounded-xl border border-white/12 bg-white/8 px-8 py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-white/14"
+                className="inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/10 px-8 py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-white/15"
               >
                 {clinicPhone}
               </a>

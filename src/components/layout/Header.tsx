@@ -93,7 +93,7 @@ export default function Header() {
           'fixed top-0 left-0 right-0 z-40 transition-all duration-500',
           isTransparent
             ? 'bg-transparent border-b border-transparent'
-            : 'bg-white/97 border-b border-gray-100/80 backdrop-blur-2xl shadow-[0_1px_40px_rgba(0,0,0,0.07)]'
+            : 'bg-white/95 border-b border-gray-100/80 backdrop-blur-2xl shadow-[0_1px_40px_rgba(0,0,0,0.07)]'
         )}
       >
         <div className={cn(
@@ -186,11 +186,11 @@ export default function Header() {
               style={{ background: '#0A1128' }}
               aria-label="Mobile navigation"
             >
-              <div className="flex items-center justify-between border-b border-white/8 px-6 py-5">
+              <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
                 <BrandMark inverted />
                 <button
                   onClick={closeMenu}
-                  className="flex items-center justify-center rounded-xl p-2 text-white/65 hover:text-white hover:bg-white/8 transition-colors"
+                  className="flex items-center justify-center rounded-xl p-2 text-white/65 hover:text-white hover:bg-white/10 transition-colors"
                   aria-label="Close menu"
                 >
                   <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5" aria-hidden="true">
@@ -211,7 +211,7 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={closeMenu}
-                        className="flex items-center justify-between py-4 font-heading text-base font-medium text-white/85 hover:text-white transition-colors border-b border-white/6 focus-visible:outline-none focus-visible:text-white"
+                        className="flex items-center justify-between py-4 font-heading text-base font-medium text-white/85 hover:text-white transition-colors border-b border-white/5 focus-visible:outline-none focus-visible:text-white"
                       >
                         {link.label}
                         <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-white/55" aria-hidden="true">
@@ -223,7 +223,7 @@ export default function Header() {
                 </ul>
               </nav>
 
-              <div className="border-t border-white/8 p-6 space-y-3">
+              <div className="border-t border-white/10 p-6 space-y-3">
                 <Link
                   href="/appointments"
                   onClick={closeMenu}

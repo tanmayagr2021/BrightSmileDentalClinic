@@ -2,6 +2,7 @@ import Header from './Header'
 import Footer from './Footer'
 import MobileActionBar from '@/components/ui/MobileActionBar'
 import BrightAILoader from '@/components/ai/BrightAILoader'
+import SmoothScrollProvider from '@/components/motion/SmoothScrollProvider'
 import { CLINIC_CONTACT } from '@/lib/constants'
 
 interface PublicLayoutProps {
@@ -10,7 +11,7 @@ interface PublicLayoutProps {
 
 export default function PublicLayout({ children }: PublicLayoutProps) {
   return (
-    <>
+    <SmoothScrollProvider>
       {/* Skip to main content — keyboard / screen reader navigation */}
       <a
         href="#main-content"
@@ -33,6 +34,6 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
       {/* Bright AI floating receptionist — lazy loaded, no SSR */}
       <BrightAILoader />
-    </>
+    </SmoothScrollProvider>
   )
 }

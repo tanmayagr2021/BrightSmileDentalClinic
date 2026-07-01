@@ -126,7 +126,7 @@ export default function SeoSettingsPage() {
               <button
                 key={p.slug}
                 onClick={() => setActiveSlug(p.slug)}
-                className={`w-full flex items-center justify-between rounded-xl px-3 py-2.5 text-left transition-all ${activeSlug === p.slug ? 'bg-primary/8 text-primary' : 'text-gray-600 hover:bg-gray-50'}`}
+                className={`w-full flex items-center justify-between rounded-xl px-3 py-2.5 text-left transition-all ${activeSlug === p.slug ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-50'}`}
               >
                 <div>
                   <p className="font-heading text-xs font-semibold">{p.page}</p>

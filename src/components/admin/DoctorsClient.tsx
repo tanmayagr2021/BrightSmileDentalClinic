@@ -70,7 +70,7 @@ function DoctorRow({
             disabled={isLoading}
             className={`rounded-lg border px-3 py-1.5 font-heading text-[0.65rem] font-semibold transition-all disabled:opacity-50 ${
               doctor.is_bookable
-                ? 'border-primary/20 bg-primary/8 text-primary hover:bg-primary/15'
+                ? 'border-primary/20 bg-primary/10 text-primary hover:bg-primary/15'
                 : 'border-gray-200 bg-gray-50 text-gray-400 hover:border-gray-300'
             }`}
           >

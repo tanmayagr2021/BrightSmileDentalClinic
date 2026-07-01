@@ -102,7 +102,7 @@ export default function BeforeAfterSection() {
               <motion.div
                 key={item.id}
                 variants={liftIn}
-                className="group overflow-hidden rounded-2xl border border-white/8 bg-white/5"
+                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
               >
                 {/* Before / After visual */}
                 <div className="relative h-52 overflow-hidden">
@@ -132,7 +132,7 @@ export default function BeforeAfterSection() {
                   </div>
 
                   {/* Center divider */}
-                  <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-white/12" aria-hidden="true" />
+                  <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-white/10" aria-hidden="true" />
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.08] backdrop-blur-md ring-1 ring-white/15" aria-hidden="true">
                     <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-white/50" aria-hidden="true">
                       <path d="M5 4l-3 4 3 4M11 4l3 4-3 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />

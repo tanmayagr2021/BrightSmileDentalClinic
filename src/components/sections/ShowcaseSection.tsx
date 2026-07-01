@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { CLINIC_CONTACT } from '@/lib/constants'
+import MagneticWrap from '@/components/motion/MagneticWrap'
+import Parallax from '@/components/motion/Parallax'
 
 type HourRow = { days: string; hours: string; open: boolean }
 
@@ -91,12 +93,14 @@ export default function ShowcaseSection({
           <rect width="100%" height="100%" fill="url(#hero-grid)" />
         </svg>
 
-        {/* Accent glow */}
-        <div
-          className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 -translate-x-1/3 translate-y-1/3 rounded-full blur-3xl"
-          style={{ background: 'rgba(197, 160, 89, 0.07)' }}
-          aria-hidden="true"
-        />
+        {/* Accent glow — drifts gently on scroll */}
+        <Parallax strength={0.07} className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 -translate-x-1/3 translate-y-1/3">
+          <div
+            className="h-64 w-64 rounded-full blur-3xl"
+            style={{ background: 'rgba(197, 160, 89, 0.07)' }}
+            aria-hidden="true"
+          />
+        </Parallax>
 
         <div className="relative max-w-lg">
 
@@ -131,22 +135,24 @@ export default function ShowcaseSection({
           {/* Dual CTAs */}
           <div className="mt-10 flex flex-wrap items-center gap-3">
             {/* PRIMARY — gold */}
-            <Link
-              href="/appointments"
-              className="inline-flex items-center gap-2.5 rounded-xl px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold transition-all duration-200 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A1128]"
-              style={{
-                background: '#C5A059',
-                color: '#0A1128',
-                boxShadow: '0 4px 20px rgba(197, 160, 89, 0.35), 0 1px 4px rgba(197, 160, 89, 0.18)',
-              }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#A8883C' }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#C5A059' }}
-            >
-              Book Consultation
-              <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
+            <MagneticWrap strength={0.25} className="inline-block">
+              <Link
+                href="/appointments"
+                className="inline-flex items-center gap-2.5 rounded-xl px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold transition-all duration-200 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A1128]"
+                style={{
+                  background: '#C5A059',
+                  color: '#0A1128',
+                  boxShadow: '0 4px 20px rgba(197, 160, 89, 0.35), 0 1px 4px rgba(197, 160, 89, 0.18)',
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#A8883C' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#C5A059' }}
+              >
+                Book Consultation
+                <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+            </MagneticWrap>
 
             {/* SECONDARY — ghost */}
             <Link
@@ -204,7 +210,7 @@ export default function ShowcaseSection({
             <div className="flex gap-1.5">
               <button
                 onClick={() => { setIsPaused(true); advance(-1) }}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/30 transition-all hover:border-white/22 hover:text-white/65 focus-visible:outline-none"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/30 transition-all hover:border-white/20 hover:text-white/65 focus-visible:outline-none"
                 aria-label="Previous slide"
               >
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
@@ -213,7 +219,7 @@ export default function ShowcaseSection({
               </button>
               <button
                 onClick={() => { setIsPaused(true); advance(1) }}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/30 transition-all hover:border-white/22 hover:text-white/65 focus-visible:outline-none"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/30 transition-all hover:border-white/20 hover:text-white/65 focus-visible:outline-none"
                 aria-label="Next slide"
               >
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
@@ -245,7 +251,7 @@ export default function ShowcaseSection({
         {/* Progress bars */}
         <div className="absolute top-[4.75rem] lg:top-[6.5rem] left-0 right-0 z-20 flex gap-0.5 px-0">
           {slides.map((_, i) => (
-            <div key={i} className="relative h-[2px] flex-1 overflow-hidden bg-white/8">
+            <div key={i} className="relative h-[2px] flex-1 overflow-hidden bg-white/10">
               {i < active && <div className="absolute inset-0 bg-white/40" />}
               {i === active && (
                 <motion.div

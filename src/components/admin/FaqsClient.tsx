@@ -146,7 +146,7 @@ export default function FaqsClient({ faqs }: { faqs: FaqRow[] }) {
         </div>
         <button
           onClick={() => setShowAddForm((v) => !v)}
-          className="inline-flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/8 px-4 py-2 font-heading text-xs font-semibold text-primary transition-all hover:bg-primary/15"
+          className="inline-flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-4 py-2 font-heading text-xs font-semibold text-primary transition-all hover:bg-primary/15"
         >
           <svg viewBox="0 0 14 14" fill="none" className="h-3 w-3" aria-hidden="true">
             <path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -306,7 +306,7 @@ export default function FaqsClient({ faqs }: { faqs: FaqRow[] }) {
                     <button
                       onClick={() => saveEdit(faq.id)}
                       disabled={isLoading}
-                      className="rounded-lg border border-primary/20 bg-primary/8 px-3 py-1 font-heading text-[0.65rem] font-semibold text-primary disabled:opacity-50"
+                      className="rounded-lg border border-primary/20 bg-primary/10 px-3 py-1 font-heading text-[0.65rem] font-semibold text-primary disabled:opacity-50"
                     >
                       Save
                     </button>

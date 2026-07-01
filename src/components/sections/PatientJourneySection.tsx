@@ -116,11 +116,11 @@ export default function PatientJourneySection() {
 
       {/* Accent glows */}
       <div
-        className="pointer-events-none absolute left-1/3 top-1/4 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/8 blur-3xl"
+        className="pointer-events-none absolute left-1/3 top-1/4 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute bottom-1/4 right-1/4 h-64 w-64 rounded-full bg-teal/6 blur-3xl"
+        className="pointer-events-none absolute bottom-1/4 right-1/4 h-64 w-64 rounded-full bg-teal/5 blur-3xl"
         aria-hidden="true"
       />
 
@@ -188,7 +188,7 @@ export default function PatientJourneySection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-                className="group relative border-l border-white/8 px-5 py-10 transition-all duration-300 first:border-l-0 hover:bg-white/[0.035] lg:px-6 lg:py-12"
+                className="group relative border-l border-white/10 px-5 py-10 transition-all duration-300 first:border-l-0 hover:bg-white/[0.035] lg:px-6 lg:py-12"
               >
                 {/* Ghost step number */}
                 <span
@@ -231,7 +231,7 @@ export default function PatientJourneySection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="flex flex-col items-start gap-4 border-t border-white/8 pt-10 sm:flex-row sm:items-center sm:justify-between"
+          className="flex flex-col items-start gap-4 border-t border-white/10 pt-10 sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <p className="font-heading text-sm font-semibold text-white">
@@ -244,7 +244,7 @@ export default function PatientJourneySection() {
           <div className="flex flex-shrink-0 gap-3">
             <a
               href="tel:+97714419594"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/6 px-5 py-2.5 font-heading text-xs font-semibold text-white/85 transition-all hover:border-white/25 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 font-heading text-xs font-semibold text-white/85 transition-all hover:border-white/25 hover:text-white"
             >
               <svg
                 viewBox="0 0 16 16"

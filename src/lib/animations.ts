@@ -6,6 +6,7 @@ export const EASE_CINEMATIC = [0.16, 1, 0.3, 1] as const
 export const SPRING_SOFT = { type: 'spring' as const, stiffness: 260, damping: 24 }
 export const SPRING_FIRM = { type: 'spring' as const, stiffness: 340, damping: 28 }
 export const SPRING_GENTLE = { type: 'spring' as const, stiffness: 180, damping: 22 }
+export const SPRING_BOUNCE = { type: 'spring' as const, stiffness: 400, damping: 17 } // slight overshoot
 
 export const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },

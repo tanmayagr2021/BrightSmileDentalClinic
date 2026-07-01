@@ -181,7 +181,7 @@ export default function AdminAboutPage() {
             <h3 className="font-heading text-xs font-semibold text-gray-700 uppercase tracking-wide">Values</h3>
             <button
               onClick={addValue}
-              className="rounded-lg border border-primary/30 bg-primary/8 px-3 py-1.5 font-heading text-xs font-semibold text-primary hover:bg-primary/15"
+              className="rounded-lg border border-primary/30 bg-primary/10 px-3 py-1.5 font-heading text-xs font-semibold text-primary hover:bg-primary/15"
             >
               + Add Value
             </button>
@@ -224,7 +224,7 @@ export default function AdminAboutPage() {
             <h3 className="font-heading text-xs font-semibold text-gray-700 uppercase tracking-wide">Why Choose Us</h3>
             <button
               onClick={addWhyItem}
-              className="rounded-lg border border-primary/30 bg-primary/8 px-3 py-1.5 font-heading text-xs font-semibold text-primary hover:bg-primary/15"
+              className="rounded-lg border border-primary/30 bg-primary/10 px-3 py-1.5 font-heading text-xs font-semibold text-primary hover:bg-primary/15"
             >
               + Add Point
             </button>

@@ -120,7 +120,7 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
             {address}
           </p>
         </div>
-        <div className="ml-4 flex flex-shrink-0 items-center gap-1.5 rounded-xl border border-white/12 bg-dark/50 px-3 py-1.5 backdrop-blur-sm transition-all duration-200 group-hover:border-primary/40 group-hover:bg-primary/15">
+        <div className="ml-4 flex flex-shrink-0 items-center gap-1.5 rounded-xl border border-white/10 bg-dark/50 px-3 py-1.5 backdrop-blur-sm transition-all duration-200 group-hover:border-primary/40 group-hover:bg-primary/15">
           <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 flex-shrink-0 text-primary" aria-hidden="true">
             <path d="M8 2a4 4 0 014 4c0 3-4 8-4 8s-4-5-4-8a4 4 0 014-4zm0 2.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" stroke="currentColor" strokeWidth="1.2" />
           </svg>

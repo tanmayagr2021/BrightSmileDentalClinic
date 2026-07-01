@@ -187,7 +187,7 @@ function TreatmentsManager({ categoryId }: { categoryId: string }) {
           <button
             type="button"
             onClick={() => { setAddingNew(true); setApiError(null) }}
-            className="flex items-center gap-1.5 rounded-lg bg-primary/8 px-2.5 py-1.5 font-heading text-[0.65rem] font-semibold text-primary transition-colors hover:bg-primary/15"
+            className="flex items-center gap-1.5 rounded-lg bg-primary/10 px-2.5 py-1.5 font-heading text-[0.65rem] font-semibold text-primary transition-colors hover:bg-primary/15"
           >
             <PlusIcon /> Add Treatment
           </button>
@@ -789,7 +789,7 @@ export default function ServiceCategoriesClient({ services }: { services: Servic
                   </span>
                 )}
                 {service.long_description && (
-                  <span className="rounded-full bg-primary/8 px-2 py-0.5 font-heading text-[0.55rem] font-semibold text-primary">
+                  <span className="rounded-full bg-primary/10 px-2 py-0.5 font-heading text-[0.55rem] font-semibold text-primary">
                     has description
                   </span>
                 )}

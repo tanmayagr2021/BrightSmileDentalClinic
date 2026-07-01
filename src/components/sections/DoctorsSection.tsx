@@ -147,7 +147,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                     <h3 className="font-heading text-xl font-semibold text-dark">{doc.full_name}</h3>
                     <p className="mt-0.5 font-body text-sm font-medium text-primary">{doc.title}</p>
                   </div>
-                  <div className="flex items-center gap-1.5 rounded-full bg-primary/8 px-2.5 py-1 flex-shrink-0">
+                  <div className="flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 flex-shrink-0">
                     <NmcBadge />
                     <span className="font-heading text-[0.6rem] font-semibold text-primary">NMC Verified</span>
                   </div>
@@ -246,7 +246,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
             </div>
 
             <div className="flex items-start gap-4 px-7 py-6">
-              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-dark/8">
+              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-dark/10">
                 <span className="font-heading text-xs font-bold text-dark">03</span>
               </div>
               <div>
@@ -305,7 +305,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                       <p className="font-heading text-sm font-semibold text-dark leading-tight">{h.name}</p>
                       <p className="font-body text-xs text-gray-400">{h.role}</p>
                     </div>
-                    <div className="ml-auto flex items-center gap-1.5 rounded-full bg-teal/8 px-2.5 py-1">
+                    <div className="ml-auto flex items-center gap-1.5 rounded-full bg-teal/10 px-2.5 py-1">
                       <div className="h-1.5 w-1.5 rounded-full bg-teal" />
                       <span className="font-heading text-[0.65rem] font-semibold text-teal">Active</span>
                     </div>

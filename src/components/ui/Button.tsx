@@ -53,7 +53,7 @@ export default function Button({
   rel,
 }: ButtonProps) {
   const base =
-    'inline-flex items-center gap-2 font-heading font-semibold tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'
+    'inline-flex items-center gap-2 font-heading font-semibold tracking-wide transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'
 
   const classes = cn(base, variantStyles[variant], sizeStyles[size], className)
 
