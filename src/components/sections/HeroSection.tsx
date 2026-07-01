@@ -187,14 +187,14 @@ export default function HeroSection() {
 
               {/* Header */}
               <div className="relative">
-                <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-white/40">
+                <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-white/75">
                   Ready to Book?
                 </p>
                 <h3 className="mt-2 font-display text-2xl text-white leading-snug">
                   Your smile starts<br />
                   <span className="text-primary">with a conversation.</span>
                 </h3>
-                <p className="mt-2 font-body text-sm text-white/50">
+                <p className="mt-2 font-body text-sm text-white/85">
                   Appointments available with our lead dentists.
                 </p>
               </div>
@@ -217,11 +217,11 @@ export default function HeroSection() {
                       <p className="font-heading text-sm font-semibold text-white leading-tight">
                         {doc.name}
                       </p>
-                      <p className="font-body text-xs text-white/50 leading-tight mt-0.5">
+                      <p className="font-body text-xs text-white/80 leading-tight mt-0.5">
                         {doc.role}
                       </p>
                     </div>
-                    <span className="flex-shrink-0 text-white/30 transition-all group-hover:text-primary group-hover:translate-x-0.5">
+                    <span className="flex-shrink-0 text-white/60 transition-all group-hover:text-primary group-hover:translate-x-0.5">
                       <ArrowRight className="h-4 w-4" />
                     </span>
                   </Link>
@@ -232,17 +232,17 @@ export default function HeroSection() {
               <div className="relative mt-7 space-y-3">
                 <a
                   href={`tel:${CLINIC_CONTACT.phone.replace(/-/g, '')}`}
-                  className="flex items-center gap-3 rounded-xl bg-white/8 px-4 py-3 font-body text-sm text-white/70 transition-colors hover:bg-white/14 hover:text-white"
+                  className="flex items-center gap-3 rounded-xl bg-white/8 px-4 py-3 font-body text-sm text-white/85 transition-colors hover:bg-white/14 hover:text-white"
                 >
                   <span className="text-primary"><PhoneIcon /></span>
                   {CLINIC_CONTACT.phone}
                 </a>
-                <div className="flex items-start gap-3 rounded-xl bg-white/8 px-4 py-3 font-body text-sm text-white/70">
+                <div className="flex items-start gap-3 rounded-xl bg-white/8 px-4 py-3 font-body text-sm text-white/85">
                   <span className="mt-0.5 text-primary"><ClockIcon /></span>
                   <div className="space-y-0.5">
                     {OPENING_HOURS.map((h) => (
                       <div key={h.days} className="flex justify-between gap-4">
-                        <span className="text-white/50">{h.days}</span>
+                        <span className="text-white/80">{h.days}</span>
                         <span className="font-medium text-white/85">{h.hours}</span>
                       </div>
                     ))}

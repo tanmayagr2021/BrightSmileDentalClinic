@@ -191,7 +191,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                   )}
                   <div>
                     <p className="font-display text-2xl leading-none text-white">{item.value}</p>
-                    <p className="mt-1 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-white/45">
+                    <p className="mt-1 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-white/75">
                       {item.label}
                     </p>
                   </div>

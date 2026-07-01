@@ -249,7 +249,7 @@ export default async function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 py-7 sm:flex-row">
-          <p className="font-body text-xs text-white/35 text-center sm:text-left">
+          <p className="font-body text-xs text-white/60 text-center sm:text-left">
             &copy; {year} Bright Smile Dental Clinic Pvt. Ltd. · All rights reserved.
           </p>
           <div className="flex items-center gap-5">
@@ -259,7 +259,7 @@ export default async function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Bright Smile Dental Clinic on Facebook"
-                className="text-white/35 transition-colors hover:text-white/70"
+                className="text-white/60 transition-colors hover:text-white/70"
               >
                 <FacebookIcon />
               </a>
@@ -270,7 +270,7 @@ export default async function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Bright Smile Dental Clinic on Instagram"
-                className="text-white/35 transition-colors hover:text-white/70"
+                className="text-white/60 transition-colors hover:text-white/70"
               >
                 <InstagramIcon />
               </a>
@@ -278,12 +278,12 @@ export default async function Footer() {
             <span className="h-3 w-px bg-white/15" aria-hidden="true" />
             <Link
               href="/privacy"
-              className="font-body text-xs text-white/35 hover:text-white/70 transition-colors"
+              className="font-body text-xs text-white/60 hover:text-white/70 transition-colors"
             >
               Privacy
             </Link>
             <span className="h-3 w-px bg-white/15" aria-hidden="true" />
-            <span className="flex items-center gap-1.5 font-body text-xs text-white/35">
+            <span className="flex items-center gap-1.5 font-body text-xs text-white/60">
               <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-primary" aria-hidden="true">
                 <path d="M4 8.5l2.5 2.5L12 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>

@@ -599,7 +599,7 @@ function DoctorAnnotationCard({
             {doctor.shortName}
           </p>
           {doctor.title && (
-            <p className="mt-0.5 truncate font-heading text-[0.58rem] leading-tight text-white/50">
+            <p className="mt-0.5 truncate font-heading text-[0.58rem] leading-tight text-white/72">
               {doctor.title}
             </p>
           )}
@@ -612,7 +612,7 @@ function DoctorAnnotationCard({
           <span
             key={s}
             className={`rounded px-1.5 py-0.5 font-heading text-[0.52rem] font-semibold uppercase tracking-wide transition-colors duration-200 ${
-              isActive ? 'bg-[#C5A059]/20 text-[#C5A059]' : 'bg-white/[0.06] text-white/55'
+              isActive ? 'bg-[#C5A059]/20 text-[#C5A059]' : 'bg-white/[0.06] text-white/75'
             }`}
           >
             {s}

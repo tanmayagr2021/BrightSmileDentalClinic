@@ -89,7 +89,7 @@ export default async function AboutPage() {
           </h1>
 
           {/* Description */}
-          <p className="mt-8 max-w-xl font-body text-base text-white/72 leading-relaxed">
+          <p className="mt-8 max-w-xl font-body text-base text-white/90 leading-relaxed">
             Over a decade of trusted dental care in the heart of Kathmandu — built on expertise, compassion and an uncompromising commitment to every patient.
           </p>
 
@@ -103,7 +103,7 @@ export default async function AboutPage() {
                 <p className="font-display text-4xl text-white">
                   {stat.count}{stat.suffix}
                 </p>
-                <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/58">
+                <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
                   {stat.label}
                 </p>
               </div>
@@ -198,7 +198,7 @@ export default async function AboutPage() {
                 </h3>
 
                 {/* Description — hidden on mobile */}
-                <p className="hidden font-body text-sm text-white/70 leading-relaxed sm:block">
+                <p className="hidden font-body text-sm text-white/85 leading-relaxed sm:block">
                   {value.description}
                 </p>
               </div>

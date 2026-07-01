@@ -133,10 +133,10 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                   <span className="rounded-xl bg-white/20 px-3 py-1.5 font-heading text-xs font-semibold text-white backdrop-blur-sm">
                     {doc.qualification}
                   </span>
-                  <p className="mt-2 font-heading text-[0.62rem] font-semibold uppercase tracking-wider text-white/55">
+                  <p className="mt-2 font-heading text-[0.62rem] font-semibold uppercase tracking-wider text-white/80">
                     NMC {doc.nmc_number}
                   </p>
-                  <p className="mt-0.5 font-heading text-[0.65rem] text-white/45">{doc.experience_text}</p>
+                  <p className="mt-0.5 font-heading text-[0.65rem] text-white/75">{doc.experience_text}</p>
                 </div>
               </div>
 

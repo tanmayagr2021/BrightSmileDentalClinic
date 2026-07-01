@@ -40,3 +40,8 @@ next-env.d.ts
 # supabase local
 supabase/.branches
 supabase/.temp
+
+# local tooling / QA artifacts
+.claude/
+.playwright-mcp/
+qa/

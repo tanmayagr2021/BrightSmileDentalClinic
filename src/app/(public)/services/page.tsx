@@ -41,18 +41,43 @@ function Check({ className = 'h-4 w-4' }: { className?: string }) {
 
 export default async function ServicesPage() {
   const supabase = createAdminClient()
-  const { data } = await supabase
-    .from('service_categories')
-    .select('*')
-    .eq('is_visible', true)
-    .order('sort_order', { ascending: true })
 
-  const visibleSlugs = new Set((data ?? []).map((s) => s.slug))
+  const [{ data: categoryData }, { data: itemsData }] = await Promise.all([
+    supabase
+      .from('service_categories')
+      .select('*')
+      .eq('is_visible', true)
+      .order('sort_order', { ascending: true }),
+    supabase
+      .from('service_items')
+      .select('category_id, name, description, sort_order')
+      .eq('is_visible', true)
+      .order('sort_order', { ascending: true }),
+  ])
 
-  // Merge: only show categories that are visible in Supabase, in DB order
-  const dbOrder = (data ?? []).map((dbRow) => {
+  // Build slug-keyed items map from DB
+  const categoryIdToSlug = new Map((categoryData ?? []).map((r) => [r.id, r.slug]))
+  const itemsBySlug = new Map<string, { name: string; description: string }[]>()
+  for (const item of (itemsData ?? [])) {
+    const slug = categoryIdToSlug.get(item.category_id)
+    if (!slug) continue
+    const arr = itemsBySlug.get(slug) ?? []
+    arr.push({ name: item.name, description: item.description ?? '' })
+    itemsBySlug.set(slug, arr)
+  }
+
+  const visibleSlugs = new Set((categoryData ?? []).map((s) => s.slug))
+
+  // Merge: DB-ordered static entries enriched with DB sub-items
+  const dbOrder = (categoryData ?? []).map((dbRow) => {
     const staticEntry = SERVICE_CATEGORIES_STATIC.find((s) => s.slug === dbRow.slug)
-    return staticEntry ?? null
+    if (!staticEntry) return null
+    const dbItems = itemsBySlug.get(dbRow.slug)
+    return {
+      ...staticEntry,
+      // Use DB items when available, fallback to static
+      subServices: dbItems && dbItems.length > 0 ? dbItems : staticEntry.subServices,
+    }
   }).filter((s): s is typeof SERVICE_CATEGORIES_STATIC[number] => s !== null)
 
   // Fallback: if Supabase query failed / empty, show static data

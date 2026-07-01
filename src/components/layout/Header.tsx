@@ -43,10 +43,10 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
           <span className="font-display leading-none tracking-[-0.018em] text-white text-[1.15rem]">
             {CLINIC_NAME_SHORT}
           </span>
-          <span className="font-heading font-semibold leading-none tracking-[0.008em] text-white/65 text-[0.7rem]">
+          <span className="font-heading font-semibold leading-none tracking-[0.008em] text-white/82 text-[0.7rem]">
             {CLINIC_SUBTITLE}
           </span>
-          <span className="font-heading font-medium uppercase leading-none tracking-[0.16em] text-white/32 text-[0.4rem]">
+          <span className="font-heading font-medium uppercase leading-none tracking-[0.16em] text-white/55 text-[0.4rem]">
             {CLINIC_TAGLINE}
           </span>
         </div>
@@ -190,7 +190,7 @@ export default function Header() {
                 <BrandMark inverted />
                 <button
                   onClick={closeMenu}
-                  className="flex items-center justify-center rounded-xl p-2 text-white/40 hover:text-white hover:bg-white/8 transition-colors"
+                  className="flex items-center justify-center rounded-xl p-2 text-white/65 hover:text-white hover:bg-white/8 transition-colors"
                   aria-label="Close menu"
                 >
                   <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5" aria-hidden="true">
@@ -211,10 +211,10 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={closeMenu}
-                        className="flex items-center justify-between py-4 font-heading text-base font-medium text-white/65 hover:text-white transition-colors border-b border-white/6 focus-visible:outline-none focus-visible:text-white"
+                        className="flex items-center justify-between py-4 font-heading text-base font-medium text-white/85 hover:text-white transition-colors border-b border-white/6 focus-visible:outline-none focus-visible:text-white"
                       >
                         {link.label}
-                        <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-white/22" aria-hidden="true">
+                        <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-white/55" aria-hidden="true">
                           <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </Link>
@@ -231,7 +231,7 @@ export default function Header() {
                 >
                   Book Appointment
                 </Link>
-                <p className="text-center font-body text-xs text-white/28">
+                <p className="text-center font-body text-xs text-white/65">
                   Nagpokhari, Naxal · Kathmandu, Nepal
                 </p>
               </div>

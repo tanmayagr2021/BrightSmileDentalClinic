@@ -73,6 +73,17 @@ export type HomepageSectionRow = {
   updated_at: string
 }
 
+export type ServiceItemRow = {
+  id: string
+  category_id: string
+  name: string
+  description: string | null
+  sort_order: number
+  is_visible: boolean
+  created_at: string
+  updated_at: string
+}
+
 export type ServiceCategoryRow = {
   id: string
   name: string

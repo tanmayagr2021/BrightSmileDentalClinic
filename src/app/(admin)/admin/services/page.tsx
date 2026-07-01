@@ -1,15 +1,15 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import ServiceCategoriesClient from '@/components/admin/ServiceCategoriesClient'
-import { SERVICE_CATEGORIES_STATIC } from '@/lib/constants'
 
 export const dynamic = 'force-dynamic'
 
 export default async function ServicesCmsPage() {
   const supabase = createAdminClient()
-  const { data, error } = await supabase
-    .from('service_categories')
-    .select('*')
-    .order('sort_order', { ascending: true })
+
+  const [{ data: categories, error }, { data: itemCounts }] = await Promise.all([
+    supabase.from('service_categories').select('*').order('sort_order', { ascending: true }),
+    supabase.from('service_items').select('category_id').eq('is_visible', true),
+  ])
 
   if (error) {
     return (
@@ -22,16 +22,16 @@ export default async function ServicesCmsPage() {
     )
   }
 
-  const rows = data ?? []
+  // Count items per category from DB
+  const countMap = new Map<string, number>()
+  for (const row of (itemCounts ?? [])) {
+    countMap.set(row.category_id, (countMap.get(row.category_id) ?? 0) + 1)
+  }
 
-  // Merge with static data to get subService count
-  const services = rows.map((row) => {
-    const staticEntry = SERVICE_CATEGORIES_STATIC.find((s) => s.slug === row.slug)
-    return {
-      ...row,
-      subServiceCount: staticEntry?.subServices?.length ?? 0,
-    }
-  })
+  const services = (categories ?? []).map((row) => ({
+    ...row,
+    subServiceCount: countMap.get(row.id) ?? 0,
+  }))
 
   return <ServiceCategoriesClient services={services} />
 }

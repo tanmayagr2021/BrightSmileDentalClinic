@@ -203,7 +203,7 @@ export default function ContactClient({
               <h1 className="mt-4 font-display text-5xl text-white tracking-display leading-[1.06] lg:text-6xl">
                 Let&apos;s talk about<br />your smile.
               </h1>
-              <p className="mt-5 max-w-xs font-body text-sm text-white/70 leading-relaxed">
+              <p className="mt-5 max-w-xs font-body text-sm text-white/85 leading-relaxed">
                 We&apos;re here to answer your questions — no commitment, no pressure. Reach us
                 by phone, WhatsApp, email, or the form.
               </p>
@@ -213,7 +213,7 @@ export default function ContactClient({
             <div className="mt-14 lg:mt-auto lg:pt-16">
               {/* Phone */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/72">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
                   Phone
                 </p>
                 <a
@@ -226,7 +226,7 @@ export default function ContactClient({
 
               {/* WhatsApp */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/72">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
                   WhatsApp
                 </p>
                 <a
@@ -241,7 +241,7 @@ export default function ContactClient({
 
               {/* Email */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/72">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
                   Email
                 </p>
                 <a
@@ -254,15 +254,15 @@ export default function ContactClient({
 
               {/* Address */}
               <div>
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/72">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
                   Address
                 </p>
-                <p className="font-body text-sm text-white/68 leading-relaxed">{address}</p>
+                <p className="font-body text-sm text-white/85 leading-relaxed">{address}</p>
               </div>
 
               {/* Opening Hours */}
               <div className="mt-8 border-t border-white/[0.06] pt-8">
-                <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/72">
+                <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
                   Opening Hours
                 </p>
                 <div className="divide-y divide-white/[0.04]">
@@ -512,7 +512,7 @@ export default function ContactClient({
                 </div>
                 <div className="text-center">
                   <p className="font-heading text-base font-semibold text-white">Bright Smile Dental Clinic</p>
-                  <p className="mt-1 font-body text-sm text-white/72">{address}</p>
+                  <p className="mt-1 font-body text-sm text-white/85">{address}</p>
                 </div>
               </div>
 
@@ -524,7 +524,7 @@ export default function ContactClient({
                 <span className="font-heading text-xs font-semibold text-white/75 transition-colors group-hover:text-white">
                   Open in Google Maps
                 </span>
-                <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-white/35 transition-all group-hover:translate-x-0.5 group-hover:text-white/70" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-white/60 transition-all group-hover:translate-x-0.5 group-hover:text-white/70" aria-hidden="true">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>

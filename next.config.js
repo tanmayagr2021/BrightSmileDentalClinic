@@ -40,7 +40,7 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'",
+      `script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ""}`,
       "style-src 'self' https://fonts.googleapis.com 'unsafe-inline'",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://*.supabase.co https://www.google-analytics.com",
