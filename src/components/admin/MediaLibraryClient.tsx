@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { MediaLibraryRow } from '@/types/db'
+import { mediaDisplayUrl, RASTER_MIME_TYPES } from '@/lib/admin/media-url'
 
 const BUCKETS = [
   'doctor-photos',
@@ -16,15 +17,8 @@ const BUCKETS = [
   'misc',
 ]
 
-const PUBLIC_BUCKETS = new Set(['doctor-photos', 'service-images', 'gallery', 'blog-images', 'testimonial-photos', 'branding', 'og-images'])
-const RASTER_MIME = new Set(['image/jpeg', 'image/png', 'image/webp'])
-
-function displayUrl(item: MediaLibraryRow): string | null {
-  if (!PUBLIC_BUCKETS.has(item.bucket)) return null
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL
-  if (!base) return null
-  return `${base}/storage/v1/object/public/${item.bucket}/${item.file_path}`
-}
+const displayUrl = mediaDisplayUrl
+const RASTER_MIME = RASTER_MIME_TYPES
 
 function formatSize(bytes: number | null): string {
   if (!bytes) return '—'

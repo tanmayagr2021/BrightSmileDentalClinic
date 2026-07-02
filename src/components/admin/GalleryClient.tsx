@@ -3,6 +3,7 @@
 import { useState, useRef, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import MediaPicker, { type MediaPickerSelection } from '@/components/admin/MediaPicker'
 
 type GalleryGroup = { id: string; name: string; slug: string }
 type GalleryItem = {
@@ -33,6 +34,7 @@ export default function GalleryClient({
   const [editAlt, setEditAlt] = useState('')
   const [editCaption, setEditCaption] = useState('')
   const [editGroupId, setEditGroupId] = useState<string>('')
+  const [pickerOpen, setPickerOpen] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
 
   const showToast = (msg: string, ok: boolean) => {
@@ -74,6 +76,24 @@ export default function GalleryClient({
     }
     setUploading(false)
     if (fileRef.current) fileRef.current.value = ''
+    startTransition(() => router.refresh())
+  }
+
+  const handleLibrarySelect = async (selection: MediaPickerSelection) => {
+    const createRes = await fetch('/api/admin/gallery', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image_url: selection.url, alt_text: selection.alt_text, group_id: activeGroup !== 'all' ? groups.find(g => g.slug === activeGroup)?.id : null }),
+    })
+    if (!createRes.ok) { showToast('Failed to save photo', false); return }
+    const item = await createRes.json()
+    setItems((prev) => [...prev, { ...item, gallery_groups: groups.find(g => g.id === item.group_id) ?? null }])
+    await fetch('/api/admin/media-usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ media_id: selection.id, table_name: 'gallery', column_name: 'image_url', record_id: item.id }),
+    }).catch(() => {})
+    showToast('Photo added from library', true)
     startTransition(() => router.refresh())
   }
 
@@ -150,6 +170,12 @@ export default function GalleryClient({
           )}
           {uploading ? 'Uploading…' : 'Upload Photos'}
         </button>
+        <button
+          onClick={() => setPickerOpen(true)}
+          className="inline-flex items-center gap-1.5 rounded-xl border border-gray-200 px-5 py-2 font-heading text-xs font-semibold text-gray-600 transition-all hover:border-primary/30 hover:text-primary"
+        >
+          Choose from Library
+        </button>
         <input
           ref={fileRef}
           type="file"
@@ -159,6 +185,13 @@ export default function GalleryClient({
           onChange={(e) => handleUpload(e.target.files)}
         />
       </div>
+
+      <MediaPicker
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onSelect={handleLibrarySelect}
+        bucket="gallery"
+      />
 
       {/* Stats */}
       <div className="mb-5 grid grid-cols-4 gap-3">

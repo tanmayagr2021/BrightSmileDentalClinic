@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useRef, useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import MediaPicker, { type MediaPickerSelection } from '@/components/admin/MediaPicker'
 
 type Slide = {
   id: string
@@ -26,11 +27,10 @@ export default function ShowcaseClient({ slides: initialSlides }: { slides: Slid
   const [saving, setSaving] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editForm, setEditForm] = useState<Partial<Slide>>({})
-  const [uploadingFor, setUploadingFor] = useState<string | null>(null)
+  const [pickerForSlide, setPickerForSlide] = useState<string | null>(null)
   const [showAddForm, setShowAddForm] = useState(false)
   const [newTitle, setNewTitle] = useState('')
   const [newDesc, setNewDesc] = useState('')
-  const fileRefs = useRef<Record<string, HTMLInputElement | null>>({})
 
   const showToast = (msg: string, ok: boolean) => {
     setToast({ msg, ok })
@@ -92,29 +92,16 @@ export default function ShowcaseClient({ slides: initialSlides }: { slides: Slid
     showToast('Slide updated', true)
   }
 
-  const handleImageUpload = async (slideId: string, files: FileList | null) => {
-    if (!files || files.length === 0) return
-    setUploadingFor(slideId)
-
-    const fd = new FormData()
-    fd.append('file', files[0])
-    fd.append('bucket', 'gallery')
-
-    const uploadRes = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-    if (!uploadRes.ok) { showToast('Upload failed', false); setUploadingFor(null); return }
-    const { url } = await uploadRes.json()
-
+  const handleImageSelect = async (slideId: string, selection: MediaPickerSelection) => {
     const patchRes = await fetch(`/api/admin/showcase/${slideId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image_url: url }),
+      body: JSON.stringify({ image_url: selection.url }),
     })
-    if (!patchRes.ok) { showToast('Failed to save image', false); setUploadingFor(null); return }
+    if (!patchRes.ok) { showToast('Failed to save image', false); return }
     const updated = await patchRes.json()
     setSlides((prev) => prev.map((s) => s.id === slideId ? { ...s, ...updated } : s))
-    showToast('Photo uploaded', true)
-    setUploadingFor(null)
-    if (fileRefs.current[slideId]) fileRefs.current[slideId]!.value = ''
+    showToast('Photo updated', true)
   }
 
   const deleteSlide = async (slide: Slide) => {
@@ -262,33 +249,30 @@ export default function ShowcaseClient({ slides: initialSlides }: { slides: Slid
               </div>
             </div>
 
-            {/* Image upload row */}
+            {/* Image picker row */}
             <div
               className="mx-5 mb-5 flex items-center gap-3 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 px-4 py-3 hover:border-primary/30 transition-colors cursor-pointer group"
-              onClick={() => fileRefs.current[slide.id]?.click()}
+              onClick={() => setPickerForSlide(slide.id)}
             >
-              {uploadingFor === slide.id ? (
-                <span className="h-4 w-4 animate-spin rounded-full border border-primary border-t-transparent" />
-              ) : (
-                <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-gray-300 group-hover:text-primary/40 transition-colors flex-shrink-0"><path d="M12 16V4m0 0l-4 4m4-4l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M4 20h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
-              )}
+              <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-gray-300 group-hover:text-primary/40 transition-colors flex-shrink-0"><path d="M12 16V4m0 0l-4 4m4-4l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M4 20h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
               <div>
                 <p className="font-heading text-xs font-semibold text-gray-600 group-hover:text-primary/60 transition-colors">
-                  {uploadingFor === slide.id ? 'Uploading…' : slide.image_url ? 'Replace Photo' : 'Upload Photo'}
+                  {slide.image_url ? 'Replace Photo' : 'Choose Photo'}
                 </p>
-                <p className="font-body text-[0.6rem] text-gray-300">JPG, PNG up to 10 MB · Replaces gradient preview</p>
+                <p className="font-body text-[0.6rem] text-gray-300">From the Media Library · Replaces gradient preview</p>
               </div>
-              <input
-                ref={(el) => { fileRefs.current[slide.id] = el }}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => handleImageUpload(slide.id, e.target.files)}
-              />
             </div>
           </div>
         ))}
       </div>
+
+      <MediaPicker
+        open={pickerForSlide !== null}
+        onClose={() => setPickerForSlide(null)}
+        onSelect={(selection) => pickerForSlide && handleImageSelect(pickerForSlide, selection)}
+        bucket="gallery"
+        usageContext={pickerForSlide ? { table: 'showcase_slides', column: 'image_url', recordId: pickerForSlide } : undefined}
+      />
     </div>
   )
 }

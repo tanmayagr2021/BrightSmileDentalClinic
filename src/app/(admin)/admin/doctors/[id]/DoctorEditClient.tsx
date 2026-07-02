@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useTransition, useRef } from 'react'
+import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { DoctorRow } from '@/types/db'
+import MediaPicker, { type MediaPickerSelection } from '@/components/admin/MediaPicker'
 
 export default function DoctorEditClient({ doctor }: { doctor: DoctorRow }) {
   const router = useRouter()
@@ -12,30 +13,19 @@ export default function DoctorEditClient({ doctor }: { doctor: DoctorRow }) {
   const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null)
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
-  const [uploadingPhoto, setUploadingPhoto] = useState(false)
+  const [pickerOpen, setPickerOpen] = useState(false)
   const [photoUrl, setPhotoUrl] = useState<string | null>(doctor.profile_image_url ?? null)
-  const photoRef = useRef<HTMLInputElement>(null)
 
-  const handlePhotoUpload = async (files: FileList | null) => {
-    if (!files || files.length === 0) return
-    setUploadingPhoto(true)
-    const fd = new FormData()
-    fd.append('file', files[0])
-    fd.append('bucket', 'doctor-photos')
-    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-    if (!res.ok) { showToast('Upload failed', false); setUploadingPhoto(false); return }
-    const { url } = await res.json()
-    setPhotoUrl(url)
+  const handlePhotoSelect = async (selection: MediaPickerSelection) => {
+    setPhotoUrl(selection.url)
     // Immediately save the new photo URL
     await fetch(`/api/admin/doctors/${doctor.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ profile_image_url: url }),
+      body: JSON.stringify({ profile_image_url: selection.url }),
     })
-    setUploadingPhoto(false)
     showToast('Photo updated', true)
     startTransition(() => router.refresh())
-    if (photoRef.current) photoRef.current.value = ''
   }
 
   const [form, setForm] = useState({
@@ -138,7 +128,7 @@ export default function DoctorEditClient({ doctor }: { doctor: DoctorRow }) {
         {/* Avatar / photo upload */}
         <div className="relative flex-shrink-0">
           <div
-            className="flex h-16 w-16 items-center justify-center rounded-2xl overflow-hidden text-xl font-bold text-white font-heading"
+            className="relative flex h-16 w-16 items-center justify-center rounded-2xl overflow-hidden text-xl font-bold text-white font-heading"
             style={{ backgroundColor: color }}
           >
             {photoUrl ? (
@@ -146,26 +136,29 @@ export default function DoctorEditClient({ doctor }: { doctor: DoctorRow }) {
             ) : initials}
           </div>
           <button
-            onClick={() => photoRef.current?.click()}
-            disabled={uploadingPhoto}
+            onClick={() => setPickerOpen(true)}
             className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white shadow border border-gray-200 text-gray-500 hover:text-primary transition-colors"
-            title="Upload profile photo"
+            title="Choose profile photo"
           >
-            {uploadingPhoto
-              ? <span className="h-3 w-3 animate-spin rounded-full border border-primary border-t-transparent" />
-              : <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3"><path d="M6 1v8M2 5l4-4 4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /><path d="M1 11h10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" /></svg>
-            }
+            <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3"><path d="M6 1v8M2 5l4-4 4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /><path d="M1 11h10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" /></svg>
           </button>
-          <input ref={photoRef} type="file" accept="image/*" className="hidden" onChange={(e) => handlePhotoUpload(e.target.files)} />
         </div>
         <div>
           <h2 className="font-display text-xl text-gray-900 tracking-tight">{doctor.full_name}</h2>
           <p className="font-body text-sm text-gray-500">{doctor.title ?? 'No title set'}</p>
-          <button onClick={() => photoRef.current?.click()} className="mt-1 font-heading text-[0.62rem] font-semibold text-primary hover:underline">
+          <button onClick={() => setPickerOpen(true)} className="mt-1 font-heading text-[0.62rem] font-semibold text-primary hover:underline">
             {photoUrl ? 'Change photo' : 'Upload profile photo'}
           </button>
         </div>
       </div>
+
+      <MediaPicker
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onSelect={handlePhotoSelect}
+        bucket="doctor-photos"
+        usageContext={{ table: 'doctors', column: 'profile_image_url', recordId: doctor.id }}
+      />
 
       {/* Form */}
       <div className="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm space-y-6">

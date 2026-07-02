@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useTransition, useRef } from 'react'
+import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import type { BlogPostRow } from '@/types/db'
+import MediaPicker, { type MediaPickerUsageContext } from '@/components/admin/MediaPicker'
 
 const STATUS_STYLES: Record<string, { label: string; className: string }> = {
   draft:     { label: 'Draft',     className: 'bg-gray-100 text-gray-500 border border-gray-200' },
@@ -42,36 +43,10 @@ export default function BlogClient({ posts }: { posts: BlogPostRow[] }) {
   const [editDraft, setEditDraft] = useState<EditDraft>(emptyDraft())
   const [showAddForm, setShowAddForm] = useState(false)
   const [addForm, setAddForm] = useState<EditDraft>(emptyDraft())
-  const [uploadingCover, setUploadingCover] = useState(false)
-  const [uploadingEditCover, setUploadingEditCover] = useState(false)
-  const addCoverRef = useRef<HTMLInputElement>(null)
-  const editCoverRef = useRef<HTMLInputElement>(null)
 
   const showToast = (msg: string, ok: boolean) => {
     setToast({ msg, ok })
     setTimeout(() => setToast(null), 3500)
-  }
-
-  const uploadCover = async (
-    files: FileList | null,
-    onUrl: (url: string) => void,
-    setUploading: (v: boolean) => void
-  ) => {
-    if (!files || files.length === 0) return
-    setUploading(true)
-    const fd = new FormData()
-    fd.append('file', files[0])
-    fd.append('bucket', 'misc')
-    try {
-      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-      if (!res.ok) throw new Error('Upload failed')
-      const { url } = await res.json() as { url: string }
-      onUrl(url)
-    } catch {
-      showToast('Image upload failed', false)
-    } finally {
-      setUploading(false)
-    }
   }
 
   const handleAdd = async () => {
@@ -212,15 +187,7 @@ export default function BlogClient({ posts }: { posts: BlogPostRow[] }) {
       {showAddForm && (
         <div className="mb-5 rounded-2xl border border-primary/15 bg-tint p-5 space-y-3">
           <p className="font-heading text-sm font-semibold text-gray-800">New Post</p>
-          <PostForm
-            form={addForm}
-            onChange={setAddForm}
-            uploading={uploadingCover}
-            coverRef={addCoverRef}
-            onCoverChange={(files) =>
-              uploadCover(files, (url) => setAddForm((f) => ({ ...f, cover_image_url: url })), setUploadingCover)
-            }
-          />
+          <PostForm form={addForm} onChange={setAddForm} />
           <div className="flex gap-2 pt-1">
             <button onClick={handleAdd} className="rounded-xl bg-primary px-5 py-2 font-heading text-xs font-semibold text-white hover:bg-primary-dark">
               Create Post
@@ -246,11 +213,7 @@ export default function BlogClient({ posts }: { posts: BlogPostRow[] }) {
                   <PostForm
                     form={editDraft}
                     onChange={setEditDraft}
-                    uploading={uploadingEditCover}
-                    coverRef={editCoverRef}
-                    onCoverChange={(files) =>
-                      uploadCover(files, (url) => setEditDraft((f) => ({ ...f, cover_image_url: url })), setUploadingEditCover)
-                    }
+                    usageContext={{ table: 'blog_posts', column: 'cover_image_url', recordId: post.id }}
                   />
                   <div className="flex gap-2 pt-1">
                     <button
@@ -336,16 +299,13 @@ export default function BlogClient({ posts }: { posts: BlogPostRow[] }) {
 function PostForm({
   form,
   onChange,
-  uploading,
-  coverRef,
-  onCoverChange,
+  usageContext,
 }: {
   form: EditDraft
   onChange: (f: EditDraft) => void
-  uploading: boolean
-  coverRef: React.Ref<HTMLInputElement>
-  onCoverChange: (files: FileList | null) => void
+  usageContext?: MediaPickerUsageContext
 }) {
+  const [pickerOpen, setPickerOpen] = useState(false)
   const inp = (key: keyof EditDraft) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     onChange({ ...form, [key]: e.target.value })
 
@@ -407,17 +367,21 @@ function PostForm({
             placeholder="https://…"
             className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
           />
-          <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-gray-200 px-3 py-2 font-heading text-xs font-semibold text-gray-500 transition-all hover:border-primary/30 hover:text-primary">
-            {uploading ? 'Uploading…' : 'Upload'}
-            <input
-              ref={coverRef}
-              type="file"
-              accept="image/*"
-              className="sr-only"
-              onChange={(e) => onCoverChange(e.target.files)}
-            />
-          </label>
+          <button
+            type="button"
+            onClick={() => setPickerOpen(true)}
+            className="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-xl border border-gray-200 px-3 py-2 font-heading text-xs font-semibold text-gray-500 transition-all hover:border-primary/30 hover:text-primary"
+          >
+            Choose
+          </button>
         </div>
+        <MediaPicker
+          open={pickerOpen}
+          onClose={() => setPickerOpen(false)}
+          onSelect={(selection) => onChange({ ...form, cover_image_url: selection.url })}
+          bucket="blog-images"
+          usageContext={usageContext}
+        />
       </div>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
