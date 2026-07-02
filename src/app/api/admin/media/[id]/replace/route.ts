@@ -23,7 +23,7 @@ export async function POST(req: NextRequest, { params }: Params) {
 
   const { data: existing, error: fetchError } = await supabase
     .from('media_library')
-    .select('bucket, file_path, folder')
+    .select('bucket, file_path')
     .eq('id', id)
     .single()
   if (fetchError) return NextResponse.json({ error: fetchError.message }, { status: 404 })
@@ -45,7 +45,12 @@ export async function POST(req: NextRequest, { params }: Params) {
   const { buffer: outBuffer, width, height } = await processImage(rawBuffer, mimeType, existing.bucket)
 
   const ext = EXT_BY_MIME[mimeType] ?? file.name.split('.').pop()?.toLowerCase() ?? 'bin'
-  const newPath = existing.folder ? `${existing.folder}/${randomUUID()}.${ext}` : `${randomUUID()}.${ext}`
+  // Preserve whatever path structure the original file actually had —
+  // `folder` is just an organizational label (defaults to the bucket name)
+  // and is not necessarily a real Storage path prefix.
+  const lastSlash = existing.file_path.lastIndexOf('/')
+  const pathPrefix = lastSlash >= 0 ? existing.file_path.slice(0, lastSlash) : null
+  const newPath = pathPrefix ? `${pathPrefix}/${randomUUID()}.${ext}` : `${randomUUID()}.${ext}`
 
   const { data: uploadData, error: uploadError } = await supabase.storage
     .from(existing.bucket)
