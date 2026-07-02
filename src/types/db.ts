@@ -234,6 +234,26 @@ export type AuditLogWithActor = AuditLogRow & {
   actor_role: RoleName | null
 }
 
+export type MediaLibraryRow = {
+  id: string
+  bucket: string
+  file_path: string
+  file_name: string
+  file_size: number | null
+  mime_type: string | null
+  alt_text: string | null
+  caption: string | null
+  width: number | null
+  height: number | null
+  folder: string | null
+  tags: string[]
+  is_deleted: boolean
+  uploaded_by: string | null
+  created_at: string
+  updated_at: string
+  usage_count: number
+}
+
 export type ContentBlockRow = {
   id: string
   key: string
