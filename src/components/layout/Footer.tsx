@@ -181,7 +181,7 @@ export default async function Footer() {
   const hours = buildHours(hoursData ?? [])
 
   return (
-    <footer className="bg-[#0A1128]" aria-labelledby="footer-heading">
+    <footer className="bg-[#0E1B2E]" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">Footer</h2>
 
       <Container>
@@ -238,7 +238,7 @@ export default async function Footer() {
         <div className="mt-6 flex justify-stretch sm:justify-end">
           <Link
             href="/appointments"
-            className="inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-gold px-8 py-4 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97] sm:w-auto"
+            className="inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-gold px-8 py-4 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97] sm:w-auto"
           >
             Book an Appointment
             <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">

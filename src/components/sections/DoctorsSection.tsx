@@ -32,8 +32,8 @@ function ArrowRight({ className = 'h-4 w-4' }: { className?: string }) {
 function NmcBadge() {
   return (
     <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
-      <path d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z" fill="#4A9B6F" fillOpacity="0.12" stroke="#4A9B6F" strokeWidth="1.2" strokeLinejoin="round" />
-      <path d="M5.5 8l2 2 3.5-3.5" stroke="#4A9B6F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z" fill="#0C3C2D" fillOpacity="0.12" stroke="#0C3C2D" strokeWidth="1.2" strokeLinejoin="round" />
+      <path d="M5.5 8l2 2 3.5-3.5" stroke="#0C3C2D" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -147,9 +147,9 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                     <h3 className="font-heading text-xl font-semibold text-dark">{doc.full_name}</h3>
                     <p className="mt-0.5 font-body text-sm font-medium text-primary">{doc.title}</p>
                   </div>
-                  <div className="flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 flex-shrink-0">
+                  <div className="flex items-center gap-1.5 rounded-full bg-teal/10 px-2.5 py-1 flex-shrink-0">
                     <NmcBadge />
-                    <span className="font-heading text-[0.6rem] font-semibold text-primary">NMC Verified</span>
+                    <span className="font-heading text-[0.6rem] font-semibold text-teal">NMC Verified</span>
                   </div>
                 </div>
 

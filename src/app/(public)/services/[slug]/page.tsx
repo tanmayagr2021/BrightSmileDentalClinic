@@ -234,8 +234,8 @@ export default async function ServiceDetailPage({ params }: Props) {
                   {staticEntry.benefits.map((b) => (
                     <div key={b} className="flex items-start gap-3">
                       <svg viewBox="0 0 16 16" fill="none" className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" aria-hidden="true">
-                        <circle cx="8" cy="8" r="7" fill="#4A9B6F" fillOpacity="0.12" />
-                        <path d="M5 8l2 2 4-4" stroke="#4A9B6F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <circle cx="8" cy="8" r="7" fill="#0C3C2D" fillOpacity="0.12" />
+                        <path d="M5 8l2 2 4-4" stroke="#0C3C2D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                       <span className="font-body text-sm text-gray-600">{b}</span>
                     </div>

@@ -35,7 +35,7 @@ export default function MobileActionBar({ phone, phoneWhatsApp }: { phone: strin
     <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden" aria-label="Quick actions">
       <div
         className="flex divide-x divide-white/[0.07] border-t border-white/[0.08] shadow-[0_-8px_32px_rgba(0,0,0,0.4)]"
-        style={{ background: '#0A1128' }}
+        style={{ background: '#0E1B2E' }}
       >
         {/* Call */}
         <a
@@ -65,7 +65,7 @@ export default function MobileActionBar({ phone, phoneWhatsApp }: { phone: strin
         <Link
           href="/appointments"
           className="flex flex-1 items-center justify-center gap-2 py-4 font-heading text-sm font-semibold transition-colors active:opacity-90"
-          style={{ background: '#C5A059', color: '#0A1128' }}
+          style={{ background: '#C9A24B', color: '#14202E' }}
           aria-label="Book an appointment"
         >
           <CalendarIcon />
@@ -74,7 +74,7 @@ export default function MobileActionBar({ phone, phoneWhatsApp }: { phone: strin
       </div>
 
       {/* iOS safe area fill */}
-      <div className="h-[env(safe-area-inset-bottom,0px)]" style={{ background: '#C5A059' }} />
+      <div className="h-[env(safe-area-inset-bottom,0px)]" style={{ background: '#C9A24B' }} />
     </div>
   )
 }

@@ -24,8 +24,8 @@ function dInitials(d: DoctorRow) { return d.initials ?? d.full_name.split(' ').m
 function NmcBadge() {
   return (
     <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
-      <path d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z" fill="#4A9B6F" fillOpacity="0.15" stroke="#4A9B6F" strokeWidth="1.2" strokeLinejoin="round" />
-      <path d="M5.5 8l2 2 3.5-3.5" stroke="#4A9B6F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z" fill="#0C3C2D" fillOpacity="0.15" stroke="#0C3C2D" strokeWidth="1.2" strokeLinejoin="round" />
+      <path d="M5.5 8l2 2 3.5-3.5" stroke="#0C3C2D" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -76,7 +76,7 @@ const SUPPORT_ROLES = [
     role: 'Reception Team',
     description: 'Your first point of contact. Handles appointments, enquiries, and ensures every patient feels genuinely welcomed.',
     strength: 'Patient experience',
-    color: '#4A9B6F',
+    color: '#0C3C2D',
   },
   {
     initials: 'AD',
@@ -124,7 +124,7 @@ export default async function DoctorsPage() {
       {/* ── HERO — Dark Premium ── */}
       <section
         className="relative overflow-hidden py-24 lg:py-32"
-        style={{ background: '#0A1128' }}
+        style={{ background: '#0E1B2E' }}
       >
         {/* Architectural grid */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.022]" aria-hidden="true">
@@ -181,7 +181,7 @@ export default async function DoctorsPage() {
       {mapDoctors.length > 0 && (
         <section
           className="relative overflow-hidden py-20 lg:py-28"
-          style={{ background: '#0A1128' }}
+          style={{ background: '#0E1B2E' }}
         >
           {/* Subtle grid background */}
           <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.018]" aria-hidden="true">
@@ -293,9 +293,9 @@ export default async function DoctorsPage() {
                     <div>
                       {/* Credential badges */}
                       <div className="mb-7 flex flex-wrap items-center gap-3">
-                        <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 py-1.5">
+                        <div className="flex items-center gap-2 rounded-full border border-teal/20 bg-teal/5 px-3.5 py-1.5">
                           <NmcBadge />
-                          <span className="font-heading text-[0.65rem] font-semibold text-primary">
+                          <span className="font-heading text-[0.65rem] font-semibold text-teal">
                             NMC Verified · {doc.nmc_number}
                           </span>
                         </div>
@@ -375,7 +375,7 @@ export default async function DoctorsPage() {
       {/* ── SPECIALIST CONSULTANTS ── */}
       <section
         className="relative overflow-hidden py-24 lg:py-28"
-        style={{ background: '#0A1128' }}
+        style={{ background: '#0E1B2E' }}
       >
         {/* Subtle grid */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.02]" aria-hidden="true">
@@ -591,7 +591,7 @@ export default async function DoctorsPage() {
           {/* Closing CTA strip */}
           <div
             className="overflow-hidden rounded-2xl p-8 text-center lg:p-12"
-            style={{ background: '#0A1128' }}
+            style={{ background: '#0E1B2E' }}
           >
             <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-gold mb-4">
               Direct Bookings Available
@@ -605,7 +605,7 @@ export default async function DoctorsPage() {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/appointments"
-                className="inline-flex items-center gap-2.5 rounded-xl bg-gold px-8 py-3.5 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
+                className="inline-flex items-center gap-2.5 rounded-xl bg-gold px-8 py-3.5 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
               >
                 Book an Appointment
                 <ArrowRight className="h-4 w-4" />

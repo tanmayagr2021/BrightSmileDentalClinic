@@ -51,8 +51,8 @@ const REASON_ICONS: Record<string, React.ReactNode> = {
 
 const CERT_SHIELD = (
   <svg viewBox="0 0 14 14" fill="none" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
-    <path d="M7 1L2 3.2v4.3c0 3 2.3 5.7 5 6.5 2.7-0.8 5-3.5 5-6.5V3.2L7 1z" fill="#4A9B6F" fillOpacity="0.14" stroke="#4A9B6F" strokeWidth="1.1" strokeLinejoin="round" />
-    <path d="M4.5 7l2 2 3-3" stroke="#4A9B6F" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M7 1L2 3.2v4.3c0 3 2.3 5.7 5 6.5 2.7-0.8 5-3.5 5-6.5V3.2L7 1z" fill="#0C3C2D" fillOpacity="0.14" stroke="#0C3C2D" strokeWidth="1.1" strokeLinejoin="round" />
+    <path d="M4.5 7l2 2 3-3" stroke="#0C3C2D" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
 

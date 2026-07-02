@@ -93,7 +93,7 @@ export default async function ServicesPage() {
       {/* ── Hero — full dark ── */}
       <div
         className="relative overflow-hidden py-16 lg:py-24"
-        style={{ background: '#0A1128' }}
+        style={{ background: '#0E1B2E' }}
       >
         {/* Architectural grid overlay */}
         <svg
@@ -177,7 +177,7 @@ export default async function ServicesPage() {
                   key={service.slug}
                   id={service.slug}
                   className="group relative scroll-mt-24 overflow-hidden rounded-3xl shadow-glass-dark transition-all duration-500"
-                  style={{ background: '#0A1128' }}
+                  style={{ background: '#0E1B2E' }}
                 >
                   {/* Faint grid pattern */}
                   <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.025]" aria-hidden="true">
@@ -232,7 +232,7 @@ export default async function ServicesPage() {
                         </Link>
                         <Link
                           href="/appointments"
-                          className="inline-flex items-center gap-2 rounded-xl bg-gold px-6 py-3 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
+                          className="inline-flex items-center gap-2 rounded-xl bg-gold px-6 py-3 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
                         >
                           Book Now <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
@@ -338,7 +338,7 @@ export default async function ServicesPage() {
       {/* ── CTA strip — dark centered ── */}
       <div
         className="py-20 lg:py-24"
-        style={{ background: '#0A1128' }}
+        style={{ background: '#0E1B2E' }}
       >
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-gold">
@@ -354,7 +354,7 @@ export default async function ServicesPage() {
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/appointments"
-              className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-gold px-8 py-4 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
+              className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-gold px-8 py-4 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97]"
             >
               Book a Consultation
               <ArrowRight className="h-3.5 w-3.5" />

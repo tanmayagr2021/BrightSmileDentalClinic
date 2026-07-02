@@ -146,7 +146,7 @@ export default async function GalleryPage() {
   const galleryGroups = groups ?? []
 
   return (
-    <div style={{ background: '#0A1128' }} className="min-h-screen">
+    <div style={{ background: '#0E1B2E' }} className="min-h-screen">
       {/* Hero — integrated into dark page */}
       <div className="mx-auto max-w-7xl px-4 pt-28 pb-12 sm:px-6 lg:px-8">
         <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">

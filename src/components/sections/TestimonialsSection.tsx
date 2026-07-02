@@ -11,8 +11,8 @@ function StarIcon({ filled }: { filled: boolean }) {
     <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden="true">
       <path
         d="M8 1.5l1.8 3.6 4 .6-2.9 2.8.7 4L8 10.4l-3.6 1.9.7-4-2.9-2.8 4-.6z"
-        fill={filled ? '#4A9B6F' : 'none'}
-        stroke={filled ? '#4A9B6F' : '#d1d5db'}
+        fill={filled ? '#C9A24B' : 'none'}
+        stroke={filled ? '#C9A24B' : '#d1d5db'}
         strokeWidth="1"
         strokeLinejoin="round"
       />
@@ -70,7 +70,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
   return (
     <>
       {/* ─── Part 1 — Dark editorial feature ─────────────────────────────── */}
-      <section className="bg-[#0A1128] py-24 lg:py-32">
+      <section className="bg-[#0E1B2E] py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
           {/* Section header — left-aligned */}
@@ -126,8 +126,8 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                   <svg key={i} viewBox="0 0 16 16" className="h-5 w-5" aria-hidden="true">
                     <path
                       d="M8 1.5l1.8 3.6 4 .6-2.9 2.8.7 4L8 10.4l-3.6 1.9.7-4-2.9-2.8 4-.6z"
-                      fill="#4A9B6F"
-                      stroke="#4A9B6F"
+                      fill="#0C3C2D"
+                      stroke="#0C3C2D"
                       strokeWidth="1"
                       strokeLinejoin="round"
                     />
@@ -147,25 +147,25 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                 )}
 
                 {/* Verified Patient badge */}
-                <div className="flex items-center gap-1.5 rounded-xl border border-primary/25 bg-primary/10 px-3 py-2">
-                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-primary" aria-hidden="true">
+                <div className="flex items-center gap-1.5 rounded-xl border border-teal/25 bg-teal/10 px-3 py-2">
+                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-teal" aria-hidden="true">
                     <path
                       d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z"
-                      fill="#4A9B6F"
+                      fill="#0C3C2D"
                       fillOpacity="0.2"
-                      stroke="#4A9B6F"
+                      stroke="#0C3C2D"
                       strokeWidth="1.2"
                       strokeLinejoin="round"
                     />
                     <path
                       d="M5.5 8l2 2 3.5-3.5"
-                      stroke="#4A9B6F"
+                      stroke="#0C3C2D"
                       strokeWidth="1.2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <span className="font-heading text-xs font-semibold text-primary">Verified Patient</span>
+                  <span className="font-heading text-xs font-semibold text-teal">Verified Patient</span>
                 </div>
               </div>
             </motion.div>
@@ -233,7 +233,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                   </p>
 
                   {t.treatment && (
-                    <span className="mt-4 inline-block rounded-full bg-[#F0F9FF] px-2.5 py-1 font-heading text-[0.65rem] font-semibold uppercase tracking-wide text-primary">
+                    <span className="mt-4 inline-block rounded-full bg-tint px-2.5 py-1 font-heading text-[0.65rem] font-semibold uppercase tracking-wide text-primary">
                       {t.treatment}
                     </span>
                   )}

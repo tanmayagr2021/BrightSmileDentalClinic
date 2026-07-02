@@ -3,15 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #1A7A5E;
-  --color-primary-dark: #135F4A;
-  --color-primary-light: #22A07C;
-  --color-gold: #C5A059;
-  --color-gold-dark: #A8883C;
-  --color-dark: #0A1128;
+  --color-primary: #C9A24B;
+  --color-primary-dark: #A8823A;
+  --color-primary-light: #E7D3A1;
+  --color-gold: #C9A24B;
+  --color-gold-dark: #A8823A;
+  --color-dark: #0E1B2E;
+  --color-deep: #070F1C;
   --color-slate: #1E293B;
-  --color-tint: #F0F9FF;
-  --color-text: #111827;
+  --color-tint: #FAF6EC;
+  --color-text: #14202E;
+  --color-teal: #0C3C2D;
+  --color-cream: #E9E2D3;
+  --color-cream-muted: #C9BFAE;
 }
 
 @layer base {
@@ -40,7 +44,7 @@
   }
 
   ::selection {
-    background-color: rgba(197, 160, 89, 0.18);
+    background-color: rgba(201, 162, 75, 0.18);
     color: var(--color-dark);
   }
 
@@ -110,12 +114,12 @@
 
   /* Gold CTA button — premium calls to action */
   .btn-gold {
-    @apply inline-flex items-center gap-2.5 rounded-xl bg-gold px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold text-[#0A1128] shadow-button-gold transition-all duration-200 hover:bg-gold-dark active:scale-[0.97];
+    @apply inline-flex items-center gap-2.5 rounded-xl bg-gold px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold text-[#14202E] shadow-button-gold transition-all duration-200 hover:bg-gold-dark active:scale-[0.97];
   }
 
-  /* Primary CTA button */
+  /* Primary CTA button — champagne gold with dark text, per palette spec */
   .btn-primary {
-    @apply inline-flex items-center gap-2.5 rounded-xl bg-primary px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold text-white shadow-button transition-all duration-200 hover:bg-primary-dark active:scale-[0.97];
+    @apply inline-flex items-center gap-2.5 rounded-xl bg-primary px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold text-[#14202E] shadow-button transition-all duration-200 hover:bg-primary-dark active:scale-[0.97];
   }
 }
 
@@ -142,7 +146,7 @@
   /* Bright AI panel — gold-tinted thin scrollbar */
   .scrollbar-ai {
     scrollbar-width: thin;
-    scrollbar-color: rgba(197, 160, 89, 0.2) transparent;
+    scrollbar-color: rgba(201, 162, 75, 0.2) transparent;
   }
   .scrollbar-ai::-webkit-scrollbar {
     width: 4px;
@@ -151,11 +155,11 @@
     background: transparent;
   }
   .scrollbar-ai::-webkit-scrollbar-thumb {
-    background: rgba(197, 160, 89, 0.2);
+    background: rgba(201, 162, 75, 0.2);
     border-radius: 2px;
   }
   .scrollbar-ai::-webkit-scrollbar-thumb:hover {
-    background: rgba(197, 160, 89, 0.35);
+    background: rgba(201, 162, 75, 0.35);
   }
 }
 

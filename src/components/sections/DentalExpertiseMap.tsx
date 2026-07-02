@@ -205,11 +205,11 @@ const REGION_GEOS: RegionGeo[] = ALL_REGION_IDS.map(buildRegionGeo)
 
 // ─── Color tokens ───────────────────────────────────────────────────────────────
 
-const GOLD = '#C5A059'
-const GOLD_FILL_ACTIVE = 'rgba(197,160,89,0.14)'
+const GOLD = '#C9A24B'
+const GOLD_FILL_ACTIVE = 'rgba(201, 162, 75,0.14)'
 const TOOTH_DEFAULT_FILL = 'rgba(255,255,255,0.12)'
 const TOOTH_DEFAULT_STROKE = 'rgba(255,255,255,0.45)'
-const TOOTH_ACTIVE_FILL = 'rgba(197,160,89,0.9)'
+const TOOTH_ACTIVE_FILL = 'rgba(201, 162, 75,0.9)'
 
 // ─── BlueprintArch SVG Component ────────────────────────────────────────────────
 
@@ -284,7 +284,7 @@ function BlueprintArch({
               fill={isActive ? GOLD_FILL_ACTIVE : 'rgba(255,255,255,0.04)'}
               style={{
                 transition: 'fill 0.25s ease, filter 0.25s ease',
-                filter: isActive ? 'drop-shadow(0 0 8px rgba(197,160,89,0.25))' : 'none',
+                filter: isActive ? 'drop-shadow(0 0 8px rgba(201, 162, 75,0.25))' : 'none',
               }}
             />
             <circle
@@ -479,7 +479,7 @@ function ConnectorLines({
             <path d="M 0 1 L 7 4 L 0 7 Z" fill="rgba(255,255,255,0.35)" />
           </marker>
           <marker id="arrowhead-gold" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="4" markerHeight="4" orient="auto">
-            <path d="M 0 1 L 7 4 L 0 7 Z" fill="#C5A059" />
+            <path d="M 0 1 L 7 4 L 0 7 Z" fill="#C9A24B" />
           </marker>
         </defs>
 
@@ -488,7 +488,7 @@ function ConnectorLines({
           <motion.path
             key={`dim-${ln.id}`}
             d={ln.d}
-            stroke={ln.isActive ? 'rgba(197,160,89,0.35)' : 'rgba(255,255,255,0.14)'}
+            stroke={ln.isActive ? 'rgba(201, 162, 75,0.35)' : 'rgba(255,255,255,0.14)'}
             strokeWidth={ln.isActive ? 1.2 : 0.8}
             strokeDasharray="4 4"
             fill="none"
@@ -506,7 +506,7 @@ function ConnectorLines({
             <motion.path
               key={`active-${ln.id}`}
               d={ln.d}
-              stroke="#C5A059"
+              stroke="#C9A24B"
               strokeWidth={1.6}
               strokeDasharray="5 3"
               fill="none"
@@ -528,10 +528,10 @@ function ConnectorLines({
 function SpecializationMapHeading() {
   return (
     <div className="mb-12 text-center">
-      <span className="inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-[#C5A059]">
-        <span className="inline-block h-px w-8 bg-[#C5A059]/50" />
+      <span className="inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-[#C9A24B]">
+        <span className="inline-block h-px w-8 bg-[#C9A24B]/50" />
         Clinical Specialization Map
-        <span className="inline-block h-px w-8 bg-[#C5A059]/50" />
+        <span className="inline-block h-px w-8 bg-[#C9A24B]/50" />
       </span>
       <h2
         className="mt-4 font-display text-4xl text-white sm:text-5xl"
@@ -585,9 +585,9 @@ function DoctorAnnotationCard({
       transition={{ duration: 0.4, delay: prefersReduced ? 0 : 0.65 + index * 0.09 }}
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.98 }}
-      className={`relative w-full cursor-pointer rounded-xl border p-3 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A1128] ${
+      className={`relative w-full cursor-pointer rounded-xl border p-3 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0E1B2E] ${
         isActive
-          ? 'border-[#C5A059]/40 bg-[#C5A059]/[0.07]'
+          ? 'border-[#C9A24B]/40 bg-[#C9A24B]/[0.07]'
           : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]'
       }`}
     >
@@ -623,7 +623,7 @@ function DoctorAnnotationCard({
           <span
             key={s}
             className={`rounded px-1.5 py-0.5 font-heading text-[0.52rem] font-semibold uppercase tracking-wide transition-colors duration-200 ${
-              isActive ? 'bg-[#C5A059]/20 text-[#C5A059]' : 'bg-white/[0.06] text-white/75'
+              isActive ? 'bg-[#C9A24B]/20 text-[#C9A24B]' : 'bg-white/[0.06] text-white/75'
             }`}
           >
             {s}
@@ -750,10 +750,10 @@ export default function DentalExpertiseMap({ doctors }: { doctors: MapDoctor[] }
   }
 
   return (
-    <section className="relative overflow-hidden bg-[#0A1128] py-24">
+    <section className="relative overflow-hidden bg-[#0E1B2E] py-24">
       {/* Ambient glow */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1A7A5E]/5 blur-[120px]" />
+        <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C9A24B]/5 blur-[120px]" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

@@ -9,8 +9,8 @@ function StarIcon({ filled }: { filled: boolean }) {
     <svg viewBox="0 0 12 12" className="h-3 w-3" aria-hidden="true">
       <path
         d="M6 1l1.35 2.73 3.01.44-2.18 2.12.51 3.01L6 7.9 3.31 9.3l.51-3.01L1.64 4.17l3.01-.44L6 1z"
-        fill={filled ? '#4A9B6F' : 'none'}
-        stroke={filled ? '#4A9B6F' : '#d1d5db'}
+        fill={filled ? '#C9A24B' : 'none'}
+        stroke={filled ? '#C9A24B' : '#d1d5db'}
         strokeWidth="0.8"
       />
     </svg>

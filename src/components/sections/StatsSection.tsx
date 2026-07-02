@@ -34,7 +34,7 @@ function Counter({ count, suffix }: { count: number; suffix: string }) {
 
 export default function StatsSection() {
   return (
-    <section className="relative overflow-hidden bg-[#0A1128]">
+    <section className="relative overflow-hidden bg-[#0E1B2E]">
 
       {/* Subtle dot-grid texture */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">

@@ -83,7 +83,7 @@ export default function ShowcaseSection({
       {/* ── LEFT: Authority copy panel — 42% on desktop ── */}
       <div
         className="relative z-10 order-2 lg:order-1 flex flex-col justify-center px-8 pt-12 pb-14 sm:px-12 lg:w-[42%] lg:px-14 lg:pt-[8.5rem] lg:pb-16 xl:px-18"
-        style={{ background: '#0A1128' }}
+        style={{ background: '#0E1B2E' }}
       >
         {/* Subtle architectural grid */}
         <svg
@@ -102,7 +102,7 @@ export default function ShowcaseSection({
         <Parallax strength={0.07} className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 -translate-x-1/3 translate-y-1/3">
           <div
             className="h-64 w-64 rounded-full blur-3xl"
-            style={{ background: 'rgba(197, 160, 89, 0.07)' }}
+            style={{ background: 'rgba(201, 162, 75, 0.07)' }}
             aria-hidden="true"
           />
         </Parallax>
@@ -125,7 +125,7 @@ export default function ShowcaseSection({
             Expert Dental Care,
             <span
               className="block mt-1"
-              style={{ color: '#C5A059' }}
+              style={{ color: '#C9A24B' }}
             >
               Comfortable
             </span>
@@ -143,14 +143,14 @@ export default function ShowcaseSection({
             <MagneticWrap strength={0.25} className="inline-block">
               <Link
                 href="/appointments"
-                className="inline-flex items-center gap-2.5 rounded-xl px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold transition-all duration-200 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A1128]"
+                className="inline-flex items-center gap-2.5 rounded-xl px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold transition-all duration-200 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0E1B2E]"
                 style={{
-                  background: '#C5A059',
-                  color: '#0A1128',
-                  boxShadow: '0 4px 20px rgba(197, 160, 89, 0.35), 0 1px 4px rgba(197, 160, 89, 0.18)',
+                  background: '#C9A24B',
+                  color: '#14202E',
+                  boxShadow: '0 4px 20px rgba(201, 162, 75, 0.35), 0 1px 4px rgba(201, 162, 75, 0.18)',
                 }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#A8883C' }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#C5A059' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#A8823A' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#C9A24B' }}
               >
                 Book Consultation
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
@@ -183,12 +183,12 @@ export default function ShowcaseSection({
                 key={chip.label}
                 className="inline-flex items-center gap-2 rounded-full px-3.5 py-[0.35rem] font-heading text-[0.65rem] font-medium uppercase tracking-[0.14em]"
                 style={{
-                  border: '1px solid rgba(197, 160, 89, 0.18)',
+                  border: '1px solid rgba(201, 162, 75, 0.18)',
                   color: 'rgba(255,255,255,0.65)',
-                  background: 'rgba(197, 160, 89, 0.04)',
+                  background: 'rgba(201, 162, 75, 0.04)',
                 }}
               >
-                <span className="h-[3px] w-[3px] flex-shrink-0 rounded-full" style={{ background: '#C5A059' }} aria-hidden="true" />
+                <span className="h-[3px] w-[3px] flex-shrink-0 rounded-full" style={{ background: '#C9A24B' }} aria-hidden="true" />
                 {chip.label}
               </span>
             ))}
@@ -207,7 +207,7 @@ export default function ShowcaseSection({
                   className="relative h-[2px] overflow-hidden rounded-full transition-all duration-500 focus-visible:outline-none"
                   style={{
                     width: i === active ? '2rem' : '0.375rem',
-                    backgroundColor: i === active ? '#C5A059' : 'rgba(255,255,255,0.18)',
+                    backgroundColor: i === active ? '#C9A24B' : 'rgba(255,255,255,0.18)',
                   }}
                 />
               ))}
@@ -279,7 +279,7 @@ export default function ShowcaseSection({
               {i === active && (
                 <motion.div
                   className="absolute inset-0 origin-left"
-                  style={{ background: '#C5A059' }}
+                  style={{ background: '#C9A24B' }}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: isPaused ? undefined : 1 }}
                   transition={{ duration: AUTO_MS / 1000, ease: 'linear' }}
@@ -310,7 +310,7 @@ export default function ShowcaseSection({
                   sizes="(min-width: 1024px) 58vw, 100vw"
                 />
                 {/* Left blend into navy panel */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0A1128]/60 lg:from-[#0A1128]/30 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0E1B2E]/60 lg:from-[#0E1B2E]/30 via-transparent to-transparent" />
                 {/* Bottom gradient */}
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent" />
               </>
@@ -330,7 +330,7 @@ export default function ShowcaseSection({
         {/* Gold accent line — top of image panel */}
         <div
           className="absolute top-[4.75rem] lg:top-[6.5rem] left-0 right-0 z-30 h-px"
-          style={{ background: 'linear-gradient(to right, rgba(197,160,89,0.4), transparent)' }}
+          style={{ background: 'linear-gradient(to right, rgba(201, 162, 75,0.4), transparent)' }}
           aria-hidden="true"
         />
 

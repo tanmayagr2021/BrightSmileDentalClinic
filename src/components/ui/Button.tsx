@@ -21,11 +21,11 @@ interface ButtonProps {
 
 const variantStyles: Record<Variant, string> = {
   primary:
-    'bg-primary text-white hover:bg-primary-dark active:scale-[0.98] shadow-sm hover:shadow',
+    'bg-primary text-[#14202E] hover:bg-primary-dark active:scale-[0.98] shadow-sm hover:shadow',
   secondary:
-    'bg-dark text-white hover:bg-dark/90 active:scale-[0.98] shadow-sm hover:shadow',
+    'bg-dark text-cream hover:bg-dark/90 active:scale-[0.98] shadow-sm hover:shadow',
   outline:
-    'border border-primary text-primary hover:bg-primary hover:text-white active:scale-[0.98]',
+    'border border-primary text-primary hover:bg-primary hover:text-[#14202E] active:scale-[0.98]',
   ghost:
     'text-primary hover:bg-primary/10 active:scale-[0.98]',
   white:

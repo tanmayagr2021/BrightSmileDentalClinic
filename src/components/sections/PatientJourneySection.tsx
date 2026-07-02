@@ -99,7 +99,7 @@ export default function PatientJourneySection() {
   return (
     <section
       className="relative overflow-hidden py-24 lg:py-32"
-      style={{ background: '#0A1128' }}
+      style={{ background: '#0E1B2E' }}
     >
       {/* Architectural grid overlay */}
       <svg
@@ -158,7 +158,7 @@ export default function PatientJourneySection() {
           >
             <Link
               href="/appointments"
-              className="inline-flex items-center gap-2.5 rounded-xl bg-gold px-7 py-3.5 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark active:scale-[0.98]"
+              className="inline-flex items-center gap-2.5 rounded-xl bg-gold px-7 py-3.5 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark active:scale-[0.98]"
             >
               Start Your Journey
               <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
@@ -258,7 +258,7 @@ export default function PatientJourneySection() {
             </a>
             <Link
               href="/appointments"
-              className="inline-flex items-center gap-2 rounded-xl bg-gold px-5 py-2.5 font-heading text-xs font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark"
+              className="inline-flex items-center gap-2 rounded-xl bg-gold px-5 py-2.5 font-heading text-xs font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark"
             >
               Book Online
             </Link>

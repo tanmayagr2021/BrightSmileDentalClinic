@@ -126,11 +126,11 @@ function StepDoctor({ selected, onSelect, doctors }: { selected: string | null; 
             </div>
 
             <div className="mt-4 flex items-center gap-1.5">
-              <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-primary" aria-hidden="true">
-                <path d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z" fill="#4A9B6F" fillOpacity="0.12" stroke="#4A9B6F" strokeWidth="1.2" strokeLinejoin="round" />
-                <path d="M5.5 8l2 2 3.5-3.5" stroke="#4A9B6F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-teal" aria-hidden="true">
+                <path d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z" fill="#0C3C2D" fillOpacity="0.12" stroke="#0C3C2D" strokeWidth="1.2" strokeLinejoin="round" />
+                <path d="M5.5 8l2 2 3.5-3.5" stroke="#0C3C2D" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <span className="font-heading text-[0.62rem] font-semibold text-primary">{doc.nmc} · {doc.experience}</span>
+              <span className="font-heading text-[0.62rem] font-semibold text-teal">{doc.nmc} · {doc.experience}</span>
             </div>
           </button>
         ))}

@@ -186,7 +186,7 @@ export default function Header() {
                 'inline-flex items-center gap-2 rounded-xl px-6 py-3 font-heading text-[0.82rem] font-semibold transition-all duration-300 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
                 isTransparent
                   ? 'bg-white text-dark shadow-[0_4px_20px_rgba(0,0,0,0.25),0_1px_0_rgba(255,255,255,0.8)_inset] hover:bg-white/95 hover:shadow-[0_6px_28px_rgba(0,0,0,0.3)]'
-                  : 'bg-gold text-[#0A1128] shadow-button-gold hover:bg-gold-dark hover:shadow-glow-gold'
+                  : 'bg-gold text-[#14202E] shadow-button-gold hover:bg-gold-dark hover:shadow-glow-gold'
               )}
             >
               Book Appointment
@@ -237,7 +237,7 @@ export default function Header() {
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
               className="fixed right-0 top-0 bottom-0 z-50 flex w-full max-w-[340px] flex-col lg:hidden"
-              style={{ background: '#0A1128' }}
+              style={{ background: '#0E1B2E' }}
               role="dialog"
               aria-modal="true"
               aria-label="Mobile navigation"
@@ -283,7 +283,7 @@ export default function Header() {
                 <Link
                   href="/appointments"
                   onClick={closeMenu}
-                  className="flex w-full items-center justify-center rounded-xl bg-gold px-6 py-3.5 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark active:scale-[0.97]"
+                  className="flex w-full items-center justify-center rounded-xl bg-gold px-6 py-3.5 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark active:scale-[0.97]"
                 >
                   Book Appointment
                 </Link>

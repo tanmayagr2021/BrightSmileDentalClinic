@@ -42,7 +42,7 @@ export default function CtaSection({
   const displayHours = (openingHours && openingHours.length > 0) ? openingHours : [...OPENING_HOURS]
 
   return (
-    <section className="overflow-hidden bg-[#0A1128]">
+    <section className="overflow-hidden bg-[#0E1B2E]">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
 
@@ -82,7 +82,7 @@ export default function CtaSection({
               <MagneticWrap strength={0.25} className="inline-block">
                 <Link
                   href="/appointments"
-                  className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-gold px-9 py-4 font-heading text-sm font-semibold text-[#0A1128] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.98]"
+                  className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-gold px-9 py-4 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.98]"
                 >
                   Book Appointment
                   <span className="transition-transform duration-200 group-hover:translate-x-1">
