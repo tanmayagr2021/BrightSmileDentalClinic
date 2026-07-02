@@ -34,6 +34,7 @@ function buildOpeningHours(dbHours: DbHour[]): { days: string; hours: string; op
   }))
 }
 import PublicLayout from '@/components/layout/PublicLayout'
+import ScrollDepthTracker from '@/components/analytics/ScrollDepthTracker'
 import ShowcaseSection from '@/components/sections/ShowcaseSection'
 import StatsSection from '@/components/sections/StatsSection'
 import TrustSection from '@/components/sections/TrustSection'
@@ -155,6 +156,7 @@ export default async function HomePage() {
 
   return (
     <PublicLayout>
+      <ScrollDepthTracker />
       {/* 1. Hero — full-screen cinematic clinic showcase (always visible) */}
       <ShowcaseSection slides={showcaseSlides} openingHours={openingHours} phone={clinicPhone} />
       {/* 2. Trust — stats + quick credentials */}

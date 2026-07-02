@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { DM_Serif_Display, Poppins, Inter } from 'next/font/google'
 import { MotionConfig } from 'framer-motion'
 import { buildClinicSchema } from '@/lib/schema'
+import Analytics from '@/components/analytics/Analytics'
 import './globals.css'
 
 const dmSerifDisplay = DM_Serif_Display({
@@ -80,6 +81,7 @@ export default function RootLayout({
             Framer Motion animation site-wide, since Framer drives its own
             animation engine and never touches CSS `transition`. */}
         <MotionConfig reducedMotion="user">{children}</MotionConfig>
+        <Analytics />
       </body>
     </html>
   )

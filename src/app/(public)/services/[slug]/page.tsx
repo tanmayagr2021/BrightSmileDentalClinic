@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { SERVICE_CATEGORIES_STATIC } from '@/lib/constants'
 import { buildCanonical } from '@/lib/schema'
+import TrackOnMount from '@/components/analytics/TrackOnMount'
+import TrackedLink from '@/components/analytics/TrackedLink'
 import type { ServiceCategoryRow } from '@/types/db'
 
 export const dynamic = 'force-dynamic'
@@ -86,6 +88,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   return (
     <div className="bg-white">
+      <TrackOnMount event="Service Viewed" data={{ service: category.slug }} />
       {/* Hero */}
       <div className="bg-tint border-b border-gray-100 py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -109,12 +112,14 @@ export default async function ServiceDetailPage({ params }: Props) {
             {category.description ?? staticEntry?.description}
           </p>
           <div className="mt-8 flex gap-3">
-            <Link
+            <TrackedLink
               href="/appointments"
+              event="Service CTA Clicked"
+              data={{ service: category.slug, label: 'Book an Appointment' }}
               className="inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark active:scale-[0.98]"
             >
               Book an Appointment
-            </Link>
+            </TrackedLink>
             <Link
               href="/contact"
               className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-7 py-3.5 font-heading text-sm font-semibold text-gray-700 transition-all hover:border-primary hover:text-primary active:scale-[0.98]"
@@ -210,12 +215,14 @@ export default async function ServiceDetailPage({ params }: Props) {
               <p className="mt-3 font-body text-sm text-white/50">
                 Our team will assess your needs and explain the most suitable treatment options.
               </p>
-              <Link
+              <TrackedLink
                 href="/appointments"
+                event="Service CTA Clicked"
+                data={{ service: category.slug, label: 'Book Appointment' }}
                 className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98]"
               >
                 Book Appointment
-              </Link>
+              </TrackedLink>
               <a
                 href="tel:+977144195940"
                 className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3.5 font-heading text-sm font-semibold text-white/70 transition-all hover:border-white/25 hover:text-white active:scale-[0.98]"

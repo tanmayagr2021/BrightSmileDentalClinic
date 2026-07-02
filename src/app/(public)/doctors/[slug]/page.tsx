@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { CLINIC_CONTACT } from '@/lib/constants'
 import { buildPhysicianSchema, buildCanonical } from '@/lib/schema'
+import TrackOnMount from '@/components/analytics/TrackOnMount'
+import TrackedLink from '@/components/analytics/TrackedLink'
 import type { DoctorRow } from '@/types/db'
 
 export const dynamic = 'force-dynamic'
@@ -74,6 +76,7 @@ export default async function DoctorProfilePage({ params }: Props) {
 
   return (
     <div className="bg-white">
+      <TrackOnMount event="Doctor Profile Viewed" data={{ doctor: doctor.slug }} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(physicianSchema) }}
@@ -197,12 +200,14 @@ export default async function DoctorProfilePage({ params }: Props) {
                   <p className="mt-3 font-body text-sm text-white/50">
                     {dShortName(doctor)} is currently accepting new patients.
                   </p>
-                  <Link
+                  <TrackedLink
                     href="/appointments"
+                    event="Book Doctor Clicked"
+                    data={{ doctor: doctor.slug }}
                     className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98]"
                   >
                     Book Appointment
-                  </Link>
+                  </TrackedLink>
                 </>
               ) : (
                 <p className="mt-3 font-body text-sm text-white/50">

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { stagger, fadeUp, liftIn } from '@/lib/animations'
 import { BEFORE_AFTER_STATIC, type BeforeAfterCategory } from '@/lib/constants'
+import { useTrackViewOnce } from '@/hooks/useTrackViewOnce'
 
 const CATEGORY_LABELS: Record<BeforeAfterCategory | 'all', string> = {
   all: 'All Cases',
@@ -27,9 +28,10 @@ export default function BeforeAfterSection() {
   const [activeCategory, setActiveCategory] = useState<BeforeAfterCategory | 'all'>('all')
   const allCases = BEFORE_AFTER_STATIC.filter((c) => c.visible).sort((a, b) => a.sortOrder - b.sortOrder)
   const filtered = activeCategory === 'all' ? allCases : allCases.filter((c) => c.category === activeCategory)
+  const viewRef = useTrackViewOnce<HTMLElement>('Before/After Viewed')
 
   return (
-    <section className="bg-dark py-24 lg:py-32">
+    <section ref={viewRef} className="bg-dark py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Section header */}

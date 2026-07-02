@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { stagger, fadeUp } from '@/lib/animations'
+import { useTrackViewOnce } from '@/hooks/useTrackViewOnce'
+import { trackEvent } from '@/lib/analytics'
 
 export type ServiceDisplay = {
   slug: string
@@ -40,8 +42,9 @@ function ArrowRight() {
 }
 
 export default function ServicesSection({ services }: { services: ServiceDisplay[] }) {
+  const viewRef = useTrackViewOnce<HTMLElement>('Services Viewed')
   return (
-    <section className="relative overflow-hidden bg-ivory py-24 lg:py-32">
+    <section ref={viewRef} className="relative overflow-hidden bg-ivory py-24 lg:py-32">
       {/* Subtle top gradient */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white to-transparent"
@@ -97,6 +100,7 @@ export default function ServicesSection({ services }: { services: ServiceDisplay
             >
               <Link
                 href={`/services/${service.slug}`}
+                onClick={() => trackEvent('Service CTA Clicked', { service: service.slug })}
                 className="group flex items-center gap-6 border-b border-gray-200 py-7 transition-colors duration-300 hover:bg-tint/60 lg:gap-10 lg:px-4 lg:py-8"
                 aria-label={`Learn more about ${service.name}`}
               >

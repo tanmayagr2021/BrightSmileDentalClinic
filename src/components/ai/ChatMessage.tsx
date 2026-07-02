@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import type { ChatMessage as ChatMessageType } from '@/types/ai'
+import { trackEvent } from '@/lib/analytics'
 
 interface ChatMessageProps {
   message: ChatMessageType
@@ -73,7 +74,14 @@ export default function ChatMessage({
         {/* Navigation CTA */}
         {!isUser && message.navigateTo && (
           <motion.button
-            onClick={() => onNavigate(message.navigateTo!)}
+            onClick={() => {
+              if (message.navigateTo!.startsWith('/doctors/')) {
+                trackEvent('Doctor Recommendation Used', { doctor: message.navigateTo })
+              } else {
+                trackEvent('Suggested Action Clicked', { label: 'Go there now', target: message.navigateTo })
+              }
+              onNavigate(message.navigateTo!)
+            }}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.15 }}
@@ -96,7 +104,7 @@ export default function ChatMessage({
             {message.quickReplies.map((reply) => (
               <motion.button
                 key={reply}
-                onClick={() => onQuickReply(reply)}
+                onClick={() => { trackEvent('Suggested Action Clicked', { label: reply }); onQuickReply(reply) }}
                 initial={{ opacity: 0, scale: 0.92 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}

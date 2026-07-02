@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useId, cloneElement, isValidElement, Children } from 'react'
+import { useState, useEffect, useId, cloneElement, isValidElement, Children } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { MedicalHistoryData, MedicalHistoryStep } from '@/types/ai'
 import { EMPTY_MEDICAL_HISTORY, MEDICAL_HISTORY_STEPS } from '@/types/ai'
+import { trackEvent } from '@/lib/analytics'
 
 const CONDITION_OPTIONS = [
   'Diabetes', 'High Blood Pressure', 'Heart Disease', 'Asthma',
@@ -33,6 +34,11 @@ export default function MedicalHistoryWizard({ sessionId, onComplete, onCancel }
   const stepIndex = MEDICAL_HISTORY_STEPS.findIndex((s) => s.key === step)
   const isFirst = stepIndex === 0
   const isLast = step === 'review'
+
+  useEffect(() => {
+    trackEvent('Medical History Started')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function go(next: MedicalHistoryStep, dir: 1 | -1) {
     setDirection(dir)
@@ -79,6 +85,7 @@ export default function MedicalHistoryWizard({ sessionId, onComplete, onCancel }
         body: JSON.stringify({ sessionId, data }),
       })
       if (!res.ok) throw new Error('Submission failed')
+      trackEvent('Medical History Completed')
       onComplete(data.patientName)
     } catch {
       setError('Something went wrong. Please try again.')

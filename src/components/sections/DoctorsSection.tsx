@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { fadeUp, stagger, slideInLeft, slideInRight, blurFadeIn } from '@/lib/animations'
+import { useTrackViewOnce } from '@/hooks/useTrackViewOnce'
+import { trackEvent } from '@/lib/analytics'
 import type { DoctorRow } from '@/types/db'
 
 function dColor(d: DoctorRow) { return d.color_hex ?? '#4A9B6F' }
@@ -50,9 +52,10 @@ function CalIcon() {
 export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
   const leadDoctors = doctors.filter((d) => d.doctor_type === 'lead' && d.is_active)
   const specialistCount = doctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).length
+  const viewRef = useTrackViewOnce<HTMLElement>('Doctor Section Viewed')
 
   return (
-    <section className="bg-ivory py-24 lg:py-32">
+    <section ref={viewRef} className="bg-ivory py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Section header */}
@@ -182,6 +185,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                 <div className="mt-6 grid grid-cols-2 gap-3">
                   <Link
                     href="/appointments"
+                    onClick={() => trackEvent('Book Doctor Clicked', { doctor: doc.slug })}
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.97]"
                   >
                     <CalIcon />

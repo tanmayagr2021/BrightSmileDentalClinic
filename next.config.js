@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const path = require('path')
 
+// Umami's script origin, derived from the env var at build time so the CSP
+// stays a strict allowlist without hardcoding any analytics provider/domain.
+const umamiOrigin = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL
+  ? new URL(process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL).origin
+  : null
+
 const securityHeaders = [
   {
     key: 'X-DNS-Prefetch-Control',
@@ -40,11 +46,11 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      `script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ""}`,
+      `script-src 'self'${umamiOrigin ? ` ${umamiOrigin}` : ''} 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ""}`,
       "style-src 'self' https://fonts.googleapis.com 'unsafe-inline'",
       "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: blob: https://*.supabase.co https://www.google-analytics.com",
-      "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://vitals.vercel-analytics.com",
+      "img-src 'self' data: blob: https://*.supabase.co",
+      `connect-src 'self' https://*.supabase.co https://vitals.vercel-analytics.com${umamiOrigin ? ` ${umamiOrigin}` : ''}`,
       "frame-src https://www.openstreetmap.org",
       "frame-ancestors 'none'",
       "form-action 'self'",

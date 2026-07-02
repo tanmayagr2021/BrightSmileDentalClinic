@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
+import { trackEvent } from '@/lib/analytics'
 import type { DoctorRow } from '@/types/db'
 
 type BookableDoctor = {
@@ -551,6 +552,7 @@ export default function AppointmentFlow({
   const [form, setForm] = useState<FormData>({ name: '', phone: '', email: '', notes: '' })
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  const startedTracked = useRef(false)
 
   const stepIndex = STEPS.indexOf(step)
   const selectedDoctor = bookableDoctors.find((d) => d.slug === selectedDoctorSlug) ?? bookableDoctors[0]
@@ -588,6 +590,7 @@ export default function AppointmentFlow({
       if (!res.ok) {
         setSubmitError(data.error ?? 'Something went wrong. Please call us directly.')
       } else {
+        trackEvent('Appointment Completed', { doctor: selectedDoctor.slug })
         setStep('success')
       }
     } catch {
@@ -633,7 +636,15 @@ export default function AppointmentFlow({
                 transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               >
                 {step === 'doctor' && (
-                  <StepDoctor selected={selectedDoctorSlug} onSelect={(s) => { setSelectedDoctorSlug(s); setSelectedTime(null) }} doctors={bookableDoctors} />
+                  <StepDoctor
+                    selected={selectedDoctorSlug}
+                    onSelect={(s) => {
+                      if (!startedTracked.current) { startedTracked.current = true; trackEvent('Appointment Started') }
+                      setSelectedDoctorSlug(s)
+                      setSelectedTime(null)
+                    }}
+                    doctors={bookableDoctors}
+                  />
                 )}
                 {step === 'date' && (
                   <StepDate selected={selectedDate} onSelect={(d) => { setSelectedDate(d); setSelectedTime(null) }} />

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { fadeUp, stagger } from '@/lib/animations'
+import { trackEvent } from '@/lib/analytics'
 
 const TREATMENT_OPTIONS = [
   'General Check-up',
@@ -161,6 +162,7 @@ export default function ContactClient({
           </p>
           <a
             href={`tel:${phone}`}
+            onClick={() => trackEvent('Phone Clicked', { location: 'emergency-banner' })}
             className="ml-auto flex-shrink-0 rounded-lg bg-red-500 px-4 py-2 font-heading text-xs font-semibold text-white transition-colors hover:bg-red-600"
           >
             Call Now: {phone}
@@ -218,6 +220,7 @@ export default function ContactClient({
                 </p>
                 <a
                   href={`tel:${phone}`}
+                  onClick={() => trackEvent('Phone Clicked', { location: 'contact-panel' })}
                   className="font-display text-3xl text-white transition-colors hover:text-primary"
                 >
                   {phone}
@@ -233,6 +236,7 @@ export default function ContactClient({
                   href={`https://wa.me/${phoneWhatsApp.replace(/[^0-9]/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackEvent('WhatsApp Clicked', { location: 'contact-panel' })}
                   className="font-body text-base text-white/75 transition-colors hover:text-white"
                 >
                   {phoneWhatsApp}
@@ -246,6 +250,7 @@ export default function ContactClient({
                 </p>
                 <a
                   href={`mailto:${email}`}
+                  onClick={() => trackEvent('Email Clicked')}
                   className="break-all font-body text-sm text-white/75 transition-colors hover:text-white"
                 >
                   {email}
@@ -283,6 +288,7 @@ export default function ContactClient({
                   href={`https://wa.me/${phoneWhatsApp.replace(/[^0-9]/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackEvent('WhatsApp Clicked', { location: 'social-row' })}
                   className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 font-heading text-xs font-semibold text-white/75 transition-all hover:border-white/15 hover:text-white"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
@@ -472,6 +478,7 @@ export default function ContactClient({
               href={mapsUrl || 'https://maps.app.goo.gl/1zc3q43cxKxpcoEM6'}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackEvent('Map Clicked')}
               aria-label="Open Bright Smile Dental Clinic on Google Maps"
               className="group relative block overflow-hidden rounded-2xl border border-gray-100 h-80 sm:h-96 transition-all duration-300 hover:shadow-premium hover:border-primary/20"
               style={{ background: '#0E1B2E' }}

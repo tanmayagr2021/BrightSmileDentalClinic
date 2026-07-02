@@ -62,9 +62,14 @@ function StatCard({
   return inner
 }
 
-function QuickAction({ label, desc, href, icon }: { label: string; desc: string; href: string; icon: React.ReactNode }) {
+function QuickAction({ label, desc, href, icon, external }: { label: string; desc: string; href: string; icon: React.ReactNode; external?: boolean }) {
   return (
-    <Link href={href} className="group flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+    <Link
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      className="group flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-primary/20 hover:shadow-md"
+    >
       <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gray-50 text-gray-500 transition-colors group-hover:bg-primary/10 group-hover:text-primary">
         {icon}
       </div>
@@ -244,6 +249,20 @@ export default async function DashboardPage() {
                 </svg>
               }
             />
+            {process.env.NEXT_PUBLIC_UMAMI_DASHBOARD_URL && (
+              <QuickAction
+                label="Analytics"
+                desc="Open the Umami dashboard"
+                href={process.env.NEXT_PUBLIC_UMAMI_DASHBOARD_URL}
+                external
+                icon={
+                  <svg viewBox="0 0 16 16" fill="none" className="h-5 w-5" aria-hidden="true">
+                    <path d="M2 13.5V2M2 13.5h12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                    <path d="M4.5 11V7.5M8 11V4.5M11.5 11V6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                  </svg>
+                }
+              />
+            )}
           </div>
         </div>
 

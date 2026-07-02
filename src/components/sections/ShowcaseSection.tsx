@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { CLINIC_CONTACT } from '@/lib/constants'
 import MagneticWrap from '@/components/motion/MagneticWrap'
 import Parallax from '@/components/motion/Parallax'
+import { trackEvent } from '@/lib/analytics'
 
 type HourRow = { days: string; hours: string; open: boolean }
 
@@ -143,6 +144,7 @@ export default function ShowcaseSection({
             <MagneticWrap strength={0.25} className="inline-block">
               <Link
                 href="/appointments"
+                onClick={() => trackEvent('Hero CTA Clicked', { label: 'Book Consultation' })}
                 className="inline-flex items-center gap-2.5 rounded-xl px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold transition-all duration-200 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0E1B2E]"
                 style={{
                   background: '#C9A24B',
@@ -162,6 +164,7 @@ export default function ShowcaseSection({
             {/* SECONDARY — ghost */}
             <Link
               href="/gallery"
+              onClick={() => trackEvent('View Gallery Clicked')}
               className="inline-flex items-center gap-2.5 rounded-xl border px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold transition-all duration-200 hover:text-white active:scale-[0.97] focus-visible:outline-none"
               style={{ borderColor: 'rgba(255,255,255,0.14)', color: 'rgba(255,255,255,0.6)' }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.28)' }}
@@ -354,6 +357,7 @@ export default function ShowcaseSection({
         <div className="absolute bottom-5 right-5 z-10 hidden lg:block">
           <a
             href={`tel:${displayPhone.replace(/[^0-9+]/g, '')}`}
+            onClick={() => trackEvent('Phone Clicked', { location: 'hero' })}
             className="flex items-center gap-2.5 rounded-xl px-4 py-2.5 font-heading text-xs font-semibold transition-all"
             style={{
               background: 'rgba(10, 17, 40, 0.7)',

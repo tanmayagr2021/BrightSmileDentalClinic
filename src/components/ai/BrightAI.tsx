@@ -5,6 +5,7 @@ import BrightAIButton from './BrightAIButton'
 import BrightAIPanel from './BrightAIPanel'
 import type { ChatMessage, ChatState } from '@/types/ai'
 import { cn } from '@/lib/utils'
+import { trackEvent } from '@/lib/analytics'
 
 // ── State ─────────────────────────────────────────────────────
 
@@ -244,7 +245,10 @@ export default function BrightAI() {
 
       <BrightAIButton
         isOpen={state.isOpen}
-        onClick={() => dispatch({ type: 'TOGGLE' })}
+        onClick={() => {
+          if (!state.isOpen) trackEvent('AI Opened')
+          dispatch({ type: 'TOGGLE' })
+        }}
         hasUnread={state.hasUnread}
       />
     </div>
