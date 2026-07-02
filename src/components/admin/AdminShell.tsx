@@ -16,6 +16,8 @@ const NAV = [
   {
     section: 'Content',
     items: [
+      { href: '/admin/content', label: 'Content Management', icon: IconContentBlocks },
+      { href: '/admin/site-content', label: 'Site Content', icon: IconSiteContent },
       { href: '/admin/showcase', label: 'Showcase', icon: IconShowcase },
       { href: '/admin/homepage', label: 'Homepage', icon: IconHome },
       { href: '/admin/doctors', label: 'Doctors', icon: IconDoctors },
@@ -54,6 +56,8 @@ const SUPER_ADMIN_NAV = {
 
 const PAGE_TITLES: Record<string, string> = {
   '/admin/dashboard': 'Dashboard',
+  '/admin/content': 'Content Management',
+  '/admin/site-content': 'Site Content',
   '/admin/showcase': 'Clinic Showcase',
   '/admin/homepage': 'Homepage Sections',
   '/admin/doctors': 'Doctors',
@@ -80,6 +84,25 @@ function IconDashboard() {
       <rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
       <rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
       <rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+    </svg>
+  )
+}
+function IconContentBlocks() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-[15px] w-[15px]" aria-hidden="true">
+      <rect x="1.5" y="2" width="13" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M4 5.5h8M4 8h8M4 10.5h5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  )
+}
+function IconSiteContent() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-[15px] w-[15px]" aria-hidden="true">
+      <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1.2" stroke="currentColor" strokeWidth="1.3" />
+      <rect x="9" y="1.5" width="5.5" height="5.5" rx="1.2" stroke="currentColor" strokeWidth="1.3" />
+      <rect x="1.5" y="9" width="5.5" height="5.5" rx="1.2" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M9 12h5.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M9 9.5h5.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" opacity="0.5" />
     </svg>
   )
 }

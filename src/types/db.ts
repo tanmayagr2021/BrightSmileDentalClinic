@@ -233,3 +233,27 @@ export type AuditLogWithActor = AuditLogRow & {
   actor_email: string | null
   actor_role: RoleName | null
 }
+
+export type ContentBlockRow = {
+  id: string
+  key: string
+  value: string
+  content_type: 'text' | 'richtext'
+  page: string | null
+  section: string | null
+  description: string | null
+  updated_by: string | null
+  created_at: string
+  updated_at: string
+}
+
+// Generic row shape for the six site-content resources (trust_indicators,
+// why_choose_reasons, patient_journey_steps, before_after_cases,
+// certifications, team_members) — each has its own extra fields beyond
+// this common shape, accessed dynamically via the resource's field config.
+export type SiteContentRow = {
+  id: string
+  sort_order: number
+  is_visible: boolean
+  [key: string]: unknown
+}
