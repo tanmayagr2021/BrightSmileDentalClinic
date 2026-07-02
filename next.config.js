@@ -3,9 +3,17 @@ const path = require('path')
 
 // Umami's script origin, derived from the env var at build time so the CSP
 // stays a strict allowlist without hardcoding any analytics provider/domain.
+// Umami Cloud (cloud.umami.is) serves the script from one domain but sends
+// collected events to a separate fixed domain, gateway.umami.is — both need
+// to be in connect-src or every tracked event gets silently CSP-blocked.
+// Self-hosted Umami sends to the same origin as the script, so this is a
+// harmless unused allowlist entry in that case.
 const umamiOrigin = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL
   ? new URL(process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL).origin
   : null
+const umamiConnectOrigins = umamiOrigin
+  ? [umamiOrigin, 'https://gateway.umami.is']
+  : []
 
 const securityHeaders = [
   {
@@ -50,7 +58,7 @@ const securityHeaders = [
       "style-src 'self' https://fonts.googleapis.com 'unsafe-inline'",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://*.supabase.co",
-      `connect-src 'self' https://*.supabase.co https://vitals.vercel-analytics.com${umamiOrigin ? ` ${umamiOrigin}` : ''}`,
+      `connect-src 'self' https://*.supabase.co https://vitals.vercel-analytics.com${umamiConnectOrigins.length ? ` ${umamiConnectOrigins.join(' ')}` : ''}`,
       "frame-src https://www.openstreetmap.org",
       "frame-ancestors 'none'",
       "form-action 'self'",
