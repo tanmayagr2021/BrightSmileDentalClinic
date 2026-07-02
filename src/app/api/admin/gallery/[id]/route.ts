@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
+import { logAudit } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
 export const runtime = 'nodejs'
@@ -32,10 +33,15 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
   revalidatePath('/gallery')
 
+  await logAudit({
+    actorId: user.id, action: 'update', resource: 'gallery', resourceId: id,
+    newData: updates, req,
+  })
+
   return NextResponse.json(data)
 }
 
-export async function DELETE(_req: NextRequest, { params }: Params) {
+export async function DELETE(req: NextRequest, { params }: Params) {
   const { data: { user } } = await (await createClient()).auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -50,6 +56,10 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   revalidatePath('/gallery')
+
+  await logAudit({
+    actorId: user.id, action: 'delete', resource: 'gallery', resourceId: id, req,
+  })
 
   return NextResponse.json({ success: true })
 }

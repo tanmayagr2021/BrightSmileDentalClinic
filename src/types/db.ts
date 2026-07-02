@@ -183,3 +183,53 @@ export type MedicalHistoryRow = {
   created_at: string
   updated_at: string
 }
+
+export type RoleName = 'super_admin' | 'admin'
+
+export type RoleRow = {
+  id: string
+  name: RoleName
+  description: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type AdminUserRow = {
+  id: string
+  email: string
+  full_name: string
+  phone_number: string | null
+  role_id: string
+  is_active: boolean
+  invited_by: string | null
+  created_by: string | null
+  updated_by: string | null
+  last_sign_in_at: string | null
+  deleted_at: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type AdminUserWithRole = AdminUserRow & { role: RoleName }
+
+export type AuditAction = 'create' | 'update' | 'delete' | 'login' | 'reset_password' | 'disable' | 'enable'
+
+export type AuditLogRow = {
+  id: string
+  actor_id: string | null
+  action: AuditAction
+  resource: string
+  resource_id: string | null
+  old_data: Record<string, unknown> | null
+  new_data: Record<string, unknown> | null
+  ip_address: string | null
+  user_agent: string | null
+  success: boolean
+  created_at: string
+}
+
+export type AuditLogWithActor = AuditLogRow & {
+  actor_name: string | null
+  actor_email: string | null
+  actor_role: RoleName | null
+}

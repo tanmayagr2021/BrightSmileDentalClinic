@@ -43,6 +43,15 @@ const NAV = [
   },
 ]
 
+// Super Admin only — appended conditionally once the current user's role is known.
+const SUPER_ADMIN_NAV = {
+  section: 'Admin',
+  items: [
+    { href: '/admin/administrators', label: 'Administrators', icon: IconAdministrators },
+    { href: '/admin/audit-logs', label: 'Audit Logs', icon: IconAuditLog },
+  ],
+}
+
 const PAGE_TITLES: Record<string, string> = {
   '/admin/dashboard': 'Dashboard',
   '/admin/showcase': 'Clinic Showcase',
@@ -58,6 +67,8 @@ const PAGE_TITLES: Record<string, string> = {
   '/admin/about': 'About Page',
   '/admin/settings/website': 'Website Settings',
   '/admin/settings/seo': 'SEO Settings',
+  '/admin/administrators': 'Administrators',
+  '/admin/audit-logs': 'Audit Logs',
 }
 
 // ─── Icons ─────────────────────────────────────────────────────
@@ -187,6 +198,25 @@ function IconMedicalHistory() {
     </svg>
   )
 }
+function IconAdministrators() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-[15px] w-[15px]" aria-hidden="true">
+      <circle cx="6" cy="5" r="2.2" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M1.5 14c0-2.3 2-4.2 4.5-4.2s4.5 1.9 4.5 4.2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <circle cx="12" cy="4.5" r="1.5" stroke="currentColor" strokeWidth="1.2" />
+      <path d="M9.8 8.2c1.6.2 3.7 1.4 3.7 3.6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    </svg>
+  )
+}
+function IconAuditLog() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-[15px] w-[15px]" aria-hidden="true">
+      <rect x="2" y="1.5" width="12" height="13" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M4.5 5h7M4.5 7.5h7M4.5 10h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+      <path d="M11.5 12.5l1 1 2-2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
 function IconMenu() {
   return (
     <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5" aria-hidden="true">
@@ -244,14 +274,25 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname()
   const router = useRouter()
   const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false)
   const [signingOut, setSigningOut] = useState(false)
 
   useEffect(() => {
     const supabase = createClient()
-    supabase.auth.getUser().then(({ data }) => {
+    supabase.auth.getUser().then(async ({ data }) => {
       setUserEmail(data.user?.email ?? null)
+      if (!data.user) return
+      const { data: adminRow } = await supabase
+        .from('admin_users')
+        .select('*, roles(name)')
+        .eq('id', data.user.id)
+        .single()
+      const role = (adminRow as { roles?: { name?: string } } | null)?.roles?.name
+      setIsSuperAdmin(role === 'super_admin')
     })
   }, [])
+
+  const navGroups = isSuperAdmin ? [...NAV, SUPER_ADMIN_NAV] : NAV
 
   const handleSignOut = async () => {
     setSigningOut(true)
@@ -287,7 +328,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5" aria-label="Admin navigation">
-        {NAV.map((group, gi) => (
+        {navGroups.map((group, gi) => (
           <div key={gi}>
             {group.section && (
               <p className="mb-1.5 px-3 font-heading text-[0.58rem] font-semibold uppercase tracking-[0.15em] text-gray-600">

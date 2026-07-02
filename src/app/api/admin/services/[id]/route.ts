@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
+import { logAudit } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
 export const runtime = 'nodejs'
@@ -47,6 +48,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   }
 
   const supabase = createAdminClient()
+
+  const { data: before } = await supabase.from('service_categories').select('*').eq('id', id).single()
+
   const { data, error } = await supabase
     .from('service_categories')
     .update(updates)
@@ -58,16 +62,24 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
   revalidatePath('/')
   revalidatePath('/services')
+
+  await logAudit({
+    actorId: user.id, action: 'update', resource: 'services', resourceId: id,
+    oldData: before, newData: updates, req,
+  })
+
   return NextResponse.json(data)
 }
 
 // DELETE — permanently remove a service category
-export async function DELETE(_req: NextRequest, { params }: Params) {
+export async function DELETE(req: NextRequest, { params }: Params) {
   const user = await getAuthUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { id } = await params
   const supabase = createAdminClient()
+
+  const { data: before } = await supabase.from('service_categories').select('name, slug').eq('id', id).single()
 
   const { error } = await supabase
     .from('service_categories')
@@ -78,5 +90,11 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
 
   revalidatePath('/')
   revalidatePath('/services')
+
+  await logAudit({
+    actorId: user.id, action: 'delete', resource: 'services', resourceId: id,
+    oldData: before, req,
+  })
+
   return NextResponse.json({ success: true })
 }

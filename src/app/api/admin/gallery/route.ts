@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
+import { logAudit } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
 export const runtime = 'nodejs'
@@ -62,6 +63,11 @@ export async function POST(req: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   revalidatePath('/gallery')
+
+  await logAudit({
+    actorId: user.id, action: 'create', resource: 'gallery', resourceId: data.id,
+    newData: { alt_text: data.alt_text }, req,
+  })
 
   return NextResponse.json(data, { status: 201 })
 }

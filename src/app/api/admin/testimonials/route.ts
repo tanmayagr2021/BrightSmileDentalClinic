@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
+import { logAudit } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
 export const runtime = 'nodejs'
@@ -64,6 +65,11 @@ export async function POST(req: NextRequest) {
 
   revalidatePath('/')
   revalidatePath('/testimonials')
+
+  await logAudit({
+    actorId: user.id, action: 'create', resource: 'testimonials', resourceId: data.id,
+    newData: { patient_name: data.patient_name, rating: data.rating }, req,
+  })
 
   return NextResponse.json(data, { status: 201 })
 }

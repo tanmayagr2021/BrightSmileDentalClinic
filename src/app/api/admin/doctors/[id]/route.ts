@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
+import { logAudit } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
 export const runtime = 'nodejs'
@@ -29,6 +30,9 @@ export async function PATCH(
   updates.updated_at = new Date().toISOString()
 
   const supabase = createAdminClient()
+
+  const { data: before } = await supabase.from('doctors').select('*').eq('id', id).single()
+
   const { data, error } = await supabase
     .from('doctors')
     .update(updates)
@@ -41,11 +45,16 @@ export async function PATCH(
   revalidatePath('/')
   revalidatePath('/doctors')
 
+  await logAudit({
+    actorId: user.id, action: 'update', resource: 'doctors', resourceId: id,
+    oldData: before, newData: updates, req,
+  })
+
   return NextResponse.json(data)
 }
 
 export async function DELETE(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { data: { user } } = await (await createClient()).auth.getUser()
@@ -54,6 +63,9 @@ export async function DELETE(
   const { id } = await params
 
   const supabase = createAdminClient()
+
+  const { data: before } = await supabase.from('doctors').select('*').eq('id', id).single()
+
   const { error } = await supabase
     .from('doctors')
     .update({ deleted_at: new Date().toISOString(), is_active: false })
@@ -63,6 +75,11 @@ export async function DELETE(
 
   revalidatePath('/')
   revalidatePath('/doctors')
+
+  await logAudit({
+    actorId: user.id, action: 'delete', resource: 'doctors', resourceId: id,
+    oldData: before ? { full_name: before.full_name, slug: before.slug } : null, req,
+  })
 
   return NextResponse.json({ success: true })
 }
