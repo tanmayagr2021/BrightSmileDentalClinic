@@ -2,10 +2,11 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { PATIENT_JOURNEY_STATIC } from '@/lib/constants'
+import { pick } from '@/lib/content-client'
+import type { PatientJourneyStepRow } from '@/lib/content'
 
-const STEP_ICONS: Record<string, React.ReactNode> = {
-  book: (
+const STEP_ICONS: Record<number, React.ReactNode> = {
+  1: (
     <svg viewBox="0 0 22 22" fill="none" className="h-5 w-5" aria-hidden="true">
       <rect x="3" y="4" width="16" height="15" rx="2" stroke="currentColor" strokeWidth="1.4" />
       <path
@@ -16,7 +17,7 @@ const STEP_ICONS: Record<string, React.ReactNode> = {
       />
     </svg>
   ),
-  consult: (
+  2: (
     <svg viewBox="0 0 22 22" fill="none" className="h-5 w-5" aria-hidden="true">
       <circle cx="11" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.4" />
       <path
@@ -27,7 +28,7 @@ const STEP_ICONS: Record<string, React.ReactNode> = {
       />
     </svg>
   ),
-  diagnose: (
+  3: (
     <svg viewBox="0 0 22 22" fill="none" className="h-5 w-5" aria-hidden="true">
       <rect x="3" y="2" width="11" height="15" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
       <path
@@ -40,7 +41,7 @@ const STEP_ICONS: Record<string, React.ReactNode> = {
       <path d="M19 19l2 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
     </svg>
   ),
-  plan: (
+  4: (
     <svg viewBox="0 0 22 22" fill="none" className="h-5 w-5" aria-hidden="true">
       <rect x="3" y="3" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="1.4" />
       <path
@@ -51,7 +52,7 @@ const STEP_ICONS: Record<string, React.ReactNode> = {
       />
     </svg>
   ),
-  treat: (
+  5: (
     <svg viewBox="0 0 22 22" fill="none" className="h-5 w-5" aria-hidden="true">
       <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="1.4" />
       <path
@@ -63,7 +64,7 @@ const STEP_ICONS: Record<string, React.ReactNode> = {
       />
     </svg>
   ),
-  followup: (
+  6: (
     <svg viewBox="0 0 22 22" fill="none" className="h-5 w-5" aria-hidden="true">
       <path
         d="M19 11A8 8 0 113 11"
@@ -82,20 +83,13 @@ const STEP_ICONS: Record<string, React.ReactNode> = {
   ),
 }
 
-const ARRIVAL_LABELS: Record<number, { label: string; sublabel: string }> = {
-  1: { label: 'Arrival', sublabel: 'Your welcome begins' },
-  2: { label: 'Consultation', sublabel: 'We listen first' },
-  3: { label: 'Diagnosis', sublabel: 'Clarity through expertise' },
-  4: { label: 'Your Plan', sublabel: 'Designed around you' },
-  5: { label: 'Treatment', sublabel: 'Comfortable precision' },
-  6: { label: 'Follow-Up', sublabel: 'We stay with you' },
-}
-
-export default function PatientJourneySection() {
-  const steps = PATIENT_JOURNEY_STATIC.filter((s) => s.visible).sort(
-    (a, b) => a.sortOrder - b.sortOrder,
-  )
-
+export default function PatientJourneySection({
+  content,
+  steps,
+}: {
+  content: Record<string, string>
+  steps: PatientJourneyStepRow[]
+}) {
   return (
     <section
       className="relative overflow-hidden py-24 lg:py-32"
@@ -136,16 +130,15 @@ export default function PatientJourneySection() {
           >
             <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
               <span className="inline-block h-px w-7 bg-gold/60" />
-              The Experience
+              {pick(content, 'home.journey.eyebrow', 'The Experience')}
             </span>
             <h2 className="font-display text-4xl leading-[1.06] text-white sm:text-5xl lg:text-6xl tracking-display">
-              A Day at
+              {pick(content, 'home.journey.heading_line1', 'A Day at')}
               <br />
-              <span className="text-gold">Bright Smile</span>
+              <span className="text-gold">{pick(content, 'home.journey.heading_line2', 'Bright Smile')}</span>
             </h2>
             <p className="mt-4 max-w-lg font-body text-base text-white/85 leading-relaxed">
-              From your first call to your final follow-up — every moment is crafted around your
-              comfort, clarity, and confidence.
+              {pick(content, 'home.journey.intro', "From your first call to your final follow-up — every moment is crafted around your comfort, clarity, and confidence.")}
             </p>
           </motion.div>
 
@@ -160,7 +153,7 @@ export default function PatientJourneySection() {
               href="/appointments"
               className="inline-flex items-center gap-2.5 rounded-xl bg-gold px-7 py-3.5 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark active:scale-[0.98]"
             >
-              Start Your Journey
+              {pick(content, 'home.journey.cta_label', 'Start Your Journey')}
               <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
                 <path
                   d="M3 8h10M9 4l4 4-4 4"
@@ -177,10 +170,6 @@ export default function PatientJourneySection() {
         {/* Steps — 6 editorial columns */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
           {steps.map((step, i) => {
-            const arrival = ARRIVAL_LABELS[step.step] ?? {
-              label: step.title,
-              sublabel: step.subtitle,
-            }
             return (
               <motion.div
                 key={step.id}
@@ -203,7 +192,7 @@ export default function PatientJourneySection() {
 
                 {/* Step icon */}
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15 text-primary">
-                  {STEP_ICONS[step.id]}
+                  {STEP_ICONS[step.step]}
                 </div>
 
                 {/* Title */}
@@ -213,7 +202,7 @@ export default function PatientJourneySection() {
 
                 {/* Sublabel */}
                 <p className="mt-1 font-heading text-[0.65rem] font-medium text-primary/90">
-                  {arrival.sublabel}
+                  {step.subtitle}
                 </p>
 
                 {/* Description */}
@@ -235,10 +224,10 @@ export default function PatientJourneySection() {
         >
           <div>
             <p className="font-heading text-sm font-semibold text-white">
-              Ready to start your journey?
+              {pick(content, 'home.journey.bottom_heading', 'Ready to start your journey?')}
             </p>
             <p className="mt-1 font-body text-xs text-white/80">
-              Our team answers questions before you book — no commitment needed.
+              {pick(content, 'home.journey.bottom_subtext', 'Our team answers questions before you book — no commitment needed.')}
             </p>
           </div>
           <div className="flex flex-shrink-0 gap-3">
@@ -254,13 +243,13 @@ export default function PatientJourneySection() {
               >
                 <path d="M2 2.5a1 1 0 011-1h1.8a1 1 0 01.97.76l.56 2.24a1 1 0 01-.4.99l-.83.56a8.2 8.2 0 003.8 3.8l.56-.83a1 1 0 01.99-.4l2.24.56a1 1 0 01.76.97V12a1 1 0 01-1 1h-1C6 13 2 9 2 4V2.5z" />
               </svg>
-              Call Us
+              {pick(content, 'home.journey.bottom_call_label', 'Call Us')}
             </a>
             <Link
               href="/appointments"
               className="inline-flex items-center gap-2 rounded-xl bg-gold px-5 py-2.5 font-heading text-xs font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark"
             >
-              Book Online
+              {pick(content, 'home.journey.bottom_book_label', 'Book Online')}
             </Link>
           </div>
         </motion.div>

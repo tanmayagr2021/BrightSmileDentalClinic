@@ -7,6 +7,8 @@ import {
 } from '@/lib/constants'
 import { createAdminClient } from '@/lib/supabase/admin'
 import Container from '@/components/ui/Container'
+import { getContentBlocks } from '@/lib/content'
+import { pick } from '@/lib/content-client'
 
 type HourRow = { day_of_week: number; is_open: boolean; open_time: string | null; close_time: string | null }
 
@@ -160,9 +162,10 @@ export default async function Footer() {
   const year = new Date().getFullYear()
 
   const supabase = createAdminClient()
-  const [{ data: settingsData }, { data: hoursData }] = await Promise.all([
+  const [{ data: settingsData }, { data: hoursData }, content] = await Promise.all([
     supabase.from('site_settings').select('phone_primary, phone_whatsapp, email_appointments, facebook_url, instagram_url, address_line1, address_line2, address_city, google_maps_url').limit(1).single(),
     supabase.from('opening_hours').select('day_of_week, is_open, open_time, close_time').order('day_of_week', { ascending: true }),
+    getContentBlocks(),
   ])
 
   const settings = settingsData as {
@@ -189,7 +192,7 @@ export default async function Footer() {
         <div className="pt-16 pb-10 lg:pt-20">
           <FooterLogo />
           <p className="mt-5 font-display text-2xl tracking-tight text-white sm:text-[1.75rem]">
-            Bright Smile Dental Clinic
+            {pick(content, 'footer.brand_name', 'Bright Smile Dental Clinic')}
           </p>
           <p className="mt-1.5 font-body text-sm text-white/75">
             {CLINIC_TAGLINE}
@@ -204,7 +207,7 @@ export default async function Footer() {
           {/* Contact info card */}
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-7 backdrop-blur-sm lg:p-8">
             <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold">
-              Visit &amp; Contact
+              {pick(content, 'footer.contact_heading', 'Visit & Contact')}
             </h3>
 
             {/* Hours — compact */}
@@ -240,7 +243,7 @@ export default async function Footer() {
             href="/appointments"
             className="inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-gold px-8 py-4 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.97] sm:w-auto"
           >
-            Book an Appointment
+            {pick(content, 'footer.cta_label', 'Book an Appointment')}
             <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>

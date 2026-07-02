@@ -2,13 +2,16 @@
 
 import { motion } from 'framer-motion'
 import { stagger, fadeUp } from '@/lib/animations'
-import { TRUST_INDICATORS_STATIC } from '@/lib/constants'
+import { pick } from '@/lib/content-client'
+import type { TrustIndicatorRow } from '@/lib/content'
 
-export default function TrustSection() {
-  const indicators = TRUST_INDICATORS_STATIC.filter((t) => t.visible).sort(
-    (a, b) => a.sortOrder - b.sortOrder,
-  )
-
+export default function TrustSection({
+  content,
+  indicators,
+}: {
+  content: Record<string, string>
+  indicators: TrustIndicatorRow[]
+}) {
   return (
     <section className="relative bg-white py-24 lg:py-36">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -25,18 +28,17 @@ export default function TrustSection() {
           >
             <span className="eyebrow mb-6 inline-flex items-center gap-2.5">
               <span className="inline-block h-px w-6 bg-primary/50" />
-              Why Patients Trust Us
+              {pick(content, 'home.trust.eyebrow', 'Why Patients Trust Us')}
             </span>
             <h2 className="font-display text-5xl text-dark tracking-display leading-[1.04] sm:text-6xl lg:text-[4.5rem]">
-              Care you can
+              {pick(content, 'home.trust.heading_line1', 'Care you can')}
               <br />
-              count on.
+              {pick(content, 'home.trust.heading_line2', 'count on.')}
               <br />
-              <span className="text-primary">Since 2013.</span>
+              <span className="text-primary">{pick(content, 'home.trust.heading_line3', 'Since 2013.')}</span>
             </h2>
             <p className="mt-8 max-w-md font-body text-base text-gray-500 leading-relaxed">
-              Serving Kathmandu for over a decade — 1,000+ patients, 6 specialists, one
-              commitment: exceptional care every visit.
+              {pick(content, 'home.trust.intro', 'Serving Kathmandu for over a decade — 1,000+ patients, 6 specialists, one commitment: exceptional care every visit.')}
             </p>
           </motion.div>
 
@@ -66,7 +68,7 @@ export default function TrustSection() {
         {/* Bottom line */}
         <div className="mt-16 border-t border-gray-100 pt-8">
           <p className="font-body text-sm text-gray-600">
-            Serving Kathmandu since 2013 &mdash; Over 1,000 patients trust us with their smiles.
+            {pick(content, 'home.trust.bottom_line', 'Serving Kathmandu since 2013 — Over 1,000 patients trust us with their smiles.')}
           </p>
         </div>
 

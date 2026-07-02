@@ -8,6 +8,7 @@ import { CLINIC_CONTACT } from '@/lib/constants'
 import MagneticWrap from '@/components/motion/MagneticWrap'
 import Parallax from '@/components/motion/Parallax'
 import { trackEvent } from '@/lib/analytics'
+import { pick } from '@/lib/content-client'
 
 type HourRow = { days: string; hours: string; open: boolean }
 
@@ -27,23 +28,24 @@ type SlideData = {
 
 const AUTO_MS = 7000
 
-const TRUST_CHIPS = [
-  { label: 'NMC Registered', icon: '✦' },
-  { label: 'Est. 2013', icon: '✦' },
-  { label: '6 Specialists', icon: '✦' },
-  { label: 'Kathmandu', icon: '✦' },
-]
-
 export default function ShowcaseSection({
   slides,
   openingHours: _openingHours,
   phone,
+  content,
 }: {
   slides: SlideData[]
   openingHours?: HourRow[]
   phone?: string
+  content: Record<string, string>
 }) {
   const displayPhone = phone ?? CLINIC_CONTACT.phone
+  const trustChips = [
+    pick(content, 'home.hero.badge_1', 'NMC Registered'),
+    pick(content, 'home.hero.badge_2', 'Est. 2013'),
+    pick(content, 'home.hero.badge_3', '6 Specialists'),
+    pick(content, 'home.hero.badge_4', 'Kathmandu'),
+  ]
   const [active, setActive] = useState(0)
   // Hover pause is transient (resumes on mouse-leave); manual pause via the
   // keyboard-reachable button sticks until explicitly toggled back on — WCAG
@@ -114,7 +116,7 @@ export default function ShowcaseSection({
           <div className="mb-8 flex items-center gap-3">
             <span className="h-px w-8 flex-shrink-0 bg-gold" aria-hidden="true" />
             <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
-              Bright Smile Dental Clinic · Kathmandu
+              {pick(content, 'home.hero.eyebrow', 'Bright Smile Dental Clinic · Kathmandu')}
             </span>
           </div>
 
@@ -123,19 +125,19 @@ export default function ShowcaseSection({
             className="font-display leading-[1.02] text-white"
             style={{ fontSize: 'clamp(2.6rem, 4.8vw, 5rem)', letterSpacing: '-0.024em' }}
           >
-            Expert Dental Care,
+            {pick(content, 'home.hero.headline_line1', 'Expert Dental Care,')}
             <span
               className="block mt-1"
               style={{ color: '#C9A24B' }}
             >
-              Comfortable
+              {pick(content, 'home.hero.headline_line2', 'Comfortable')}
             </span>
-            <span className="block">Experience.</span>
+            <span className="block">{pick(content, 'home.hero.headline_line3', 'Experience.')}</span>
           </h1>
 
           {/* Sub-copy */}
           <p className="mt-7 max-w-[38ch] font-body text-[0.95rem] leading-[1.8] text-white/75">
-            Modern dentistry with genuine care — six experienced specialists, transparent treatment planning, and results built to last.
+            {pick(content, 'home.hero.subcopy', 'Modern dentistry with genuine care — six experienced specialists, transparent treatment planning, and results built to last.')}
           </p>
 
           {/* Dual CTAs */}
@@ -154,7 +156,7 @@ export default function ShowcaseSection({
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#A8823A' }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#C9A24B' }}
               >
-                Book Consultation
+                {pick(content, 'home.hero.cta_primary', 'Book Consultation')}
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -175,15 +177,15 @@ export default function ShowcaseSection({
                 <circle cx="6" cy="7" r="1.2" stroke="currentColor" strokeWidth="1.2" />
                 <path d="M2 11l3-3 3 3 2-2 4 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              View Smile Gallery
+              {pick(content, 'home.hero.cta_secondary', 'View Smile Gallery')}
             </Link>
           </div>
 
           {/* Trust chips */}
           <div className="mt-9 flex flex-wrap gap-2">
-            {TRUST_CHIPS.map((chip) => (
+            {trustChips.map((label) => (
               <span
-                key={chip.label}
+                key={label}
                 className="inline-flex items-center gap-2 rounded-full px-3.5 py-[0.35rem] font-heading text-[0.65rem] font-medium uppercase tracking-[0.14em]"
                 style={{
                   border: '1px solid rgba(201, 162, 75, 0.18)',
@@ -192,7 +194,7 @@ export default function ShowcaseSection({
                 }}
               >
                 <span className="h-[3px] w-[3px] flex-shrink-0 rounded-full" style={{ background: '#C9A24B' }} aria-hidden="true" />
-                {chip.label}
+                {label}
               </span>
             ))}
           </div>

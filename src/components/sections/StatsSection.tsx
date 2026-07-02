@@ -2,7 +2,6 @@
 
 import { useRef, useEffect, useState } from 'react'
 import { useInView, motion } from 'framer-motion'
-import { HOMEPAGE_STATS } from '@/lib/constants'
 
 function Counter({ count, suffix }: { count: number; suffix: string }) {
   // Start at actual count so SSR/no-JS users always see the real value.
@@ -32,7 +31,9 @@ function Counter({ count, suffix }: { count: number; suffix: string }) {
   return <span ref={ref}>{formatted}{suffix}</span>
 }
 
-export default function StatsSection() {
+type Stat = { count: number; suffix: string; label: string }
+
+export default function StatsSection({ stats }: { stats: Stat[] }) {
   return (
     <section className="relative overflow-hidden bg-[#0E1B2E]">
 
@@ -50,7 +51,7 @@ export default function StatsSection() {
 
       <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="grid grid-cols-2 gap-0 sm:grid-cols-4">
-          {HOMEPAGE_STATS.map((stat, i) => (
+          {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 24 }}

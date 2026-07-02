@@ -2,51 +2,62 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { WHY_CHOOSE_STATIC, CERTIFICATIONS_STATIC } from '@/lib/constants'
+import { pick } from '@/lib/content-client'
+import type { WhyChooseReasonRow, CertificationRow } from '@/lib/content'
 
-const REASON_ICONS: Record<string, React.ReactNode> = {
-  'experienced-team': (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
-      <circle cx="7" cy="6" r="3" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M2 18c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-      <circle cx="15" cy="7" r="2.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M13 17c0-1.8 1-3.3 2.5-3.8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-    </svg>
-  ),
-  'modern-equipment': (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
-      <rect x="2" y="5" width="11" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M13 8.5l4-2v7l-4-2" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
-      <path d="M5 9l2 2 3.5-3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  ),
-  'personalised-care': (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
-      <path d="M17.4 3.6a4.5 4.5 0 00-6.3 0L10 4.7l-1.1-1A4.5 4.5 0 002.6 10l7.4 7.4 7.4-7.4a4.5 4.5 0 000-6.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
-    </svg>
-  ),
-  'specialist-network': (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
-      <circle cx="10" cy="10" r="2" stroke="currentColor" strokeWidth="1.4" />
-      <circle cx="3.5" cy="5.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
-      <circle cx="16.5" cy="5.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
-      <circle cx="3.5" cy="14.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
-      <circle cx="16.5" cy="14.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M5 6.5l4 3M15 6.5l-4 3M5 13.5l4-3M15 13.5l-4-3" stroke="currentColor" strokeWidth="1.2" />
-    </svg>
-  ),
-  'convenient-location': (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
-      <path d="M10 2a5.5 5.5 0 015.5 5.5c0 4.1-5.5 10.5-5.5 10.5S4.5 11.6 4.5 7.5A5.5 5.5 0 0110 2z" stroke="currentColor" strokeWidth="1.4" />
-      <circle cx="10" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.4" />
-    </svg>
-  ),
-  'transparent-pricing': (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
-      <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M10 6v1.5m0 5V14M7.5 11h3a1.5 1.5 0 000-3H9a1.5 1.5 0 010-3H12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-    </svg>
-  ),
+// Indexed positionally (not by DB id) — icons are tied to conceptual order,
+// matching the fixed seed order of why_choose_reasons.
+function reasonIcon(i: number): React.ReactNode {
+  switch (i) {
+    case 0:
+      return (
+        <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+          <circle cx="7" cy="6" r="3" stroke="currentColor" strokeWidth="1.4" />
+          <path d="M2 18c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+          <circle cx="15" cy="7" r="2.5" stroke="currentColor" strokeWidth="1.4" />
+          <path d="M13 17c0-1.8 1-3.3 2.5-3.8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        </svg>
+      )
+    case 1:
+      return (
+        <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+          <rect x="2" y="5" width="11" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
+          <path d="M13 8.5l4-2v7l-4-2" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+          <path d="M5 9l2 2 3.5-3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    case 2:
+      return (
+        <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+          <path d="M17.4 3.6a4.5 4.5 0 00-6.3 0L10 4.7l-1.1-1A4.5 4.5 0 002.6 10l7.4 7.4 7.4-7.4a4.5 4.5 0 000-6.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+        </svg>
+      )
+    case 3:
+      return (
+        <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+          <circle cx="10" cy="10" r="2" stroke="currentColor" strokeWidth="1.4" />
+          <circle cx="3.5" cy="5.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+          <circle cx="16.5" cy="5.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+          <circle cx="3.5" cy="14.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+          <circle cx="16.5" cy="14.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+          <path d="M5 6.5l4 3M15 6.5l-4 3M5 13.5l4-3M15 13.5l-4-3" stroke="currentColor" strokeWidth="1.2" />
+        </svg>
+      )
+    case 4:
+      return (
+        <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+          <path d="M10 2a5.5 5.5 0 015.5 5.5c0 4.1-5.5 10.5-5.5 10.5S4.5 11.6 4.5 7.5A5.5 5.5 0 0110 2z" stroke="currentColor" strokeWidth="1.4" />
+          <circle cx="10" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.4" />
+        </svg>
+      )
+    default:
+      return (
+        <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4" aria-hidden="true">
+          <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.4" />
+          <path d="M10 6v1.5m0 5V14M7.5 11h3a1.5 1.5 0 000-3H9a1.5 1.5 0 010-3H12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        </svg>
+      )
+  }
 }
 
 const CERT_SHIELD = (
@@ -58,10 +69,15 @@ const CERT_SHIELD = (
 
 const numLabels = ['01', '02', '03', '04', '05', '06']
 
-export default function WhyChooseSection() {
-  const reasons = WHY_CHOOSE_STATIC.filter((r) => r.visible).sort((a, b) => a.sortOrder - b.sortOrder)
-  const certs = CERTIFICATIONS_STATIC.filter((c) => c.visible).sort((a, b) => a.sortOrder - b.sortOrder)
-
+export default function WhyChooseSection({
+  content,
+  reasons,
+  certifications,
+}: {
+  content: Record<string, string>
+  reasons: WhyChooseReasonRow[]
+  certifications: CertificationRow[]
+}) {
   return (
     <section className="bg-white py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -76,10 +92,10 @@ export default function WhyChooseSection() {
           >
             <span className="eyebrow mb-4 inline-flex items-center gap-2">
               <span className="inline-block h-px w-6 bg-primary/50" />
-              The Difference
+              {pick(content, 'home.why_choose.eyebrow', 'The Difference')}
             </span>
             <h2 className="font-display text-4xl text-dark sm:text-5xl lg:text-[3.25rem] tracking-display leading-[1.06]">
-              The Bright Smile<br />Difference
+              {pick(content, 'home.why_choose.heading_line1', 'The Bright Smile')}<br />{pick(content, 'home.why_choose.heading_line2', 'Difference')}
             </h2>
           </motion.div>
 
@@ -91,13 +107,13 @@ export default function WhyChooseSection() {
             className="lg:pb-2"
           >
             <p className="font-body text-base leading-relaxed text-zinc-600 max-w-lg">
-              Six reasons why patients across Kathmandu choose Bright Smile — and keep coming back for a lifetime of dental care.
+              {pick(content, 'home.why_choose.intro', 'Six reasons why patients across Kathmandu choose Bright Smile — and keep coming back for a lifetime of dental care.')}
             </p>
             <Link
               href="/appointments"
               className="mt-6 inline-flex items-center gap-2 font-heading text-sm font-semibold text-primary transition-all hover:gap-3"
             >
-              Book your visit
+              {pick(content, 'home.why_choose.cta_label', 'Book your visit')}
               <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -129,7 +145,7 @@ export default function WhyChooseSection() {
               {/* Title + Icon */}
               <div className="relative flex items-start gap-3 lg:items-center">
                 <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/15 lg:mt-0">
-                  {REASON_ICONS[reason.id]}
+                  {reasonIcon(i)}
                 </div>
                 <h3 className="font-heading text-base font-semibold text-dark leading-snug sm:text-[1.05rem]">
                   {reason.title}
@@ -147,7 +163,7 @@ export default function WhyChooseSection() {
         </div>
 
         {/* Credentials strip */}
-        {certs.length > 0 && (
+        {certifications.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -157,9 +173,9 @@ export default function WhyChooseSection() {
           >
             <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
               <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gray-600 flex-shrink-0">
-                Credentials & Registrations
+                {pick(content, 'home.why_choose.credentials_label', 'Credentials & Registrations')}
               </p>
-              {certs.map((cert) => (
+              {certifications.map((cert) => (
                 <div key={cert.id} className="flex items-center gap-2.5">
                   {CERT_SHIELD}
                   <div>

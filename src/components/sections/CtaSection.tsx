@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { fadeUp, stagger, slideInRight } from '@/lib/animations'
 import { CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
 import MagneticWrap from '@/components/motion/MagneticWrap'
+import { pick } from '@/lib/content-client'
 
 function ArrowRight() {
   return (
@@ -28,12 +29,14 @@ export default function CtaSection({
   address,
   mapsUrl,
   openingHours,
+  content,
 }: {
   phone?: string
   email?: string
   address?: string
   mapsUrl?: string
   openingHours?: { days: string; hours: string; open: boolean }[]
+  content: Record<string, string>
 }) {
   const displayPhone = phone ?? CLINIC_CONTACT.phone
   const displayEmail = email ?? CLINIC_CONTACT.emailAppointments
@@ -66,16 +69,16 @@ export default function CtaSection({
 
             <motion.span variants={fadeUp} className="mb-5 inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
               <span className="inline-block h-px w-7 bg-gold/60" />
-              Get Started Today
+              {pick(content, 'home.cta.eyebrow', 'Get Started Today')}
             </motion.span>
 
             <motion.h2 variants={fadeUp} className="relative font-display leading-[1.04] text-white tracking-display" style={{ fontSize: 'clamp(2.5rem, 4.5vw, 4rem)' }}>
-              Ready for Your<br />
-              <span className="text-gold">Best Smile?</span>
+              {pick(content, 'home.cta.heading_line1', 'Ready for Your')}<br />
+              <span className="text-gold">{pick(content, 'home.cta.heading_line2', 'Best Smile?')}</span>
             </motion.h2>
 
             <motion.p variants={fadeUp} className="mt-6 max-w-md font-body text-base text-white/85 leading-relaxed">
-              Take the first step towards a healthier, more confident smile. Book your consultation today — our team is here to help every step of the way.
+              {pick(content, 'home.cta.intro', 'Take the first step towards a healthier, more confident smile. Book your consultation today — our team is here to help every step of the way.')}
             </motion.p>
 
             <motion.div variants={fadeUp} className="mt-10 flex flex-col gap-3 sm:flex-row">
@@ -84,7 +87,7 @@ export default function CtaSection({
                   href="/appointments"
                   className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-gold px-9 py-4 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark hover:shadow-glow-gold active:scale-[0.98]"
                 >
-                  Book Appointment
+                  {pick(content, 'home.cta.book_label', 'Book Appointment')}
                   <span className="transition-transform duration-200 group-hover:translate-x-1">
                     <ArrowRight />
                   </span>
@@ -104,7 +107,11 @@ export default function CtaSection({
               variants={fadeUp}
               className="mt-10 flex flex-wrap items-center gap-5"
             >
-              {['NMC Registered', 'Call Before You Commit', 'No Hidden Charges'].map((item) => (
+              {[
+                pick(content, 'home.cta.trust_chip_1', 'NMC Registered'),
+                pick(content, 'home.cta.trust_chip_2', 'Call Before You Commit'),
+                pick(content, 'home.cta.trust_chip_3', 'No Hidden Charges'),
+              ].map((item) => (
                 <span key={item} className="flex items-center gap-2 font-body text-xs text-white/80">
                   <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3 flex-shrink-0 text-gold" aria-hidden="true">
                     <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -127,7 +134,7 @@ export default function CtaSection({
             <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-white/[0.02] to-transparent" aria-hidden="true" />
 
             <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/85 mb-6">
-              Opening Hours
+              {pick(content, 'home.cta.hours_heading', 'Opening Hours')}
             </h3>
 
             <div className="space-y-4 mb-10">
@@ -143,7 +150,7 @@ export default function CtaSection({
 
             <div className="mb-8">
               <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/85 mb-4">
-                Location
+                {pick(content, 'home.cta.location_heading', 'Location')}
               </h3>
               <p className="font-body text-sm text-white/85 leading-relaxed">{displayAddress}</p>
               {displayMapsUrl && (
@@ -153,14 +160,14 @@ export default function CtaSection({
                   rel="noopener noreferrer"
                   className="mt-3 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary transition-all hover:text-primary-light"
                 >
-                  Get Directions <ArrowRight />
+                  {pick(content, 'home.cta.directions_label', 'Get Directions')} <ArrowRight />
                 </a>
               )}
             </div>
 
             <div>
               <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/85 mb-4">
-                Contact
+                {pick(content, 'home.cta.contact_heading', 'Contact')}
               </h3>
               <div className="space-y-2.5">
                 <a href={`tel:${displayPhone}`} className="flex items-center gap-2.5 font-body text-sm text-white/85 transition-colors hover:text-white">

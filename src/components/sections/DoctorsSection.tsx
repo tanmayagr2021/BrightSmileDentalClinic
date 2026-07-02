@@ -6,22 +6,14 @@ import Image from 'next/image'
 import { fadeUp, stagger, slideInLeft, slideInRight, blurFadeIn } from '@/lib/animations'
 import { useTrackViewOnce } from '@/hooks/useTrackViewOnce'
 import { trackEvent } from '@/lib/analytics'
+import { pick, interpolate } from '@/lib/content-client'
+import type { TeamMemberRow } from '@/lib/content'
 import type { DoctorRow } from '@/types/db'
 
 function dColor(d: DoctorRow) { return d.color_hex ?? '#4A9B6F' }
 function dInitials(d: DoctorRow) { return d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
 function dShortName(d: DoctorRow) { return d.short_name ?? d.full_name }
-
-const HYGIENISTS = [
-  { name: 'Jitendra Kumar', initials: 'JK', role: 'Dental Hygienist' },
-  { name: 'Parbati Gurung', initials: 'PG', role: 'Dental Hygienist' },
-  { name: 'Justin Shrestha', initials: 'JS', role: 'Dental Hygienist' },
-]
-
-const SUPPORT_TEAM = [
-  { initials: 'RC', role: 'Reception', label: 'Front Desk' },
-  { initials: 'AD', role: 'Administration', label: 'Admin Team' },
-]
+function tInitials(m: TeamMemberRow) { return m.initials ?? m.name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
 
 function ArrowRight({ className = 'h-4 w-4' }: { className?: string }) {
   return (
@@ -49,10 +41,20 @@ function CalIcon() {
   )
 }
 
-export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
+export default function DoctorsSection({
+  doctors,
+  content,
+  teamMembers,
+}: {
+  doctors: DoctorRow[]
+  content: Record<string, string>
+  teamMembers: TeamMemberRow[]
+}) {
   const leadDoctors = doctors.filter((d) => d.doctor_type === 'lead' && d.is_active)
   const specialistCount = doctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).length
   const viewRef = useTrackViewOnce<HTMLElement>('Doctor Section Viewed')
+  const hygienists = teamMembers.filter((m) => m.department === 'hygienist' || m.department === 'assistant')
+  const supportTeam = teamMembers.filter((m) => m.department === 'reception' || m.department === 'admin')
 
   return (
     <section ref={viewRef} className="bg-ivory py-24 lg:py-32">
@@ -68,15 +70,15 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
         >
           <motion.span variants={fadeUp} className="eyebrow mb-3 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />
-            Direct Appointments
+            {pick(content, 'home.doctors.eyebrow', 'Direct Appointments')}
           </motion.span>
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <motion.h2 variants={fadeUp} className="font-display text-4xl text-dark sm:text-5xl lg:text-6xl tracking-display leading-[1.06]">
-                Meet Our Lead Dentists
+                {pick(content, 'home.doctors.heading', 'Meet Our Lead Dentists')}
               </motion.h2>
               <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-zinc-600 leading-relaxed">
-                Appointments are available directly with our two lead dentists — both NMC-registered with over a decade of combined experience.
+                {pick(content, 'home.doctors.intro', 'Appointments are available directly with our two lead dentists — both NMC-registered with over a decade of combined experience.')}
               </motion.p>
             </div>
             <motion.div variants={fadeUp} className="flex-shrink-0">
@@ -84,7 +86,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                 href="/doctors"
                 className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-6 py-3 font-heading text-sm font-semibold text-gray-600 transition-all hover:border-primary hover:text-primary active:scale-[0.98]"
               >
-                Full Care Team <ArrowRight />
+                {pick(content, 'home.doctors.full_team_label', 'Full Care Team')} <ArrowRight />
               </Link>
             </motion.div>
           </div>
@@ -214,13 +216,13 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
         >
           <div className="flex items-center justify-between border-b border-gray-100 px-7 py-4">
             <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-600">
-              How Your Care Works
+              {pick(content, 'home.doctors.pathway_heading', 'How Your Care Works')}
             </p>
             <Link
               href="/doctors"
               className="inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary hover:underline underline-offset-2"
             >
-              Meet the full team <ArrowRight className="h-3 w-3" />
+              {pick(content, 'home.doctors.pathway_link_label', 'Meet the full team')} <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
 
@@ -230,9 +232,9 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                 <span className="font-heading text-xs font-bold text-primary">01</span>
               </div>
               <div>
-                <p className="font-heading text-sm font-semibold text-dark">Consult a Lead Dentist</p>
+                <p className="font-heading text-sm font-semibold text-dark">{pick(content, 'home.doctors.pathway_step1_title', 'Consult a Lead Dentist')}</p>
                 <p className="mt-1 font-body text-xs text-gray-500 leading-relaxed">
-                  Your first appointment is always with Dr. Sachin or Dr. Binita — who assess your needs and design your care plan.
+                  {pick(content, 'home.doctors.pathway_step1_desc', 'Your first appointment is always with Dr. Sachin or Dr. Binita — who assess your needs and design your care plan.')}
                 </p>
               </div>
             </div>
@@ -242,9 +244,9 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                 <span className="font-heading text-xs font-bold text-primary">02</span>
               </div>
               <div>
-                <p className="font-heading text-sm font-semibold text-dark">Your Plan Is Mapped</p>
+                <p className="font-heading text-sm font-semibold text-dark">{pick(content, 'home.doctors.pathway_step2_title', 'Your Plan Is Mapped')}</p>
                 <p className="mt-1 font-body text-xs text-gray-500 leading-relaxed">
-                  If your treatment is straightforward, it begins right here. If it needs deeper expertise, your dentist identifies that early.
+                  {pick(content, 'home.doctors.pathway_step2_desc', 'If your treatment is straightforward, it begins right here. If it needs deeper expertise, your dentist identifies that early.')}
                 </p>
               </div>
             </div>
@@ -254,9 +256,9 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                 <span className="font-heading text-xs font-bold text-dark">03</span>
               </div>
               <div>
-                <p className="font-heading text-sm font-semibold text-dark">We Call the Right Specialist</p>
+                <p className="font-heading text-sm font-semibold text-dark">{pick(content, 'home.doctors.pathway_step3_title', 'We Call the Right Specialist')}</p>
                 <p className="mt-1 font-body text-xs text-gray-500 leading-relaxed">
-                  Implants, periodontics, oral surgery — our {specialistCount} visiting specialists join your care, coordinated entirely by us.
+                  {interpolate(pick(content, 'home.doctors.pathway_step3_desc', 'Implants, periodontics, oral surgery — our {count} visiting specialists join your care, coordinated entirely by us.'), { count: specialistCount })}
                 </p>
                 <div className="mt-3 flex items-center gap-2">
                   <div className="flex -space-x-1.5">
@@ -288,7 +290,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
         >
           <div className="border-b border-gray-50 px-7 py-4">
             <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-600">
-              Complete Care Team
+              {pick(content, 'home.doctors.team_heading', 'Complete Care Team')}
             </p>
           </div>
 
@@ -297,13 +299,13 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
             {/* Hygienists */}
             <div className="px-7 py-6">
               <p className="mb-4 font-heading text-xs font-semibold text-gray-600 uppercase tracking-widest">
-                Dental Hygienists
+                {pick(content, 'home.doctors.team_hygienists_label', 'Dental Hygienists')}
               </p>
               <div className="flex flex-col gap-3">
-                {HYGIENISTS.map((h) => (
-                  <div key={h.name} className="flex items-center gap-3">
+                {hygienists.map((h) => (
+                  <div key={h.id} className="flex items-center gap-3">
                     <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-teal/10 font-heading text-xs font-bold text-teal">
-                      {h.initials}
+                      {tInitials(h)}
                     </div>
                     <div>
                       <p className="font-heading text-sm font-semibold text-dark leading-tight">{h.name}</p>
@@ -321,16 +323,16 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
             {/* Reception + admin */}
             <div className="px-7 py-6">
               <p className="mb-4 font-heading text-xs font-semibold text-gray-600 uppercase tracking-widest">
-                Reception & Administration
+                {pick(content, 'home.doctors.team_reception_label', 'Reception & Administration')}
               </p>
               <div className="flex flex-col gap-3">
-                {SUPPORT_TEAM.map((s) => (
-                  <div key={s.role} className="flex items-center gap-3">
+                {supportTeam.map((s) => (
+                  <div key={s.id} className="flex items-center gap-3">
                     <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-xs font-bold text-primary">
-                      {s.initials}
+                      {tInitials(s)}
                     </div>
                     <div>
-                      <p className="font-heading text-sm font-semibold text-dark leading-tight">{s.label}</p>
+                      <p className="font-heading text-sm font-semibold text-dark leading-tight">{s.name}</p>
                       <p className="font-body text-xs text-gray-600">{s.role}</p>
                     </div>
                   </div>
@@ -340,7 +342,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                 href="/doctors"
                 className="mt-5 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary transition-all hover:gap-2.5"
               >
-                Meet everyone <ArrowRight className="h-3 w-3" />
+                {pick(content, 'home.doctors.team_meet_everyone_label', 'Meet everyone')} <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
           </div>

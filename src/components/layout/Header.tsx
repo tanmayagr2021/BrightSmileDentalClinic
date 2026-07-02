@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { NAV_LINKS, CLINIC_NAME_SHORT, CLINIC_SUBTITLE, CLINIC_TAGLINE } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import { pick } from '@/lib/content-client'
 
 function BrandMark({ inverted = false }: { inverted?: boolean }) {
   return (
@@ -80,7 +81,8 @@ function HamburgerIcon({ open }: { open: boolean }) {
   )
 }
 
-export default function Header() {
+export default function Header({ content }: { content: Record<string, string> }) {
+  const ctaLabel = pick(content, 'header.cta_label', 'Book Appointment')
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
@@ -189,7 +191,7 @@ export default function Header() {
                   : 'bg-gold text-[#14202E] shadow-button-gold hover:bg-gold-dark hover:shadow-glow-gold'
               )}
             >
-              Book Appointment
+              {ctaLabel}
               <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 opacity-80" aria-hidden="true">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -285,7 +287,7 @@ export default function Header() {
                   onClick={closeMenu}
                   className="flex w-full items-center justify-center rounded-xl bg-gold px-6 py-3.5 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark active:scale-[0.97]"
                 >
-                  Book Appointment
+                  {ctaLabel}
                 </Link>
                 <p className="text-center font-body text-xs text-white/65">
                   Nagpokhari, Naxal · Kathmandu, Nepal

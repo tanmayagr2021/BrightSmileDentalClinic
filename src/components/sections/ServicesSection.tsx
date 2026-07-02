@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { stagger, fadeUp } from '@/lib/animations'
 import { useTrackViewOnce } from '@/hooks/useTrackViewOnce'
 import { trackEvent } from '@/lib/analytics'
+import { pick } from '@/lib/content-client'
 
 export type ServiceDisplay = {
   slug: string
@@ -41,7 +42,13 @@ function ArrowRight() {
   )
 }
 
-export default function ServicesSection({ services }: { services: ServiceDisplay[] }) {
+export default function ServicesSection({
+  services,
+  content,
+}: {
+  services: ServiceDisplay[]
+  content: Record<string, string>
+}) {
   const viewRef = useTrackViewOnce<HTMLElement>('Services Viewed')
   return (
     <section ref={viewRef} className="relative overflow-hidden bg-ivory py-24 lg:py-32">
@@ -68,13 +75,13 @@ export default function ServicesSection({ services }: { services: ServiceDisplay
             <div>
               <span className="eyebrow mb-4 inline-flex items-center gap-2.5">
                 <span className="inline-block h-px w-6 bg-primary/50" />
-                What We Offer
+                {pick(content, 'home.services.eyebrow', 'What We Offer')}
               </span>
               <h2 className="font-display text-4xl text-dark sm:text-5xl lg:text-6xl tracking-display leading-[1.06]">
-                Our Services
+                {pick(content, 'home.services.heading', 'Our Services')}
               </h2>
               <p className="mt-4 max-w-xl font-body text-base text-gray-500 leading-relaxed">
-                Comprehensive dental care under one roof — modern treatments delivered with expertise and a genuinely gentle touch.
+                {pick(content, 'home.services.intro', 'Comprehensive dental care under one roof — modern treatments delivered with expertise and a genuinely gentle touch.')}
               </p>
             </div>
             <div className="flex-shrink-0">
@@ -82,7 +89,7 @@ export default function ServicesSection({ services }: { services: ServiceDisplay
                 href="/services"
                 className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-dark/60 transition-all duration-200 hover:gap-3 hover:text-primary"
               >
-                View All Services <ArrowRight />
+                {pick(content, 'home.services.view_all_label', 'View All Services')} <ArrowRight />
               </Link>
             </div>
           </motion.div>
@@ -142,10 +149,10 @@ export default function ServicesSection({ services }: { services: ServiceDisplay
           className="mt-16 flex flex-wrap items-center justify-center gap-8 border-t border-gray-100 pt-12"
         >
           {[
-            'All treatments NMC-registered',
-            'Modern equipment',
-            'Transparent pricing',
-            'Gentle, comfortable care',
+            pick(content, 'home.services.assurance_1', 'All treatments NMC-registered'),
+            pick(content, 'home.services.assurance_2', 'Modern equipment'),
+            pick(content, 'home.services.assurance_3', 'Transparent pricing'),
+            pick(content, 'home.services.assurance_4', 'Gentle, comfortable care'),
           ].map((item) => (
             <span key={item} className="flex items-center gap-2 font-body text-sm text-gray-600">
               <svg

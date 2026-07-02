@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
 import ContactClient from './ContactClient'
 import { buildCanonical } from '@/lib/schema'
+import { getContentBlocks } from '@/lib/content'
 
 export const dynamic = 'force-dynamic'
 
@@ -47,7 +48,7 @@ function buildHours(rows: DbHour[]): { days: string; hours: string; open: boolea
 
 export default async function ContactPage() {
   const supabase = createAdminClient()
-  const [{ data: settingsData }, { data: hoursData }] = await Promise.all([
+  const [{ data: settingsData }, { data: hoursData }, content] = await Promise.all([
     supabase
       .from('site_settings')
       .select('phone_primary, phone_whatsapp, email_appointments, address_line1, address_line2, address_city, google_maps_url, facebook_url')
@@ -57,6 +58,7 @@ export default async function ContactPage() {
       .from('opening_hours')
       .select('day_of_week, is_open, open_time, close_time')
       .order('day_of_week', { ascending: true }),
+    getContentBlocks(),
   ])
 
   const s = settingsData as {
@@ -76,6 +78,7 @@ export default async function ContactPage() {
       mapsUrl={s?.google_maps_url ?? CLINIC_CONTACT.googleMapsUrl}
       facebook={s?.facebook_url ?? CLINIC_CONTACT.facebook}
       hours={buildHours(hoursData ?? [])}
+      content={content}
     />
   )
 }

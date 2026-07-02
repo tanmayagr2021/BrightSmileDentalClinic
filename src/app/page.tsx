@@ -1,6 +1,15 @@
 import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { SERVICE_CATEGORIES_STATIC, OPENING_HOURS, CLINIC_CONTACT } from '@/lib/constants'
+import { SERVICE_CATEGORIES_STATIC, OPENING_HOURS, CLINIC_CONTACT, HOMEPAGE_STATS } from '@/lib/constants'
+import {
+  getContentBlocks,
+  getTrustIndicators,
+  getWhyChooseReasons,
+  getPatientJourneySteps,
+  getBeforeAfterCases,
+  getCertifications,
+  getTeamMembers,
+} from '@/lib/content'
 
 function formatTime(t: string): string {
   const [h, m] = t.split(':').map(Number)
@@ -74,6 +83,13 @@ export default async function HomePage() {
     { data: showcaseData },
     { data: openingHoursData },
     { data: siteSettingsData },
+    content,
+    trustIndicators,
+    whyChooseReasons,
+    patientJourneySteps,
+    beforeAfterCases,
+    certifications,
+    teamMembers,
   ] = await Promise.all([
     supabase
       .from('testimonials')
@@ -114,9 +130,16 @@ export default async function HomePage() {
       .order('day_of_week', { ascending: true }),
     supabase
       .from('site_settings')
-      .select('phone_primary, phone_whatsapp, email_appointments, address_line1, address_line2, address_city, google_maps_url')
+      .select('phone_primary, phone_whatsapp, email_appointments, address_line1, address_line2, address_city, google_maps_url, stat_patients, stat_years, stat_treatments, stat_team_label')
       .limit(1)
       .single(),
+    getContentBlocks(),
+    getTrustIndicators(),
+    getWhyChooseReasons(),
+    getPatientJourneySteps(),
+    getBeforeAfterCases(),
+    getCertifications(),
+    getTeamMembers(),
   ])
 
   const sections = sectionData ?? []
@@ -128,12 +151,20 @@ export default async function HomePage() {
   const s = siteSettingsData as {
     phone_primary?: string; phone_whatsapp?: string; email_appointments?: string
     address_line1?: string; address_line2?: string; address_city?: string; google_maps_url?: string
+    stat_patients?: number; stat_years?: number; stat_treatments?: number; stat_team_label?: string
   } | null
   const clinicPhone = s?.phone_primary ?? CLINIC_CONTACT.phone
   const clinicEmail = s?.email_appointments ?? CLINIC_CONTACT.emailAppointments
   const addressParts = [s?.address_line1, s?.address_line2, s?.address_city].filter(Boolean)
   const clinicAddress = addressParts.length > 0 ? addressParts.join(', ') : CLINIC_CONTACT.addressFull
   const clinicMapsUrl = s?.google_maps_url ?? CLINIC_CONTACT.googleMapsUrl
+
+  const homepageStats = [
+    { count: s?.stat_patients ?? HOMEPAGE_STATS[0].count, suffix: '+', label: HOMEPAGE_STATS[0].label },
+    { count: s?.stat_years ?? HOMEPAGE_STATS[1].count, suffix: '+', label: HOMEPAGE_STATS[1].label },
+    { count: s?.stat_treatments ?? HOMEPAGE_STATS[2].count, suffix: '+', label: HOMEPAGE_STATS[2].label },
+    { count: doctorData?.length ?? HOMEPAGE_STATS[3].count, suffix: '', label: s?.stat_team_label ?? HOMEPAGE_STATS[3].label },
+  ]
 
   // Merge DB visibility/order with static content (shortDescription fallback, subServiceCount)
   const services = (serviceCategoryData ?? [])
@@ -158,27 +189,27 @@ export default async function HomePage() {
     <PublicLayout>
       <ScrollDepthTracker />
       {/* 1. Hero — full-screen cinematic clinic showcase (always visible) */}
-      <ShowcaseSection slides={showcaseSlides} openingHours={openingHours} phone={clinicPhone} />
+      <ShowcaseSection slides={showcaseSlides} openingHours={openingHours} phone={clinicPhone} content={content} />
       {/* 2. Trust — stats + quick credentials */}
-      {sectionVisible('stats') && <StatsSection />}
-      {sectionVisible('trust') && <TrustSection />}
+      {sectionVisible('stats') && <StatsSection stats={homepageStats} />}
+      {sectionVisible('trust') && <TrustSection content={content} indicators={trustIndicators} />}
       {/* 3. How it works — patient journey timeline */}
-      <PatientJourneySection />
+      <PatientJourneySection content={content} steps={patientJourneySteps} />
       {/* 4. Lead dentists — meet the team before seeing services */}
-      {sectionVisible('doctors') && <DoctorsSection doctors={doctors} />}
+      {sectionVisible('doctors') && <DoctorsSection doctors={doctors} content={content} teamMembers={teamMembers} />}
       {/* 5. Services */}
-      {sectionVisible('services') && <ServicesSection services={services} />}
+      {sectionVisible('services') && <ServicesSection services={services} content={content} />}
       {/* 6. Social proof — before/after + testimonials */}
-      <BeforeAfterSection />
+      <BeforeAfterSection content={content} cases={beforeAfterCases} />
       {sectionVisible('testimonials') && (
         <TestimonialsSection testimonials={testimonials} />
       )}
       {/* 7. Differentiation */}
-      <WhyChooseSection />
+      <WhyChooseSection content={content} reasons={whyChooseReasons} certifications={certifications} />
       {/* 8. FAQs — overcome objections */}
       {sectionVisible('faq') && <FaqSection faqs={faqs} />}
       {/* 9. Conversion CTA (always visible) */}
-      <CtaSection phone={clinicPhone} email={clinicEmail} address={clinicAddress} mapsUrl={clinicMapsUrl} openingHours={openingHours} />
+      <CtaSection phone={clinicPhone} email={clinicEmail} address={clinicAddress} mapsUrl={clinicMapsUrl} openingHours={openingHours} content={content} />
     </PublicLayout>
   )
 }

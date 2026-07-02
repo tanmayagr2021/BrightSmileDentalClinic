@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { fadeUp, stagger } from '@/lib/animations'
 import { trackEvent } from '@/lib/analytics'
+import { pick, interpolate } from '@/lib/content-client'
 
 const TREATMENT_OPTIONS = [
   'General Check-up',
@@ -98,6 +99,7 @@ export default function ContactClient({
   mapsUrl,
   facebook,
   hours,
+  content,
 }: {
   phone: string
   phoneWhatsApp: string
@@ -106,6 +108,7 @@ export default function ContactClient({
   mapsUrl: string
   facebook: string
   hours: HourRow[]
+  content: Record<string, string>
 }) {
   const [form, setForm] = useState({ name: '', phone: '', email: '', treatment: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
@@ -155,17 +158,17 @@ export default function ContactClient({
             <path d="M8 4.5V8.5M8 11h.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
           <p className="font-heading text-xs font-semibold text-red-700">
-            Dental Emergency?
+            {pick(content, 'contact.emergency.heading', 'Dental Emergency?')}
           </p>
           <p className="font-body text-xs text-red-600">
-            Call us immediately — we do our best to see emergency patients the same day.
+            {pick(content, 'contact.emergency.text', 'Call us immediately — we do our best to see emergency patients the same day.')}
           </p>
           <a
             href={`tel:${phone}`}
             onClick={() => trackEvent('Phone Clicked', { location: 'emergency-banner' })}
             className="ml-auto flex-shrink-0 rounded-lg bg-red-500 px-4 py-2 font-heading text-xs font-semibold text-white transition-colors hover:bg-red-600"
           >
-            Call Now: {phone}
+            {interpolate(pick(content, 'contact.emergency.cta_label_template', 'Call Now: {phone}'), { phone })}
           </a>
         </div>
       </div>
@@ -200,14 +203,13 @@ export default function ContactClient({
             <div>
               <span className="inline-flex items-center gap-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
                 <span className="inline-block h-px w-5 bg-gold" />
-                Get in Touch
+                {pick(content, 'contact.hero.eyebrow', 'Get in Touch')}
               </span>
               <h1 className="mt-4 font-display text-5xl text-white tracking-display leading-[1.06] lg:text-6xl">
-                Let&apos;s talk about<br />your smile.
+                {pick(content, 'contact.hero.headline_line1', "Let's talk about")}<br />{pick(content, 'contact.hero.headline_line2', 'your smile.')}
               </h1>
               <p className="mt-5 max-w-xs font-body text-sm text-white/85 leading-relaxed">
-                We&apos;re here to answer your questions — no commitment, no pressure. Reach us
-                by phone, WhatsApp, email, or the form.
+                {pick(content, 'contact.hero.description', "We're here to answer your questions — no commitment, no pressure. Reach us by phone, WhatsApp, email, or the form.")}
               </p>
             </div>
 
@@ -216,7 +218,7 @@ export default function ContactClient({
               {/* Phone */}
               <div className="mb-8">
                 <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
-                  Phone
+                  {pick(content, 'contact.panel.phone_label', 'Phone')}
                 </p>
                 <a
                   href={`tel:${phone}`}
@@ -230,7 +232,7 @@ export default function ContactClient({
               {/* WhatsApp */}
               <div className="mb-8">
                 <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
-                  WhatsApp
+                  {pick(content, 'contact.panel.whatsapp_label', 'WhatsApp')}
                 </p>
                 <a
                   href={`https://wa.me/${phoneWhatsApp.replace(/[^0-9]/g, '')}`}
@@ -246,7 +248,7 @@ export default function ContactClient({
               {/* Email */}
               <div className="mb-8">
                 <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
-                  Email
+                  {pick(content, 'contact.panel.email_label', 'Email')}
                 </p>
                 <a
                   href={`mailto:${email}`}
@@ -260,7 +262,7 @@ export default function ContactClient({
               {/* Address */}
               <div>
                 <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
-                  Address
+                  {pick(content, 'contact.panel.address_label', 'Address')}
                 </p>
                 <p className="font-body text-sm text-white/85 leading-relaxed">{address}</p>
               </div>
@@ -324,9 +326,9 @@ export default function ContactClient({
             {!submitted ? (
               <>
                 <motion.div variants={fadeUp} className="mb-7">
-                  <h2 className="font-display text-3xl text-dark tracking-display">Send Us a Message</h2>
+                  <h2 className="font-display text-3xl text-dark tracking-display">{pick(content, 'contact.form.heading', 'Send Us a Message')}</h2>
                   <p className="mt-2 font-body text-sm text-zinc-600">
-                    We&apos;ll respond within 24 hours on working days.
+                    {pick(content, 'contact.form.subtext', "We'll respond within 24 hours on working days.")}
                   </p>
                 </motion.div>
 
@@ -414,7 +416,7 @@ export default function ContactClient({
                       disabled={submitting}
                       className="w-full rounded-xl bg-primary py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98] disabled:opacity-60 sm:w-auto sm:px-8"
                     >
-                      {submitting ? 'Sending...' : 'Send Message'}
+                      {submitting ? 'Sending...' : pick(content, 'contact.form.submit_label', 'Send Message')}
                     </button>
                     {submitError && (
                       <p role="alert" className="mt-3 rounded-xl border border-red-100 bg-red-50 px-4 py-3 font-body text-xs text-red-700">
@@ -423,7 +425,7 @@ export default function ContactClient({
                     )}
                     {!submitError && (
                       <p className="mt-3 font-body text-xs text-gray-600">
-                        We respond within 24 hours · Your data is kept private and never shared.
+                        {pick(content, 'contact.form.submit_note', 'We respond within 24 hours · Your data is kept private and never shared.')}
                       </p>
                     )}
                   </motion.div>
@@ -442,9 +444,12 @@ export default function ContactClient({
                     <path d="M10 16l4 4 8-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                <h2 className="font-display text-2xl text-dark tracking-display">Message Sent!</h2>
+                <h2 className="font-display text-2xl text-dark tracking-display">{pick(content, 'contact.form.success_heading', 'Message Sent!')}</h2>
                 <p className="mt-2 font-body text-sm text-zinc-600 max-w-xs leading-relaxed">
-                  Thank you, <strong className="text-dark">{form.name}</strong>. We&apos;ll get back to you within 24 hours.
+                  {(() => {
+                    const [before, after] = pick(content, 'contact.form.success_subtext_template', "Thank you, {name}. We'll get back to you within 24 hours.").split('{name}')
+                    return <>{before}<strong className="text-dark">{form.name}</strong>{after}</>
+                  })()}
                 </p>
                 <button
                   onClick={() => {
@@ -453,7 +458,7 @@ export default function ContactClient({
                   }}
                   className="mt-6 font-heading text-sm font-semibold text-primary hover:text-primary-dark underline-offset-2 hover:underline"
                 >
-                  Send another message
+                  {pick(content, 'contact.form.send_another_label', 'Send another message')}
                 </button>
               </motion.div>
             )}
@@ -472,7 +477,7 @@ export default function ContactClient({
             className="mx-auto max-w-7xl px-4 pt-10 pb-4 sm:px-6 lg:px-8"
           >
             <h2 className="font-heading text-sm font-semibold uppercase tracking-widest text-gray-600 mb-4">
-              Find Us
+              {pick(content, 'contact.map.heading', 'Find Us')}
             </h2>
             <a
               href={mapsUrl || 'https://maps.app.goo.gl/1zc3q43cxKxpcoEM6'}
@@ -553,24 +558,24 @@ export default function ContactClient({
             viewport={{ once: true }}
           >
             <motion.h2 variants={fadeUp} className="font-heading text-sm font-semibold text-dark mb-6">
-              Getting Here
+              {pick(content, 'contact.directions.heading', 'Getting Here')}
             </motion.h2>
             <motion.div variants={stagger} className="grid grid-cols-1 gap-6 sm:grid-cols-3">
               {[
                 {
                   icon: '🚗',
-                  label: 'By Car',
-                  desc: 'Enter Nagpokhari from the Naxal main road. The clinic is visible from the road with clear signage. Parking is available nearby.',
+                  label: pick(content, 'contact.directions.car_label', 'By Car'),
+                  desc: pick(content, 'contact.directions.car_desc', 'Enter Nagpokhari from the Naxal main road. The clinic is visible from the road with clear signage. Parking is available nearby.'),
                 },
                 {
                   icon: '🚌',
-                  label: 'By Bus',
-                  desc: 'Micro-buses and tempos run frequently to Naxal from Ratnapark and Putalisadak. Get off at Nagpokhari stop.',
+                  label: pick(content, 'contact.directions.bus_label', 'By Bus'),
+                  desc: pick(content, 'contact.directions.bus_desc', 'Micro-buses and tempos run frequently to Naxal from Ratnapark and Putalisadak. Get off at Nagpokhari stop.'),
                 },
                 {
                   icon: '🚶',
-                  label: 'On Foot',
-                  desc: 'A 10-minute walk from Naxal Bhagwati temple. We are located in a well-known area — locals can direct you.',
+                  label: pick(content, 'contact.directions.foot_label', 'On Foot'),
+                  desc: pick(content, 'contact.directions.foot_desc', 'A 10-minute walk from Naxal Bhagwati temple. We are located in a well-known area — locals can direct you.'),
                 },
               ].map((dir) => (
                 <motion.div key={dir.label} variants={fadeUp} className="flex gap-3">
@@ -586,7 +591,7 @@ export default function ContactClient({
 
           <div className="mt-10 text-center">
             <Link href="/" className="font-body text-sm text-primary hover:underline underline-offset-2">
-              ← Back to home
+              {pick(content, 'contact.back_home_label', '← Back to home')}
             </Link>
           </div>
         </div>
