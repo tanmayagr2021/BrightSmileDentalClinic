@@ -224,7 +224,7 @@ function NavItem({
       className={`group flex items-center gap-3 rounded-lg px-3 py-2 font-heading text-[0.8rem] font-medium transition-all duration-150 ${
         active
           ? 'bg-primary/15 text-primary'
-          : 'text-gray-400 hover:bg-white/5 hover:text-gray-200'
+          : 'text-gray-600 hover:bg-white/5 hover:text-gray-200'
       }`}
     >
       <span className={active ? 'text-primary' : 'text-gray-500 group-hover:text-gray-300'}>
@@ -328,7 +328,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
             {initials}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="font-heading text-[0.7rem] font-medium text-gray-400 truncate">{userEmail ?? '—'}</p>
+            <p className="font-heading text-[0.7rem] font-medium text-gray-600 truncate">{userEmail ?? '—'}</p>
           </div>
           <button
             onClick={handleSignOut}

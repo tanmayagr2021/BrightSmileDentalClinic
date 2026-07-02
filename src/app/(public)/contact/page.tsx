@@ -2,10 +2,12 @@ import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
 import ContactClient from './ContactClient'
+import { buildCanonical } from '@/lib/schema'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
+  alternates: { canonical: buildCanonical('/contact') },
   title: 'Contact Us',
   description:
     'Get in touch with Bright Smile Dental Clinic — call, WhatsApp, email, or use our contact form. Find us at Nagpokhari, Naxal, Kathmandu.',

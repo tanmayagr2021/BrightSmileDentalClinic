@@ -96,11 +96,13 @@ export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                   className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
                   aria-expanded={isOpen}
+                  aria-controls={`home-faq-answer-${faq.id}`}
+                  id={`home-faq-question-${faq.id}`}
                 >
                   <span className={`font-heading font-semibold leading-snug transition-colors duration-200 text-base sm:text-[1.05rem] ${isOpen ? 'text-dark' : 'text-gray-700'}`}>
                     {faq.q}
                   </span>
-                  <div className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${isOpen ? 'bg-primary text-white' : 'bg-gray-100 text-gray-400'}`}>
+                  <div className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${isOpen ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'}`}>
                     <svg viewBox="0 0 20 20" fill="none" className={`h-3.5 w-3.5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true">
                       <path d="M5 7.5l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -111,6 +113,9 @@ export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
                   {isOpen && (
                     <motion.div
                       key="content"
+                      id={`home-faq-answer-${faq.id}`}
+                      role="region"
+                      aria-labelledby={`home-faq-question-${faq.id}`}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}

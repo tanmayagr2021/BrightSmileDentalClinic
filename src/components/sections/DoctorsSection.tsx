@@ -166,7 +166,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                 </div>
 
                 <div className="mt-5 border-t border-gray-50 pt-5">
-                  <div className="flex items-center gap-4 font-body text-xs text-gray-400">
+                  <div className="flex items-center gap-4 font-body text-xs text-gray-600">
                     <span className="flex items-center gap-1.5">
                       <svg viewBox="0 0 14 14" fill="none" className="h-3 w-3" aria-hidden="true">
                         <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.2" />
@@ -209,7 +209,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
           className="mt-10 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card"
         >
           <div className="flex items-center justify-between border-b border-gray-100 px-7 py-4">
-            <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-400">
+            <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-600">
               How Your Care Works
             </p>
             <Link
@@ -267,7 +267,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                       </div>
                     ))}
                   </div>
-                  <span className="font-body text-[0.65rem] text-gray-400">{specialistCount} specialists on call</span>
+                  <span className="font-body text-[0.65rem] text-gray-600">{specialistCount} specialists on call</span>
                 </div>
               </div>
             </div>
@@ -283,7 +283,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
           className="mt-8 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card"
         >
           <div className="border-b border-gray-50 px-7 py-4">
-            <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-400">
+            <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-600">
               Complete Care Team
             </p>
           </div>
@@ -292,7 +292,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
 
             {/* Hygienists */}
             <div className="px-7 py-6">
-              <p className="mb-4 font-heading text-xs font-semibold text-gray-400 uppercase tracking-widest">
+              <p className="mb-4 font-heading text-xs font-semibold text-gray-600 uppercase tracking-widest">
                 Dental Hygienists
               </p>
               <div className="flex flex-col gap-3">
@@ -303,7 +303,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                     </div>
                     <div>
                       <p className="font-heading text-sm font-semibold text-dark leading-tight">{h.name}</p>
-                      <p className="font-body text-xs text-gray-400">{h.role}</p>
+                      <p className="font-body text-xs text-gray-600">{h.role}</p>
                     </div>
                     <div className="ml-auto flex items-center gap-1.5 rounded-full bg-teal/10 px-2.5 py-1">
                       <div className="h-1.5 w-1.5 rounded-full bg-teal" />
@@ -316,7 +316,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
 
             {/* Reception + admin */}
             <div className="px-7 py-6">
-              <p className="mb-4 font-heading text-xs font-semibold text-gray-400 uppercase tracking-widest">
+              <p className="mb-4 font-heading text-xs font-semibold text-gray-600 uppercase tracking-widest">
                 Reception & Administration
               </p>
               <div className="flex flex-col gap-3">
@@ -327,7 +327,7 @@ export default function DoctorsSection({ doctors }: { doctors: DoctorRow[] }) {
                     </div>
                     <div>
                       <p className="font-heading text-sm font-semibold text-dark leading-tight">{s.label}</p>
-                      <p className="font-body text-xs text-gray-400">{s.role}</p>
+                      <p className="font-body text-xs text-gray-600">{s.role}</p>
                     </div>
                   </div>
                 ))}

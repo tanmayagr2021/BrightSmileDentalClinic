@@ -156,7 +156,7 @@ export default function WhyChooseSection() {
             className="mt-16 rounded-2xl border border-gray-100 bg-ivory px-7 py-6"
           >
             <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
-              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gray-400 flex-shrink-0">
+              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gray-600 flex-shrink-0">
                 Credentials & Registrations
               </p>
               {certs.map((cert) => (
@@ -164,7 +164,7 @@ export default function WhyChooseSection() {
                   {CERT_SHIELD}
                   <div>
                     <p className="font-heading text-xs font-semibold text-dark">{cert.title}</p>
-                    <p className="font-body text-[0.62rem] text-gray-400">{cert.issuer} · {cert.year}</p>
+                    <p className="font-body text-[0.62rem] text-gray-600">{cert.issuer} · {cert.year}</p>
                   </div>
                 </div>
               ))}

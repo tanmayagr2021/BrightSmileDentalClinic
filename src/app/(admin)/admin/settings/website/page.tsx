@@ -36,7 +36,7 @@ function Field({ label, value, onChange, placeholder, type = 'text', hint }: {
       <label className="block font-heading text-xs font-semibold text-gray-700 mb-1.5">{label}</label>
       <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
         className="w-full rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
-      {hint && <p className="mt-1 font-body text-[0.62rem] text-gray-400">{hint}</p>}
+      {hint && <p className="mt-1 font-body text-[0.62rem] text-gray-600">{hint}</p>}
     </div>
   )
 }
@@ -209,7 +209,7 @@ export default function WebsiteSettingsPage() {
                   <div className="flex items-center gap-2 flex-1">
                     <input type="time" value={h.open_time} onChange={(e) => updateHour(h.day_of_week, { open_time: e.target.value })}
                       className="rounded-lg border border-gray-200 px-2 py-1 font-body text-xs text-gray-900 outline-none focus:border-primary" />
-                    <span className="font-body text-xs text-gray-400">to</span>
+                    <span className="font-body text-xs text-gray-600">to</span>
                     <input type="time" value={h.close_time} onChange={(e) => updateHour(h.day_of_week, { close_time: e.target.value })}
                       className="rounded-lg border border-gray-200 px-2 py-1 font-body text-xs text-gray-900 outline-none focus:border-primary" />
                   </div>
@@ -219,7 +219,7 @@ export default function WebsiteSettingsPage() {
               </div>
             ))}
           </div>
-          <p className="mt-4 font-body text-[0.62rem] text-gray-400">Hours sync to the Contact page, Footer, and Appointment booking flow.</p>
+          <p className="mt-4 font-body text-[0.62rem] text-gray-600">Hours sync to the Contact page, Footer, and Appointment booking flow.</p>
         </div>
 
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
@@ -227,7 +227,7 @@ export default function WebsiteSettingsPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="font-heading text-xs font-semibold text-gray-700">Enable Online Booking</p>
-              <p className="font-body text-[0.62rem] text-gray-400 mt-0.5">Turn off to display a &quot;call to book&quot; message instead.</p>
+              <p className="font-body text-[0.62rem] text-gray-600 mt-0.5">Turn off to display a &quot;call to book&quot; message instead.</p>
             </div>
             <button
               onClick={() => setSettings(s => ({ ...s, booking_form_enabled: !s.booking_form_enabled }))}

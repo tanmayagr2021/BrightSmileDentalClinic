@@ -226,7 +226,7 @@ export default function ShowcaseClient({ slides: initialSlides }: { slides: Slid
                     {slide.subtitle && <p className="font-body text-xs text-primary mt-0.5">{slide.subtitle}</p>}
                     {slide.description && <p className="mt-0.5 font-body text-xs text-gray-500 line-clamp-2">{slide.description}</p>}
                     <div className="mt-1.5 flex items-center gap-3">
-                      <span className="font-body text-[0.6rem] text-gray-400">Order {slide.sort_order}</span>
+                      <span className="font-body text-[0.6rem] text-gray-600">Order {slide.sort_order}</span>
                       <span className="rounded-full px-2 py-0.5 font-heading text-[0.58rem] font-semibold" style={{ backgroundColor: slide.accent_color + '20', color: slide.accent_color }}>
                         {slide.category}
                       </span>
@@ -240,19 +240,19 @@ export default function ShowcaseClient({ slides: initialSlides }: { slides: Slid
               <div className="flex flex-shrink-0 flex-col items-end gap-2">
                 <button
                   onClick={() => toggle(slide)}
-                  className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-heading text-[0.6rem] font-semibold transition-all ${slide.is_visible ? 'bg-green-50 text-green-600 hover:bg-green-100' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'}`}
+                  className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-heading text-[0.6rem] font-semibold transition-all ${slide.is_visible ? 'bg-green-50 text-green-600 hover:bg-green-100' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                 >
                   <div className={`h-1.5 w-1.5 rounded-full ${slide.is_visible ? 'bg-green-500' : 'bg-gray-400'}`} />
                   {slide.is_visible ? 'Visible' : 'Hidden'}
                 </button>
                 <div className="flex items-center gap-1">
-                  <button onClick={() => moveUp(i)} disabled={i === 0} className="flex h-6 w-6 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-30">
+                  <button onClick={() => moveUp(i)} disabled={i === 0} className="flex h-6 w-6 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-30">
                     <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3"><path d="M2 8l4-4 4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   </button>
-                  <button onClick={() => moveDown(i)} disabled={i === slides.length - 1} className="flex h-6 w-6 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-30">
+                  <button onClick={() => moveDown(i)} disabled={i === slides.length - 1} className="flex h-6 w-6 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-30">
                     <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3"><path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   </button>
-                  <button onClick={() => startEdit(slide)} className={`flex h-6 w-6 items-center justify-center rounded-lg border transition-colors ${editingId === slide.id ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 text-gray-400 hover:border-primary/30 hover:text-primary'}`}>
+                  <button onClick={() => startEdit(slide)} className={`flex h-6 w-6 items-center justify-center rounded-lg border transition-colors ${editingId === slide.id ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 text-gray-600 hover:border-primary/30 hover:text-primary'}`}>
                     <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3"><path d="M8.5 1.5l2 2L4 10H2V8l6.5-6.5z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" /></svg>
                   </button>
                   <button onClick={() => deleteSlide(slide)} className="flex h-6 w-6 items-center justify-center rounded-lg border border-red-100 text-red-400 hover:bg-red-50">
@@ -273,7 +273,7 @@ export default function ShowcaseClient({ slides: initialSlides }: { slides: Slid
                 <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-gray-300 group-hover:text-primary/40 transition-colors flex-shrink-0"><path d="M12 16V4m0 0l-4 4m4-4l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M4 20h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
               )}
               <div>
-                <p className="font-heading text-xs font-semibold text-gray-400 group-hover:text-primary/60 transition-colors">
+                <p className="font-heading text-xs font-semibold text-gray-600 group-hover:text-primary/60 transition-colors">
                   {uploadingFor === slide.id ? 'Uploading…' : slide.image_url ? 'Replace Photo' : 'Upload Photo'}
                 </p>
                 <p className="font-body text-[0.6rem] text-gray-300">JPG, PNG up to 10 MB · Replaces gradient preview</p>

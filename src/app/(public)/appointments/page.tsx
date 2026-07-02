@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
 import AppointmentFlow from '@/components/sections/AppointmentFlow'
+import { buildCanonical } from '@/lib/schema'
 
 type DbHour = { day_of_week: number; is_open: boolean; open_time: string | null; close_time: string | null }
 
@@ -38,6 +39,7 @@ function buildHours(rows: DbHour[]): { days: string; hours: string; open: boolea
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
+  alternates: { canonical: buildCanonical('/appointments') },
   title: 'Book an Appointment',
   description:
     'Book a dental appointment with Dr. Sachin Agrawal or Dr. Binita Adhikari at Bright Smile Dental Clinic, Nagpokhari, Naxal, Kathmandu. Quick and easy online request.',

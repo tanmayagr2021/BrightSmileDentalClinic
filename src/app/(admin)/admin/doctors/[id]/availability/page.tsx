@@ -169,7 +169,7 @@ export default function DoctorAvailabilityPage({
       <div className="mb-6 flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Link href="/admin/doctors" className="font-body text-xs text-gray-400 hover:text-primary transition-colors">
+            <Link href="/admin/doctors" className="font-body text-xs text-gray-600 hover:text-primary transition-colors">
               Doctors
             </Link>
             <span className="font-body text-xs text-gray-300">/</span>
@@ -195,14 +195,14 @@ export default function DoctorAvailabilityPage({
                   >
                     <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition-transform ${day.is_available ? 'translate-x-4' : 'translate-x-0'}`} />
                   </button>
-                  <span className={`font-heading text-xs font-semibold ${day.is_available ? 'text-gray-700' : 'text-gray-400'}`}>
+                  <span className={`font-heading text-xs font-semibold ${day.is_available ? 'text-gray-700' : 'text-gray-600'}`}>
                     {DAY_NAMES[day.day_of_week]}
                   </span>
                 </div>
                 {day.is_available && (
                   <div className="flex items-center gap-3 flex-wrap">
                     <div className="flex items-center gap-1.5">
-                      <label className="font-heading text-[0.6rem] font-semibold text-gray-400">From</label>
+                      <label className="font-heading text-[0.6rem] font-semibold text-gray-600">From</label>
                       <input
                         type="time"
                         value={day.start_time}
@@ -211,7 +211,7 @@ export default function DoctorAvailabilityPage({
                       />
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <label className="font-heading text-[0.6rem] font-semibold text-gray-400">To</label>
+                      <label className="font-heading text-[0.6rem] font-semibold text-gray-600">To</label>
                       <input
                         type="time"
                         value={day.end_time}
@@ -220,7 +220,7 @@ export default function DoctorAvailabilityPage({
                       />
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <label className="font-heading text-[0.6rem] font-semibold text-gray-400">Slot (min)</label>
+                      <label className="font-heading text-[0.6rem] font-semibold text-gray-600">Slot (min)</label>
                       <input
                         type="number"
                         min={15}
@@ -232,7 +232,7 @@ export default function DoctorAvailabilityPage({
                       />
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <label className="font-heading text-[0.6rem] font-semibold text-gray-400">Max/day</label>
+                      <label className="font-heading text-[0.6rem] font-semibold text-gray-600">Max/day</label>
                       <input
                         type="number"
                         min={1}
@@ -299,7 +299,7 @@ export default function DoctorAvailabilityPage({
                   <p className="font-heading text-sm font-semibold text-gray-700">
                     {new Date(b.blocked_date + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' })}
                   </p>
-                  {b.reason && <p className="font-body text-xs text-gray-400">{b.reason}</p>}
+                  {b.reason && <p className="font-body text-xs text-gray-600">{b.reason}</p>}
                 </div>
                 <button
                   onClick={() => removeBlockedDate(b.blocked_date)}
@@ -311,7 +311,7 @@ export default function DoctorAvailabilityPage({
             ))}
           </div>
         ) : (
-          <p className="font-body text-xs text-gray-400">No upcoming blocked dates.</p>
+          <p className="font-body text-xs text-gray-600">No upcoming blocked dates.</p>
         )}
       </div>
     </div>

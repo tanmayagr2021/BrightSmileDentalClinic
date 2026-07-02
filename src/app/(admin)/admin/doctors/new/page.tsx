@@ -64,7 +64,7 @@ export default function NewDoctorPage() {
     <div className="p-6 max-w-2xl mx-auto">
 
       {/* Breadcrumb */}
-      <div className="mb-6 flex items-center gap-2 font-heading text-xs text-gray-400">
+      <div className="mb-6 flex items-center gap-2 font-heading text-xs text-gray-600">
         <Link href="/admin/doctors" className="hover:text-primary transition-colors">Doctors</Link>
         <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3" aria-hidden="true">
           <path d="M4 2l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
@@ -133,7 +133,7 @@ export default function NewDoctorPage() {
         <div>
           <label className="block font-heading text-xs font-semibold text-gray-700 mb-1.5">Full Bio</label>
           <textarea value={form.full_bio} onChange={update('full_bio')} rows={4} placeholder="Doctor biography for the public profile page..." className="w-full resize-none rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
-          <p className="mt-1 font-body text-[0.62rem] text-gray-400">{form.full_bio.length} characters</p>
+          <p className="mt-1 font-body text-[0.62rem] text-gray-600">{form.full_bio.length} characters</p>
         </div>
 
         <div>
@@ -151,7 +151,7 @@ export default function NewDoctorPage() {
           <div className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
             <div>
               <p className="font-heading text-xs font-semibold text-gray-700">Visible</p>
-              <p className="font-body text-[0.62rem] text-gray-400">Show on public site</p>
+              <p className="font-body text-[0.62rem] text-gray-600">Show on public site</p>
             </div>
             <button
               onClick={() => setForm((f) => ({ ...f, is_active: !f.is_active }))}
@@ -166,7 +166,7 @@ export default function NewDoctorPage() {
             <div className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
               <div>
                 <p className="font-heading text-xs font-semibold text-gray-700">Bookable</p>
-                <p className="font-body text-[0.62rem] text-gray-400">Appears in booking flow</p>
+                <p className="font-body text-[0.62rem] text-gray-600">Appears in booking flow</p>
               </div>
               <button
                 onClick={() => setForm((f) => ({ ...f, is_bookable: !f.is_bookable }))}

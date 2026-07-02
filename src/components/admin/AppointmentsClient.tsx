@@ -160,7 +160,7 @@ export default function AppointmentsClient({ appointments }: { appointments: App
       {/* Empty state */}
       {filtered.length === 0 && (
         <div className="rounded-2xl border border-gray-100 bg-white py-16 text-center shadow-sm">
-          <p className="font-heading text-sm font-semibold text-gray-400">No appointments</p>
+          <p className="font-heading text-sm font-semibold text-gray-600">No appointments</p>
           <p className="mt-1 font-body text-xs text-gray-300">
             {activeTab === 'all'
               ? 'No appointments have been booked yet.'
@@ -192,7 +192,7 @@ export default function AppointmentsClient({ appointments }: { appointments: App
                   <p className="font-display text-2xl leading-none text-gray-900">
                     {dateObj.getDate()}
                   </p>
-                  <p className="mt-0.5 font-body text-[0.62rem] text-gray-400">
+                  <p className="mt-0.5 font-body text-[0.62rem] text-gray-600">
                     {dateObj.toLocaleDateString('en-GB', { month: 'short' })}
                   </p>
                   <p className="mt-1.5 font-heading text-[0.65rem] font-bold text-primary">
@@ -220,14 +220,14 @@ export default function AppointmentsClient({ appointments }: { appointments: App
                     <a href={`tel:${appt.patient_phone}`} className="font-heading text-xs font-semibold text-primary hover:underline">
                       {appt.patient_phone}
                     </a>
-                    <a href={`mailto:${appt.patient_email}`} className="font-body text-xs text-gray-400 hover:underline truncate">
+                    <a href={`mailto:${appt.patient_email}`} className="font-body text-xs text-gray-600 hover:underline truncate">
                       {appt.patient_email}
                     </a>
                   </div>
 
                   <p className="font-body text-xs text-gray-600">
                     <span className="font-semibold">{doctor}</span>
-                    {note && <span className="text-gray-400"> · {note}</span>}
+                    {note && <span className="text-gray-600"> · {note}</span>}
                   </p>
                 </div>
 

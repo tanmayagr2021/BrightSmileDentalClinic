@@ -172,7 +172,7 @@ function TreatmentsManager({ categoryId }: { categoryId: string }) {
 
   if (loading) {
     return (
-      <div className="py-4 text-center font-body text-xs text-gray-400">Loading treatments…</div>
+      <div className="py-4 text-center font-body text-xs text-gray-600">Loading treatments…</div>
     )
   }
 
@@ -270,7 +270,7 @@ function TreatmentsManager({ categoryId }: { categoryId: string }) {
                 <div className="flex-1 min-w-0">
                   <p className="font-heading text-xs font-semibold text-gray-800 leading-snug">{item.name}</p>
                   {item.description && (
-                    <p className="mt-0.5 font-body text-[0.68rem] text-gray-400 leading-snug line-clamp-2">{item.description}</p>
+                    <p className="mt-0.5 font-body text-[0.68rem] text-gray-600 leading-snug line-clamp-2">{item.description}</p>
                   )}
                 </div>
 
@@ -279,7 +279,7 @@ function TreatmentsManager({ categoryId }: { categoryId: string }) {
                   <button
                     type="button"
                     onClick={() => toggleVisible(item)}
-                    className={`rounded-md px-1.5 py-0.5 font-heading text-[0.55rem] font-semibold transition-colors ${item.is_visible ? 'bg-green-50 text-green-600 hover:bg-green-100' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'}`}
+                    className={`rounded-md px-1.5 py-0.5 font-heading text-[0.55rem] font-semibold transition-colors ${item.is_visible ? 'bg-green-50 text-green-600 hover:bg-green-100' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                     aria-label={item.is_visible ? 'Hide treatment' : 'Show treatment'}
                   >
                     {item.is_visible ? 'Visible' : 'Hidden'}
@@ -287,7 +287,7 @@ function TreatmentsManager({ categoryId }: { categoryId: string }) {
                   <button
                     type="button"
                     onClick={() => startEdit(item)}
-                    className="flex h-6 w-6 items-center justify-center rounded text-gray-400 hover:text-primary"
+                    className="flex h-6 w-6 items-center justify-center rounded text-gray-600 hover:text-primary"
                     aria-label="Edit treatment"
                   >
                     <EditIcon />
@@ -295,7 +295,7 @@ function TreatmentsManager({ categoryId }: { categoryId: string }) {
                   <button
                     type="button"
                     onClick={() => deleteItem(item.id)}
-                    className="flex h-6 w-6 items-center justify-center rounded text-gray-400 hover:text-red-500"
+                    className="flex h-6 w-6 items-center justify-center rounded text-gray-600 hover:text-red-500"
                     aria-label="Delete treatment"
                   >
                     <TrashIcon />
@@ -307,7 +307,7 @@ function TreatmentsManager({ categoryId }: { categoryId: string }) {
         ))}
 
         {items.length === 0 && !addingNew && (
-          <p className="py-3 text-center font-body text-xs text-gray-400">No treatments yet. Add one above.</p>
+          <p className="py-3 text-center font-body text-xs text-gray-600">No treatments yet. Add one above.</p>
         )}
 
         {/* Add new item form */}
@@ -426,7 +426,7 @@ function ServiceModal({
           <h3 className="font-heading text-sm font-semibold text-gray-900">
             {isEdit ? `Edit — ${service?.name}` : 'Add New Service'}
           </h3>
-          <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50 hover:text-gray-600">
+          <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-600">
             <XIcon />
           </button>
         </div>
@@ -462,7 +462,7 @@ function ServiceModal({
                     placeholder="e.g. cosmetic-dentistry"
                     className="w-full rounded-xl border border-gray-200 px-3.5 py-2.5 font-body text-sm text-gray-800 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/10"
                   />
-                  <p className="mt-1 font-body text-[0.65rem] text-gray-400">URL-safe identifier. Auto-generated from name.</p>
+                  <p className="mt-1 font-body text-[0.65rem] text-gray-600">URL-safe identifier. Auto-generated from name.</p>
                 </div>
               )}
 
@@ -754,7 +754,7 @@ export default function ServiceCategoriesClient({ services }: { services: Servic
         ].map((s) => (
           <div key={s.label} className="rounded-xl border border-gray-100 bg-white p-4 text-center shadow-sm">
             <p className="font-display text-2xl text-gray-900">{s.value}</p>
-            <p className="font-body text-xs text-gray-400 mt-0.5">{s.label}</p>
+            <p className="font-body text-xs text-gray-600 mt-0.5">{s.label}</p>
           </div>
         ))}
       </div>
@@ -784,7 +784,7 @@ export default function ServiceCategoriesClient({ services }: { services: Servic
               <div className="flex items-center gap-2">
                 <p className="font-heading text-sm font-semibold text-gray-800">{service.name}</p>
                 {service.subServiceCount > 0 && (
-                  <span className="rounded-full bg-gray-100 px-2 py-0.5 font-heading text-[0.55rem] font-semibold text-gray-400">
+                  <span className="rounded-full bg-gray-100 px-2 py-0.5 font-heading text-[0.55rem] font-semibold text-gray-600">
                     {service.subServiceCount} treatments
                   </span>
                 )}
@@ -795,7 +795,7 @@ export default function ServiceCategoriesClient({ services }: { services: Servic
                 )}
               </div>
               {service.description && (
-                <p className="mt-0.5 font-body text-xs text-gray-400 truncate">{service.description}</p>
+                <p className="mt-0.5 font-body text-xs text-gray-600 truncate">{service.description}</p>
               )}
             </div>
 
@@ -804,7 +804,7 @@ export default function ServiceCategoriesClient({ services }: { services: Servic
               <button
                 onClick={() => handleMove(i, 'up')}
                 disabled={i === 0}
-                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed"
+                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed"
                 aria-label="Move up"
               >
                 <ArrowUpIcon />
@@ -812,27 +812,27 @@ export default function ServiceCategoriesClient({ services }: { services: Servic
               <button
                 onClick={() => handleMove(i, 'down')}
                 disabled={i === optimistic.length - 1}
-                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed"
+                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed"
                 aria-label="Move down"
               >
                 <ArrowDownIcon />
               </button>
               <button
                 onClick={() => handleToggle(i)}
-                className={`rounded-lg border px-2.5 py-1.5 font-heading text-[0.65rem] font-semibold transition-all ${service.is_visible ? 'border-green-200 bg-green-50 text-green-600 hover:bg-green-100' : 'border-gray-200 bg-gray-50 text-gray-400 hover:border-gray-300'}`}
+                className={`rounded-lg border px-2.5 py-1.5 font-heading text-[0.65rem] font-semibold transition-all ${service.is_visible ? 'border-green-200 bg-green-50 text-green-600 hover:bg-green-100' : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300'}`}
               >
                 {service.is_visible ? 'Visible' : 'Hidden'}
               </button>
               <button
                 onClick={() => setEditTarget(service)}
-                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition-colors hover:border-primary/30 hover:text-primary"
+                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-colors hover:border-primary/30 hover:text-primary"
                 aria-label="Edit service"
               >
                 <EditIcon />
               </button>
               <button
                 onClick={() => setDeleteTarget(service)}
-                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition-colors hover:border-red-200 hover:text-red-500"
+                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-colors hover:border-red-200 hover:text-red-500"
                 aria-label="Delete service"
               >
                 <TrashIcon />
@@ -844,7 +844,7 @@ export default function ServiceCategoriesClient({ services }: { services: Servic
 
       {optimistic.length === 0 && (
         <div className="rounded-2xl border border-dashed border-gray-200 py-12 text-center">
-          <p className="font-heading text-sm font-semibold text-gray-400">No services yet</p>
+          <p className="font-heading text-sm font-semibold text-gray-600">No services yet</p>
           <p className="mt-1 font-body text-xs text-gray-300">Click &quot;Add Service&quot; to create your first one.</p>
         </div>
       )}

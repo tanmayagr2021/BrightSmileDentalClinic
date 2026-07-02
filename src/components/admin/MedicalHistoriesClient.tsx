@@ -152,7 +152,7 @@ export default function MedicalHistoriesClient({ initialData, totalCount }: Prop
 
           {/* Search */}
           <div className="relative mb-3">
-            <SearchIcon className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400" />
+            <SearchIcon className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-600" />
             <input
               type="text"
               value={search}
@@ -190,7 +190,7 @@ export default function MedicalHistoriesClient({ initialData, totalCount }: Prop
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <ClipboardIcon className="mb-3 h-10 w-10 text-gray-200" />
               <p className="text-sm font-medium text-gray-500">No records found</p>
-              <p className="mt-1 text-xs text-gray-400">
+              <p className="mt-1 text-xs text-gray-600">
                 Medical histories submitted via Bright AI will appear here.
               </p>
             </div>
@@ -209,7 +209,7 @@ export default function MedicalHistoriesClient({ initialData, totalCount }: Prop
                     <p className="mt-0.5 truncate text-xs text-gray-500">
                       {r.chief_complaint ?? 'No complaint noted'}
                     </p>
-                    <p className="mt-1 text-[11px] text-gray-400">
+                    <p className="mt-1 text-[11px] text-gray-600">
                       {new Date(r.submitted_at).toLocaleDateString('en-GB', {
                         day: 'numeric',
                         month: 'short',
@@ -269,7 +269,7 @@ export default function MedicalHistoriesClient({ initialData, totalCount }: Prop
         <div className="hidden flex-1 items-center justify-center lg:flex">
           <div className="text-center">
             <ClipboardIcon className="mx-auto mb-3 h-12 w-12 text-gray-200" />
-            <p className="text-sm text-gray-400">Select a record to view details</p>
+            <p className="text-sm text-gray-600">Select a record to view details</p>
           </div>
         </div>
       )}
@@ -279,7 +279,7 @@ export default function MedicalHistoriesClient({ initialData, totalCount }: Prop
         <div className="fixed inset-0 z-50 flex flex-col bg-white lg:hidden">
           <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
             <h3 className="font-heading text-sm font-semibold text-dark">Medical History</h3>
-            <button onClick={() => setSelected(null)} className="text-gray-400 hover:text-dark">
+            <button onClick={() => setSelected(null)} className="text-gray-600 hover:text-dark">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
@@ -355,7 +355,7 @@ function DetailPanel({
 
       {/* Status update */}
       <div className="mb-6 rounded-xl border border-gray-100 p-4 print:hidden">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">Status</p>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-600">Status</p>
         <div className="flex gap-2">
           {(['pending', 'reviewed', 'attached'] as const).map((s) => (
             <button
@@ -401,7 +401,7 @@ function DetailPanel({
               ))}
             </div>
           ) : (
-            <p className="text-sm text-gray-400">None reported</p>
+            <p className="text-sm text-gray-600">None reported</p>
           )}
         </Section>
 
@@ -466,7 +466,7 @@ function Section({
 }) {
   return (
     <div className={className}>
-      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">{title}</h4>
+      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-600">{title}</h4>
       <div className="rounded-xl border border-gray-100 p-4">{children}</div>
     </div>
   )
@@ -479,7 +479,7 @@ function Grid({ children }: { children: React.ReactNode }) {
 function Field({ label, value }: { label: string; value: string | null | undefined }) {
   return (
     <div>
-      <p className="text-xs text-gray-400">{label}</p>
+      <p className="text-xs text-gray-600">{label}</p>
       <p className="mt-0.5 text-sm font-medium text-dark">{value ?? '—'}</p>
     </div>
   )

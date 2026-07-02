@@ -123,7 +123,7 @@ export default function HomepageSectionsClient({ sections }: { sections: Section
         ].map((s) => (
           <div key={s.label} className="rounded-xl border border-gray-100 bg-white p-3 text-center shadow-sm">
             <p className="font-display text-xl text-gray-900">{s.value}</p>
-            <p className="font-body text-xs text-gray-400 mt-0.5">{s.label}</p>
+            <p className="font-body text-xs text-gray-600 mt-0.5">{s.label}</p>
           </div>
         ))}
       </div>
@@ -155,12 +155,12 @@ export default function HomepageSectionsClient({ sections }: { sections: Section
               <div className="flex items-center gap-2">
                 <p className="font-heading text-sm font-semibold text-gray-800">{section.label}</p>
                 {section.locked && (
-                  <span className="rounded-full border border-gray-200 px-1.5 py-0.5 font-heading text-[0.55rem] font-semibold text-gray-400">
+                  <span className="rounded-full border border-gray-200 px-1.5 py-0.5 font-heading text-[0.55rem] font-semibold text-gray-600">
                     Required
                   </span>
                 )}
               </div>
-              <p className="mt-0.5 font-body text-xs text-gray-400 truncate">{section.desc}</p>
+              <p className="mt-0.5 font-body text-xs text-gray-600 truncate">{section.desc}</p>
             </div>
 
             {/* Actions */}
@@ -177,7 +177,7 @@ export default function HomepageSectionsClient({ sections }: { sections: Section
               <button
                 onClick={() => handleMoveUp(i)}
                 disabled={i === 0}
-                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed"
+                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed"
                 aria-label="Move section up"
               >
                 <ArrowUpIcon />
@@ -185,7 +185,7 @@ export default function HomepageSectionsClient({ sections }: { sections: Section
               <button
                 onClick={() => handleMoveDown(i)}
                 disabled={i === optimistic.length - 1}
-                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed"
+                className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed"
                 aria-label="Move section down"
               >
                 <ArrowDownIcon />
@@ -197,7 +197,7 @@ export default function HomepageSectionsClient({ sections }: { sections: Section
                   className={`flex h-7 min-w-[60px] items-center justify-center rounded-lg px-2 font-heading text-[0.6rem] font-semibold transition-all ${
                     section.is_visible
                       ? 'bg-green-50 text-green-600 hover:bg-green-100'
-                      : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
                   {section.is_visible ? 'Visible' : 'Hidden'}

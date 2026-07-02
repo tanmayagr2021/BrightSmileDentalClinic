@@ -58,7 +58,7 @@ function DoctorRow({
             </span>
           )}
         </div>
-        <p className="mt-0.5 font-body text-xs text-gray-400 truncate">
+        <p className="mt-0.5 font-body text-xs text-gray-600 truncate">
           {doctor.title ?? '—'}{doctor.nmc_number ? ` · ${doctor.nmc_number}` : ''}
         </p>
       </div>
@@ -71,7 +71,7 @@ function DoctorRow({
             className={`rounded-lg border px-3 py-1.5 font-heading text-[0.65rem] font-semibold transition-all disabled:opacity-50 ${
               doctor.is_bookable
                 ? 'border-primary/20 bg-primary/10 text-primary hover:bg-primary/15'
-                : 'border-gray-200 bg-gray-50 text-gray-400 hover:border-gray-300'
+                : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300'
             }`}
           >
             {doctor.is_bookable ? 'Bookable ✓' : 'Not Bookable'}
@@ -83,7 +83,7 @@ function DoctorRow({
           className={`rounded-lg border px-3 py-1.5 font-heading text-[0.65rem] font-semibold transition-all disabled:opacity-50 ${
             doctor.is_active
               ? 'border-green-200 bg-green-50 text-green-600 hover:bg-green-100'
-              : 'border-gray-200 bg-gray-50 text-gray-400 hover:border-gray-300'
+              : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300'
           }`}
         >
           {doctor.is_active ? 'Visible' : 'Hidden'}
@@ -172,7 +172,7 @@ export default function DoctorsClient({ doctors }: { doctors: DoctorRow[] }) {
         ].map((s) => (
           <div key={s.label} className="rounded-xl border border-gray-100 bg-white p-4 text-center shadow-sm">
             <p className="font-display text-2xl text-gray-900">{s.value}</p>
-            <p className="font-body text-xs text-gray-400 mt-0.5">{s.label}</p>
+            <p className="font-body text-xs text-gray-600 mt-0.5">{s.label}</p>
           </div>
         ))}
       </div>
@@ -186,11 +186,11 @@ export default function DoctorsClient({ doctors }: { doctors: DoctorRow[] }) {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2 font-heading text-xs font-semibold transition-all ${
-                activeTab === tab.id ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-400 hover:text-gray-600'
+                activeTab === tab.id ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-600 hover:text-gray-600'
               }`}
             >
               {tab.label}
-              <span className={`rounded-full px-1.5 py-0.5 font-heading text-[0.55rem] font-bold ${activeTab === tab.id ? 'bg-gray-100 text-gray-500' : 'bg-gray-200/50 text-gray-400'}`}>
+              <span className={`rounded-full px-1.5 py-0.5 font-heading text-[0.55rem] font-bold ${activeTab === tab.id ? 'bg-gray-100 text-gray-500' : 'bg-gray-200/50 text-gray-600'}`}>
                 {count}
               </span>
             </button>
@@ -210,7 +210,7 @@ export default function DoctorsClient({ doctors }: { doctors: DoctorRow[] }) {
         ))}
         {filtered.length === 0 && (
           <div className="rounded-xl border-2 border-dashed border-gray-200 px-5 py-10 text-center">
-            <p className="font-heading text-sm font-semibold text-gray-400">No {activeTab === 'lead' ? 'lead dentists' : 'specialists'} yet</p>
+            <p className="font-heading text-sm font-semibold text-gray-600">No {activeTab === 'lead' ? 'lead dentists' : 'specialists'} yet</p>
           </div>
         )}
       </div>

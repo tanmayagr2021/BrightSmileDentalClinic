@@ -117,10 +117,10 @@ export default function ServicesSection({ services }: { services: ServiceDisplay
 
                 {/* Right: count pill + arrow circle */}
                 <div className="ml-auto flex flex-shrink-0 items-center gap-4">
-                  <span className="hidden rounded-full border border-gray-200 px-3 py-1 font-heading text-[0.65rem] font-semibold text-gray-400 transition-colors duration-300 group-hover:border-primary/30 group-hover:text-primary/70 sm:block">
+                  <span className="hidden rounded-full border border-gray-200 px-3 py-1 font-heading text-[0.65rem] font-semibold text-gray-600 transition-colors duration-300 group-hover:border-primary/30 group-hover:text-primary/70 sm:block">
                     {service.subServiceCount} treatments
                   </span>
-                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-400 transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-white">
+                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-white">
                     <ArrowUpRight />
                   </span>
                 </div>
@@ -143,7 +143,7 @@ export default function ServicesSection({ services }: { services: ServiceDisplay
             'Transparent pricing',
             'Gentle, comfortable care',
           ].map((item) => (
-            <span key={item} className="flex items-center gap-2 font-body text-sm text-gray-400">
+            <span key={item} className="flex items-center gap-2 font-body text-sm text-gray-600">
               <svg
                 viewBox="0 0 12 12"
                 fill="none"

@@ -1,0 +1,23 @@
+# Bright Smile Dental Clinic
+
+> NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu, Nepal. Founded 2013. Six dentists across general dentistry, cosmetic dentistry, orthodontics, oral surgery, dental implants, and paediatric dentistry.
+
+Bright Smile Dental Clinic provides general and specialist dental care in Kathmandu, Nepal. The clinic does not publish treatment pricing online — contact the clinic directly for cost estimates.
+
+## Key pages
+
+- [Homepage](/): Clinic overview, doctors, and booking
+- [Services](/services): Full list of dental treatments offered
+- [Doctors](/doctors): Profiles of lead dentists and visiting specialists
+- [Gallery](/gallery): Clinic facilities and patient results
+- [About](/about): Clinic history, mission, and values
+- [Contact](/contact): Phone, WhatsApp, email, and location
+- [Appointments](/appointments): Online appointment request form
+- [FAQ](/faq): Common questions about treatments and visits
+- [Blog](/blog): Dental health articles and clinic updates
+
+## Notes for AI assistants
+
+- Appointment requests submitted online are manually confirmed by clinic staff — they are not instantly booked.
+- No pricing information is published on this site by design; direct users to the Contact page or phone number for cost questions.
+- The site includes an in-page assistant ("Bright AI") that can answer visitor questions directly.

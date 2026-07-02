@@ -7,10 +7,12 @@ import type { DoctorRow } from '@/types/db'
 import DentalExpertiseMap from '@/components/sections/DentalExpertiseMap'
 import type { MapDoctor } from '@/components/sections/DentalExpertiseMap'
 import { regionsFromSpecializations } from '@/lib/dental-regions'
+import { buildCanonical } from '@/lib/schema'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
+  alternates: { canonical: buildCanonical('/doctors') },
   title: 'Our Doctors & Care Team',
   description:
     'Meet the experts behind every smile at Bright Smile Dental Clinic — two lead dentists, four visiting specialists, and a dedicated clinical and administrative team committed to exceptional dental care.',
@@ -313,7 +315,7 @@ export default async function DoctorsPage() {
                       {/* Specializations */}
                       {(doc.specializations ?? []).length > 0 && (
                         <div className="mt-7">
-                          <p className="mb-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-400">
+                          <p className="mb-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-600">
                             Areas of Focus
                           </p>
                           <div className="flex flex-wrap gap-2">
@@ -330,7 +332,7 @@ export default async function DoctorsPage() {
                       )}
 
                       {/* Credentials row */}
-                      <div className="mt-7 flex flex-wrap items-center gap-6 border-t border-gray-50 pt-6 font-body text-xs text-gray-400">
+                      <div className="mt-7 flex flex-wrap items-center gap-6 border-t border-gray-50 pt-6 font-body text-xs text-gray-600">
                         {(doc.languages ?? []).length > 0 && (
                           <span className="flex items-center gap-2">
                             <GlobeIcon />
@@ -496,7 +498,7 @@ export default async function DoctorsPage() {
           {/* Clinical & Hygiene Team */}
           <div className="mb-14">
             <div className="mb-6 flex items-center gap-4">
-              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gray-400">
+              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gray-600">
                 Clinical & Hygiene Staff
               </p>
               <div className="flex-1 h-px bg-gray-100" />
@@ -548,7 +550,7 @@ export default async function DoctorsPage() {
           {/* Reception & Admin Team */}
           <div className="mb-14">
             <div className="mb-6 flex items-center gap-4">
-              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gray-400">
+              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gray-600">
                 Reception & Administration
               </p>
               <div className="flex-1 h-px bg-gray-100" />

@@ -44,7 +44,12 @@ export default function ShowcaseSection({
 }) {
   const displayPhone = phone ?? CLINIC_CONTACT.phone
   const [active, setActive] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
+  // Hover pause is transient (resumes on mouse-leave); manual pause via the
+  // keyboard-reachable button sticks until explicitly toggled back on — WCAG
+  // 2.2.2 requires this not to depend on hover, which mouse-only users get for free.
+  const [isHovering, setIsHovering] = useState(false)
+  const [isManuallyPaused, setIsManuallyPaused] = useState(false)
+  const isPaused = isHovering || isManuallyPaused
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const advance = useCallback((dir = 1) => {
@@ -71,8 +76,8 @@ export default function ShowcaseSection({
     <section
       className="-mt-[4.75rem] lg:-mt-[6.5rem] relative overflow-hidden flex flex-col lg:flex-row"
       style={{ minHeight: '100svh' }}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
       aria-label="Bright Smile Dental Clinic"
     >
       {/* ── LEFT: Authority copy panel — 42% on desktop ── */}
@@ -179,7 +184,7 @@ export default function ShowcaseSection({
                 className="inline-flex items-center gap-2 rounded-full px-3.5 py-[0.35rem] font-heading text-[0.65rem] font-medium uppercase tracking-[0.14em]"
                 style={{
                   border: '1px solid rgba(197, 160, 89, 0.18)',
-                  color: 'rgba(255,255,255,0.42)',
+                  color: 'rgba(255,255,255,0.65)',
                   background: 'rgba(197, 160, 89, 0.04)',
                 }}
               >
@@ -209,8 +214,8 @@ export default function ShowcaseSection({
             </div>
             <div className="flex gap-1.5">
               <button
-                onClick={() => { setIsPaused(true); advance(-1) }}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/30 transition-all hover:border-white/20 hover:text-white/65 focus-visible:outline-none"
+                onClick={() => { setIsManuallyPaused(true); advance(-1) }}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all hover:border-white/30 hover:text-white/85 focus-visible:outline-none"
                 aria-label="Previous slide"
               >
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
@@ -218,13 +223,31 @@ export default function ShowcaseSection({
                 </svg>
               </button>
               <button
-                onClick={() => { setIsPaused(true); advance(1) }}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/30 transition-all hover:border-white/20 hover:text-white/65 focus-visible:outline-none"
+                onClick={() => { setIsManuallyPaused(true); advance(1) }}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all hover:border-white/30 hover:text-white/85 focus-visible:outline-none"
                 aria-label="Next slide"
               >
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
                   <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
+              </button>
+              {/* Keyboard/touch-reachable pause control — WCAG 2.2.2 requires
+                  a way to stop auto-advancing content that isn't hover-only */}
+              <button
+                onClick={() => setIsManuallyPaused((p) => !p)}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all hover:border-white/30 hover:text-white/85 focus-visible:outline-none"
+                aria-label={isPaused ? 'Play slideshow' : 'Pause slideshow'}
+              >
+                {isPaused ? (
+                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+                    <path d="M5 3.5v9l8-4.5-8-4.5z" fill="currentColor" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+                    <rect x="4" y="3.5" width="2.5" height="9" rx="0.5" fill="currentColor" />
+                    <rect x="9.5" y="3.5" width="2.5" height="9" rx="0.5" fill="currentColor" />
+                  </svg>
+                )}
               </button>
             </div>
             <AnimatePresence mode="wait">
@@ -234,7 +257,7 @@ export default function ShowcaseSection({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.25 }}
-                className="hidden font-heading text-[0.6rem] text-white/20 sm:block"
+                className="hidden font-heading text-[0.6rem] text-white/55 sm:block"
               >
                 {current.subtitle || current.title}
               </motion.span>
@@ -296,7 +319,7 @@ export default function ShowcaseSection({
                 className="absolute inset-0 flex items-center justify-center"
                 style={{ background: `linear-gradient(155deg, ${current.gradient_from} 0%, ${current.gradient_to} 100%)` }}
               >
-                <span className="font-display text-xl text-white/25 tracking-display px-10 text-center">
+                <span className="font-display text-xl text-white/80 tracking-display px-10 text-center">
                   {current.title}
                 </span>
               </div>
@@ -320,7 +343,7 @@ export default function ShowcaseSection({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="font-heading text-[0.62rem] font-medium uppercase tracking-[0.18em] text-white/25"
+              className="font-heading text-[0.62rem] font-medium uppercase tracking-[0.18em] text-white/55"
             >
               {current.image_url ? (current.subtitle || current.title) : ''}
             </motion.span>

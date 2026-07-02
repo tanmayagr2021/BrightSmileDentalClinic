@@ -79,7 +79,7 @@ function InfoCard({
         {icon}
       </div>
       <div>
-        <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-400 mb-1">{label}</p>
+        <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-600 mb-1">{label}</p>
         {children}
       </div>
     </div>
@@ -327,10 +327,11 @@ export default function ContactClient({
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <motion.div variants={fadeUp} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
-                      <label className="block font-heading text-xs font-semibold text-dark mb-1.5">
+                      <label htmlFor="contact-name" className="block font-heading text-xs font-semibold text-dark mb-1.5">
                         Full Name <span className="text-red-400">*</span>
                       </label>
                       <input
+                        id="contact-name"
                         type="text"
                         value={form.name}
                         onChange={update('name')}
@@ -340,10 +341,11 @@ export default function ContactClient({
                       />
                     </div>
                     <div>
-                      <label className="block font-heading text-xs font-semibold text-dark mb-1.5">
+                      <label htmlFor="contact-phone" className="block font-heading text-xs font-semibold text-dark mb-1.5">
                         Phone Number <span className="text-red-400">*</span>
                       </label>
                       <input
+                        id="contact-phone"
                         type="tel"
                         value={form.phone}
                         onChange={update('phone')}
@@ -355,10 +357,11 @@ export default function ContactClient({
                   </motion.div>
 
                   <motion.div variants={fadeUp}>
-                    <label className="block font-heading text-xs font-semibold text-dark mb-1.5">
-                      Email Address <span className="text-gray-400 font-normal">(optional)</span>
+                    <label htmlFor="contact-email" className="block font-heading text-xs font-semibold text-dark mb-1.5">
+                      Email Address <span className="text-gray-600 font-normal">(optional)</span>
                     </label>
                     <input
+                      id="contact-email"
                       type="email"
                       value={form.email}
                       onChange={update('email')}
@@ -368,10 +371,11 @@ export default function ContactClient({
                   </motion.div>
 
                   <motion.div variants={fadeUp}>
-                    <label className="block font-heading text-xs font-semibold text-dark mb-1.5">
+                    <label htmlFor="contact-treatment" className="block font-heading text-xs font-semibold text-dark mb-1.5">
                       Treatment Interest
                     </label>
                     <select
+                      id="contact-treatment"
                       value={form.treatment}
                       onChange={update('treatment')}
                       className="w-full rounded-xl border border-gray-200 px-4 py-3 font-body text-sm text-dark outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/10 bg-white"
@@ -384,10 +388,11 @@ export default function ContactClient({
                   </motion.div>
 
                   <motion.div variants={fadeUp}>
-                    <label className="block font-heading text-xs font-semibold text-dark mb-1.5">
+                    <label htmlFor="contact-message" className="block font-heading text-xs font-semibold text-dark mb-1.5">
                       Your Message <span className="text-red-400">*</span>
                     </label>
                     <textarea
+                      id="contact-message"
                       value={form.message}
                       onChange={update('message')}
                       placeholder="Tell us about your concern or question..."
@@ -406,12 +411,12 @@ export default function ContactClient({
                       {submitting ? 'Sending...' : 'Send Message'}
                     </button>
                     {submitError && (
-                      <p className="mt-3 rounded-xl border border-red-100 bg-red-50 px-4 py-3 font-body text-xs text-red-700">
+                      <p role="alert" className="mt-3 rounded-xl border border-red-100 bg-red-50 px-4 py-3 font-body text-xs text-red-700">
                         {submitError}
                       </p>
                     )}
                     {!submitError && (
-                      <p className="mt-3 font-body text-xs text-gray-400">
+                      <p className="mt-3 font-body text-xs text-gray-600">
                         We respond within 24 hours · Your data is kept private and never shared.
                       </p>
                     )}
@@ -460,7 +465,7 @@ export default function ContactClient({
             viewport={{ once: true }}
             className="mx-auto max-w-7xl px-4 pt-10 pb-4 sm:px-6 lg:px-8"
           >
-            <h2 className="font-heading text-sm font-semibold uppercase tracking-widest text-gray-400 mb-4">
+            <h2 className="font-heading text-sm font-semibold uppercase tracking-widest text-gray-600 mb-4">
               Find Us
             </h2>
             <a

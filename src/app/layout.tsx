@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { DM_Serif_Display, Poppins, Inter } from 'next/font/google'
 import { MotionConfig } from 'framer-motion'
+import { buildClinicSchema } from '@/lib/schema'
 import './globals.css'
 
 const dmSerifDisplay = DM_Serif_Display({
@@ -37,13 +38,24 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'Bright Smile Dental Clinic',
     locale: 'en_US',
+    title: 'Bright Smile Dental Clinic | Dentist in Kathmandu, Nepal',
+    description:
+      'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. 6 experienced dentists offering implants, orthodontics, root canal, cosmetic dentistry & more.',
+    images: [{ url: '/images/logo.jpg', width: 280, height: 112, alt: 'Bright Smile Dental Clinic' }],
   },
   twitter: {
     card: 'summary_large_image',
+    title: 'Bright Smile Dental Clinic | Dentist in Kathmandu, Nepal',
+    description:
+      'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. 6 experienced dentists offering implants, orthodontics, root canal, cosmetic dentistry & more.',
+    images: ['/images/logo.jpg'],
   },
   robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: '/',
   },
 }
 
@@ -58,6 +70,11 @@ export default function RootLayout({
       className={`${dmSerifDisplay.variable} ${poppins.variable} ${inter.variable}`}
     >
       <body className="font-body text-clinic-text antialiased">
+        {/* Sitewide Dentist/MedicalBusiness structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildClinicSchema()) }}
+        />
         {/* Auto-disables transform/scale/rotate animations (keeps fades) when
             the OS-level reduced-motion preference is on — covers every
             Framer Motion animation site-wide, since Framer drives its own

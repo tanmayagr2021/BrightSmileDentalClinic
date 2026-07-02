@@ -41,6 +41,8 @@ export default function BrightAIPanel({
   const router = useRouter()
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
+  const openerRef = useRef<Element | null>(null)
   const [view, setView] = useState<PanelView>('chat')
   const [showInitialQuickReplies, setShowInitialQuickReplies] = useState(true)
 
@@ -57,6 +59,39 @@ export default function BrightAIPanel({
       setTimeout(() => inputRef.current?.focus(), 300)
     }
   }, [isOpen, view])
+
+  // Escape-to-close, focus trap, and focus restoration to whatever opened the panel.
+  useEffect(() => {
+    if (!isOpen) return
+    openerRef.current = document.activeElement
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+        return
+      }
+      if (e.key !== 'Tab') return
+      const focusables = panelRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled])'
+      )
+      if (!focusables?.length) return
+      const first = focusables[0]
+      const last = focusables[focusables.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      if (openerRef.current instanceof HTMLElement) openerRef.current.focus()
+    }
+  }, [isOpen, onClose])
 
   // Hide initial quick replies once user sends their first message
   useEffect(() => {
@@ -125,6 +160,10 @@ export default function BrightAIPanel({
 
           {/* Panel */}
           <motion.div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Bright AI chat assistant"
             className="fixed z-[9999] flex flex-col overflow-hidden"
             style={{
               // Desktop: bottom-right anchored, above the button
@@ -194,7 +233,7 @@ export default function BrightAIPanel({
                     <div className="border-t px-4 py-3" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
                       <p
                         className="mb-2 text-[10px] uppercase tracking-wider"
-                        style={{ color: 'rgba(255,255,255,0.3)', fontFamily: 'var(--font-poppins)' }}
+                        style={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-poppins)' }}
                       >
                         Quick start
                       </p>
@@ -267,7 +306,7 @@ export default function BrightAIPanel({
                     </div>
                     <p
                       className="mt-1.5 text-center text-[10px]"
-                      style={{ color: 'rgba(255,255,255,0.2)', fontFamily: 'var(--font-inter)' }}
+                      style={{ color: 'rgba(255,255,255,0.55)', fontFamily: 'var(--font-inter)' }}
                     >
                       Bright AI · Digital Receptionist · Not a substitute for clinical advice
                     </p>
@@ -333,7 +372,7 @@ function PanelHeader({
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
           <span
             className="text-[10px]"
-            style={{ color: 'rgba(255,255,255,0.38)', fontFamily: 'var(--font-inter)' }}
+            style={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-inter)' }}
           >
             Online · Digital Receptionist
           </span>
@@ -345,7 +384,7 @@ function PanelHeader({
         <button
           onClick={onBackToChat}
           className="flex h-7 items-center gap-1 rounded-lg px-2 text-xs transition-colors hover:bg-white/10"
-          style={{ color: 'rgba(255,255,255,0.45)', fontFamily: 'var(--font-poppins)' }}
+          style={{ color: 'rgba(255,255,255,0.68)', fontFamily: 'var(--font-poppins)' }}
           aria-label="Back to chat"
         >
           ← Chat
@@ -356,7 +395,7 @@ function PanelHeader({
       <button
         onClick={onClose}
         className="flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:bg-white/10"
-        style={{ color: 'rgba(255,255,255,0.45)' }}
+        style={{ color: 'rgba(255,255,255,0.68)' }}
         aria-label="Close Bright AI"
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -396,7 +435,7 @@ function WelcomeMessage() {
       </div>
       <span
         className="mt-1 block px-1 text-[10px]"
-        style={{ color: 'rgba(255,255,255,0.25)', fontFamily: 'var(--font-inter)' }}
+        style={{ color: 'rgba(255,255,255,0.55)', fontFamily: 'var(--font-inter)' }}
       >
         {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
       </span>

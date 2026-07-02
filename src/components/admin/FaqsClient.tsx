@@ -164,7 +164,7 @@ export default function FaqsClient({ faqs }: { faqs: FaqRow[] }) {
         ].map((s) => (
           <div key={s.label} className="rounded-xl border border-gray-100 bg-white p-4 text-center shadow-sm">
             <p className="font-display text-2xl text-gray-900">{s.value}</p>
-            <p className="font-body text-xs text-gray-400 mt-0.5">{s.label}</p>
+            <p className="font-body text-xs text-gray-600 mt-0.5">{s.label}</p>
           </div>
         ))}
       </div>
@@ -278,7 +278,7 @@ export default function FaqsClient({ faqs }: { faqs: FaqRow[] }) {
                     )}
                   </div>
                   <div className="flex flex-shrink-0 flex-col items-end gap-1">
-                    <span className="rounded-full bg-gray-100 px-2 py-0.5 font-heading text-[0.55rem] font-semibold text-gray-400 capitalize">
+                    <span className="rounded-full bg-gray-100 px-2 py-0.5 font-heading text-[0.55rem] font-semibold text-gray-600 capitalize">
                       {faq.category ?? 'general'}
                     </span>
                   </div>
@@ -288,7 +288,7 @@ export default function FaqsClient({ faqs }: { faqs: FaqRow[] }) {
                   <button
                     onClick={() => handleMoveUp(i)}
                     disabled={i === 0 || isLoading}
-                    className="flex h-6 w-6 items-center justify-center rounded border border-gray-200 text-gray-400 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20"
+                    className="flex h-6 w-6 items-center justify-center rounded border border-gray-200 text-gray-600 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20"
                     aria-label="Move up"
                   >
                     <ArrowUpIcon />
@@ -296,7 +296,7 @@ export default function FaqsClient({ faqs }: { faqs: FaqRow[] }) {
                   <button
                     onClick={() => handleMoveDown(i)}
                     disabled={i === sorted.length - 1 || isLoading}
-                    className="flex h-6 w-6 items-center justify-center rounded border border-gray-200 text-gray-400 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20"
+                    className="flex h-6 w-6 items-center justify-center rounded border border-gray-200 text-gray-600 transition-colors hover:border-primary/30 hover:text-primary disabled:opacity-20"
                     aria-label="Move down"
                   >
                     <ArrowDownIcon />
@@ -322,7 +322,7 @@ export default function FaqsClient({ faqs }: { faqs: FaqRow[] }) {
                   <button
                     onClick={() => handlePatch(faq.id, { is_visible: !faq.is_visible })}
                     disabled={isLoading}
-                    className={`rounded-lg border px-3 py-1 font-heading text-[0.65rem] font-semibold transition-all disabled:opacity-50 ${faq.is_visible ? 'border-green-200 bg-green-50 text-green-600 hover:bg-green-100' : 'border-gray-200 bg-gray-50 text-gray-400 hover:border-gray-300'}`}
+                    className={`rounded-lg border px-3 py-1 font-heading text-[0.65rem] font-semibold transition-all disabled:opacity-50 ${faq.is_visible ? 'border-green-200 bg-green-50 text-green-600 hover:bg-green-100' : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300'}`}
                   >
                     {faq.is_visible ? 'Visible' : 'Hidden'}
                   </button>
@@ -343,7 +343,7 @@ export default function FaqsClient({ faqs }: { faqs: FaqRow[] }) {
 
       {sorted.length === 0 && (
         <div className="mt-4 rounded-xl border-2 border-dashed border-gray-200 px-5 py-12 text-center">
-          <p className="font-heading text-sm font-semibold text-gray-400">No FAQs yet</p>
+          <p className="font-heading text-sm font-semibold text-gray-600">No FAQs yet</p>
           <p className="mt-1 font-body text-xs text-gray-300">Click &ldquo;Add FAQ&rdquo; to get started.</p>
         </div>
       )}

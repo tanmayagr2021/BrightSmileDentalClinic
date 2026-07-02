@@ -53,9 +53,9 @@ function StatCard({
 }) {
   const inner = (
     <div className={`group rounded-2xl border p-5 shadow-sm transition-shadow ${href ? 'cursor-pointer hover:shadow-md' : ''} ${accent ? 'border-amber-200 bg-amber-50' : 'border-gray-100 bg-white'}`}>
-      <p className={`font-heading text-xs font-semibold uppercase tracking-wide ${accent ? 'text-amber-600' : 'text-gray-400'}`}>{label}</p>
+      <p className={`font-heading text-xs font-semibold uppercase tracking-wide ${accent ? 'text-amber-600' : 'text-gray-600'}`}>{label}</p>
       <p className={`mt-3 font-display text-3xl tracking-tight ${accent ? 'text-amber-700' : 'text-gray-900'}`}>{value}</p>
-      {sub && <p className={`mt-1 font-body text-xs ${accent ? 'text-amber-600' : 'text-gray-400'}`}>{sub}</p>}
+      {sub && <p className={`mt-1 font-body text-xs ${accent ? 'text-amber-600' : 'text-gray-600'}`}>{sub}</p>}
     </div>
   )
   if (href) return <Link href={href}>{inner}</Link>
@@ -70,7 +70,7 @@ function QuickAction({ label, desc, href, icon }: { label: string; desc: string;
       </div>
       <div className="min-w-0">
         <p className="font-heading text-sm font-semibold text-gray-800">{label}</p>
-        <p className="font-body text-xs text-gray-400 truncate">{desc}</p>
+        <p className="font-body text-xs text-gray-600 truncate">{desc}</p>
       </div>
       <svg viewBox="0 0 16 16" fill="none" className="ml-auto h-4 w-4 flex-shrink-0 text-gray-300 transition-transform group-hover:translate-x-0.5 group-hover:text-primary/50" aria-hidden="true">
         <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -175,7 +175,7 @@ export default async function DashboardPage() {
 
         {/* Quick actions */}
         <div>
-          <h3 className="mb-4 font-heading text-xs font-semibold uppercase tracking-widest text-gray-400">Quick Actions</h3>
+          <h3 className="mb-4 font-heading text-xs font-semibold uppercase tracking-widest text-gray-600">Quick Actions</h3>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <QuickAction
               label="Appointments"
@@ -250,7 +250,7 @@ export default async function DashboardPage() {
         {/* Recent appointments */}
         <div>
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400">Recent Bookings</h3>
+            <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600">Recent Bookings</h3>
             <Link href="/admin/appointments" className="font-heading text-xs font-semibold text-primary hover:underline underline-offset-2">
               View all
             </Link>
@@ -259,7 +259,7 @@ export default async function DashboardPage() {
           <div className="rounded-2xl border border-gray-100 bg-white shadow-sm divide-y divide-gray-50">
             {recentAppts.length === 0 && (
               <div className="py-10 text-center">
-                <p className="font-body text-xs text-gray-400">No appointments yet.</p>
+                <p className="font-body text-xs text-gray-600">No appointments yet.</p>
                 <p className="font-body text-[0.65rem] text-gray-300 mt-0.5">New bookings will appear here.</p>
               </div>
             )}
@@ -271,11 +271,11 @@ export default async function DashboardPage() {
                 <div key={appt.id} className="flex items-start gap-3 px-5 py-3.5">
                   <div className="flex-shrink-0 w-10 text-center pt-0.5">
                     <p className="font-heading text-sm font-bold text-gray-800 leading-none">{dateObj.getDate()}</p>
-                    <p className="font-body text-[0.6rem] text-gray-400">{dateObj.toLocaleDateString('en-GB', { month: 'short' })}</p>
+                    <p className="font-body text-[0.6rem] text-gray-600">{dateObj.toLocaleDateString('en-GB', { month: 'short' })}</p>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-heading text-xs font-semibold text-gray-800 truncate">{appt.patient_name}</p>
-                    <p className="font-body text-[0.65rem] text-gray-400 truncate">
+                    <p className="font-body text-[0.65rem] text-gray-600 truncate">
                       {doctor && `${doctor} · `}{formatTime(appt.appointment_time)}
                     </p>
                   </div>

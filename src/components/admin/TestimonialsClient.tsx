@@ -156,7 +156,7 @@ export default function TestimonialsClient({ testimonials }: { testimonials: Tes
         ].map((s) => (
           <div key={s.label} className="rounded-xl border border-gray-100 bg-white p-4 text-center shadow-sm">
             <p className="font-display text-2xl text-gray-900">{s.value}</p>
-            <p className="font-body text-xs text-gray-400 mt-0.5">{s.label}</p>
+            <p className="font-body text-xs text-gray-600 mt-0.5">{s.label}</p>
           </div>
         ))}
       </div>
@@ -192,7 +192,7 @@ export default function TestimonialsClient({ testimonials }: { testimonials: Tes
                 <button
                   key={n}
                   onClick={() => setAddForm((f) => ({ ...f, rating: n }))}
-                  className={`flex h-8 w-8 items-center justify-center rounded-lg border font-heading text-sm font-semibold transition-all ${addForm.rating >= n ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 text-gray-400'}`}
+                  className={`flex h-8 w-8 items-center justify-center rounded-lg border font-heading text-sm font-semibold transition-all ${addForm.rating >= n ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 text-gray-600'}`}
                 >
                   {n}
                 </button>
@@ -308,7 +308,7 @@ export default function TestimonialsClient({ testimonials }: { testimonials: Tes
                     <button
                       onClick={() => handlePatch(t.id, { status: 'rejected' })}
                       disabled={isLoading}
-                      className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 font-heading text-[0.65rem] font-semibold text-gray-400 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-500 disabled:opacity-50"
+                      className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 font-heading text-[0.65rem] font-semibold text-gray-600 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-500 disabled:opacity-50"
                     >
                       Reject
                     </button>
@@ -339,7 +339,7 @@ export default function TestimonialsClient({ testimonials }: { testimonials: Tes
 
       {sorted.length === 0 && (
         <div className="rounded-2xl border-2 border-dashed border-gray-200 px-5 py-12 text-center">
-          <p className="font-heading text-sm font-semibold text-gray-400">No testimonials yet</p>
+          <p className="font-heading text-sm font-semibold text-gray-600">No testimonials yet</p>
           <p className="mt-1 font-body text-xs text-gray-300">Click &ldquo;Add Testimonial&rdquo; to add the first review.</p>
         </div>
       )}

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { SERVICE_CATEGORIES_STATIC } from '@/lib/constants'
+import { buildCanonical } from '@/lib/schema'
 import type { ServiceCategoryRow } from '@/types/db'
 
 export const dynamic = 'force-dynamic'
@@ -21,7 +22,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const name = data?.name ?? staticEntry?.name ?? ''
   const description = data?.description ?? staticEntry?.shortDescription ?? ''
-  return { title: name, description }
+  const canonical = buildCanonical(`/services/${slug}`)
+  return {
+    title: name,
+    description,
+    alternates: { canonical },
+    openGraph: { title: name, description, url: canonical, type: 'website' },
+    twitter: { title: name, description },
+  }
 }
 
 type SubService = { id?: string; name: string; description?: string; short_description?: string }
@@ -82,7 +90,7 @@ export default async function ServiceDetailPage({ params }: Props) {
       <div className="bg-tint border-b border-gray-100 py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-6">
-            <Link href="/services" className="font-body text-sm text-gray-400 hover:text-primary transition-colors">
+            <Link href="/services" className="font-body text-sm text-gray-600 hover:text-primary transition-colors">
               Services
             </Link>
             <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-gray-300" aria-hidden="true">
@@ -192,7 +200,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
             {/* Book card */}
             <div className="rounded-2xl bg-dark p-7 text-white">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-white/40 mb-3">
+              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-white/75 mb-3">
                 Ready to Begin?
               </h3>
               <p className="font-display text-xl text-white leading-snug">
@@ -219,7 +227,7 @@ export default async function ServiceDetailPage({ params }: Props) {
             {/* Benefits — static fallback */}
             {staticEntry && staticEntry.benefits.length > 0 && (
               <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">
                   Key Benefits
                 </h3>
                 <div className="space-y-3">
@@ -238,7 +246,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
             {/* All services from DB */}
             <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
+              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">
                 Other Services
               </h3>
               <div className="space-y-2">

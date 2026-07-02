@@ -130,7 +130,7 @@ export default function SeoSettingsPage() {
               >
                 <div>
                   <p className="font-heading text-xs font-semibold">{p.page}</p>
-                  <p className="font-body text-[0.58rem] text-gray-400">{p.path}</p>
+                  <p className="font-body text-[0.58rem] text-gray-600">{p.path}</p>
                 </div>
                 <div className={`h-1.5 w-1.5 rounded-full flex-shrink-0 ${filled ? 'bg-green-400' : 'bg-gray-200'}`} />
               </button>
@@ -143,10 +143,10 @@ export default function SeoSettingsPage() {
           <div className="flex items-center justify-between border-b border-gray-50 pb-3">
             <div>
               <p className="font-heading text-sm font-semibold text-gray-900">{activePage?.page}</p>
-              <p className="font-body text-xs text-gray-400">{activePage?.path}</p>
+              <p className="font-body text-xs text-gray-600">{activePage?.path}</p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-body text-xs text-gray-400">No-index</span>
+              <span className="font-body text-xs text-gray-600">No-index</span>
               <button
                 onClick={() => update({ is_noindex: !current.is_noindex })}
                 className={`relative flex h-5 w-9 flex-shrink-0 items-center rounded-full transition-colors ${current.is_noindex ? 'bg-red-400' : 'bg-gray-200'}`}
@@ -160,7 +160,7 @@ export default function SeoSettingsPage() {
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label className="font-heading text-xs font-semibold text-gray-700">Meta Title</label>
-              <span className={`font-body text-[0.6rem] ${titleLen > 60 ? 'text-red-400' : titleLen > 50 ? 'text-amber-400' : 'text-gray-400'}`}>
+              <span className={`font-body text-[0.6rem] ${titleLen > 60 ? 'text-red-400' : titleLen > 50 ? 'text-amber-400' : 'text-gray-600'}`}>
                 {titleLen}/60
               </span>
             </div>
@@ -175,7 +175,7 @@ export default function SeoSettingsPage() {
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label className="font-heading text-xs font-semibold text-gray-700">Meta Description</label>
-              <span className={`font-body text-[0.6rem] ${descLen > 160 ? 'text-red-400' : descLen > 140 ? 'text-amber-400' : 'text-gray-400'}`}>
+              <span className={`font-body text-[0.6rem] ${descLen > 160 ? 'text-red-400' : descLen > 140 ? 'text-amber-400' : 'text-gray-600'}`}>
                 {descLen}/160
               </span>
             </div>
@@ -196,13 +196,13 @@ export default function SeoSettingsPage() {
               placeholder="https://… (1200×630px recommended)"
               className="w-full rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
             />
-            <p className="mt-1 font-body text-[0.62rem] text-gray-400">Shown when sharing on social media. 1200×630px, JPG or PNG.</p>
+            <p className="mt-1 font-body text-[0.62rem] text-gray-600">Shown when sharing on social media. 1200×630px, JPG or PNG.</p>
           </div>
 
           {(current.meta_title || current.meta_description) && (
             <div className="rounded-xl border border-gray-100 bg-gray-50 p-4">
-              <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-wide text-gray-400 mb-2">Search Preview</p>
-              <p className="font-body text-xs text-gray-400">{activePage?.path}</p>
+              <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-wide text-gray-600 mb-2">Search Preview</p>
+              <p className="font-body text-xs text-gray-600">{activePage?.path}</p>
               <p className="font-heading text-sm font-semibold text-blue-600 mt-0.5">{current.meta_title || '(No title)'}</p>
               <p className="font-body text-xs text-gray-500 leading-relaxed mt-0.5 line-clamp-2">{current.meta_description || '(No description)'}</p>
             </div>

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { CLINIC_CONTACT } from '@/lib/constants'
+import { buildPhysicianSchema, buildCanonical } from '@/lib/schema'
 import type { DoctorRow } from '@/types/db'
 
 export const dynamic = 'force-dynamic'
@@ -25,9 +26,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .is('deleted_at', null)
     .single()
   if (!doctor) return {}
+  const title = `${doctor.full_name} — ${doctor.title}`
+  const description = `${doctor.full_name} is ${doctor.title} at Bright Smile Dental Clinic, Kathmandu. ${doctor.nmc_number}.`
+  const canonical = buildCanonical(`/doctors/${slug}`)
   return {
-    title: `${doctor.full_name} — ${doctor.title}`,
-    description: `${doctor.full_name} is ${doctor.title} at Bright Smile Dental Clinic, Kathmandu. ${doctor.nmc_number}.`,
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: { title, description, url: canonical, type: 'profile' },
+    twitter: { title, description },
   }
 }
 
@@ -57,15 +64,26 @@ export default async function DoctorProfilePage({ params }: Props) {
 
   const otherDoctors: DoctorRow[] = othersData ?? []
   const clinicPhone = (settingsData as { phone_primary?: string } | null)?.phone_primary ?? CLINIC_CONTACT.phone
+  const physicianSchema = buildPhysicianSchema({
+    full_name: doctor.full_name,
+    title: doctor.title,
+    slug: doctor.slug,
+    profile_image_url: doctor.profile_image_url,
+    qualification: doctor.qualification,
+  })
 
   return (
     <div className="bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(physicianSchema) }}
+      />
       {/* Hero */}
       <div className="border-b border-gray-100 py-20 lg:py-28" style={{ backgroundColor: `${dColor(doctor)}12` }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <div className="mb-6 flex items-center gap-2">
-            <Link href="/doctors" className="font-body text-sm text-gray-400 hover:text-primary transition-colors">
+            <Link href="/doctors" className="font-body text-sm text-gray-600 hover:text-primary transition-colors">
               Our Doctors
             </Link>
             <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-gray-300" aria-hidden="true">
@@ -145,11 +163,11 @@ export default async function DoctorProfilePage({ params }: Props) {
             {/* Education & Languages */}
             <section className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">Education</h3>
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Education</h3>
                 <p className="font-body text-sm text-dark leading-relaxed">{doctor.education}</p>
               </div>
               <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">Languages</h3>
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Languages</h3>
                 <div className="flex flex-wrap gap-2">
                   {(doctor.languages ?? []).map((lang: string) => (
                     <span key={lang} className="rounded-lg bg-tint px-3 py-1.5 font-heading text-xs font-semibold text-gray-600">
@@ -167,7 +185,7 @@ export default async function DoctorProfilePage({ params }: Props) {
 
             {/* Book card */}
             <div className="rounded-2xl bg-dark p-7 text-white">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-white/40 mb-3">
+              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-white/75 mb-3">
                 Book a Visit
               </h3>
               <p className="font-display text-xl text-white leading-snug">
@@ -201,7 +219,7 @@ export default async function DoctorProfilePage({ params }: Props) {
 
             {/* Other doctors */}
             <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
+              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">
                 Rest of the Team
               </h3>
               <div className="space-y-3">
@@ -219,7 +237,7 @@ export default async function DoctorProfilePage({ params }: Props) {
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="font-heading text-sm font-semibold text-dark group-hover:text-primary transition-colors leading-tight">{d.full_name}</p>
-                      <p className="font-body text-xs text-gray-400 leading-tight truncate">{d.title}</p>
+                      <p className="font-body text-xs text-gray-600 leading-tight truncate">{d.title}</p>
                     </div>
                     <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-gray-300 group-hover:text-primary transition-colors" aria-hidden="true">
                       <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

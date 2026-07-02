@@ -88,7 +88,7 @@ export default function EditServicePage() {
   if (!service) {
     return (
       <div className="p-6 max-w-2xl mx-auto py-20 text-center">
-        <p className="font-heading text-sm text-gray-400 mb-4">Service not found.</p>
+        <p className="font-heading text-sm text-gray-600 mb-4">Service not found.</p>
         <Link href="/admin/services" className="font-heading text-sm font-semibold text-primary hover:underline">← Back to Services</Link>
       </div>
     )
@@ -104,7 +104,7 @@ export default function EditServicePage() {
       )}
 
       {/* Breadcrumb */}
-      <div className="mb-6 flex items-center gap-2 font-heading text-xs text-gray-400">
+      <div className="mb-6 flex items-center gap-2 font-heading text-xs text-gray-600">
         <Link href="/admin/services" className="hover:text-primary transition-colors">Services</Link>
         <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3" aria-hidden="true">
           <path d="M4 2l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
@@ -120,7 +120,7 @@ export default function EditServicePage() {
         <div className="flex gap-2 flex-shrink-0">
           <button
             onClick={() => setForm(f => ({ ...f, is_visible: !f.is_visible }))}
-            className={`rounded-xl border px-4 py-2 font-heading text-xs font-semibold transition-all ${form.is_visible ? 'border-green-200 bg-green-50 text-green-600' : 'border-gray-200 text-gray-400'}`}
+            className={`rounded-xl border px-4 py-2 font-heading text-xs font-semibold transition-all ${form.is_visible ? 'border-green-200 bg-green-50 text-green-600' : 'border-gray-200 text-gray-600'}`}
           >
             {form.is_visible ? 'Visible' : 'Hidden'}
           </button>
@@ -153,7 +153,7 @@ export default function EditServicePage() {
             placeholder="One-sentence summary shown on homepage services card"
             className="w-full resize-none rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
           />
-          <p className="mt-1 font-body text-[0.62rem] text-gray-400">{form.short_description.length} chars · Keep under 120 for best display</p>
+          <p className="mt-1 font-body text-[0.62rem] text-gray-600">{form.short_description.length} chars · Keep under 120 for best display</p>
         </div>
 
         <div>

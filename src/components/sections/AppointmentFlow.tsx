@@ -179,7 +179,7 @@ function StepDate({ selected, onSelect }: { selected: Date | null; onSelect: (d:
         <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
           <button
             onClick={prevMonth}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50 hover:text-dark transition-colors"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-50 hover:text-dark transition-colors"
             aria-label="Previous month"
           >
             <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
@@ -191,7 +191,7 @@ function StepDate({ selected, onSelect }: { selected: Date | null; onSelect: (d:
           </p>
           <button
             onClick={nextMonth}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50 hover:text-dark transition-colors"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-50 hover:text-dark transition-colors"
             aria-label="Next month"
           >
             <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
@@ -203,7 +203,7 @@ function StepDate({ selected, onSelect }: { selected: Date | null; onSelect: (d:
         {/* Weekday headers */}
         <div className="grid grid-cols-7 border-b border-gray-50 px-4 py-2">
           {WEEKDAYS.map((d) => (
-            <div key={d} className="text-center font-heading text-[0.62rem] font-semibold uppercase tracking-wide text-gray-400">
+            <div key={d} className="text-center font-heading text-[0.62rem] font-semibold uppercase tracking-wide text-gray-600">
               {d}
             </div>
           ))}
@@ -296,10 +296,11 @@ function StepDetails({ form, onChange }: { form: FormData; onChange: (f: FormDat
 
       <div className="space-y-5">
         <div>
-          <label className="block font-heading text-xs font-semibold text-dark mb-1.5">
+          <label htmlFor="apt-name" className="block font-heading text-xs font-semibold text-dark mb-1.5">
             Full Name <span className="text-red-400">*</span>
           </label>
           <input
+            id="apt-name"
             type="text"
             value={form.name}
             onChange={update('name')}
@@ -309,10 +310,11 @@ function StepDetails({ form, onChange }: { form: FormData; onChange: (f: FormDat
           />
         </div>
         <div>
-          <label className="block font-heading text-xs font-semibold text-dark mb-1.5">
+          <label htmlFor="apt-phone" className="block font-heading text-xs font-semibold text-dark mb-1.5">
             Phone Number <span className="text-red-400">*</span>
           </label>
           <input
+            id="apt-phone"
             type="tel"
             value={form.phone}
             onChange={update('phone')}
@@ -322,10 +324,11 @@ function StepDetails({ form, onChange }: { form: FormData; onChange: (f: FormDat
           />
         </div>
         <div>
-          <label className="block font-heading text-xs font-semibold text-dark mb-1.5">
-            Email Address <span className="text-gray-400 font-normal">(optional)</span>
+          <label htmlFor="apt-email" className="block font-heading text-xs font-semibold text-dark mb-1.5">
+            Email Address <span className="text-gray-600 font-normal">(optional)</span>
           </label>
           <input
+            id="apt-email"
             type="email"
             value={form.email}
             onChange={update('email')}
@@ -334,10 +337,11 @@ function StepDetails({ form, onChange }: { form: FormData; onChange: (f: FormDat
           />
         </div>
         <div>
-          <label className="block font-heading text-xs font-semibold text-dark mb-1.5">
-            Reason for Visit <span className="text-gray-400 font-normal">(optional)</span>
+          <label htmlFor="apt-notes" className="block font-heading text-xs font-semibold text-dark mb-1.5">
+            Reason for Visit <span className="text-gray-600 font-normal">(optional)</span>
           </label>
           <textarea
+            id="apt-notes"
             value={form.notes}
             onChange={update('notes')}
             placeholder="e.g. Toothache, routine check-up, whitening consultation..."
@@ -347,7 +351,7 @@ function StepDetails({ form, onChange }: { form: FormData; onChange: (f: FormDat
         </div>
       </div>
 
-      <p className="mt-4 font-body text-xs text-gray-400">
+      <p className="mt-4 font-body text-xs text-gray-600">
         Your information is kept private and used solely to confirm your appointment.
       </p>
     </div>
@@ -400,7 +404,7 @@ function StepConfirm({
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start gap-4">
-      <span className="w-20 flex-shrink-0 font-heading text-xs font-semibold uppercase tracking-wide text-gray-400">{label}</span>
+      <span className="w-20 flex-shrink-0 font-heading text-xs font-semibold uppercase tracking-wide text-gray-600">{label}</span>
       <span className="font-body text-sm text-dark">{value}</span>
     </div>
   )
@@ -477,7 +481,7 @@ function StepSuccess({ doctor, date, time, name, phone }: { doctor: BookableDoct
           </Link>
         </div>
 
-        <p className="mt-8 font-body text-xs text-gray-400">
+        <p className="mt-8 font-body text-xs text-gray-600">
           Need to speak to us directly?{' '}
           <a href={`tel:${phone}`} className="text-primary hover:underline">
             {phone}
@@ -508,7 +512,7 @@ function ProgressBar({ currentStep }: { currentStep: number }) {
           <span
             key={i}
             className={`font-heading text-[0.62rem] font-semibold transition-colors ${
-              i === currentStep ? 'text-primary' : i < currentStep ? 'text-gray-400' : 'text-gray-200'
+              i === currentStep ? 'text-primary' : i < currentStep ? 'text-gray-600' : 'text-gray-200'
             }`}
           >
             {STEP_LABELS[i]}
@@ -692,7 +696,7 @@ export default function AppointmentFlow({
               </div>
             )}
             {submitError && (
-              <p className="mt-3 rounded-xl border border-red-100 bg-red-50 px-4 py-3 font-body text-xs text-red-700">{submitError}</p>
+              <p role="alert" className="mt-3 rounded-xl border border-red-100 bg-red-50 px-4 py-3 font-body text-xs text-red-700">{submitError}</p>
             )}
           </div>
 
@@ -701,7 +705,7 @@ export default function AppointmentFlow({
             <div className="space-y-5">
               {/* Opening hours */}
               <div className="rounded-2xl border border-gray-100 bg-tint p-6">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">Opening Hours</h3>
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Opening Hours</h3>
                 <div className="space-y-2.5">
                   {displayHours.map((h) => (
                     <div key={h.days} className="flex justify-between">
@@ -716,7 +720,7 @@ export default function AppointmentFlow({
 
               {/* Direct contact */}
               <div className="rounded-2xl border border-gray-100 bg-white p-6">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">Prefer to Call?</h3>
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Prefer to Call?</h3>
                 <a
                   href={`tel:${displayPhone}`}
                   className="flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3.5 text-primary transition-colors hover:bg-primary/10"
@@ -748,7 +752,7 @@ export default function AppointmentFlow({
 
               {/* Location */}
               <div className="rounded-2xl border border-gray-100 bg-white p-6">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Find Us</h3>
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">Find Us</h3>
                 <p className="font-body text-sm text-dark leading-relaxed">{displayAddress}</p>
               </div>
             </div>

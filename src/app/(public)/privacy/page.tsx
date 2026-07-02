@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { buildCanonical } from '@/lib/schema'
 
 export const metadata: Metadata = {
+  alternates: { canonical: buildCanonical('/privacy') },
   title: 'Privacy Policy',
   description: 'Privacy policy for Bright Smile Dental Clinic — how we collect, use, and protect your information.',
 }

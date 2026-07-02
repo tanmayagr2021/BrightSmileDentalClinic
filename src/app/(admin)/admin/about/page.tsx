@@ -215,7 +215,7 @@ export default function AdminAboutPage() {
             </div>
           ))}
           {form.values.length === 0 && (
-            <p className="font-body text-xs text-gray-400">No values yet. Click &ldquo;Add Value&rdquo;.</p>
+            <p className="font-body text-xs text-gray-600">No values yet. Click &ldquo;Add Value&rdquo;.</p>
           )}
         </div>
 
@@ -249,7 +249,7 @@ export default function AdminAboutPage() {
             </div>
           ))}
           {form.why_choose_us.length === 0 && (
-            <p className="font-body text-xs text-gray-400">No points yet. Click &ldquo;Add Point&rdquo;.</p>
+            <p className="font-body text-xs text-gray-600">No points yet. Click &ldquo;Add Point&rdquo;.</p>
           )}
         </div>
 

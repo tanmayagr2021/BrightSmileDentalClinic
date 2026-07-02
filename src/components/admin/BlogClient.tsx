@@ -204,7 +204,7 @@ export default function BlogClient({ posts }: { posts: BlogPostRow[] }) {
         ).map((s) => (
           <div key={s.label} className="rounded-xl border border-gray-100 bg-white p-4 text-center shadow-sm">
             <p className="font-display text-2xl text-gray-900">{s.value}</p>
-            <p className="font-body text-xs text-gray-400 mt-0.5">{s.label}</p>
+            <p className="font-body text-xs text-gray-600 mt-0.5">{s.label}</p>
           </div>
         ))}
       </div>
@@ -284,9 +284,9 @@ export default function BlogClient({ posts }: { posts: BlogPostRow[] }) {
                         </span>
                       </div>
                       {post.excerpt && (
-                        <p className="mt-1 font-body text-xs text-gray-400 leading-relaxed line-clamp-2">{post.excerpt}</p>
+                        <p className="mt-1 font-body text-xs text-gray-600 leading-relaxed line-clamp-2">{post.excerpt}</p>
                       )}
-                      <p className="mt-2 font-heading text-[0.6rem] font-medium text-gray-400">
+                      <p className="mt-2 font-heading text-[0.6rem] font-medium text-gray-600">
                         {post.published_at
                           ? `Published ${new Date(post.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`
                           : `Created ${new Date(post.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`}
@@ -325,7 +325,7 @@ export default function BlogClient({ posts }: { posts: BlogPostRow[] }) {
 
       {posts.length === 0 && (
         <div className="rounded-2xl border-2 border-dashed border-gray-200 px-5 py-12 text-center">
-          <p className="font-heading text-sm font-semibold text-gray-400">No posts yet</p>
+          <p className="font-heading text-sm font-semibold text-gray-600">No posts yet</p>
           <p className="mt-1 font-body text-xs text-gray-300">Click &ldquo;New Post&rdquo; to create your first article.</p>
         </div>
       )}

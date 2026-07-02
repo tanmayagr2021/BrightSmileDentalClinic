@@ -138,7 +138,7 @@ export default function ChatMessage({
         {/* Timestamp */}
         <span
           className="px-1 text-[10px]"
-          style={{ color: 'rgba(255,255,255,0.28)', fontFamily: 'var(--font-inter)' }}
+          style={{ color: 'rgba(255,255,255,0.55)', fontFamily: 'var(--font-inter)' }}
         >
           {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </span>

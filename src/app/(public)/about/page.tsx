@@ -2,10 +2,12 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { CLINIC_STORY_STATIC, HOMEPAGE_STATS } from '@/lib/constants'
+import { buildCanonical } from '@/lib/schema'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
+  alternates: { canonical: buildCanonical('/about') },
   title: 'About Us',
   description:
     'Learn about Bright Smile Dental Clinic — founded in 2013 in Kathmandu, our story, mission, vision and values behind a decade of trusted dental care.',
@@ -138,7 +140,7 @@ export default async function AboutPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-400">
+                  <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-600">
                     Our Vision
                   </p>
                   <p className="font-body text-base text-gray-600 leading-relaxed">

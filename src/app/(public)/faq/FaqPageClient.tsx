@@ -33,7 +33,7 @@ function ChevronIcon({ open }: { open: boolean }) {
 
 function SearchIcon() {
   return (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4.5 w-4.5 text-gray-400" aria-hidden="true">
+    <svg viewBox="0 0 20 20" fill="none" className="h-4.5 w-4.5 text-gray-600" aria-hidden="true">
       <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.5" />
       <path d="M13.5 13.5l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
@@ -164,10 +164,12 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
                       onClick={() => setOpenIndex(isOpen ? null : i)}
                       className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-tint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
                       aria-expanded={isOpen}
+                      aria-controls={`faq-answer-${faq.id}`}
+                      id={`faq-question-${faq.id}`}
                     >
                       <div className="flex items-start gap-3">
                         <span className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-[0.65rem] font-bold transition-colors ${
-                          isOpen ? 'bg-primary text-white' : 'bg-gray-100 text-gray-400'
+                          isOpen ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'
                         }`} aria-hidden="true">
                           {i + 1}
                         </span>
@@ -182,6 +184,9 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
                       {isOpen && (
                         <motion.div
                           key="content"
+                          id={`faq-answer-${faq.id}`}
+                          role="region"
+                          aria-labelledby={`faq-question-${faq.id}`}
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
@@ -217,7 +222,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
                 <SearchIcon />
               </div>
               <p className="font-heading text-sm font-semibold text-dark">No questions found</p>
-              <p className="mt-1 font-body text-sm text-gray-400">
+              <p className="mt-1 font-body text-sm text-gray-600">
                 Try a different search term or{' '}
                 <button onClick={() => { setSearch(''); setActiveCategory('all') }} className="text-primary hover:underline underline-offset-2">
                   clear filters

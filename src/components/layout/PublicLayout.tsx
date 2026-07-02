@@ -30,7 +30,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
       <Footer />
 
       {/* Fixed mobile action bar — visible only on mobile */}
-      <MobileActionBar phone={CLINIC_CONTACT.phone} />
+      <MobileActionBar phone={CLINIC_CONTACT.phone} phoneWhatsApp={CLINIC_CONTACT.phoneWhatsApp} />
 
       {/* Bright AI floating receptionist — lazy loaded, no SSR */}
       <BrightAILoader />

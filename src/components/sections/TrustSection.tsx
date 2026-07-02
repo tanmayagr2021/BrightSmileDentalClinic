@@ -65,7 +65,7 @@ export default function TrustSection() {
 
         {/* Bottom line */}
         <div className="mt-16 border-t border-gray-100 pt-8">
-          <p className="font-body text-sm text-gray-400">
+          <p className="font-body text-sm text-gray-600">
             Serving Kathmandu since 2013 &mdash; Over 1,000 patients trust us with their smiles.
           </p>
         </div>

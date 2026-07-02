@@ -2,10 +2,12 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
+import { buildCanonical } from '@/lib/schema'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
+  alternates: { canonical: buildCanonical('/testimonials') },
   title: 'Patient Testimonials',
   description: 'Read what patients say about their experience at Bright Smile Dental Clinic, Kathmandu.',
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { buildCanonical } from '@/lib/schema'
 
 const PLACEHOLDER_TILES = [
   { icon: 'M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z M15 13a3 3 0 11-6 0 3 3 0 016 0z', label: 'Reception Area', aspect: 'tall' },
@@ -40,13 +41,13 @@ function TileInner({ icon, label, index }: { icon: string; label: string; index:
             strokeWidth="1.2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="h-7 w-7 text-white/20"
+            className="h-7 w-7 text-white/45"
             aria-hidden="true"
           >
             <path d={icon} />
           </svg>
         </div>
-        <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/20 text-center">
+        <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/55 text-center">
           {label}
         </span>
       </div>
@@ -54,7 +55,7 @@ function TileInner({ icon, label, index }: { icon: string; label: string; index:
       {/* Coming soon strip */}
       <div className="absolute bottom-0 inset-x-0 flex items-center justify-center gap-1.5 border-t border-white/[0.05] bg-black/10 py-2 backdrop-blur-sm">
         <span className="h-1 w-1 rounded-full bg-primary/50" />
-        <span className="font-heading text-[0.65rem] font-semibold tracking-[0.1em] text-white/35">
+        <span className="font-heading text-[0.65rem] font-semibold tracking-[0.1em] text-white/50">
           Photo coming soon
         </span>
       </div>
@@ -101,7 +102,7 @@ function GalleryEmptyState() {
         <p className="font-display text-3xl text-white tracking-display">
           Come see us in person.
         </p>
-        <p className="font-body text-sm text-white/40">
+        <p className="font-body text-sm text-white/75">
           Our clinic speaks for itself. Book a visit and tour our space.
         </p>
         <Link
@@ -118,6 +119,7 @@ function GalleryEmptyState() {
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
+  alternates: { canonical: buildCanonical('/gallery') },
   title: 'Gallery',
   description: 'View our dental clinic gallery — our facilities, team, and patient transformations.',
 }
@@ -154,7 +156,7 @@ export default async function GalleryPage() {
         <h1 className="mt-6 font-display text-6xl text-white sm:text-7xl lg:text-[7rem] tracking-display leading-[0.95]">
           Our<br />Space.
         </h1>
-        <p className="mt-5 max-w-md font-body text-base text-white/45 leading-relaxed">
+        <p className="mt-5 max-w-md font-body text-base text-white/75 leading-relaxed">
           A look inside our clinic — spaces designed for comfort, equipment built for precision.
           Photos added with patient consent.
         </p>

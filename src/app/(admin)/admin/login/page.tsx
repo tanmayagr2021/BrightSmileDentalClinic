@@ -111,7 +111,7 @@ export default function AdminLoginPage() {
         </div>
 
         {/* Back to site */}
-        <p className="mt-6 text-center font-body text-xs text-gray-400">
+        <p className="mt-6 text-center font-body text-xs text-gray-600">
           <Link href="/" className="text-primary hover:underline underline-offset-2 font-medium">
             ← Back to Bright Smile website
           </Link>

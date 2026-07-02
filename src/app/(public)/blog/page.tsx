@@ -3,10 +3,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import type { BlogPostRow } from '@/types/db'
+import { buildCanonical } from '@/lib/schema'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
+  alternates: { canonical: buildCanonical('/blog') },
   title: 'Blog',
   description: 'Dental health tips, news and updates from Bright Smile Dental Clinic, Kathmandu.',
 }
@@ -77,12 +79,12 @@ export default async function BlogPage() {
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-center gap-3 mb-3">
                     {post.published_at && (
-                      <span className="font-heading text-[0.6rem] font-semibold text-gray-400">
+                      <span className="font-heading text-[0.6rem] font-semibold text-gray-600">
                         {new Date(post.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </span>
                     )}
                     {post.read_time_minutes && (
-                      <span className="font-heading text-[0.6rem] font-semibold text-gray-400">
+                      <span className="font-heading text-[0.6rem] font-semibold text-gray-600">
                         · {post.read_time_minutes} min read
                       </span>
                     )}

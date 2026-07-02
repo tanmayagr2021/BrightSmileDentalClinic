@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
 import FaqPageClient from './FaqPageClient'
+import { buildCanonical } from '@/lib/schema'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
+  alternates: { canonical: buildCanonical('/faq') },
   title: 'Frequently Asked Questions',
   description: 'Find answers to common questions about dental treatments, appointments, costs and more at Bright Smile Dental Clinic.',
 }

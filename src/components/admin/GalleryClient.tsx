@@ -170,7 +170,7 @@ export default function GalleryClient({
         ].map((s) => (
           <div key={s.label} className="rounded-xl border border-gray-100 bg-white p-4 text-center shadow-sm">
             <p className="font-display text-2xl text-gray-900">{s.value}</p>
-            <p className="font-body text-xs text-gray-400 mt-0.5">{s.label}</p>
+            <p className="font-body text-xs text-gray-600 mt-0.5">{s.label}</p>
           </div>
         ))}
       </div>
@@ -206,7 +206,7 @@ export default function GalleryClient({
           <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="1.5" />
           <path d="M3 15l5-4 4 4 2-2 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <p className="mt-3 font-heading text-sm font-semibold text-gray-400 group-hover:text-primary/60 transition-colors">
+        <p className="mt-3 font-heading text-sm font-semibold text-gray-600 group-hover:text-primary/60 transition-colors">
           {uploading ? 'Uploading…' : 'Drag & drop photos here or click to browse'}
         </p>
         <p className="font-body text-xs text-gray-300 mt-1">JPG, PNG, WebP up to 10 MB each</p>
@@ -273,17 +273,17 @@ export default function GalleryClient({
                 ) : (
                   <>
                     <p className="font-heading text-[0.65rem] font-semibold text-gray-700 truncate">{item.alt_text || 'Untitled'}</p>
-                    <p className="font-body text-[0.58rem] text-gray-400 mt-0.5">{item.gallery_groups?.name ?? 'Uncategorised'}</p>
+                    <p className="font-body text-[0.58rem] text-gray-600 mt-0.5">{item.gallery_groups?.name ?? 'Uncategorised'}</p>
                     <div className="mt-2 flex items-center gap-1.5">
                       <button
                         onClick={() => toggleVisibility(item)}
-                        className={`flex-1 rounded-lg border py-1 font-heading text-[0.58rem] font-semibold text-center transition-all ${item.is_visible ? 'border-green-200 bg-green-50 text-green-600' : 'border-gray-200 bg-gray-50 text-gray-400'}`}
+                        className={`flex-1 rounded-lg border py-1 font-heading text-[0.58rem] font-semibold text-center transition-all ${item.is_visible ? 'border-green-200 bg-green-50 text-green-600' : 'border-gray-200 bg-gray-50 text-gray-600'}`}
                       >
                         {item.is_visible ? 'Visible' : 'Hidden'}
                       </button>
                       <button
                         onClick={() => startEdit(item)}
-                        className="flex h-6 w-6 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition-all hover:border-primary/30 hover:text-primary"
+                        className="flex h-6 w-6 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-primary/30 hover:text-primary"
                         aria-label="Edit"
                       >
                         <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3"><path d="M8.5 1.5l2 2L4 10H2V8l6.5-6.5z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" /></svg>
@@ -309,7 +309,7 @@ export default function GalleryClient({
             <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="1.5" />
             <path d="M3 15l5-4 4 4 2-2 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          <p className="font-heading text-sm text-gray-400 mb-3">No photos yet.</p>
+          <p className="font-heading text-sm text-gray-600 mb-3">No photos yet.</p>
           <button onClick={() => fileRef.current?.click()} className="rounded-xl bg-primary px-5 py-2 font-heading text-xs font-semibold text-white hover:bg-primary-dark">
             Upload First Photo
           </button>

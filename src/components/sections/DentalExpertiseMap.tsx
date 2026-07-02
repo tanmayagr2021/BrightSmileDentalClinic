@@ -566,15 +566,26 @@ function DoctorAnnotationCard({
   return (
     <motion.div
       ref={cardRef}
+      role="button"
+      tabIndex={0}
+      aria-label={`View ${doctor.shortName}'s profile`}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
+      onFocus={onEnter}
+      onBlur={onLeave}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick()
+        }
+      }}
       initial={prefersReduced ? false : { opacity: 0, x: side === 'left' ? -14 : 14 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.4, delay: prefersReduced ? 0 : 0.65 + index * 0.09 }}
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.98 }}
-      className={`relative w-full cursor-pointer rounded-xl border p-3 transition-all duration-200 ${
+      className={`relative w-full cursor-pointer rounded-xl border p-3 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A059] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A1128] ${
         isActive
           ? 'border-[#C5A059]/40 bg-[#C5A059]/[0.07]'
           : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]'

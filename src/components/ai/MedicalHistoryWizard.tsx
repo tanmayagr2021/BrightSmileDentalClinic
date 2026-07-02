@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useId, cloneElement, isValidElement, Children } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { MedicalHistoryData, MedicalHistoryStep } from '@/types/ai'
 import { EMPTY_MEDICAL_HISTORY, MEDICAL_HISTORY_STEPS } from '@/types/ai'
@@ -106,14 +106,14 @@ export default function MedicalHistoryWizard({ sessionId, onComplete, onCancel }
           >
             Medical History
           </h3>
-          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)', fontFamily: 'var(--font-inter)' }}>
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.65)', fontFamily: 'var(--font-inter)' }}>
             {MEDICAL_HISTORY_STEPS[stepIndex].label} · Step {stepIndex + 1} of {MEDICAL_HISTORY_STEPS.length}
           </p>
         </div>
         <button
           onClick={onCancel}
           className="flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:bg-white/10"
-          style={{ color: 'rgba(255,255,255,0.5)' }}
+          style={{ color: 'rgba(255,255,255,0.68)' }}
           aria-label="Cancel medical history"
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -188,7 +188,7 @@ export default function MedicalHistoryWizard({ sessionId, onComplete, onCancel }
           onClick={isFirst ? onCancel : handleBack}
           className="flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-medium transition-all duration-200 hover:opacity-70"
           style={{
-            color: 'rgba(255,255,255,0.5)',
+            color: 'rgba(255,255,255,0.68)',
             fontFamily: 'var(--font-poppins)',
             border: '1px solid rgba(255,255,255,0.1)',
           }}
@@ -247,16 +247,23 @@ function Field({
   required?: boolean
   children: React.ReactNode
 }) {
+  const id = useId()
+  // Most fields wrap a single native control, which we can associate via
+  // htmlFor/id. A couple wrap a button-group instead of one element (e.g.
+  // Dental Anxiety) — those fall back to a plain label, still visually
+  // grouped with the control immediately below it.
+  const canAssociate = isValidElement(children) && Children.count(children) === 1
   return (
     <div className="flex flex-col gap-1.5">
       <label
+        htmlFor={canAssociate ? id : undefined}
         className="text-xs font-medium"
         style={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-poppins)' }}
       >
         {label}
         {required && <span style={{ color: '#C5A059' }}> *</span>}
       </label>
-      {children}
+      {canAssociate ? cloneElement(children as React.ReactElement<{ id?: string }>, { id }) : children}
     </div>
   )
 }
@@ -367,7 +374,7 @@ function ComplaintStep({
         />
       </Field>
       <Field label="Dental Anxiety">
-        <p className="mb-2 text-xs" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-inter)' }}>
+        <p className="mb-2 text-xs" style={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-inter)' }}>
           How do you feel about dental visits?
         </p>
         <div className="grid grid-cols-2 gap-2">
@@ -660,7 +667,7 @@ function ReviewStep({ data }: { data: MedicalHistoryData }) {
               <div key={item.label} className="mb-1 flex gap-2">
                 <span
                   className="w-28 shrink-0 text-xs"
-                  style={{ color: 'rgba(255,255,255,0.38)', fontFamily: 'var(--font-inter)' }}
+                  style={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-inter)' }}
                 >
                   {item.label}
                 </span>
@@ -688,7 +695,7 @@ function StepHeading({ title, subtitle }: { title: string; subtitle: string }) {
       >
         {title}
       </h4>
-      <p className="mt-0.5 text-xs" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-inter)' }}>
+      <p className="mt-0.5 text-xs" style={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-inter)' }}>
         {subtitle}
       </p>
     </div>

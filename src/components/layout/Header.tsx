@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { NAV_LINKS, CLINIC_NAME_SHORT, CLINIC_SUBTITLE, CLINIC_TAGLINE } from '@/lib/constants'
@@ -58,9 +58,24 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
 function HamburgerIcon({ open }: { open: boolean }) {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
-      <motion.line x1="3" y1="6" x2="21" y2="6" animate={open ? { y1: 12, y2: 12, rotate: 45, originX: '50%', originY: '50%' } : {}} transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }} />
-      <motion.line x1="3" y1="12" x2="21" y2="12" animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }} transition={{ duration: 0.15 }} />
-      <motion.line x1="3" y1="18" x2="21" y2="18" animate={open ? { y1: 12, y2: 12, rotate: -45, originX: '50%', originY: '50%' } : {}} transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }} />
+      <motion.line
+        x1="3" x2="21"
+        initial={false}
+        animate={open ? { y1: 12, y2: 12, rotate: 45, originX: '50%', originY: '50%' } : { y1: 6, y2: 6, rotate: 0, originX: '50%', originY: '50%' }}
+        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      />
+      <motion.line
+        x1="3" y1="12" x2="21" y2="12"
+        initial={false}
+        animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+        transition={{ duration: 0.15 }}
+      />
+      <motion.line
+        x1="3" x2="21"
+        initial={false}
+        animate={open ? { y1: 12, y2: 12, rotate: -45, originX: '50%', originY: '50%' } : { y1: 18, y2: 18, rotate: 0, originX: '50%', originY: '50%' }}
+        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      />
     </svg>
   )
 }
@@ -71,6 +86,8 @@ export default function Header() {
   const pathname = usePathname()
   const isHome = pathname === '/'
   const isTransparent = isHome && !scrolled
+  const toggleRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80)
@@ -82,6 +99,41 @@ export default function Header() {
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
+  // Focus trap + Escape-to-close + focus restoration for the mobile drawer.
+  useEffect(() => {
+    if (!menuOpen) return
+    const toggleEl = toggleRef.current
+
+    const panel = panelRef.current
+    const focusables = panel?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled])'
+    )
+    focusables?.[0]?.focus()
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false)
+        return
+      }
+      if (e.key !== 'Tab' || !focusables?.length) return
+      const first = focusables[0]
+      const last = focusables[focusables.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      toggleEl?.focus()
+    }
   }, [menuOpen])
 
   const closeMenu = () => setMenuOpen(false)
@@ -146,6 +198,7 @@ export default function Header() {
 
           {/* Mobile toggle */}
           <button
+            ref={toggleRef}
             onClick={() => setMenuOpen((v) => !v)}
             className={cn(
               'flex lg:hidden items-center justify-center p-2 -mr-1 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
@@ -178,12 +231,15 @@ export default function Header() {
             <motion.div
               key="panel"
               id="mobile-menu"
+              ref={panelRef}
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
               className="fixed right-0 top-0 bottom-0 z-50 flex w-full max-w-[340px] flex-col lg:hidden"
               style={{ background: '#0A1128' }}
+              role="dialog"
+              aria-modal="true"
               aria-label="Mobile navigation"
             >
               <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
