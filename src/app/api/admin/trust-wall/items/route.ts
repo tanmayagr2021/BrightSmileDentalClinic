@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  revalidatePath('/trust')
+  revalidatePath('/about')
 
   await logAudit({
     actorId: user.id, action: 'create', resource: 'trust_wall_items', resourceId: data.id, newData: data, req,

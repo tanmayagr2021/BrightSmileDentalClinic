@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { fadeUp, stagger, blurFadeIn } from '@/lib/animations'
 import { mediaDisplayUrl } from '@/lib/admin/media-url'
 import type { VirtualTourRoomRow, VirtualTourRoomGalleryRow, VirtualTourHotspotRow, MediaLibraryRow } from '@/types/db'
@@ -15,40 +15,57 @@ export type TourRoom = VirtualTourRoomRow & {
   hotspots: VirtualTourHotspotRow[]
 }
 
-export default function VirtualTourExperience({ rooms }: { rooms: TourRoom[] }) {
+export default function VirtualTourExperience({
+  rooms,
+  variant = 'standalone',
+}: {
+  rooms: TourRoom[]
+  /** 'embedded' drops the full-page hero/background so this can sit inside another page (the Gallery page). */
+  variant?: 'standalone' | 'embedded'
+}) {
   const [activeRoomId, setActiveRoomId] = useState<string | null>(null)
   const withPanorama = rooms.filter((r) => r.panorama && mediaDisplayUrl(r.panorama))
+  const embedded = variant === 'embedded'
+  const prefersReducedMotion = useReducedMotion()
+  // Embedded mode nests inside the Gallery page (which owns the page's h1),
+  // so this section's heading must step down to h2 to keep a valid outline.
+  const Heading = embedded ? motion.h2 : motion.h1
 
-  return (
-    <div style={{ background: '#0E1B2E' }} className="min-h-screen">
-      {/* Hero */}
-      <section className="relative overflow-hidden px-6 pb-16 pt-32 sm:pt-40">
-        <div className="pointer-events-none absolute inset-0 opacity-[0.06]" aria-hidden="true">
-          <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-gold blur-[160px]" />
-        </div>
-        <div className="relative mx-auto max-w-4xl text-center">
+  const content = (
+    <>
+      {/* Hero / intro */}
+      <section className={embedded ? 'relative mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8' : 'relative overflow-hidden px-6 pb-16 pt-32 sm:pt-40'}>
+        {!embedded && (
+          <div className="pointer-events-none absolute inset-0 opacity-[0.06]" aria-hidden="true">
+            <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-gold blur-[160px]" />
+          </div>
+        )}
+        <div className={embedded ? 'relative max-w-2xl' : 'relative mx-auto max-w-4xl text-center'}>
           <motion.p
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true }}
             variants={fadeUp}
             className="eyebrow-dark mb-4 font-heading text-xs font-semibold uppercase tracking-[0.25em] text-gold"
           >
             360° Experience
           </motion.p>
-          <motion.h1
+          <Heading
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true }}
             variants={blurFadeIn}
-            className="font-display text-4xl text-white sm:text-5xl md:text-6xl"
+            className={embedded ? 'font-display text-3xl text-white sm:text-4xl' : 'font-display text-4xl text-white sm:text-5xl md:text-6xl'}
           >
             Step Inside Our Clinic
-          </motion.h1>
+          </Heading>
           <motion.p
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true }}
             variants={fadeUp}
             transition={{ delay: 0.1 }}
-            className="mx-auto mt-5 max-w-xl font-body text-base text-white/60"
+            className={embedded ? 'mt-4 max-w-xl font-body text-sm text-white/60' : 'mx-auto mt-5 max-w-xl font-body text-base text-white/60'}
           >
             Explore every room in a fully immersive 360° walkthrough — before you ever step through our doors.
           </motion.p>
@@ -61,10 +78,10 @@ export default function VirtualTourExperience({ rooms }: { rooms: TourRoom[] }) 
         whileInView="visible"
         viewport={{ once: true, margin: '-80px' }}
         variants={stagger}
-        className="relative mx-auto max-w-6xl px-6 pb-28"
+        className={embedded ? 'relative mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8' : 'relative mx-auto max-w-6xl px-6 pb-28'}
       >
         {rooms.length === 0 ? (
-          <p className="py-24 text-center font-body text-white/40">The virtual tour is being prepared — please check back soon.</p>
+          <p className="py-16 text-center font-body text-white/60">The virtual tour is being prepared — please check back soon.</p>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {rooms.map((room) => {
@@ -76,7 +93,7 @@ export default function VirtualTourExperience({ rooms }: { rooms: TourRoom[] }) 
                   variants={fadeUp}
                   disabled={!hasPano}
                   onClick={() => hasPano && setActiveRoomId(room.id)}
-                  whileHover={hasPano ? { y: -6 } : undefined}
+                  whileHover={hasPano && !prefersReducedMotion ? { y: -6 } : undefined}
                   className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] text-left backdrop-blur-sm transition-colors hover:border-gold/40 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <div className="relative h-52 w-full overflow-hidden">
@@ -89,7 +106,7 @@ export default function VirtualTourExperience({ rooms }: { rooms: TourRoom[] }) 
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : (
-                      <div className="flex h-full items-center justify-center bg-white/[0.04] font-body text-xs text-white/30">No preview yet</div>
+                      <div className="flex h-full items-center justify-center bg-white/[0.04] font-body text-xs text-white/60">No preview yet</div>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0E1B2E] via-transparent to-transparent" />
                     {hasPano && (
@@ -127,6 +144,14 @@ export default function VirtualTourExperience({ rooms }: { rooms: TourRoom[] }) 
           onClose={() => setActiveRoomId(null)}
         />
       )}
+    </>
+  )
+
+  if (embedded) return content
+
+  return (
+    <div style={{ background: '#0E1B2E' }} className="min-h-screen">
+      {content}
     </div>
   )
 }

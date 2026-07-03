@@ -36,7 +36,7 @@ export async function PATCH(
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  revalidatePath('/trust')
+  revalidatePath('/about')
 
   await logAudit({
     actorId: user.id, action: 'update', resource: 'trust_wall_items', resourceId: id, oldData: before, newData: updates, req,
@@ -59,7 +59,7 @@ export async function DELETE(
   const { error } = await supabase.from('trust_wall_items').delete().eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  revalidatePath('/trust')
+  revalidatePath('/about')
 
   await logAudit({
     actorId: user.id, action: 'delete', resource: 'trust_wall_items', resourceId: id,

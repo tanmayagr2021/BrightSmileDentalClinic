@@ -99,6 +99,18 @@ const nextConfig = {
         destination: '/admin/dashboard',
         permanent: false,
       },
+      // Phase 3 final information architecture: Tooth Explorer became the
+      // flagship "Choose Your Tooth" page, and Trust Wall moved into About.
+      {
+        source: '/tooth-explorer',
+        destination: '/choose-your-tooth',
+        permanent: true,
+      },
+      {
+        source: '/trust',
+        destination: '/about',
+        permanent: true,
+      },
     ]
   },
 }

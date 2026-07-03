@@ -9,6 +9,7 @@ import '@photo-sphere-viewer/core/index.css'
 import '@photo-sphere-viewer/virtual-tour-plugin/index.css'
 import '@photo-sphere-viewer/markers-plugin/index.css'
 import { mediaDisplayUrl } from '@/lib/admin/media-url'
+import { useFocusTrap } from '@/lib/use-focus-trap'
 import type { TourRoom } from './VirtualTourExperience'
 
 export default function PanoramaModal({
@@ -21,8 +22,11 @@ export default function PanoramaModal({
   onClose: () => void
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
   const viewerRef = useRef<Viewer | null>(null)
   const [currentRoomId, setCurrentRoomId] = useState(startRoomId)
+
+  useFocusTrap(panelRef, true, onClose)
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -42,19 +46,23 @@ export default function PanoramaModal({
         })),
     }))
 
+    // Respect prefers-reduced-motion: continuous auto-rotation is exactly the
+    // kind of non-essential motion WCAG 2.3.3 asks sites to suppress.
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
     const viewer = new Viewer({
       container: containerRef.current,
       defaultZoomLvl: 0,
       navbar: ['zoom', 'move', 'caption', 'fullscreen'],
       plugins: [
         MarkersPlugin,
-        AutorotatePlugin.withConfig({ autostartDelay: 4000, autorotateSpeed: '1rpm' }),
+        ...(prefersReducedMotion ? [] : [AutorotatePlugin.withConfig({ autostartDelay: 4000, autorotateSpeed: '1rpm' })]),
         VirtualTourPlugin.withConfig({
           positionMode: 'manual',
           renderMode: '3d',
           nodes,
           startNodeId: startRoomId,
-          transitionOptions: { showLoader: true, speed: '20rpm', effect: 'fade', rotation: true },
+          transitionOptions: { showLoader: true, speed: '20rpm', effect: 'fade', rotation: !prefersReducedMotion },
         }),
       ],
     })
@@ -72,25 +80,20 @@ export default function PanoramaModal({
   }, [])
 
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
-    window.addEventListener('keydown', handleKey)
     document.body.style.overflow = 'hidden'
-    return () => {
-      window.removeEventListener('keydown', handleKey)
-      document.body.style.overflow = ''
-    }
-  }, [onClose])
+    return () => { document.body.style.overflow = '' }
+  }, [])
 
   const currentRoom = rooms.find((r) => r.id === currentRoomId)
 
   return (
-    <div className="fixed inset-0 z-[80] bg-black">
+    <div ref={panelRef} role="dialog" aria-modal="true" aria-label={`360° virtual tour${currentRoom ? ` — ${currentRoom.name}` : ''}`} className="fixed inset-0 z-[80] bg-black">
       <div ref={containerRef} className="h-full w-full" />
 
       {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
+        className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
         aria-label="Close virtual tour"
       >
         <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
@@ -105,7 +108,7 @@ export default function PanoramaModal({
 
       {/* Room dock */}
       {rooms.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 z-10 flex max-w-[92vw] -translate-x-1/2 gap-2 overflow-x-auto rounded-2xl border border-white/10 bg-black/50 p-2 backdrop-blur-sm">
+        <div className="absolute bottom-6 left-1/2 z-10 flex max-w-[92vw] -translate-x-1/2 gap-2 overflow-x-auto rounded-2xl border border-white/10 bg-black/50 p-2 backdrop-blur-sm" role="group" aria-label="Switch room">
           {rooms.map((room) => (
             <button
               key={room.id}
@@ -113,7 +116,8 @@ export default function PanoramaModal({
                 const plugin = viewerRef.current?.getPlugin(VirtualTourPlugin) as VirtualTourPlugin | undefined
                 plugin?.setCurrentNode(room.id)
               }}
-              className={`flex-shrink-0 whitespace-nowrap rounded-xl px-3 py-2 font-heading text-[0.65rem] font-semibold uppercase tracking-wide transition-colors ${
+              aria-pressed={currentRoomId === room.id}
+              className={`flex-shrink-0 whitespace-nowrap rounded-xl px-3 py-2 font-heading text-[0.65rem] font-semibold uppercase tracking-wide transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-white ${
                 currentRoomId === room.id ? 'bg-gold text-[#0A1128]' : 'text-white/70 hover:bg-white/10'
               }`}
             >

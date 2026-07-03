@@ -22,7 +22,7 @@ export async function POST(
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  revalidatePath('/tooth-explorer')
+  revalidatePath('/choose-your-tooth')
   revalidatePath('/doctors')
   return NextResponse.json({ success: true })
 }

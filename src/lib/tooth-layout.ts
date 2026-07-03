@@ -59,6 +59,12 @@ function archIndexToAngle(index: number) {
   return -ANGLE_SPAN + t * (2 * ANGLE_SPAN)
 }
 
+// Node's and the browser's Math.sin/cos can differ in the last bit (different
+// libm builds behind the same V8), which leaks into the server-rendered SVG
+// transform string and trips a hydration mismatch. Round to kill the ULP
+// noise — 1e-4 is far below anything visually perceptible here.
+const round = (n: number) => Math.round(n * 10_000) / 10_000
+
 function buildArch(arch: 'upper' | 'lower'): ToothLayout[] {
   const centerY = arch === 'upper' ? UPPER_CENTER_Y : LOWER_CENTER_Y
   const sign = arch === 'upper' ? 1 : -1
@@ -74,9 +80,9 @@ function buildArch(arch: 'upper' | 'lower'): ToothLayout[] {
     return {
       toothNumber,
       kind,
-      cx,
-      cy,
-      angleDeg: arch === 'upper' ? angleDeg : -angleDeg,
+      cx: round(cx),
+      cy: round(cy),
+      angleDeg: round(arch === 'upper' ? angleDeg : -angleDeg),
       width: KIND_WIDTH[kind],
       height: KIND_HEIGHT[kind],
       arch,

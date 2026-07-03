@@ -54,6 +54,7 @@ export async function POST(req: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   revalidatePath('/virtual-tour')
+  revalidatePath('/gallery')
 
   await logAudit({
     actorId: user.id, action: 'create', resource: 'virtual_tour_rooms', resourceId: data.id,

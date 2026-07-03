@@ -32,6 +32,7 @@ export async function PATCH(
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   revalidatePath('/virtual-tour')
+  revalidatePath('/gallery')
   return NextResponse.json(data)
 }
 
@@ -47,5 +48,6 @@ export async function DELETE(
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   revalidatePath('/virtual-tour')
+  revalidatePath('/gallery')
   return NextResponse.json({ success: true })
 }

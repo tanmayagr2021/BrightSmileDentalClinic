@@ -6,13 +6,13 @@ import ToothExplorerExperience, { type PublicTooth } from '@/components/tooth-ex
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  alternates: { canonical: buildCanonical('/tooth-explorer') },
-  title: 'Interactive Tooth Explorer',
+  alternates: { canonical: buildCanonical('/choose-your-tooth') },
+  title: 'Choose Your Tooth',
   description:
     'Click any tooth on our interactive dental chart to learn about common problems, treatments, recovery times, and the Bright Smile doctors who specialize in that area.',
 }
 
-export default async function ToothExplorerPage() {
+export default async function ChooseYourToothPage() {
   const supabase = createAdminClient()
 
   const { data: teeth } = await supabase

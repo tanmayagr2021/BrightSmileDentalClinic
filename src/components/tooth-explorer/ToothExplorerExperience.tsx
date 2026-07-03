@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import ToothChart from './ToothChart'
 import { fadeUp, blurFadeIn, EASE_OUT } from '@/lib/animations'
 import { mediaDisplayUrl } from '@/lib/admin/media-url'
@@ -16,19 +16,25 @@ export type PublicTooth = ToothRow & {
   tooth_services: { service: { id: string; name: string; slug: string } | null }[]
 }
 
-function FaqItem({ faq }: { faq: ToothFaqRow }) {
+function FaqItem({ faq, index }: { faq: ToothFaqRow; index: number }) {
   const [open, setOpen] = useState(false)
+  const panelId = `tooth-faq-panel-${faq.id}-${index}`
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.03]">
-      <button onClick={() => setOpen((o) => !o)} className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-controls={panelId}
+        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold rounded-xl"
+      >
         <span className="font-heading text-sm font-medium text-white">{faq.question}</span>
-        <motion.span animate={{ rotate: open ? 45 : 0 }} className="flex-shrink-0 text-gold">
+        <motion.span animate={{ rotate: open ? 45 : 0 }} className="flex-shrink-0 text-gold" aria-hidden="true">
           <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3"><path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
         </motion.span>
       </button>
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: EASE_OUT }} className="overflow-hidden">
+          <motion.div id={panelId} role="region" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: EASE_OUT }} className="overflow-hidden">
             <p className="px-4 pb-4 font-body text-sm text-white/60">{faq.answer}</p>
           </motion.div>
         )}
@@ -38,8 +44,10 @@ function FaqItem({ faq }: { faq: ToothFaqRow }) {
 }
 
 export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[] }) {
+  const prefersReducedMotion = useReducedMotion()
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null)
   const activeToothNumbers = useMemo(() => new Set(teeth.map((t) => t.tooth_number)), [teeth])
+  const toothNames = useMemo(() => Object.fromEntries(teeth.map((t) => [t.tooth_number, t.name])), [teeth])
   const tooth = teeth.find((t) => t.tooth_number === selectedNumber) ?? null
 
   const beforeImg = tooth?.images.find((i) => i.image_type === 'before')
@@ -57,7 +65,7 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
             Understand Your Smile
           </motion.p>
           <motion.h1 initial="hidden" animate="visible" variants={blurFadeIn} className="font-display text-4xl text-white sm:text-5xl md:text-6xl">
-            Interactive Tooth Explorer
+            Choose Your Tooth
           </motion.h1>
           <motion.p initial="hidden" animate="visible" variants={fadeUp} transition={{ delay: 0.1 }} className="mx-auto mt-5 max-w-xl font-body text-base text-white/60">
             Tap any tooth on the chart to learn about common problems, treatments, and the specialists who care for it.
@@ -68,19 +76,19 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
       <section className="relative mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 pb-28 lg:grid-cols-[1fr_1.1fr] lg:items-start">
         {/* Chart */}
         <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 lg:sticky lg:top-28">
-          <ToothChart activeToothNumbers={activeToothNumbers} selectedToothNumber={selectedNumber} onSelectTooth={(n) => setSelectedNumber(n)} />
-          <p className="mt-2 text-center font-body text-xs text-white/35">Teeth in gold are currently selected — tap any tooth to begin.</p>
+          <ToothChart activeToothNumbers={activeToothNumbers} selectedToothNumber={selectedNumber} onSelectTooth={(n) => setSelectedNumber(n)} toothNames={toothNames} />
+          <p className="mt-2 text-center font-body text-xs text-white/60">Teeth in gold are currently selected — tap any tooth to begin.</p>
         </div>
 
         {/* Detail panel */}
-        <div className="min-h-[420px]">
+        <div className="min-h-[420px]" role="region" aria-live="polite" aria-atomic="true" aria-label="Selected tooth details">
           <AnimatePresence mode="wait">
             {tooth ? (
               <motion.div
                 key={tooth.id}
-                initial={{ opacity: 0, y: 16 }}
+                initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
+                exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}
                 transition={{ duration: 0.35, ease: EASE_OUT }}
                 className="space-y-6"
               >
@@ -96,13 +104,13 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
                   <div className="flex flex-wrap gap-3">
                     {tooth.duration_text && (
                       <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
-                        <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-wider text-white/40">Treatment Duration</p>
+                        <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-wider text-white/60">Treatment Duration</p>
                         <p className="mt-1 font-heading text-sm font-semibold text-white">{tooth.duration_text}</p>
                       </div>
                     )}
                     {tooth.recovery_text && (
                       <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
-                        <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-wider text-white/40">Recovery</p>
+                        <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-wider text-white/60">Recovery</p>
                         <p className="mt-1 font-heading text-sm font-semibold text-white">{tooth.recovery_text}</p>
                       </div>
                     )}
@@ -111,20 +119,20 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
 
                 {tooth.problems && (
                   <div>
-                    <h3 className="mb-1.5 font-heading text-xs font-semibold uppercase tracking-wider text-white/40">Common Problems</h3>
+                    <h3 className="mb-1.5 font-heading text-xs font-semibold uppercase tracking-wider text-white/60">Common Problems</h3>
                     <p className="font-body text-sm text-white/65">{tooth.problems}</p>
                   </div>
                 )}
                 {tooth.treatments && (
                   <div>
-                    <h3 className="mb-1.5 font-heading text-xs font-semibold uppercase tracking-wider text-white/40">Treatments</h3>
+                    <h3 className="mb-1.5 font-heading text-xs font-semibold uppercase tracking-wider text-white/60">Treatments</h3>
                     <p className="font-body text-sm text-white/65">{tooth.treatments}</p>
                   </div>
                 )}
 
                 {(beforeImg || afterImg) && (
                   <div>
-                    <h3 className="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-white/40">Before &amp; After</h3>
+                    <h3 className="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-white/60">Before &amp; After</h3>
                     <div className="grid grid-cols-2 gap-3">
                       {[{ label: 'Before', img: beforeImg }, { label: 'After', img: afterImg }].map(({ label, img }) => {
                         const url = img?.media ? mediaDisplayUrl(img.media) : null
@@ -133,7 +141,7 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
                             {url ? (
                               <Image src={url} alt={`${label} ${tooth.name}`} fill className="object-cover" sizes="200px" />
                             ) : (
-                              <span className="flex h-full items-center justify-center font-body text-[0.65rem] text-white/30">No image</span>
+                              <span className="flex h-full items-center justify-center font-body text-[0.65rem] text-white/60">No image</span>
                             )}
                             <span className="absolute bottom-2 left-2 rounded-full bg-black/50 px-2 py-0.5 font-heading text-[0.6rem] font-semibold uppercase text-white backdrop-blur-sm">{label}</span>
                           </div>
@@ -158,7 +166,7 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
 
                 {tooth.tooth_doctors.filter((d) => d.doctor).length > 0 && (
                   <div>
-                    <h3 className="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-white/40">Specialists for This Tooth</h3>
+                    <h3 className="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-white/60">Specialists for This Tooth</h3>
                     <div className="flex flex-wrap gap-3">
                       {tooth.tooth_doctors.filter((d) => d.doctor).map(({ doctor }) => (
                         <Link
@@ -181,7 +189,7 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
 
                 {tooth.tooth_services.filter((s) => s.service).length > 0 && (
                   <div>
-                    <h3 className="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-white/40">Related Services</h3>
+                    <h3 className="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-white/60">Related Services</h3>
                     <div className="flex flex-wrap gap-2">
                       {tooth.tooth_services.filter((s) => s.service).map(({ service }) => (
                         <Link
@@ -198,9 +206,9 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
 
                 {tooth.faqs.length > 0 && (
                   <div>
-                    <h3 className="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-white/40">Frequently Asked Questions</h3>
+                    <h3 className="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-white/60">Frequently Asked Questions</h3>
                     <div className="space-y-2">
-                      {tooth.faqs.map((f) => <FaqItem key={f.id} faq={f} />)}
+                      {tooth.faqs.map((f, i) => <FaqItem key={f.id} faq={f} index={i} />)}
                     </div>
                   </div>
                 )}
@@ -214,7 +222,7 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
                 className="flex h-full min-h-[380px] flex-col items-center justify-center rounded-3xl border border-dashed border-white/10 px-8 text-center"
               >
                 <p className="font-display text-2xl text-white/70">Select a tooth to begin</p>
-                <p className="mt-2 max-w-xs font-body text-sm text-white/40">Tap on any highlighted tooth in the chart to see detailed information.</p>
+                <p className="mt-2 max-w-xs font-body text-sm text-white/60">Tap on any highlighted tooth in the chart to see detailed information.</p>
               </motion.div>
             )}
           </AnimatePresence>

@@ -22,7 +22,7 @@ export async function PATCH(
   const { data, error } = await createAdminClient().from('tooth_faqs').update(updates).eq('id', id).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  revalidatePath('/tooth-explorer')
+  revalidatePath('/choose-your-tooth')
   return NextResponse.json(data)
 }
 
@@ -37,6 +37,6 @@ export async function DELETE(
   const { error } = await createAdminClient().from('tooth_faqs').delete().eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  revalidatePath('/tooth-explorer')
+  revalidatePath('/choose-your-tooth')
   return NextResponse.json({ success: true })
 }

@@ -17,5 +17,6 @@ export async function DELETE(
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   revalidatePath('/virtual-tour')
+  revalidatePath('/gallery')
   return NextResponse.json({ success: true })
 }

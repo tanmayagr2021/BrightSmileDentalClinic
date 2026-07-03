@@ -30,7 +30,7 @@ export async function PATCH(
   const { data, error } = await supabase.from('teeth').update(updates).eq('id', id).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  revalidatePath('/tooth-explorer')
+  revalidatePath('/choose-your-tooth')
 
   await logAudit({
     actorId: user.id, action: 'update', resource: 'teeth', resourceId: id,

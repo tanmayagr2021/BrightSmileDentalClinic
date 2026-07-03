@@ -16,6 +16,6 @@ export async function DELETE(
   const { error } = await createAdminClient().from('tooth_images').delete().eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  revalidatePath('/tooth-explorer')
+  revalidatePath('/choose-your-tooth')
   return NextResponse.json({ success: true })
 }

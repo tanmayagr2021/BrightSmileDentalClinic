@@ -51,10 +51,11 @@ export default function AdminLoginPage() {
         <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block font-heading text-xs font-semibold text-gray-700 mb-1.5">
+              <label htmlFor="admin-email" className="block font-heading text-xs font-semibold text-gray-700 mb-1.5">
                 Email Address
               </label>
               <input
+                id="admin-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -67,9 +68,10 @@ export default function AdminLoginPage() {
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="font-heading text-xs font-semibold text-gray-700">Password</label>
+                <label htmlFor="admin-password" className="font-heading text-xs font-semibold text-gray-700">Password</label>
               </div>
               <input
+                id="admin-password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -81,7 +83,7 @@ export default function AdminLoginPage() {
             </div>
 
             {error && (
-              <div className="flex items-start gap-2.5 rounded-xl border border-red-100 bg-red-50 px-4 py-3">
+              <div role="alert" className="flex items-start gap-2.5 rounded-xl border border-red-100 bg-red-50 px-4 py-3">
                 <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 flex-shrink-0 text-red-500 mt-0.5" aria-hidden="true">
                   <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.2" />
                   <path d="M8 5v3.5M8 10.5h.01" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />

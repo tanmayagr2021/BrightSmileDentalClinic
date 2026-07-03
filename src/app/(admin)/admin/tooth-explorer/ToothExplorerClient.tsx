@@ -40,6 +40,7 @@ export default function ToothExplorerClient({
     () => new Set(teeth.filter((t) => (t.description ?? '').trim().length > 0).map((t) => t.tooth_number)),
     [teeth]
   )
+  const toothNames = useMemo(() => Object.fromEntries(teeth.map((t) => [t.tooth_number, t.name])), [teeth])
 
   const [form, setForm] = useState(() => ({
     description: tooth?.description ?? '',
@@ -187,7 +188,7 @@ export default function ToothExplorerClient({
       <div className="w-full xl:w-[420px] flex-shrink-0">
         <div className="sticky top-6 rounded-2xl border border-gray-100 p-5 shadow-sm" style={{ background: '#0E1B2E' }}>
           <p className="mb-3 font-heading text-[0.65rem] font-semibold uppercase tracking-wider text-white/50">Click a tooth to edit</p>
-          <ToothChart activeToothNumbers={activeToothNumbers} selectedToothNumber={selectedNumber} onSelectTooth={selectTooth} />
+          <ToothChart activeToothNumbers={activeToothNumbers} selectedToothNumber={selectedNumber} onSelectTooth={selectTooth} toothNames={toothNames} />
           <p className="mt-3 font-body text-[0.65rem] text-white/40">{activeToothNumbers.size} / 32 teeth have content configured</p>
         </div>
       </div>

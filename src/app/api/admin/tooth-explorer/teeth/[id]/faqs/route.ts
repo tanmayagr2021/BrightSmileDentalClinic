@@ -35,6 +35,6 @@ export async function POST(
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  revalidatePath('/tooth-explorer')
+  revalidatePath('/choose-your-tooth')
   return NextResponse.json(data)
 }
