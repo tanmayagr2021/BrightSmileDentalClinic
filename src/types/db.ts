@@ -267,6 +267,110 @@ export type ContentBlockRow = {
   updated_at: string
 }
 
+export type VirtualTourRoomRow = {
+  id: string
+  name: string
+  slug: string
+  description: string | null
+  thumbnail_media_id: string | null
+  panorama_media_id: string | null
+  cta_label: string | null
+  cta_link: string | null
+  sort_order: number
+  is_visible: boolean
+  created_by: string | null
+  updated_by: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type VirtualTourRoomGalleryRow = {
+  id: string
+  room_id: string
+  media_id: string
+  sort_order: number
+  created_at: string
+}
+
+export type VirtualTourHotspotRow = {
+  id: string
+  room_id: string
+  target_room_id: string
+  label: string | null
+  yaw: number
+  pitch: number
+  sort_order: number
+  created_at: string
+}
+
+export type ToothArch = 'upper' | 'lower'
+export type ToothQuadrant = 'upper-right' | 'upper-left' | 'lower-left' | 'lower-right'
+
+export type ToothRow = {
+  id: string
+  tooth_number: number
+  fdi_number: string
+  name: string
+  arch: ToothArch
+  quadrant: ToothQuadrant
+  description: string | null
+  problems: string | null
+  treatments: string | null
+  duration_text: string | null
+  recovery_text: string | null
+  is_active: boolean
+  updated_by: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type ToothFaqRow = {
+  id: string
+  tooth_id: string
+  question: string
+  answer: string
+  sort_order: number
+  created_at: string
+  updated_at: string
+}
+
+export type ToothImageRow = {
+  id: string
+  tooth_id: string
+  media_id: string
+  image_type: 'gallery' | 'before' | 'after'
+  sort_order: number
+  created_at: string
+}
+
+export type TrustWallModule = 'trust-certifications' | 'technology' | 'clinical-standards'
+export type TrustWallCategory =
+  | 'award'
+  | 'certification'
+  | 'membership'
+  | 'equipment'
+  | 'sterilization'
+  | 'technology'
+  | 'research'
+  | 'verification'
+
+export type TrustWallItemRow = {
+  id: string
+  module: TrustWallModule
+  category: TrustWallCategory
+  title: string
+  description: string | null
+  issuer: string | null
+  year: string | null
+  image_id: string | null
+  sort_order: number
+  is_visible: boolean
+  created_by: string | null
+  updated_by: string | null
+  created_at: string
+  updated_at: string
+}
+
 // Generic row shape for the six site-content resources (trust_indicators,
 // why_choose_reasons, patient_journey_steps, before_after_cases,
 // certifications, team_members) — each has its own extra fields beyond

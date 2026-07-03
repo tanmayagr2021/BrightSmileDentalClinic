@@ -1,5 +1,6 @@
 export const PUBLIC_MEDIA_BUCKETS = new Set([
   'doctor-photos', 'service-images', 'gallery', 'blog-images', 'testimonial-photos', 'branding', 'og-images',
+  'virtual-tour', 'tooth-explorer', 'trust-wall',
 ])
 export const RASTER_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
 

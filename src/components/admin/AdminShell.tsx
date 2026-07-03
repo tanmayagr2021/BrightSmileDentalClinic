@@ -38,6 +38,14 @@ const NAV = [
     ],
   },
   {
+    section: 'Experiences',
+    items: [
+      { href: '/admin/virtual-tour', label: 'Virtual Tour', icon: IconVirtualTour },
+      { href: '/admin/tooth-explorer', label: 'Tooth Explorer', icon: IconToothExplorer },
+      { href: '/admin/trust-wall', label: 'Trust Wall', icon: IconTrustWall },
+    ],
+  },
+  {
     section: 'Settings',
     items: [
       { href: '/admin/settings/website', label: 'Website', icon: IconSettings },
@@ -69,6 +77,9 @@ const PAGE_TITLES: Record<string, string> = {
   '/admin/gallery': 'Gallery',
   '/admin/appointments': 'Appointments',
   '/admin/medical-histories': 'Medical Histories',
+  '/admin/virtual-tour': 'Virtual Clinic Tour',
+  '/admin/tooth-explorer': 'Interactive Tooth Explorer',
+  '/admin/trust-wall': 'Trust Wall',
   '/admin/blog': 'Blog Posts',
   '/admin/about': 'About Page',
   '/admin/settings/website': 'Website Settings',
@@ -229,6 +240,30 @@ function IconMedicalHistory() {
       <path d="M5 5.5h4M5 8h4M5 10.5h2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
       <path d="M13 5.5v5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
       <path d="M11 8h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  )
+}
+function IconVirtualTour() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-[15px] w-[15px]" aria-hidden="true">
+      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.3" />
+      <ellipse cx="8" cy="8" rx="6.5" ry="2.6" stroke="currentColor" strokeWidth="1.1" />
+      <path d="M8 1.5v13" stroke="currentColor" strokeWidth="1.1" />
+    </svg>
+  )
+}
+function IconToothExplorer() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-[15px] w-[15px]" aria-hidden="true">
+      <path d="M8 2c-1.6 0-2.2 1-3.3 1-1.3 0-2.2 1.1-2.2 2.6 0 1.6.6 2 .8 3.6.2 1.4.5 3.8 1.6 3.8.9 0 .9-1.8 1.5-1.8s.6 1.8 1.5 1.8c1.1 0 1.3-2.4 1.6-3.8.2-1.6.8-2 .8-3.6C10.3 4.1 9.4 3 8.1 3 7 3 6.4 2 8 2z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+    </svg>
+  )
+}
+function IconTrustWall() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-[15px] w-[15px]" aria-hidden="true">
+      <path d="M8 1.5l5.5 2.2v3.6c0 3.5-2.3 5.9-5.5 6.7-3.2-.8-5.5-3.2-5.5-6.7V3.7L8 1.5z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+      <path d="M5.7 8l1.6 1.6 3-3.2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
