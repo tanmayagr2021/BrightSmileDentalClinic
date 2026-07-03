@@ -5,6 +5,7 @@ import { CLINIC_STORY_STATIC, HOMEPAGE_STATS } from '@/lib/constants'
 import { buildCanonical } from '@/lib/schema'
 import { getContentBlocks } from '@/lib/content'
 import { pick, interpolate } from '@/lib/content-client'
+import TrustWallSection, { type PublicTrustItem } from '@/components/trust-wall/TrustWallSection'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,20 +25,19 @@ type AboutContent = {
   why_choose_us?: string[]
 }
 
-const VALUE_ICONS: Record<string, string> = {
-  Excellence: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
-  Compassion: 'M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z',
-  Integrity: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
-  Innovation: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
-}
-
 export default async function AboutPage() {
   const supabase = createAdminClient()
-  const [{ data }, { data: statsData }, { count: doctorCount }, content] = await Promise.all([
+  const [{ data }, { data: statsData }, { count: doctorCount }, content, { data: trustItems }] = await Promise.all([
     supabase.from('site_settings').select('about_content').limit(1).single(),
     supabase.from('site_settings').select('stat_patients, stat_years, stat_treatments, stat_team_label').limit(1).single(),
     supabase.from('doctors').select('id', { count: 'exact', head: true }).eq('is_active', true).is('deleted_at', null),
     getContentBlocks(),
+    supabase
+      .from('trust_wall_items')
+      .select('*, image:media_library(*)')
+      .eq('is_visible', true)
+      .order('module', { ascending: true })
+      .order('sort_order', { ascending: true }),
   ])
 
   const db = (data?.about_content ?? null) as AboutContent | null
@@ -219,6 +219,9 @@ export default async function AboutPage() {
           </div>
         </div>
       </div>
+
+      {/* ── Trust, Technology & Clinical Standards ── */}
+      <TrustWallSection items={(trustItems as PublicTrustItem[]) ?? []} />
 
       {/* ── Why Choose Us — editorial numbered list + inline CTA ── */}
       <div className="py-24 lg:py-32">

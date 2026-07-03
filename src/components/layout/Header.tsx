@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { NAV_LINKS, CLINIC_NAME_SHORT, CLINIC_SUBTITLE, CLINIC_TAGLINE } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { pick } from '@/lib/content-client'
+import { useFocusTrap } from '@/lib/use-focus-trap'
 
 function BrandMark({ inverted = false }: { inverted?: boolean }) {
   return (
@@ -103,40 +104,7 @@ export default function Header({ content }: { content: Record<string, string> })
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  // Focus trap + Escape-to-close + focus restoration for the mobile drawer.
-  useEffect(() => {
-    if (!menuOpen) return
-    const toggleEl = toggleRef.current
-
-    const panel = panelRef.current
-    const focusables = panel?.querySelectorAll<HTMLElement>(
-      'a[href], button:not([disabled])'
-    )
-    focusables?.[0]?.focus()
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setMenuOpen(false)
-        return
-      }
-      if (e.key !== 'Tab' || !focusables?.length) return
-      const first = focusables[0]
-      const last = focusables[focusables.length - 1]
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault()
-        last.focus()
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault()
-        first.focus()
-      }
-    }
-
-    document.addEventListener('keydown', onKeyDown)
-    return () => {
-      document.removeEventListener('keydown', onKeyDown)
-      toggleEl?.focus()
-    }
-  }, [menuOpen])
+  useFocusTrap(panelRef, menuOpen, () => setMenuOpen(false))
 
   const closeMenu = () => setMenuOpen(false)
 
@@ -157,27 +125,32 @@ export default function Header({ content }: { content: Record<string, string> })
           <BrandMark inverted={isTransparent} />
 
           {/* Desktop navigation */}
-          <nav className="hidden lg:flex items-center gap-7 xl:gap-8" aria-label="Main navigation">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  'relative font-heading text-[0.82rem] font-medium transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm py-1 tracking-[0.01em]',
-                  isTransparent
-                    ? 'text-white/75 hover:text-white'
-                    : 'text-gray-500 hover:text-dark'
-                )}
-              >
-                {link.label}
-                <span
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-7" aria-label="Main navigation">
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`)
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={isActive ? 'page' : undefined}
                   className={cn(
-                    'absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 rounded-full transition-transform duration-250 group-hover:scale-x-100',
-                    isTransparent ? 'bg-white/60' : 'bg-primary'
+                    'relative font-heading text-[0.82rem] font-medium transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm py-1 tracking-[0.01em]',
+                    isActive
+                      ? (isTransparent ? 'text-white' : 'text-dark')
+                      : (isTransparent ? 'text-white/75 hover:text-white' : 'text-gray-500 hover:text-dark')
                   )}
-                />
-              </Link>
-            ))}
+                >
+                  {link.label}
+                  <span
+                    className={cn(
+                      'absolute inset-x-0 -bottom-0.5 h-px origin-left rounded-full transition-transform duration-250',
+                      isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
+                      isTransparent ? 'bg-white/60' : 'bg-primary'
+                    )}
+                  />
+                </Link>
+              )
+            })}
           </nav>
 
           {/* Desktop CTA */}
@@ -259,25 +232,32 @@ export default function Header({ content }: { content: Record<string, string> })
 
               <nav className="flex-1 overflow-y-auto px-6 py-8" aria-label="Mobile navigation links">
                 <ul className="space-y-0.5" role="list">
-                  {NAV_LINKS.map((link, i) => (
-                    <motion.li
-                      key={link.href}
-                      initial={{ opacity: 0, x: 24 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.05 + 0.08, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                      <Link
-                        href={link.href}
-                        onClick={closeMenu}
-                        className="flex items-center justify-between py-4 font-heading text-base font-medium text-white/85 hover:text-white transition-colors border-b border-white/5 focus-visible:outline-none focus-visible:text-white"
+                  {NAV_LINKS.map((link, i) => {
+                    const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`)
+                    return (
+                      <motion.li
+                        key={link.href}
+                        initial={{ opacity: 0, x: 24 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.05 + 0.08, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                       >
-                        {link.label}
-                        <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-white/55" aria-hidden="true">
-                          <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </Link>
-                    </motion.li>
-                  ))}
+                        <Link
+                          href={link.href}
+                          onClick={closeMenu}
+                          aria-current={isActive ? 'page' : undefined}
+                          className={cn(
+                            'flex items-center justify-between py-4 font-heading text-base font-medium transition-colors border-b focus-visible:outline-none focus-visible:text-white',
+                            isActive ? 'text-gold border-white/10' : 'text-white/85 hover:text-white border-white/5'
+                          )}
+                        >
+                          {link.label}
+                          <svg viewBox="0 0 16 16" fill="none" className={cn('h-4 w-4', isActive ? 'text-gold' : 'text-white/55')} aria-hidden="true">
+                            <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </Link>
+                      </motion.li>
+                    )
+                  })}
                 </ul>
               </nav>
 

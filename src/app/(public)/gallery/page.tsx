@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { buildCanonical } from '@/lib/schema'
+import VirtualTourExperience, { type TourRoom } from '@/components/virtual-tour/VirtualTourExperience'
 
 const PLACEHOLDER_TILES = [
   { icon: 'M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z M15 13a3 3 0 11-6 0 3 3 0 016 0z', label: 'Reception Area', aspect: 'tall' },
@@ -127,7 +128,7 @@ export const metadata: Metadata = {
 export default async function GalleryPage() {
   const supabase = createAdminClient()
 
-  const [{ data: items }, { data: groups }] = await Promise.all([
+  const [{ data: items }, { data: groups }, { data: tourRooms }] = await Promise.all([
     supabase
       .from('gallery')
       .select('*, gallery_groups(id, name, slug)')
@@ -140,10 +141,22 @@ export default async function GalleryPage() {
       .is('deleted_at', null)
       .eq('is_visible', true)
       .order('sort_order', { ascending: true }),
+    supabase
+      .from('virtual_tour_rooms')
+      .select(`
+        *,
+        thumbnail:media_library!virtual_tour_rooms_thumbnail_media_id_fkey(*),
+        panorama:media_library!virtual_tour_rooms_panorama_media_id_fkey(*),
+        gallery:virtual_tour_room_gallery(*, media:media_library(*)),
+        hotspots:virtual_tour_hotspots!virtual_tour_hotspots_room_id_fkey(*)
+      `)
+      .eq('is_visible', true)
+      .order('sort_order', { ascending: true }),
   ])
 
   const galleryItems = items ?? []
   const galleryGroups = groups ?? []
+  const virtualTourRooms = (tourRooms as TourRoom[]) ?? []
 
   return (
     <div style={{ background: '#0E1B2E' }} className="min-h-screen">
@@ -162,6 +175,18 @@ export default async function GalleryPage() {
         </p>
         <div className="mt-12 h-px bg-white/[0.06]" />
       </div>
+
+      {/* Virtual Clinic Tour — embedded near the top of Gallery, the primary
+          public discovery point for the 360 experience (see /virtual-tour
+          for the standalone fullscreen route). */}
+      {virtualTourRooms.length > 0 && (
+        <>
+          <VirtualTourExperience rooms={virtualTourRooms} variant="embedded" />
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="h-px bg-white/[0.06]" />
+          </div>
+        </>
+      )}
 
       {/* Content */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

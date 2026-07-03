@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { MediaLibraryRow } from '@/types/db'
 import { mediaDisplayUrl, RASTER_MIME_TYPES } from '@/lib/admin/media-url'
+import { useFocusTrap } from '@/lib/use-focus-trap'
 
 export type MediaPickerSelection = { id: string; url: string; alt_text: string | null }
 
@@ -29,6 +30,7 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!open) return
@@ -37,6 +39,13 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
     void loadLibrary()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, bucket])
+
+  useFocusTrap(panelRef, open, onClose)
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [open])
 
   const loadLibrary = async () => {
     setLoading(true)
@@ -93,9 +102,16 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
-      <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-xl max-h-[85vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="media-picker-title"
+        className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-xl max-h-[85vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="font-heading text-sm font-semibold text-gray-800">Select an Image</h3>
+          <h3 id="media-picker-title" className="font-heading text-sm font-semibold text-gray-800">Select an Image</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600" aria-label="Close">✕</button>
         </div>
 

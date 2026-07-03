@@ -23,6 +23,7 @@ export const CLINIC_CONTACT = {
 export const NAV_LINKS = [
   { label: 'Services', href: '/services' },
   { label: 'Doctors', href: '/doctors' },
+  { label: 'Choose Your Tooth', href: '/choose-your-tooth' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },

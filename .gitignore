@@ -45,3 +45,6 @@ supabase/.temp
 .claude/
 .playwright-mcp/
 qa/
+/test-results/
+/playwright-report/
+/blob-report/
