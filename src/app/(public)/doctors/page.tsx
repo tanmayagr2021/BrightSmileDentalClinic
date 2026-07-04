@@ -4,9 +4,7 @@ import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { TEAM_MEMBERS_STATIC, CLINIC_CONTACT } from '@/lib/constants'
 import type { DoctorRow } from '@/types/db'
-import DentalExpertiseMap from '@/components/sections/DentalExpertiseMap'
-import type { MapDoctor } from '@/components/sections/DentalExpertiseMap'
-import { regionsFromSpecializations } from '@/lib/dental-regions'
+import { doctorColor, doctorInitials } from '@/lib/doctor-display'
 import { buildCanonical } from '@/lib/schema'
 
 export const dynamic = 'force-dynamic'
@@ -17,9 +15,6 @@ export const metadata: Metadata = {
   description:
     'Meet the experts behind every smile at Bright Smile Dental Clinic — two lead dentists, four visiting specialists, and a dedicated clinical and administrative team committed to exceptional dental care.',
 }
-
-function dColor(d: DoctorRow) { return d.color_hex ?? '#4A9B6F' }
-function dInitials(d: DoctorRow) { return d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
 
 function NmcBadge() {
   return (
@@ -105,19 +100,6 @@ export default async function DoctorsPage() {
   const specialists = allDoctors.filter((d) => d.doctor_type === 'specialist')
   const supportTeam = TEAM_MEMBERS_STATIC.filter((m) => m.visible)
 
-  // Build MapDoctor list — regions auto-derived from each doctor's specializations
-  const mapDoctors: MapDoctor[] = allDoctors.map((d) => ({
-    id: d.id,
-    name: d.full_name,
-    shortName: d.short_name ?? d.full_name.split(' ').slice(-1)[0],
-    initials: d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2),
-    color: d.color_hex ?? '#1A7A5E',
-    title: d.title,
-    specializations: d.specializations ?? [],
-    regions: regionsFromSpecializations(d.specializations ?? []),
-    slug: d.slug ?? undefined,
-  }))
-
   return (
     <div>
 
@@ -177,27 +159,6 @@ export default async function DoctorsPage() {
         </div>
       </section>
 
-      {/* ── DENTAL EXPERTISE MAP — Interactive blueprint diagram ── */}
-      {mapDoctors.length > 0 && (
-        <section
-          className="relative overflow-hidden py-20 lg:py-28"
-          style={{ background: '#0E1B2E' }}
-        >
-          {/* Subtle grid background */}
-          <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.018]" aria-hidden="true">
-            <defs>
-              <pattern id="map-bg-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#map-bg-grid)" />
-          </svg>
-          <div className="pointer-events-none absolute left-1/4 top-0 h-72 w-72 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" aria-hidden="true" />
-          <div className="pointer-events-none absolute right-1/4 bottom-0 h-64 w-64 translate-y-1/2 rounded-full bg-gold/5 blur-3xl" aria-hidden="true" />
-          <DentalExpertiseMap doctors={mapDoctors} />
-        </section>
-      )}
-
       {/* ── LEAD DENTISTS — Editorial Feature Cards ── */}
       <section className="bg-ivory py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -236,7 +197,7 @@ export default async function DoctorsPage() {
                   {/* Left — colored banner */}
                   <div
                     className="relative flex min-h-[320px] flex-col justify-between overflow-hidden p-10 lg:min-h-[420px]"
-                    style={{ backgroundColor: dColor(doc) }}
+                    style={{ backgroundColor: doctorColor(doc) }}
                   >
                     {/* Grid overlay */}
                     <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05]" aria-hidden="true">
@@ -258,7 +219,7 @@ export default async function DoctorsPage() {
                         {doc.profile_image_url ? (
                           <Image src={doc.profile_image_url} alt={doc.full_name} fill className="object-cover object-top" sizes="112px" />
                         ) : (
-                          <span className="font-display text-5xl font-bold text-white">{dInitials(doc)}</span>
+                          <span className="font-display text-5xl font-bold text-white">{doctorInitials(doc)}</span>
                         )}
                       </div>
                       <div className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-green-400 ring-2 ring-white/25">
@@ -425,7 +386,7 @@ export default async function DoctorsPage() {
                 {/* Colored header strip */}
                 <div
                   className="relative flex h-[9rem] items-center justify-center overflow-hidden"
-                  style={{ backgroundColor: dColor(doc) }}
+                  style={{ backgroundColor: doctorColor(doc) }}
                 >
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 to-black/25" aria-hidden="true" />
                   <div
@@ -437,7 +398,7 @@ export default async function DoctorsPage() {
                     {doc.profile_image_url ? (
                       <Image src={doc.profile_image_url} alt={doc.full_name} fill className="object-cover object-top" sizes="72px" />
                     ) : (
-                      <span className="font-display text-2xl font-bold text-white">{dInitials(doc)}</span>
+                      <span className="font-display text-2xl font-bold text-white">{doctorInitials(doc)}</span>
                     )}
                   </div>
                   <span className="absolute right-3 top-3 rounded-lg bg-black/25 px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-white backdrop-blur-sm">

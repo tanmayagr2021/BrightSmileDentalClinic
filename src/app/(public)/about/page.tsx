@@ -1,11 +1,14 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { CLINIC_STORY_STATIC, HOMEPAGE_STATS } from '@/lib/constants'
 import { buildCanonical } from '@/lib/schema'
 import { getContentBlocks } from '@/lib/content'
 import { pick, interpolate } from '@/lib/content-client'
 import TrustWallSection, { type PublicTrustItem } from '@/components/trust-wall/TrustWallSection'
+import type { DoctorRow } from '@/types/db'
+import { doctorColor, doctorInitials } from '@/lib/doctor-display'
 
 export const dynamic = 'force-dynamic'
 
@@ -27,7 +30,7 @@ type AboutContent = {
 
 export default async function AboutPage() {
   const supabase = createAdminClient()
-  const [{ data }, { data: statsData }, { count: doctorCount }, content, { data: trustItems }] = await Promise.all([
+  const [{ data }, { data: statsData }, { count: doctorCount }, content, { data: trustItems }, { data: teamData }] = await Promise.all([
     supabase.from('site_settings').select('about_content').limit(1).single(),
     supabase.from('site_settings').select('stat_patients, stat_years, stat_treatments, stat_team_label').limit(1).single(),
     supabase.from('doctors').select('id', { count: 'exact', head: true }).eq('is_active', true).is('deleted_at', null),
@@ -38,7 +41,17 @@ export default async function AboutPage() {
       .eq('is_visible', true)
       .order('module', { ascending: true })
       .order('sort_order', { ascending: true }),
+    supabase
+      .from('doctors')
+      .select('*')
+      .eq('is_active', true)
+      .is('deleted_at', null)
+      .order('sort_order', { ascending: true }),
   ])
+
+  const teamDoctors: DoctorRow[] = teamData ?? []
+  const teamLeads = teamDoctors.filter((d) => d.doctor_type === 'lead')
+  const teamSpecialists = teamDoctors.filter((d) => d.doctor_type === 'specialist')
 
   const db = (data?.about_content ?? null) as AboutContent | null
 
@@ -173,6 +186,75 @@ export default async function AboutPage() {
           </div>
         </div>
       </div>
+
+      {/* ── Our Team — faces, not bios ── */}
+      {teamDoctors.length > 0 && (
+        <div className="bg-ivory py-24 lg:py-32">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-16 text-center">
+              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+                <span className="inline-block h-px w-6 bg-primary/60" />
+                Our Team
+                <span className="inline-block h-px w-6 bg-primary/60" />
+              </span>
+              <h2 className="mt-5 font-display text-4xl text-dark tracking-display sm:text-5xl">
+                The People Behind Bright Smile
+              </h2>
+            </div>
+
+            {/* Lead dentists — large circular portraits */}
+            <div className="flex flex-wrap justify-center gap-12 sm:gap-16">
+              {teamLeads.map((doc) => (
+                <div key={doc.id} className="flex flex-col items-center text-center">
+                  <div
+                    className="relative flex h-36 w-36 items-center justify-center overflow-hidden rounded-full ring-4 ring-white shadow-premium sm:h-40 sm:w-40"
+                    style={{ backgroundColor: doctorColor(doc) }}
+                  >
+                    {doc.profile_image_url ? (
+                      <Image src={doc.profile_image_url} alt={doc.full_name} fill className="object-cover object-top" sizes="160px" />
+                    ) : (
+                      <span className="font-display text-4xl font-bold text-white">{doctorInitials(doc)}</span>
+                    )}
+                  </div>
+                  <h3 className="mt-5 font-display text-xl text-dark tracking-display">{doc.full_name}</h3>
+                  <p className="mt-1 font-body text-sm text-gray-500">{doc.title}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Wider clinical team — smaller circular portraits */}
+            {teamSpecialists.length > 0 && (
+              <div className="mt-16 flex flex-wrap justify-center gap-8 border-t border-gray-200 pt-16 sm:gap-10">
+                {teamSpecialists.map((doc) => (
+                  <div key={doc.id} className="flex flex-col items-center text-center">
+                    <div
+                      className="relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-full ring-2 ring-white shadow-card sm:h-24 sm:w-24"
+                      style={{ backgroundColor: doctorColor(doc) }}
+                    >
+                      {doc.profile_image_url ? (
+                        <Image src={doc.profile_image_url} alt={doc.full_name} fill className="object-cover object-top" sizes="96px" />
+                      ) : (
+                        <span className="font-display text-lg font-bold text-white">{doctorInitials(doc)}</span>
+                      )}
+                    </div>
+                    <h3 className="mt-3 font-heading text-sm font-semibold text-dark">{doc.full_name}</h3>
+                    <p className="mt-0.5 font-body text-xs text-gray-500">{doc.title}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="mt-16 flex justify-center">
+              <Link
+                href="/doctors"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-7 py-3.5 font-heading text-sm font-semibold text-dark transition-all hover:border-primary hover:text-primary active:scale-[0.98]"
+              >
+                Meet Our Doctors
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Values — horizontal editorial rows ── */}
       <div
