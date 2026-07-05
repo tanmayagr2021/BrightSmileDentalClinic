@@ -180,7 +180,7 @@ test.describe('Choose Your Tooth — doctor and service mapping', () => {
   test('selecting a tooth reveals live doctor and service mapping', async ({ page, browserName }) => {
     test.skip(browserName === 'webkit', 'Headless WebKit networking is broken in this sandbox')
     await page.goto('/choose-your-tooth')
-    await expect(page.getByRole('heading', { name: 'Choose Your Tooth' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Where does it hurt?' })).toBeVisible()
 
     // Tooth #1 carries real seeded content from admin QA. Each tooth is a
     // proper role="button" with an aria-label (see ToothChart), so it's
