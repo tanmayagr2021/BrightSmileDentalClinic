@@ -1,8 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { SERVICE_CATEGORIES_STATIC } from '@/lib/constants'
+import { SERVICE_CATEGORIES_STATIC, type ServiceCategory } from '@/lib/constants'
 import { buildCanonical } from '@/lib/schema'
+import ServiceImagePlaceholder from '@/components/sections/ServiceImagePlaceholder'
+
+type ServiceWithImage = ServiceCategory & { thumbnail_url: string | null }
 
 export const dynamic = 'force-dynamic'
 
@@ -63,7 +67,7 @@ export default async function ServicesPage() {
 
   const visibleSlugs = new Set((categoryData ?? []).map((s) => s.slug))
 
-  // Merge: DB-ordered static entries enriched with DB sub-items
+  // Merge: DB-ordered static entries enriched with DB sub-items and image
   const dbOrder = (categoryData ?? []).map((dbRow) => {
     const staticEntry = SERVICE_CATEGORIES_STATIC.find((s) => s.slug === dbRow.slug)
     if (!staticEntry) return null
@@ -72,19 +76,21 @@ export default async function ServicesPage() {
       ...staticEntry,
       // Use DB items when available, fallback to static
       subServices: dbItems && dbItems.length > 0 ? dbItems : staticEntry.subServices,
+      thumbnail_url: dbRow.thumbnail_url ?? null,
     }
-  }).filter((s): s is typeof SERVICE_CATEGORIES_STATIC[number] => s !== null)
+  }).filter((s): s is ServiceWithImage => s !== null)
 
   // Fallback: if Supabase query failed / empty, show static data
-  const services = dbOrder.length > 0
+  const services: ServiceWithImage[] = dbOrder.length > 0
     ? dbOrder
     : SERVICE_CATEGORIES_STATIC.filter((s) => s.visible && visibleSlugs.size === 0 ? true : visibleSlugs.has(s.slug))
         .sort((a, b) => a.sortOrder - b.sortOrder)
+        .map((s) => ({ ...s, thumbnail_url: null }))
 
   // Premium services in curated order; standard services keep DB order.
   const premiumServices = PREMIUM_ORDER
     .map((slug) => services.find((s) => s.slug === slug))
-    .filter((s): s is typeof SERVICE_CATEGORIES_STATIC[number] => Boolean(s))
+    .filter((s): s is ServiceWithImage => Boolean(s))
   const standardServices = services.filter((s) => !PREMIUM_SLUGS.has(s.slug))
 
   return (
@@ -191,6 +197,15 @@ export default async function ServicesPage() {
                   {/* Gold glow */}
                   <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-gold/10 blur-3xl" aria-hidden="true" />
 
+                  {/* Image strip */}
+                  <div className="relative aspect-[21/9] w-full">
+                    {service.thumbnail_url ? (
+                      <Image src={service.thumbnail_url} alt={service.name} fill className="object-cover" sizes="(min-width: 1024px) 900px, 100vw" />
+                    ) : (
+                      <ServiceImagePlaceholder className="h-full w-full" seed={service.slug} />
+                    )}
+                  </div>
+
                   <div className="relative grid grid-cols-1 gap-10 p-8 lg:grid-cols-[1fr_1fr] lg:gap-14 lg:p-12">
                     {/* Left — narrative */}
                     <div className="flex flex-col">
@@ -288,6 +303,13 @@ export default async function ServicesPage() {
                   className="group flex scroll-mt-24 flex-col rounded-2xl border border-gray-100 bg-white p-7 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-premium lg:p-8"
                 >
                   <div className="flex items-start gap-5">
+                    <div className="relative aspect-[4/3] w-28 flex-shrink-0 overflow-hidden rounded-xl">
+                      {service.thumbnail_url ? (
+                        <Image src={service.thumbnail_url} alt={service.name} fill className="object-cover" sizes="112px" />
+                      ) : (
+                        <ServiceImagePlaceholder className="h-full w-full" seed={service.slug} />
+                      )}
+                    </div>
                     <span className="font-display text-4xl font-bold leading-none text-gray-200 tabular-nums transition-colors group-hover:text-primary/30">
                       {String(premiumServices.length + index + 1).padStart(2, '0')}
                     </span>

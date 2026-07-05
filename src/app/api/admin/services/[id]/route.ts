@@ -38,7 +38,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const { id } = await params
   const body = await req.json() as Record<string, unknown>
 
-  const allowed = ['name', 'description', 'long_description', 'icon_name', 'is_visible', 'sort_order']
+  const allowed = ['name', 'description', 'long_description', 'icon_name', 'thumbnail_url', 'is_visible', 'sort_order']
   const updates: Record<string, unknown> = {
     updated_by: user.id,
     updated_at: new Date().toISOString(),

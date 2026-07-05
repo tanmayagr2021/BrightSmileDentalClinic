@@ -2,7 +2,9 @@
 
 import { useState, useTransition, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import type { ServiceCategoryRow, ServiceItemRow } from '@/types/db'
+import MediaPicker, { type MediaPickerSelection } from '@/components/admin/MediaPicker'
 
 type ServiceWithCount = ServiceCategoryRow & { subServiceCount: number }
 
@@ -363,6 +365,7 @@ type ServiceFormData = {
   description: string
   long_description: string
   icon_name: string
+  thumbnail_url: string | null
 }
 
 function ServiceModal({
@@ -382,9 +385,11 @@ function ServiceModal({
     description: service?.description ?? '',
     long_description: service?.long_description ?? '',
     icon_name: service?.icon_name ?? '',
+    thumbnail_url: service?.thumbnail_url ?? null,
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [pickerOpen, setPickerOpen] = useState(false)
 
   const handleNameChange = (name: string) => {
     setForm((f) => ({
@@ -494,6 +499,25 @@ function ServiceModal({
                 />
               </div>
 
+              {/* Service Image */}
+              <div>
+                <label className="block font-heading text-xs font-semibold text-gray-500 mb-1.5">
+                  Service Image
+                </label>
+                {form.thumbnail_url && (
+                  <div className="relative mb-2 h-32 w-full overflow-hidden rounded-xl border border-gray-100">
+                    <Image src={form.thumbnail_url} alt="" fill className="object-cover" sizes="400px" />
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setPickerOpen(true)}
+                  className="rounded-xl border border-gray-200 px-3.5 py-2 font-heading text-xs font-semibold text-gray-600 transition-colors hover:border-primary hover:text-primary"
+                >
+                  {form.thumbnail_url ? 'Change Image' : 'Choose Image'}
+                </button>
+              </div>
+
               {/* Icon */}
               <div>
                 <label className="block font-heading text-xs font-semibold text-gray-500 mb-1.5">
@@ -542,6 +566,14 @@ function ServiceModal({
           </button>
         </div>
       </div>
+
+      <MediaPicker
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        bucket="service-images"
+        onSelect={(selection: MediaPickerSelection) => setForm((f) => ({ ...f, thumbnail_url: selection.url }))}
+        usageContext={isEdit && service ? { table: 'service_categories', column: 'thumbnail_url', recordId: service.id } : undefined}
+      />
     </div>
   )
 }
@@ -665,6 +697,7 @@ export default function ServiceCategoriesClient({ services }: { services: Servic
         description: data.description,
         long_description: data.long_description,
         icon_name: data.icon_name,
+        thumbnail_url: data.thumbnail_url,
       }),
     })
     const json = await res.json()
