@@ -2,10 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { TEAM_MEMBERS_STATIC, CLINIC_CONTACT } from '@/lib/constants'
+import { CLINIC_CONTACT } from '@/lib/constants'
 import type { DoctorRow } from '@/types/db'
 import { doctorColor, doctorInitials } from '@/lib/doctor-display'
 import { buildCanonical } from '@/lib/schema'
+import { getTeamMembers, type TeamMemberRow } from '@/lib/content'
 
 export const dynamic = 'force-dynamic'
 
@@ -52,6 +53,8 @@ function GradCap() {
   )
 }
 
+// Department-level blurb + tag — generic copy, not per-person, so it isn't
+// stored in the DB. Keyed by team_members.department for both groups below.
 const ROLE_DESCRIPTIONS: Record<string, { icon: string; description: string; strength: string }> = {
   hygienist: {
     icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z',
@@ -63,28 +66,23 @@ const ROLE_DESCRIPTIONS: Record<string, { icon: string; description: string; str
     description: 'Assists dentists during procedures, prepares treatment rooms, and supports patient care.',
     strength: 'Chairside support',
   },
-}
-
-const SUPPORT_ROLES = [
-  {
-    initials: 'RC',
-    role: 'Reception Team',
+  reception: {
+    icon: 'M4 4h16v2H4V4zm0 4h16v2H4V8zm0 4h16v2H4v-2zm0 4h7v2H4v-2z',
     description: 'Your first point of contact. Handles appointments, enquiries, and ensures every patient feels genuinely welcomed.',
     strength: 'Patient experience',
-    color: '#0C3C2D',
   },
-  {
-    initials: 'AD',
-    role: 'Administrative Staff',
+  admin: {
+    icon: 'M4 4h16v2H4V4zm0 4h16v2H4V8zm0 4h16v2H4v-2zm0 4h7v2H4v-2z',
     description: 'Manages clinic operations, patient records, billing coordination and compliance — so the clinical team can focus entirely on you.',
     strength: 'Clinic operations',
-    color: '#2a5a3d',
   },
-]
+}
+
+function tInitials(m: TeamMemberRow) { return m.initials ?? m.name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
 
 export default async function DoctorsPage() {
   const supabase = createAdminClient()
-  const [{ data }, { data: settingsData }] = await Promise.all([
+  const [{ data }, { data: settingsData }, teamMembers] = await Promise.all([
     supabase
       .from('doctors')
       .select('*')
@@ -92,13 +90,15 @@ export default async function DoctorsPage() {
       .is('deleted_at', null)
       .order('sort_order', { ascending: true }),
     supabase.from('site_settings').select('phone_primary').limit(1).single(),
+    getTeamMembers(),
   ])
 
   const allDoctors: DoctorRow[] = data ?? []
   const clinicPhone = (settingsData as { phone_primary?: string } | null)?.phone_primary ?? CLINIC_CONTACT.phone
   const leadDoctors = allDoctors.filter((d) => d.doctor_type === 'lead')
   const specialists = allDoctors.filter((d) => d.doctor_type === 'specialist')
-  const supportTeam = TEAM_MEMBERS_STATIC.filter((m) => m.visible)
+  const hygienists = teamMembers.filter((m) => m.department === 'hygienist' || m.department === 'assistant')
+  const supportTeam = teamMembers.filter((m) => m.department === 'reception' || m.department === 'admin')
 
   return (
     <div>
@@ -268,9 +268,9 @@ export default async function DoctorsPage() {
                         </div>
                       </div>
 
-                      {/* Biography */}
+                      {/* Biography — short, first-glance summary; full bio is one click away via "Full Profile" */}
                       <p className="font-body text-[0.96rem] leading-[1.75] text-gray-600">
-                        {doc.full_bio ?? doc.short_bio}
+                        {doc.short_bio}
                       </p>
 
                       {/* Specializations */}
@@ -280,7 +280,7 @@ export default async function DoctorsPage() {
                             Areas of Focus
                           </p>
                           <div className="flex flex-wrap gap-2">
-                            {(doc.specializations ?? []).map((s) => (
+                            {(doc.specializations ?? []).slice(0, 4).map((s) => (
                               <span
                                 key={s}
                                 className="rounded-xl border border-gray-100 bg-tint px-3 py-1.5 font-heading text-[0.65rem] font-semibold text-dark/60"
@@ -465,26 +465,31 @@ export default async function DoctorsPage() {
               <div className="flex-1 h-px bg-gray-100" />
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              {supportTeam.map((member) => {
+              {hygienists.map((member) => {
                 const meta = ROLE_DESCRIPTIONS[member.department] ?? ROLE_DESCRIPTIONS['assistant']
+                const color = member.color_hex ?? '#4A9B6F'
                 return (
                   <div
-                    key={member.name}
+                    key={member.id}
                     className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1"
                   >
                     {/* Subtle color top border */}
                     <div
                       className="absolute left-0 right-0 top-0 h-[3px] rounded-t-2xl"
-                      style={{ backgroundColor: member.color }}
+                      style={{ backgroundColor: color }}
                       aria-hidden="true"
                     />
 
                     <div className="flex items-start gap-4">
                       <div
-                        className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl font-heading text-sm font-bold text-white transition-transform duration-200 group-hover:scale-105"
-                        style={{ backgroundColor: member.color }}
+                        className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl font-heading text-sm font-bold text-white transition-transform duration-200 group-hover:scale-105"
+                        style={{ backgroundColor: color }}
                       >
-                        {member.initials}
+                        {member.photo_url ? (
+                          <Image src={member.photo_url} alt={member.name} fill className="object-cover" sizes="48px" />
+                        ) : (
+                          tInitials(member)
+                        )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-heading text-sm font-semibold text-dark truncate">{member.name}</h3>
@@ -517,35 +522,43 @@ export default async function DoctorsPage() {
               <div className="flex-1 h-px bg-gray-100" />
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {SUPPORT_ROLES.map((role) => (
-                <div
-                  key={role.role}
-                  className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1"
-                >
+              {supportTeam.map((member) => {
+                const meta = ROLE_DESCRIPTIONS[member.department] ?? ROLE_DESCRIPTIONS['admin']
+                const color = member.color_hex ?? '#0C3C2D'
+                return (
                   <div
-                    className="absolute left-0 right-0 top-0 h-[3px] rounded-t-2xl"
-                    style={{ backgroundColor: role.color }}
-                    aria-hidden="true"
-                  />
-
-                  <div className="flex items-start gap-4">
+                    key={member.id}
+                    className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1"
+                  >
                     <div
-                      className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl font-heading text-sm font-bold text-white"
-                      style={{ backgroundColor: role.color }}
-                    >
-                      {role.initials}
-                    </div>
-                    <div>
-                      <h3 className="font-heading text-sm font-semibold text-dark">{role.role}</h3>
-                      <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-wide text-primary">{role.strength}</p>
-                    </div>
-                  </div>
+                      className="absolute left-0 right-0 top-0 h-[3px] rounded-t-2xl"
+                      style={{ backgroundColor: color }}
+                      aria-hidden="true"
+                    />
 
-                  <p className="mt-4 font-body text-sm leading-relaxed text-gray-500">
-                    {role.description}
-                  </p>
-                </div>
-              ))}
+                    <div className="flex items-start gap-4">
+                      <div
+                        className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl font-heading text-sm font-bold text-white"
+                        style={{ backgroundColor: color }}
+                      >
+                        {member.photo_url ? (
+                          <Image src={member.photo_url} alt={member.name} fill className="object-cover" sizes="48px" />
+                        ) : (
+                          tInitials(member)
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="font-heading text-sm font-semibold text-dark">{member.name}</h3>
+                        <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-wide text-primary">{member.role}</p>
+                      </div>
+                    </div>
+
+                    <p className="mt-4 font-body text-sm leading-relaxed text-gray-500">
+                      {meta.description}
+                    </p>
+                  </div>
+                )
+              })}
             </div>
           </div>
 

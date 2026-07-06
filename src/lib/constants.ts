@@ -192,51 +192,6 @@ export const DOCTORS_STATIC: Doctor[] = [
   },
 ]
 
-// ─── Team Members ─────────────────────────────────────────────
-// Future: fetch from `team_members` table
-
-export type TeamDepartment = 'hygienist' | 'assistant' | 'reception' | 'admin'
-
-export type TeamMember = {
-  name: string
-  role: string
-  department: TeamDepartment
-  initials: string
-  color: string
-  visible: boolean
-  sortOrder: number
-}
-
-export const TEAM_MEMBERS_STATIC: TeamMember[] = [
-  {
-    name: 'Jitendra Kumar',
-    role: 'Senior Dental Hygienist',
-    department: 'hygienist',
-    initials: 'JK',
-    color: '#2a5a3d',
-    visible: true,
-    sortOrder: 1,
-  },
-  {
-    name: 'Parbati Gurung',
-    role: 'Dental Hygienist',
-    department: 'hygienist',
-    initials: 'PG',
-    color: '#3d6b50',
-    visible: true,
-    sortOrder: 2,
-  },
-  {
-    name: 'Justin Shrestha',
-    role: 'Dental Assistant',
-    department: 'assistant',
-    initials: 'JS',
-    color: '#4A9B6F',
-    visible: true,
-    sortOrder: 3,
-  },
-]
-
 // ─── Services ─────────────────────────────────────────────────
 // Future: fetch from `services` + `service_categories` tables
 
