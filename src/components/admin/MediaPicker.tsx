@@ -5,6 +5,7 @@ import Image from 'next/image'
 import type { MediaLibraryRow } from '@/types/db'
 import { mediaDisplayUrl, RASTER_MIME_TYPES } from '@/lib/admin/media-url'
 import { useFocusTrap } from '@/lib/use-focus-trap'
+import { convertHeicIfNeeded } from '@/lib/admin/heic-convert'
 
 export type MediaPickerSelection = { id: string; url: string; alt_text: string | null; width: number | null; height: number | null }
 
@@ -28,6 +29,7 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
   const [uploading, setUploading] = useState(false)
+  const [converting, setConverting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
@@ -80,10 +82,22 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
 
   const handleUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return
-    setUploading(true)
     setError(null)
+    let file = files[0]
+    if (file.type === 'image/heic' || file.type === 'image/heif' || /\.hei[cf]$/i.test(file.name)) {
+      setConverting(true)
+      try {
+        file = await convertHeicIfNeeded(file)
+      } catch {
+        setConverting(false)
+        setError('Could not convert this HEIC photo — try exporting it as JPEG first.')
+        return
+      }
+      setConverting(false)
+    }
+    setUploading(true)
     const fd = new FormData()
-    fd.append('file', files[0])
+    fd.append('file', file)
     fd.append('bucket', bucket)
     if (folder) fd.append('folder', folder)
     const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
@@ -180,10 +194,10 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
             onDrop={(e) => { e.preventDefault(); handleUpload(e.dataTransfer.files) }}
           >
             <p className="font-heading text-sm font-semibold text-gray-600">
-              {uploading ? 'Uploading…' : 'Drag & drop an image here, or click to browse'}
+              {converting ? 'Converting HEIC photo…' : uploading ? 'Uploading…' : 'Drag & drop an image here, or click to browse'}
             </p>
-            <p className="mt-1 font-body text-xs text-gray-400">Uploads to the {bucket} bucket</p>
-            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => handleUpload(e.target.files)} />
+            <p className="mt-1 font-body text-xs text-gray-400">Uploads to the {bucket} bucket · iPhone HEIC photos are converted automatically</p>
+            <input ref={fileRef} type="file" accept="image/*,.heic,.heif" className="hidden" onChange={(e) => handleUpload(e.target.files)} />
           </div>
         )}
       </div>
