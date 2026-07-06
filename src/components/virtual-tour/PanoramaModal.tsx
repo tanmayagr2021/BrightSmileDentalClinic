@@ -25,6 +25,7 @@ export default function PanoramaModal({
   const panelRef = useRef<HTMLDivElement>(null)
   const viewerRef = useRef<Viewer | null>(null)
   const [currentRoomId, setCurrentRoomId] = useState(startRoomId)
+  const [loadError, setLoadError] = useState(false)
 
   useFocusTrap(panelRef, true, onClose)
 
@@ -54,6 +55,7 @@ export default function PanoramaModal({
       container: containerRef.current,
       defaultZoomLvl: 0,
       navbar: ['zoom', 'move', 'caption', 'fullscreen'],
+      lang: { loadError: "This view couldn't load. Please try again." },
       plugins: [
         MarkersPlugin,
         ...(prefersReducedMotion ? [] : [AutorotatePlugin.withConfig({ autostartDelay: 4000, autorotateSpeed: '1rpm' })]),
@@ -70,14 +72,49 @@ export default function PanoramaModal({
     viewerRef.current = viewer
 
     const tourPlugin = viewer.getPlugin(VirtualTourPlugin) as VirtualTourPlugin
-    tourPlugin.addEventListener('node-changed', ({ node }) => setCurrentRoomId(node.id))
+    tourPlugin.addEventListener('node-changed', ({ node }) => {
+      setCurrentRoomId(node.id)
+      setLoadError(false)
+    })
+    viewer.addEventListener('panorama-error', () => setLoadError(true))
+
+    // React 18 Strict Mode double-invokes this effect in dev only,
+    // destroying this "phantom" viewer instance immediately after creating
+    // it. The plugin's own setCurrentNode->loadNode async chain is still in
+    // flight at that point; destroy() deletes internal state the chain
+    // still needs, causing an unhandled rejection partway through it — this
+    // is dev-only noise (Strict Mode never double-invokes in production)
+    // confirmed not to affect the real (second) instance's own render.
+    // Deferring destroy to let that chain settle first was tried and
+    // rejected: it delays disposing the phantom instance's <img>/texture
+    // loader long enough to abort the *real* instance's identical panorama
+    // request too (the browser coalesces concurrent identical-URL image
+    // loads), leaving the viewer stuck on "Loading" — a worse, user-visible
+    // regression. So destroy stays synchronous (proven correct), and only
+    // this specific known-benign rejection is silenced from the console.
+    const silenceKnownStrictModeRace = (e: PromiseRejectionEvent) => {
+      const msg = e.reason instanceof Error ? e.reason.message : ''
+      if (msg.includes("reading 'loadNode'") || msg.includes("reading 'clear'")) e.preventDefault()
+    }
+    window.addEventListener('unhandledrejection', silenceKnownStrictModeRace)
 
     return () => {
       viewer.destroy()
       viewerRef.current = null
+      // The phantom instance's rejection fires asynchronously, after this
+      // synchronous cleanup runs — defer removing the listener by one
+      // macrotask (not tied to the load path, so safe to defer) so it's
+      // still attached when that rejection actually arrives.
+      setTimeout(() => window.removeEventListener('unhandledrejection', silenceKnownStrictModeRace), 0)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const handleRetry = () => {
+    const plugin = viewerRef.current?.getPlugin(VirtualTourPlugin) as VirtualTourPlugin | undefined
+    setLoadError(false)
+    plugin?.setCurrentNode(currentRoomId, { forceUpdate: true })
+  }
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -103,6 +140,28 @@ export default function PanoramaModal({
       {currentRoom && (
         <div className="pointer-events-none absolute left-4 top-4 z-10 rounded-full border border-white/20 bg-black/50 px-4 py-2 backdrop-blur-sm">
           <span className="font-heading text-xs font-semibold uppercase tracking-wider text-white">{currentRoom.name}</span>
+        </div>
+      )}
+
+      {/* Branded error + retry — the library's own built-in overlay has no
+          retry action and isn't dismissible, so this sits on top of it. */}
+      {loadError && (
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-[#0A1128]/95 px-6 text-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/15 bg-white/5">
+            <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6 text-gold" aria-hidden="true">
+              <path d="M12 9v4m0 4h.01M10.29 3.86l-8.18 14.18A2 2 0 003.82 21h16.36a2 2 0 001.71-2.96L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <p className="font-display text-xl text-white">This room couldn&apos;t load</p>
+          <p className="max-w-sm font-body text-sm text-white/60">
+            The 360° view didn&apos;t come through. Check your connection and try again.
+          </p>
+          <button
+            onClick={handleRetry}
+            className="mt-2 rounded-xl bg-gold px-6 py-3 font-heading text-sm font-semibold text-[#0A1128] transition-colors hover:bg-gold/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+          >
+            Retry
+          </button>
         </div>
       )}
 

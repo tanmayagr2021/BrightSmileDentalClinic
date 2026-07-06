@@ -1,9 +1,21 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { pick } from '@/lib/content-client'
 import type { WhyChooseReasonRow, CertificationRow } from '@/lib/content'
+
+// Collapsed state shows just the first sentence; expanding reveals the rest.
+// Splits once so a single-sentence description has no leftover "rest" and no
+// expand control renders at all.
+function splitTeaser(description: string): { teaser: string; rest: string } {
+  const match = description.match(/^[^.!?]+[.!?]/)
+  if (!match) return { teaser: description, rest: '' }
+  const teaser = match[0].trim()
+  const rest = description.slice(match[0].length).trim()
+  return { teaser, rest }
+}
 
 // Indexed positionally (not by DB id) — icons are tied to conceptual order,
 // matching the fixed seed order of why_choose_reasons.
@@ -78,6 +90,7 @@ export default function WhyChooseSection({
   reasons: WhyChooseReasonRow[]
   certifications: CertificationRow[]
 }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
   return (
     <section className="bg-white py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -123,43 +136,79 @@ export default function WhyChooseSection({
 
         {/* Reasons — editorial numbered list */}
         <div className="divide-y divide-gray-100">
-          {reasons.map((reason, i) => (
-            <motion.div
-              key={reason.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: i * 0.06 }}
-              className="group relative grid grid-cols-[3rem_1fr] gap-8 py-8 lg:grid-cols-[6rem_1fr_1fr] lg:gap-12 lg:py-9"
-            >
-              {/* Hover accent */}
-              <div className="pointer-events-none absolute inset-0 -mx-4 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:-mx-6 lg:-mx-8" style={{ background: 'rgba(74,155,111,0.03)' }} aria-hidden="true" />
+          {reasons.map((reason, i) => {
+            const isOpen = openIndex === i
+            const { teaser, rest } = splitTeaser(reason.description)
+            return (
+              <motion.div
+                key={reason.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: i * 0.06 }}
+                className="group relative grid grid-cols-[3rem_1fr] gap-8 py-8 lg:grid-cols-[6rem_1fr_1fr] lg:gap-12 lg:py-9"
+              >
+                {/* Hover accent */}
+                <div className="pointer-events-none absolute inset-0 -mx-4 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:-mx-6 lg:-mx-8" style={{ background: 'rgba(74,155,111,0.03)' }} aria-hidden="true" />
 
-              {/* Number */}
-              <div className="relative flex-shrink-0 pt-0.5">
-                <span className="font-display text-4xl font-bold tabular-nums text-gray-100 transition-colors duration-300 group-hover:text-primary lg:text-5xl">
-                  {numLabels[i] ?? `0${i + 1}`}
-                </span>
-              </div>
-
-              {/* Title + Icon */}
-              <div className="relative flex items-start gap-3 lg:items-center">
-                <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/15 lg:mt-0">
-                  {reasonIcon(i)}
+                {/* Number */}
+                <div className="relative flex-shrink-0 pt-0.5">
+                  <span className="font-display text-4xl font-bold tabular-nums text-gray-100 transition-colors duration-300 group-hover:text-primary lg:text-5xl">
+                    {numLabels[i] ?? `0${i + 1}`}
+                  </span>
                 </div>
-                <h3 className="font-heading text-base font-semibold text-dark leading-snug sm:text-[1.05rem]">
-                  {reason.title}
-                </h3>
-              </div>
 
-              {/* Description */}
-              <div className="relative col-start-2 lg:col-start-3 lg:col-auto">
-                <p className="font-body text-sm leading-relaxed text-zinc-600">
-                  {reason.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+                {/* Title + Icon */}
+                <div className="relative flex items-start gap-3 lg:items-center">
+                  <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/15 lg:mt-0">
+                    {reasonIcon(i)}
+                  </div>
+                  <h3 className="font-heading text-base font-semibold text-dark leading-snug sm:text-[1.05rem]">
+                    {reason.title}
+                  </h3>
+                </div>
+
+                {/* Description — teaser always visible, rest behind expand */}
+                <div className="relative col-start-2 lg:col-start-3 lg:col-auto">
+                  <p className="font-body text-sm leading-relaxed text-zinc-600">
+                    {teaser}
+                  </p>
+                  {rest && (
+                    <>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            key="content"
+                            id={`why-choose-rest-${reason.id}`}
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                            className="overflow-hidden"
+                          >
+                            <p className="mt-2 font-body text-sm leading-relaxed text-zinc-600">
+                              {rest}
+                            </p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      <button
+                        onClick={() => setOpenIndex(isOpen ? null : i)}
+                        aria-expanded={isOpen}
+                        aria-controls={`why-choose-rest-${reason.id}`}
+                        className="mt-2 inline-flex items-center gap-1 font-heading text-xs font-semibold text-primary transition-colors hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+                      >
+                        {isOpen ? 'Show less' : 'Read more'}
+                        <svg viewBox="0 0 12 12" fill="none" className={`h-3 w-3 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true">
+                          <path d="M3 4.5l3 3 3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </button>
+                    </>
+                  )}
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
 
         {/* Credentials strip */}

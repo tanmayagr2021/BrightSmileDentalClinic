@@ -12,6 +12,32 @@ import type { DoctorRow } from '@/types/db'
 
 function dColor(d: DoctorRow) { return d.color_hex ?? '#4A9B6F' }
 function dInitials(d: DoctorRow) { return d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
+// Homepage teaser gets one short line, not the full bio — the complete
+// biography already lives on /doctors/[slug], one click away via "View Profile".
+// A naive "split on the first period" breaks on titles like "Dr. Sachin
+// Agrawal is..." (the period after "Dr" isn't a sentence end) — walk
+// punctuation-delimited chunks and only stop at one whose preceding word
+// isn't a known abbreviation or a bare number (e.g. a decimal).
+const SENTENCE_ABBREVIATIONS = new Set(['dr', 'mr', 'mrs', 'ms', 'prof', 'st', 'jr', 'sr'])
+
+function firstSentence(bio: string | null | undefined): string {
+  if (!bio) return ''
+  const parts = bio.split(/([.!?]+)\s+/)
+  let result = ''
+  for (let i = 0; i < parts.length; i += 2) {
+    const chunk = parts[i]
+    const punct = parts[i + 1] ?? ''
+    result += chunk + punct
+    if (!punct) break
+    const lastWord = chunk.trim().split(/\s+/).pop()?.replace(/\.$/, '').toLowerCase() ?? ''
+    if (SENTENCE_ABBREVIATIONS.has(lastWord) || /^\d+$/.test(lastWord)) {
+      result += ' '
+      continue
+    }
+    break
+  }
+  return result.trim()
+}
 function dShortName(d: DoctorRow) { return d.short_name ?? d.full_name }
 function tInitials(m: TeamMemberRow) { return m.initials ?? m.name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
 
@@ -158,8 +184,8 @@ export default function DoctorsSection({
                   </div>
                 </div>
 
-                <p className="mt-4 font-body text-sm text-zinc-600 leading-relaxed line-clamp-3">
-                  {doc.full_bio ?? doc.short_bio}
+                <p className="mt-4 font-body text-sm text-zinc-600 leading-relaxed">
+                  {firstSentence(doc.full_bio ?? doc.short_bio)}
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-2">

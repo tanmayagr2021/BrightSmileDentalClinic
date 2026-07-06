@@ -36,6 +36,7 @@ export async function POST(req: NextRequest) {
     description?: string
     long_description?: string
     icon_name?: string
+    thumbnail_url?: string
   }
 
   if (!body.name?.trim() || !body.slug?.trim()) {
@@ -60,6 +61,7 @@ export async function POST(req: NextRequest) {
       description: body.description?.trim() ?? null,
       long_description: body.long_description?.trim() ?? null,
       icon_name: body.icon_name?.trim() ?? null,
+      thumbnail_url: body.thumbnail_url?.trim() ?? null,
       sort_order: (last?.sort_order ?? 0) + 10,
       is_visible: true,
       created_by: user.id,

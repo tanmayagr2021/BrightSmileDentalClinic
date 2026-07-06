@@ -4,7 +4,8 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import ToothChart from './ToothChart'
+import ToothChart, { SAGE } from './ToothChart'
+import { REGION_CHIPS, regionToothNumbers, type RegionKey } from '@/lib/tooth-regions'
 import { fadeUp, blurFadeIn, EASE_OUT } from '@/lib/animations'
 import { mediaDisplayUrl } from '@/lib/admin/media-url'
 import type { ToothRow, ToothFaqRow, ToothImageRow, MediaLibraryRow } from '@/types/db'
@@ -46,8 +47,11 @@ function FaqItem({ faq, index }: { faq: ToothFaqRow; index: number }) {
 export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[] }) {
   const prefersReducedMotion = useReducedMotion()
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null)
+  const [activeRegion, setActiveRegion] = useState<RegionKey | null>(null)
   const activeToothNumbers = useMemo(() => new Set(teeth.map((t) => t.tooth_number)), [teeth])
   const toothNames = useMemo(() => Object.fromEntries(teeth.map((t) => [t.tooth_number, t.name])), [teeth])
+  const highlighted = useMemo(() => regionToothNumbers(activeRegion), [activeRegion])
+  const activeRegionChip = REGION_CHIPS.find((c) => c.key === activeRegion)
   const tooth = teeth.find((t) => t.tooth_number === selectedNumber) ?? null
 
   const beforeImg = tooth?.images.find((i) => i.image_type === 'before')
@@ -65,10 +69,10 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
             Understand Your Smile
           </motion.p>
           <motion.h1 initial="hidden" animate="visible" variants={blurFadeIn} className="font-display text-4xl text-white sm:text-5xl md:text-6xl">
-            Choose Your Tooth
+            Where does it hurt?
           </motion.h1>
           <motion.p initial="hidden" animate="visible" variants={fadeUp} transition={{ delay: 0.1 }} className="mx-auto mt-5 max-w-xl font-body text-base text-white/60">
-            Tap any tooth on the chart to learn about common problems, treatments, and the specialists who care for it.
+            Tap the tooth — or the general area — that&apos;s bothering you. We&apos;ll show you what&apos;s likely going on and who can help.
           </motion.p>
         </div>
       </section>
@@ -76,8 +80,52 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
       <section className="relative mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 pb-28 lg:grid-cols-[1fr_1.1fr] lg:items-start">
         {/* Chart */}
         <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 lg:sticky lg:top-28">
-          <ToothChart activeToothNumbers={activeToothNumbers} selectedToothNumber={selectedNumber} onSelectTooth={(n) => setSelectedNumber(n)} toothNames={toothNames} />
-          <p className="mt-2 text-center font-body text-xs text-white/60">Teeth in gold are currently selected — tap any tooth to begin.</p>
+          <div className="mb-4 flex flex-wrap gap-2" role="group" aria-label="Browse by area">
+            {REGION_CHIPS.map((chip) => {
+              const active = activeRegion === chip.key
+              return (
+                <button
+                  key={chip.key}
+                  type="button"
+                  onClick={() => setActiveRegion((r) => (r === chip.key ? null : chip.key))}
+                  aria-pressed={active}
+                  className="rounded-full border px-3 py-1.5 font-heading text-xs font-medium transition-colors"
+                  style={{
+                    borderColor: active ? SAGE : 'rgba(255,255,255,0.15)',
+                    backgroundColor: active ? 'rgba(156,175,136,0.15)' : 'rgba(255,255,255,0.03)',
+                    color: active ? SAGE : 'rgba(255,255,255,0.7)',
+                  }}
+                >
+                  {chip.label}
+                </button>
+              )
+            })}
+          </div>
+
+          <ToothChart
+            activeToothNumbers={activeToothNumbers}
+            selectedToothNumber={selectedNumber}
+            onSelectTooth={(n) => setSelectedNumber(n)}
+            toothNames={toothNames}
+            regionToothNumbers={highlighted}
+            activeRegionLabel={activeRegionChip?.label}
+          />
+
+          {activeRegion === 'gums' ? (
+            <p className="mt-2 text-center font-body text-xs text-white/60">
+              Gum health affects every tooth. For bleeding, swelling, or sensitivity, our periodontal team can help — meet{' '}
+              <Link href="/doctors/dr-ameena-pradhan" className="text-gold underline underline-offset-2 hover:text-gold/80">
+                Dr. Ameena Pradhan
+              </Link>
+              .
+            </p>
+          ) : activeRegionChip ? (
+            <p className="mt-2 text-center font-body text-xs text-white/60">
+              Gold = selected tooth. Soft green = the area you&apos;re browsing.
+            </p>
+          ) : (
+            <p className="mt-2 text-center font-body text-xs text-white/60">Gold marks your selected tooth — tap any tooth to begin.</p>
+          )}
         </div>
 
         {/* Detail panel */}

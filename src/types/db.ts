@@ -92,6 +92,7 @@ export type ServiceCategoryRow = {
   long_description: string | null
   icon_name: string | null
   icon_svg: string | null
+  thumbnail_url: string | null
   sort_order: number
   is_visible: boolean
   created_by: string | null

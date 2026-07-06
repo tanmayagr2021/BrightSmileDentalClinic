@@ -9,6 +9,16 @@ import type { RoomWithRelations } from './page'
 
 const slugify = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 
+// Photo Sphere Viewer expects equirectangular panoramas, which are ~2:1.
+// Accept a tolerance band rather than hard-blocking, since an admin may
+// deliberately choose a slightly different ratio.
+function panoramaAspectWarning(width: number | null, height: number | null): string | null {
+  if (!width || !height) return null
+  const ratio = width / height
+  if (ratio >= 1.8 && ratio <= 2.2) return null
+  return `This image is ${width}×${height} (~${ratio.toFixed(2)}:1). Panoramas should be roughly 2:1 equirectangular (e.g. 4096×2048) or they'll appear stretched in the viewer.`
+}
+
 export default function VirtualTourClient({ initialRooms }: { initialRooms: RoomWithRelations[] }) {
   const router = useRouter()
   const [rooms, setRooms] = useState(initialRooms)
@@ -335,6 +345,17 @@ export default function VirtualTourClient({ initialRooms }: { initialRooms: Room
                     <span className="flex h-full items-center justify-center font-body text-xs text-gray-400">Choose 360° image</span>
                   )}
                 </button>
+                {selected.panorama && (() => {
+                  const warning = panoramaAspectWarning(selected.panorama.width, selected.panorama.height)
+                  return warning ? (
+                    <p className="mt-1.5 flex items-start gap-1 font-body text-[0.65rem] leading-snug text-amber-600">
+                      <svg viewBox="0 0 24 24" fill="none" className="mt-0.5 h-3 w-3 flex-shrink-0" aria-hidden="true">
+                        <path d="M12 9v4m0 4h.01M10.29 3.86l-8.18 14.18A2 2 0 003.82 21h16.36a2 2 0 001.71-2.96L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      {warning}
+                    </p>
+                  ) : null
+                })()}
               </div>
             </div>
 
