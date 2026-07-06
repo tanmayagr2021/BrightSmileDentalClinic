@@ -6,7 +6,7 @@ import type { MediaLibraryRow } from '@/types/db'
 import { mediaDisplayUrl, RASTER_MIME_TYPES } from '@/lib/admin/media-url'
 import { useFocusTrap } from '@/lib/use-focus-trap'
 
-export type MediaPickerSelection = { id: string; url: string; alt_text: string | null }
+export type MediaPickerSelection = { id: string; url: string; alt_text: string | null; width: number | null; height: number | null }
 
 export type MediaPickerUsageContext = { table: string; column: string; recordId: string }
 
@@ -68,7 +68,7 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
         }),
       }).catch(() => {})
     }
-    onSelect({ id: media.id, url, alt_text: media.alt_text })
+    onSelect({ id: media.id, url, alt_text: media.alt_text, width: media.width, height: media.height })
     onClose()
   }
 
