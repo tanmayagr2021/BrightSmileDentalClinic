@@ -65,13 +65,6 @@ export default function TrustSection({
 
         </div>
 
-        {/* Bottom line */}
-        <div className="mt-16 border-t border-gray-100 pt-8">
-          <p className="font-body text-sm text-gray-600">
-            {pick(content, 'home.trust.bottom_line', 'Serving Kathmandu since 2013 — Over 1,000 patients trust us with their smiles.')}
-          </p>
-        </div>
-
       </div>
     </section>
   )

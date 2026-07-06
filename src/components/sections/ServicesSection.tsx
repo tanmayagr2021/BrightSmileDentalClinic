@@ -2,16 +2,19 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { stagger, fadeUp } from '@/lib/animations'
 import { useTrackViewOnce } from '@/hooks/useTrackViewOnce'
 import { trackEvent } from '@/lib/analytics'
 import { pick } from '@/lib/content-client'
+import ServiceImagePlaceholder from './ServiceImagePlaceholder'
 
 export type ServiceDisplay = {
   slug: string
   name: string
   shortDescription: string
   subServiceCount: number
+  thumbnail_url: string | null
 }
 
 function ArrowUpRight() {
@@ -111,6 +114,15 @@ export default function ServicesSection({
                 className="group flex items-center gap-6 border-b border-gray-200 py-7 transition-colors duration-300 hover:bg-tint/60 lg:gap-10 lg:px-4 lg:py-8"
                 aria-label={`Learn more about ${service.name}`}
               >
+                {/* Thumbnail */}
+                <div className="relative hidden aspect-square w-14 flex-shrink-0 overflow-hidden rounded-xl sm:block lg:w-20">
+                  {service.thumbnail_url ? (
+                    <Image src={service.thumbnail_url} alt={service.name} fill className="object-cover" sizes="80px" />
+                  ) : (
+                    <ServiceImagePlaceholder className="h-full w-full" seed={service.slug} />
+                  )}
+                </div>
+
                 {/* Large serif number */}
                 <span className="w-12 flex-shrink-0 select-none font-display text-3xl font-bold leading-none text-gray-200 transition-colors duration-300 group-hover:text-primary lg:w-16 lg:text-4xl">
                   {String(i + 1).padStart(2, '0')}

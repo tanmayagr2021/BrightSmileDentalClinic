@@ -116,7 +116,7 @@ export default async function HomePage() {
       .order('sort_order', { ascending: true }),
     supabase
       .from('service_categories')
-      .select('id, slug, name, sort_order, is_visible')
+      .select('id, slug, name, sort_order, is_visible, thumbnail_url')
       .eq('is_visible', true)
       .order('sort_order', { ascending: true }),
     supabase
@@ -176,6 +176,7 @@ export default async function HomePage() {
         name: dbRow.name,
         shortDescription: (dbRow as Record<string, unknown>).short_description as string | null ?? staticEntry.shortDescription,
         subServiceCount: staticEntry.subServices.length,
+        thumbnail_url: dbRow.thumbnail_url ?? null,
       }
     })
     .filter((s): s is NonNullable<typeof s> => s !== null)
