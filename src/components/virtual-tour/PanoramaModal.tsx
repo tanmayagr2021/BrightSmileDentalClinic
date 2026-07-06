@@ -152,9 +152,9 @@ export default function PanoramaModal({
               <path d="M12 9v4m0 4h.01M10.29 3.86l-8.18 14.18A2 2 0 003.82 21h16.36a2 2 0 001.71-2.96L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <p className="font-display text-xl text-white">This room couldn't load</p>
+          <p className="font-display text-xl text-white">This room couldn&apos;t load</p>
           <p className="max-w-sm font-body text-sm text-white/60">
-            The 360° view didn't come through. Check your connection and try again.
+            The 360° view didn&apos;t come through. Check your connection and try again.
           </p>
           <button
             onClick={handleRetry}
