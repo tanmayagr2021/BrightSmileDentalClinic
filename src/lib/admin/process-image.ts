@@ -2,19 +2,24 @@ import sharp from 'sharp'
 
 export type BucketConfig = { public: boolean; maxSize: number; mimeTypes: string[] | null }
 
+// All image buckets share one generous ceiling so screenshots/photos never
+// get rejected purely for size — sharp's MAX_DIMENSION resize below already
+// keeps output files reasonable regardless of how large the source upload is.
+const IMAGE_MAX_SIZE = 20_971_520 // 20MB
+
 export const MEDIA_BUCKETS: Record<string, BucketConfig> = {
-  'doctor-photos': { public: true, maxSize: 5_242_880, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-  'service-images': { public: true, maxSize: 5_242_880, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-  gallery: { public: true, maxSize: 10_485_760, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-  'blog-images': { public: true, maxSize: 10_485_760, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-  'testimonial-photos': { public: true, maxSize: 2_097_152, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-  branding: { public: true, maxSize: 2_097_152, mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/x-icon', 'image/svg+xml'] },
-  'og-images': { public: true, maxSize: 5_242_880, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+  'doctor-photos': { public: true, maxSize: IMAGE_MAX_SIZE, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+  'service-images': { public: true, maxSize: IMAGE_MAX_SIZE, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+  gallery: { public: true, maxSize: IMAGE_MAX_SIZE, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+  'blog-images': { public: true, maxSize: IMAGE_MAX_SIZE, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+  'testimonial-photos': { public: true, maxSize: IMAGE_MAX_SIZE, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+  branding: { public: true, maxSize: IMAGE_MAX_SIZE, mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/x-icon', 'image/svg+xml'] },
+  'og-images': { public: true, maxSize: IMAGE_MAX_SIZE, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
   documents: { public: false, maxSize: 20_971_520, mimeTypes: ['application/pdf'] },
-  misc: { public: false, maxSize: 5_242_880, mimeTypes: null },
-  'virtual-tour': { public: true, maxSize: 20_971_520, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-  'tooth-explorer': { public: true, maxSize: 10_485_760, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-  'trust-wall': { public: true, maxSize: 5_242_880, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+  misc: { public: false, maxSize: IMAGE_MAX_SIZE, mimeTypes: null },
+  'virtual-tour': { public: true, maxSize: IMAGE_MAX_SIZE, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+  'tooth-explorer': { public: true, maxSize: IMAGE_MAX_SIZE, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+  'trust-wall': { public: true, maxSize: IMAGE_MAX_SIZE, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
 }
 
 // Only these formats are safe to run through sharp's resize pipeline —
