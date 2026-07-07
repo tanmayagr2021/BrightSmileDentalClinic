@@ -381,6 +381,7 @@ function PostForm({
           onSelect={(selection) => onChange({ ...form, cover_image_url: selection.url })}
           bucket="blog-images"
           usageContext={usageContext}
+          aspect={16 / 9}
         />
       </div>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">

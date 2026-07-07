@@ -6,6 +6,7 @@ import type { MediaLibraryRow } from '@/types/db'
 import { mediaDisplayUrl, RASTER_MIME_TYPES } from '@/lib/admin/media-url'
 import { useFocusTrap } from '@/lib/use-focus-trap'
 import { convertHeicIfNeeded } from '@/lib/admin/heic-convert'
+import ImageCropModal from '@/components/admin/ImageCropModal'
 
 export type MediaPickerSelection = { id: string; url: string; alt_text: string | null; width: number | null; height: number | null }
 
@@ -21,9 +22,15 @@ interface MediaPickerProps {
   folder?: string
   /** When provided, auto-upserts media_usage so the delete-block/replace-cascade logic tracks this reference. */
   usageContext?: MediaPickerUsageContext
+  /** Target aspect ratio (width / height) shown as the crop boundary for new uploads. Defaults to 1 (square). */
+  aspect?: number
+  /** Shape of the crop boundary — 'round' for avatar-style circular images. Defaults to 'rect'. */
+  cropShape?: 'rect' | 'round'
+  /** Skips the crop step entirely — for assets like 360 panoramas where cropping would break the image. */
+  disableCrop?: boolean
 }
 
-export default function MediaPicker({ open, onClose, onSelect, bucket, folder, usageContext }: MediaPickerProps) {
+export default function MediaPicker({ open, onClose, onSelect, bucket, folder, usageContext, aspect = 1, cropShape = 'rect', disableCrop = false }: MediaPickerProps) {
   const [tab, setTab] = useState<'library' | 'upload'>('library')
   const [items, setItems] = useState<MediaLibraryRow[]>([])
   const [loading, setLoading] = useState(false)
@@ -31,6 +38,7 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
   const [uploading, setUploading] = useState(false)
   const [converting, setConverting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [cropTarget, setCropTarget] = useState<{ src: string; file: File } | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
 
@@ -42,7 +50,7 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, bucket])
 
-  useFocusTrap(panelRef, open, onClose)
+  useFocusTrap(panelRef, open && !cropTarget, onClose)
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -80,6 +88,20 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
     void finishSelection(item, url)
   }
 
+  const uploadFile = async (file: File) => {
+    setUploading(true)
+    const fd = new FormData()
+    fd.append('file', file)
+    fd.append('bucket', bucket)
+    if (folder) fd.append('folder', folder)
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+    const data = await res.json().catch(() => ({}))
+    setUploading(false)
+    if (!res.ok) { setError(data.error ?? 'Upload failed'); return }
+    void finishSelection(data.media, data.url)
+    if (fileRef.current) fileRef.current.value = ''
+  }
+
   const handleUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return
     setError(null)
@@ -95,17 +117,26 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
       }
       setConverting(false)
     }
-    setUploading(true)
-    const fd = new FormData()
-    fd.append('file', file)
-    fd.append('bucket', bucket)
-    if (folder) fd.append('folder', folder)
-    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-    const data = await res.json().catch(() => ({}))
-    setUploading(false)
-    if (!res.ok) { setError(data.error ?? 'Upload failed'); return }
-    void finishSelection(data.media, data.url)
+    if (!disableCrop && RASTER_MIME_TYPES.has(file.type)) {
+      setCropTarget({ src: URL.createObjectURL(file), file })
+      return
+    }
+    await uploadFile(file)
+  }
+
+  const handleCropCancel = () => {
+    if (cropTarget) URL.revokeObjectURL(cropTarget.src)
+    setCropTarget(null)
     if (fileRef.current) fileRef.current.value = ''
+  }
+
+  const handleCropConfirm = async (blob: Blob) => {
+    if (!cropTarget) return
+    const { src, file } = cropTarget
+    URL.revokeObjectURL(src)
+    setCropTarget(null)
+    const cropped = new File([blob], file.name, { type: file.type })
+    await uploadFile(cropped)
   }
 
   if (!open) return null
@@ -201,6 +232,17 @@ export default function MediaPicker({ open, onClose, onSelect, bucket, folder, u
           </div>
         )}
       </div>
+
+      {cropTarget && (
+        <ImageCropModal
+          imageSrc={cropTarget.src}
+          mimeType={cropTarget.file.type}
+          aspect={aspect}
+          cropShape={cropShape}
+          onCancel={handleCropCancel}
+          onConfirm={handleCropConfirm}
+        />
+      )}
     </div>
   )
 }

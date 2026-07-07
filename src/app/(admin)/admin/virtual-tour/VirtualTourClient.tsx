@@ -441,6 +441,8 @@ export default function VirtualTourClient({ initialRooms }: { initialRooms: Room
         onClose={() => setPicker(null)}
         onSelect={handleMediaSelect}
         bucket="virtual-tour"
+        aspect={1}
+        disableCrop={picker === 'panorama'}
       />
     </div>
   )

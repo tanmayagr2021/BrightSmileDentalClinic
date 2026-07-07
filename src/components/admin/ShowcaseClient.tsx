@@ -272,6 +272,7 @@ export default function ShowcaseClient({ slides: initialSlides }: { slides: Slid
         onSelect={(selection) => pickerForSlide && handleImageSelect(pickerForSlide, selection)}
         bucket="gallery"
         usageContext={pickerForSlide ? { table: 'showcase_slides', column: 'image_url', recordId: pickerForSlide } : undefined}
+        aspect={4 / 3}
       />
     </div>
   )
