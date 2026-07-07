@@ -222,7 +222,7 @@ export default function TrustWallClient({ initialItems }: { initialItems: TrustW
         )}
       </div>
 
-      <MediaPicker open={picker !== null} onClose={() => setPicker(null)} onSelect={handleImageSelect} bucket="trust-wall" />
+      <MediaPicker open={picker !== null} onClose={() => setPicker(null)} onSelect={handleImageSelect} bucket="trust-wall" aspect={21 / 9} />
     </div>
   )
 }

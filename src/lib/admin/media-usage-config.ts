@@ -11,6 +11,7 @@ export const MEDIA_USAGE_TARGETS = [
   { table: 'gallery', columns: ['image_url', 'thumbnail_url'] },
   { table: 'showcase_slides', columns: ['image_url'] },
   { table: 'services', columns: ['thumbnail_url', 'banner_url'] },
+  { table: 'service_categories', columns: ['thumbnail_url'] },
   { table: 'blog_posts', columns: ['cover_image_url', 'og_image_url'] },
   { table: 'branding', columns: ['logo_url', 'logo_dark_url', 'favicon_url'] },
 ] as const

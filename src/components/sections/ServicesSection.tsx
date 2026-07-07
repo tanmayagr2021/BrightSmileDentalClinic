@@ -117,7 +117,7 @@ export default function ServicesSection({
                 {/* Thumbnail */}
                 <div className="relative hidden aspect-square w-14 flex-shrink-0 overflow-hidden rounded-xl sm:block lg:w-20">
                   {service.thumbnail_url ? (
-                    <Image src={service.thumbnail_url} alt={service.name} fill className="object-cover" sizes="80px" />
+                    <Image src={service.thumbnail_url} alt={service.name} fill className="object-cover object-top" sizes="80px" />
                   ) : (
                     <ServiceImagePlaceholder className="h-full w-full" seed={service.slug} />
                   )}

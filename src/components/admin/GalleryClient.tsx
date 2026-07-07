@@ -4,6 +4,7 @@ import { useState, useRef, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import MediaPicker, { type MediaPickerSelection } from '@/components/admin/MediaPicker'
+import ImageCropModal from '@/components/admin/ImageCropModal'
 
 type GalleryGroup = { id: string; name: string; slug: string }
 type GalleryItem = {
@@ -35,6 +36,9 @@ export default function GalleryClient({
   const [editCaption, setEditCaption] = useState('')
   const [editGroupId, setEditGroupId] = useState<string>('')
   const [pickerOpen, setPickerOpen] = useState(false)
+  const [cropQueue, setCropQueue] = useState<File[]>([])
+  const [cropTarget, setCropTarget] = useState<{ src: string; file: File } | null>(null)
+  const uploadedCountRef = useRef(0)
   const fileRef = useRef<HTMLInputElement>(null)
 
   const showToast = (msg: string, ok: boolean) => {
@@ -46,37 +50,67 @@ export default function GalleryClient({
     ? items
     : items.filter((i) => i.gallery_groups?.slug === activeGroup)
 
-  const handleUpload = async (files: FileList | null) => {
-    if (!files || files.length === 0) return
-    setUploading(true)
-    const newItems: GalleryItem[] = []
+  const uploadAndCreate = async (file: File): Promise<GalleryItem | null> => {
+    const fd = new FormData()
+    fd.append('file', file)
+    fd.append('bucket', 'gallery')
 
-    for (const file of Array.from(files)) {
-      const fd = new FormData()
-      fd.append('file', file)
-      fd.append('bucket', 'gallery')
+    const uploadRes = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+    if (!uploadRes.ok) { showToast(`Upload failed: ${file.name}`, false); return null }
+    const { url } = await uploadRes.json()
 
-      const uploadRes = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-      if (!uploadRes.ok) { showToast(`Upload failed: ${file.name}`, false); continue }
-      const { url } = await uploadRes.json()
+    const createRes = await fetch('/api/admin/gallery', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image_url: url, alt_text: file.name.replace(/\.[^.]+$/, ''), group_id: activeGroup !== 'all' ? groups.find(g => g.slug === activeGroup)?.id : null }),
+    })
+    if (!createRes.ok) { showToast('Failed to save photo', false); return null }
+    const item = await createRes.json()
+    return { ...item, gallery_groups: groups.find(g => g.id === item.group_id) ?? null }
+  }
 
-      const createRes = await fetch('/api/admin/gallery', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image_url: url, alt_text: file.name.replace(/\.[^.]+$/, ''), group_id: activeGroup !== 'all' ? groups.find(g => g.slug === activeGroup)?.id : null }),
-      })
-      if (!createRes.ok) { showToast('Failed to save photo', false); continue }
-      const item = await createRes.json()
-      newItems.push({ ...item, gallery_groups: groups.find(g => g.id === item.group_id) ?? null })
-    }
-
-    if (newItems.length > 0) {
-      setItems((prev) => [...prev, ...newItems])
-      showToast(`${newItems.length} photo${newItems.length > 1 ? 's' : ''} uploaded`, true)
-    }
+  const finishBatch = () => {
     setUploading(false)
     if (fileRef.current) fileRef.current.value = ''
+    if (uploadedCountRef.current > 0) showToast(`${uploadedCountRef.current} photo${uploadedCountRef.current > 1 ? 's' : ''} uploaded`, true)
+    uploadedCountRef.current = 0
     startTransition(() => router.refresh())
+  }
+
+  // Crops one photo at a time — react-easy-crop only ever edits a single
+  // image, so a multi-file drop is worked through as a queue.
+  const advanceCropQueue = (queue: File[]) => {
+    const [next, ...rest] = queue
+    if (!next) { finishBatch(); return }
+    setCropQueue(rest)
+    setCropTarget({ src: URL.createObjectURL(next), file: next })
+  }
+
+  const handleUpload = (files: FileList | null) => {
+    if (!files || files.length === 0) return
+    setUploading(true)
+    uploadedCountRef.current = 0
+    advanceCropQueue(Array.from(files))
+  }
+
+  const handleCropCancel = () => {
+    if (cropTarget) URL.revokeObjectURL(cropTarget.src)
+    setCropTarget(null)
+    finishBatch()
+  }
+
+  const handleCropConfirm = async (blob: Blob) => {
+    if (!cropTarget) return
+    const { src, file } = cropTarget
+    URL.revokeObjectURL(src)
+    setCropTarget(null)
+    const cropped = new File([blob], file.name, { type: file.type })
+    const item = await uploadAndCreate(cropped)
+    if (item) {
+      setItems((prev) => [...prev, item])
+      uploadedCountRef.current += 1
+    }
+    advanceCropQueue(cropQueue)
   }
 
   const handleLibrarySelect = async (selection: MediaPickerSelection) => {
@@ -192,6 +226,17 @@ export default function GalleryClient({
         onSelect={handleLibrarySelect}
         bucket="gallery"
       />
+
+      {cropTarget && (
+        <ImageCropModal
+          imageSrc={cropTarget.src}
+          mimeType={cropTarget.file.type}
+          aspect={1}
+          cropShape="rect"
+          onCancel={handleCropCancel}
+          onConfirm={handleCropConfirm}
+        />
+      )}
 
       {/* Stats */}
       <div className="mb-5 grid grid-cols-4 gap-3">

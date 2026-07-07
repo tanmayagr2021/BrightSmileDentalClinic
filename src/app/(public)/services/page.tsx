@@ -200,7 +200,7 @@ export default async function ServicesPage() {
                   {/* Image strip */}
                   <div className="relative aspect-[21/9] w-full">
                     {service.thumbnail_url ? (
-                      <Image src={service.thumbnail_url} alt={service.name} fill className="object-cover" sizes="(min-width: 1024px) 900px, 100vw" />
+                      <Image src={service.thumbnail_url} alt={service.name} fill className="object-cover object-top" sizes="(min-width: 1024px) 900px, 100vw" />
                     ) : (
                       <ServiceImagePlaceholder className="h-full w-full" seed={service.slug} />
                     )}
@@ -305,7 +305,7 @@ export default async function ServicesPage() {
                   <div className="flex items-start gap-5">
                     <div className="relative aspect-[4/3] w-28 flex-shrink-0 overflow-hidden rounded-xl">
                       {service.thumbnail_url ? (
-                        <Image src={service.thumbnail_url} alt={service.name} fill className="object-cover" sizes="112px" />
+                        <Image src={service.thumbnail_url} alt={service.name} fill className="object-cover object-top" sizes="112px" />
                       ) : (
                         <ServiceImagePlaceholder className="h-full w-full" seed={service.slug} />
                       )}

@@ -573,6 +573,7 @@ function ServiceModal({
         bucket="service-images"
         onSelect={(selection: MediaPickerSelection) => setForm((f) => ({ ...f, thumbnail_url: selection.url }))}
         usageContext={isEdit && service ? { table: 'service_categories', column: 'thumbnail_url', recordId: service.id } : undefined}
+        aspect={21 / 9}
       />
     </div>
   )
