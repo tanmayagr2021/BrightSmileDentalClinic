@@ -9,6 +9,7 @@ import MagneticWrap from '@/components/motion/MagneticWrap'
 import Parallax from '@/components/motion/Parallax'
 import { trackEvent } from '@/lib/analytics'
 import { pick } from '@/lib/content-client'
+import VirtualTourPortal from '@/components/sections/VirtualTourPortal'
 
 type HourRow = { days: string; hours: string; open: boolean }
 
@@ -33,11 +34,15 @@ export default function ShowcaseSection({
   openingHours: _openingHours,
   phone,
   content,
+  virtualTourImageUrl = null,
+  virtualTourRoomName = null,
 }: {
   slides: SlideData[]
   openingHours?: HourRow[]
   phone?: string
   content: Record<string, string>
+  virtualTourImageUrl?: string | null
+  virtualTourRoomName?: string | null
 }) {
   const displayPhone = phone ?? CLINIC_CONTACT.phone
   const trustChips = [
@@ -268,6 +273,10 @@ export default function ShowcaseSection({
               </motion.span>
             </AnimatePresence>
           </div>
+
+          {/* Virtual Tour discovery — mobile/tablet teaser (desktop gets the
+              floating window card inset in the image panel, below) */}
+          <VirtualTourPortal variant="teaser" imageUrl={virtualTourImageUrl} roomName={virtualTourRoomName} />
         </div>
       </div>
 
@@ -374,6 +383,11 @@ export default function ShowcaseSection({
             {displayPhone}
           </a>
         </div>
+
+        {/* Virtual Tour discovery — desktop floating window card, bottom-left
+            (mirrors the phone CTA at bottom-right); mobile/tablet teaser
+            lives in the text panel above. */}
+        <VirtualTourPortal variant="card" imageUrl={virtualTourImageUrl} roomName={virtualTourRoomName} />
       </div>
     </section>
   )

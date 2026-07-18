@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { SERVICE_CATEGORIES_STATIC, OPENING_HOURS, CLINIC_CONTACT, HOMEPAGE_STATS } from '@/lib/constants'
+import { mediaDisplayUrl } from '@/lib/admin/media-url'
 import {
   getContentBlocks,
   getTrustIndicators,
@@ -83,6 +84,7 @@ export default async function HomePage() {
     { data: showcaseData },
     { data: openingHoursData },
     { data: siteSettingsData },
+    { data: heroTourRoomData },
     content,
     trustIndicators,
     whyChooseReasons,
@@ -133,6 +135,12 @@ export default async function HomePage() {
       .select('phone_primary, phone_whatsapp, email_appointments, address_line1, address_line2, address_city, google_maps_url, stat_patients, stat_years, stat_treatments, stat_team_label')
       .limit(1)
       .single(),
+    supabase
+      .from('virtual_tour_rooms')
+      .select('name, thumbnail:media_library!virtual_tour_rooms_thumbnail_media_id_fkey(bucket, file_path)')
+      .eq('is_visible', true)
+      .order('sort_order', { ascending: true })
+      .limit(1),
     getContentBlocks(),
     getTrustIndicators(),
     getWhyChooseReasons(),
@@ -148,6 +156,9 @@ export default async function HomePage() {
   const doctors = doctorData ?? []
   const showcaseSlides = showcaseData ?? []
   const openingHours = buildOpeningHours(openingHoursData ?? [])
+  const heroTourRoom = heroTourRoomData?.[0] as { name: string; thumbnail: { bucket: string; file_path: string } | null } | undefined
+  const virtualTourImageUrl = heroTourRoom?.thumbnail ? mediaDisplayUrl(heroTourRoom.thumbnail) : null
+  const virtualTourRoomName = heroTourRoom?.name ?? null
   const s = siteSettingsData as {
     phone_primary?: string; phone_whatsapp?: string; email_appointments?: string
     address_line1?: string; address_line2?: string; address_city?: string; google_maps_url?: string
@@ -190,7 +201,14 @@ export default async function HomePage() {
     <PublicLayout>
       <ScrollDepthTracker />
       {/* 1. Hero — full-screen cinematic clinic showcase (always visible) */}
-      <ShowcaseSection slides={showcaseSlides} openingHours={openingHours} phone={clinicPhone} content={content} />
+      <ShowcaseSection
+        slides={showcaseSlides}
+        openingHours={openingHours}
+        phone={clinicPhone}
+        content={content}
+        virtualTourImageUrl={virtualTourImageUrl}
+        virtualTourRoomName={virtualTourRoomName}
+      />
       {/* 2. Trust — stats + quick credentials */}
       {sectionVisible('stats') && <StatsSection stats={homepageStats} />}
       {sectionVisible('trust') && <TrustSection content={content} indicators={trustIndicators} />}

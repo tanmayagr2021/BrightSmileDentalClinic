@@ -181,7 +181,9 @@ export default async function GalleryPage() {
           for the standalone fullscreen route). */}
       {virtualTourRooms.length > 0 && (
         <>
-          <VirtualTourExperience rooms={virtualTourRooms} variant="embedded" />
+          <div id="virtual-tour" className="scroll-mt-24">
+            <VirtualTourExperience rooms={virtualTourRooms} variant="embedded" />
+          </div>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="h-px bg-white/[0.06]" />
           </div>
