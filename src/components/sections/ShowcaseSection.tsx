@@ -304,17 +304,20 @@ export default function ShowcaseSection({
           ))}
         </div>
 
-        {/* Slide images */}
+        {/* Slide images — framed at 4:3 (matching the admin crop tool's
+            aspect exactly) and vertically centered in the taller panel,
+            rather than object-cover-stretched to the panel's own shape.
+            The navy letterbox bars read as an intentional cinematic frame. */}
         <AnimatePresence mode="wait">
           <motion.div
             key={current.id}
             initial={{ opacity: 0, scale: 1.04 }}
             animate={{ opacity: 1, scale: 1, transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] } }}
             exit={{ opacity: 0, transition: { duration: 0.35 } }}
-            className="absolute inset-0"
+            className="absolute inset-0 flex items-center justify-center"
           >
             {current.image_url ? (
-              <>
+              <div className="relative w-full aspect-[4/3] max-h-full">
                 <Image
                   src={current.image_url}
                   alt={current.title}
@@ -327,10 +330,10 @@ export default function ShowcaseSection({
                 <div className="absolute inset-0 bg-gradient-to-r from-[#0E1B2E]/60 lg:from-[#0E1B2E]/30 via-transparent to-transparent" />
                 {/* Bottom gradient */}
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent" />
-              </>
+              </div>
             ) : (
               <div
-                className="absolute inset-0 flex items-center justify-center"
+                className="relative flex w-full aspect-[4/3] max-h-full items-center justify-center"
                 style={{ background: `linear-gradient(155deg, ${current.gradient_from} 0%, ${current.gradient_to} 100%)` }}
               >
                 <span className="font-display text-xl text-white/80 tracking-display px-10 text-center">

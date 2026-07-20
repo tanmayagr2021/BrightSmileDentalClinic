@@ -441,7 +441,11 @@ export default function VirtualTourClient({ initialRooms }: { initialRooms: Room
         onClose={() => setPicker(null)}
         onSelect={handleMediaSelect}
         bucket="virtual-tour"
-        aspect={1}
+        // 16:9 matches the room-thumbnail display shape (hero portal card
+        // ~1.94:1, gallery room card ~1.5-2:1) — square (1) previously let
+        // object-cover re-crop the already-cropped image unpredictably.
+        // Ignored for the panorama picker (disableCrop below).
+        aspect={16 / 9}
         disableCrop={picker === 'panorama'}
       />
     </div>
