@@ -190,7 +190,7 @@ export default function DoctorsSection({
 
                 <div className="mt-5 flex flex-wrap gap-2">
                   {(doc.specializations ?? []).slice(0, 4).map((s) => (
-                    <span key={s} className="rounded-lg bg-tint px-2.5 py-1 font-heading text-[0.62rem] font-semibold text-dark/60">
+                    <span key={s} className="rounded-lg bg-tint px-2.5 py-1 font-heading text-[0.62rem] font-semibold text-dark/70">
                       {s}
                     </span>
                   ))}

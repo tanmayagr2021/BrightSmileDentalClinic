@@ -160,13 +160,13 @@ export default function ContactClient({
           <p className="font-heading text-xs font-semibold text-red-700">
             {pick(content, 'contact.emergency.heading', 'Dental Emergency?')}
           </p>
-          <p className="font-body text-xs text-red-600">
+          <p className="font-body text-xs text-red-700">
             {pick(content, 'contact.emergency.text', 'Call us immediately — we do our best to see emergency patients the same day.')}
           </p>
           <a
             href={`tel:${phone}`}
             onClick={() => trackEvent('Phone Clicked', { location: 'emergency-banner' })}
-            className="ml-auto flex-shrink-0 rounded-lg bg-red-500 px-4 py-2 font-heading text-xs font-semibold text-white transition-colors hover:bg-red-600"
+            className="ml-auto flex-shrink-0 rounded-lg bg-red-600 px-4 py-2 font-heading text-xs font-semibold text-white transition-colors hover:bg-red-700"
           >
             {interpolate(pick(content, 'contact.emergency.cta_label_template', 'Call Now: {phone}'), { phone })}
           </a>

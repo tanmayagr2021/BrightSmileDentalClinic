@@ -217,7 +217,7 @@ export default async function AboutPage() {
                     )}
                   </div>
                   <h3 className="mt-5 font-display text-xl text-dark tracking-display">{doc.full_name}</h3>
-                  <p className="mt-1 font-body text-sm text-gray-500">{doc.title}</p>
+                  <p className="mt-1 font-body text-sm text-gray-600">{doc.title}</p>
                 </div>
               ))}
             </div>
@@ -238,7 +238,7 @@ export default async function AboutPage() {
                       )}
                     </div>
                     <h3 className="mt-3 font-heading text-sm font-semibold text-dark">{doc.full_name}</h3>
-                    <p className="mt-0.5 font-body text-xs text-gray-500">{doc.title}</p>
+                    <p className="mt-0.5 font-body text-xs text-gray-600">{doc.title}</p>
                   </div>
                 ))}
               </div>
@@ -283,7 +283,7 @@ export default async function AboutPage() {
                 ].join(' ')}
               >
                 {/* Ghost number */}
-                <span className="select-none font-display text-4xl font-bold tabular-nums text-white/[0.07] sm:text-5xl lg:text-7xl">
+                <span aria-hidden="true" className="select-none font-display text-4xl font-bold tabular-nums text-white/[0.07] sm:text-5xl lg:text-7xl">
                   {String(i + 1).padStart(2, '0')}
                 </span>
 
@@ -323,7 +323,7 @@ export default async function AboutPage() {
               <div className="mt-10 divide-y divide-gray-100">
                 {whyChooseUs.map((point, i) => (
                   <div key={point} className="flex items-center gap-8 py-6">
-                    <span className="w-12 flex-shrink-0 font-display text-4xl font-bold tabular-nums text-gray-100">
+                    <span aria-hidden="true" className="w-12 flex-shrink-0 font-display text-4xl font-bold tabular-nums text-gray-100">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <span className="font-body text-base text-gray-600 leading-snug">{point}</span>

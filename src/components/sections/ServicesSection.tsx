@@ -124,7 +124,7 @@ export default function ServicesSection({
                 </div>
 
                 {/* Large serif number */}
-                <span className="w-12 flex-shrink-0 select-none font-display text-3xl font-bold leading-none text-gray-200 transition-colors duration-300 group-hover:text-primary lg:w-16 lg:text-4xl">
+                <span aria-hidden="true" className="w-12 flex-shrink-0 select-none font-display text-3xl font-bold leading-none text-gray-200 transition-colors duration-300 group-hover:text-primary lg:w-16 lg:text-4xl">
                   {String(i + 1).padStart(2, '0')}
                 </span>
 

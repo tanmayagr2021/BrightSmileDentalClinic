@@ -120,7 +120,7 @@ function StepDoctor({ selected, onSelect, doctors }: { selected: string | null; 
 
             <div className="mt-4 flex flex-wrap gap-1.5">
               {doc.specializations.slice(0, 3).map((s) => (
-                <span key={s} className="rounded-lg bg-tint px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-dark/60">
+                <span key={s} className="rounded-lg bg-tint px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-dark/70">
                   {s}
                 </span>
               ))}
@@ -513,7 +513,7 @@ function ProgressBar({ currentStep }: { currentStep: number }) {
           <span
             key={i}
             className={`font-heading text-[0.62rem] font-semibold transition-colors ${
-              i === currentStep ? 'text-primary' : i < currentStep ? 'text-gray-600' : 'text-gray-200'
+              i === currentStep ? 'text-primary' : i < currentStep ? 'text-gray-600' : 'text-gray-500'
             }`}
           >
             {STEP_LABELS[i]}
@@ -720,7 +720,7 @@ export default function AppointmentFlow({
                 <div className="space-y-2.5">
                   {displayHours.map((h) => (
                     <div key={h.days} className="flex justify-between">
-                      <span className="font-body text-sm text-gray-500">{h.days}</span>
+                      <span className="font-body text-sm text-gray-600">{h.days}</span>
                       <span className="font-heading text-sm font-semibold text-dark">
                         {('open' in h && !h.open) ? 'Closed' : h.hours}
                       </span>

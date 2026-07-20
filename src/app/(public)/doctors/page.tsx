@@ -173,7 +173,7 @@ export default async function DoctorsPage() {
               <h2 className="font-display text-4xl text-dark sm:text-5xl tracking-display leading-[1.06]">
                 Your Primary Care Contacts
               </h2>
-              <p className="mt-4 max-w-lg font-body text-base text-gray-500 leading-relaxed">
+              <p className="mt-4 max-w-lg font-body text-base text-gray-600 leading-relaxed">
                 All direct appointments are with Dr. Sachin or Dr. Binita — who assess your needs, design your care plan, and coordinate any specialist involvement.
               </p>
             </div>
@@ -283,7 +283,7 @@ export default async function DoctorsPage() {
                             {(doc.specializations ?? []).slice(0, 4).map((s) => (
                               <span
                                 key={s}
-                                className="rounded-xl border border-gray-100 bg-tint px-3 py-1.5 font-heading text-[0.65rem] font-semibold text-dark/60"
+                                className="rounded-xl border border-gray-100 bg-tint px-3 py-1.5 font-heading text-[0.65rem] font-semibold text-dark/70"
                               >
                                 {s}
                               </span>

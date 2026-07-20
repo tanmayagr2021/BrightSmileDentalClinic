@@ -310,7 +310,7 @@ export default async function ServicesPage() {
                         <ServiceImagePlaceholder className="h-full w-full" seed={service.slug} />
                       )}
                     </div>
-                    <span className="font-display text-4xl font-bold leading-none text-gray-200 tabular-nums transition-colors group-hover:text-primary/30">
+                    <span aria-hidden="true" className="font-display text-4xl font-bold leading-none text-gray-200 tabular-nums transition-colors group-hover:text-primary/30">
                       {String(premiumServices.length + index + 1).padStart(2, '0')}
                     </span>
                     <div className="flex-1">

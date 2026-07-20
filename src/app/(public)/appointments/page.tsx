@@ -95,7 +95,7 @@ export default async function AppointmentsPage({
           <h1 className="font-display text-4xl text-dark sm:text-5xl tracking-display">
             Book an Appointment
           </h1>
-          <p className="mt-4 max-w-xl font-body text-base text-gray-500 leading-relaxed">
+          <p className="mt-4 max-w-xl font-body text-base text-gray-600 leading-relaxed">
             Request a time with our lead dentists in a few simple steps. We&apos;ll call to confirm your slot — usually within 2 hours.
           </p>
         </div>
