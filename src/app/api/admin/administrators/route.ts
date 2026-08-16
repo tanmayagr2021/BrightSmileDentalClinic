@@ -6,7 +6,7 @@ export const runtime = 'nodejs'
 
 // GET — list all administrators (including disabled, excluding soft-deleted)
 export async function GET() {
-  const { admin, error } = await requireSuperAdminApi()
+  const { error } = await requireSuperAdminApi()
   if (error) return error
 
   const supabase = createAdminClient()

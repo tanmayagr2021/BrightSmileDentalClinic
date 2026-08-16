@@ -28,6 +28,7 @@ yarn-error.log*
 .env.local
 .env.development.local
 .env.test.local
+.env.production
 .env.production.local
 
 # vercel
@@ -48,3 +49,7 @@ qa/
 /test-results/
 /playwright-report/
 /blob-report/
+
+# hosting/handoff docs — contain live production secrets, never commit
+*.docx
+hosting.docx

@@ -212,7 +212,7 @@ export default function BrightAI() {
       const errorMsg: ChatMessage = {
         id: `err-${Date.now()}`,
         role: 'assistant',
-        content: "I'm sorry, I couldn't connect right now. Please try again or call us at +977-1-4419594.",
+        content: "I'm sorry, I couldn't connect right now. Please try again or call us at +977-1-4519594.",
         timestamp: Date.now(),
         quickReplies: ['Try again', 'Call the clinic'],
       }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { requireAdminApi } from '@/lib/admin-auth'
 import { isTrackedColumn } from '@/lib/admin/media-usage-config'
 
 export const runtime = 'nodejs'
@@ -9,8 +9,8 @@ export const runtime = 'nodejs'
 // logic knows about a freshly-picked asset. table/column are checked
 // against the static allowlist — never used to build a dynamic query.
 export async function POST(req: NextRequest) {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const body = await req.json().catch(() => null)
   const { media_id, table_name, column_name, record_id } = body ?? {}

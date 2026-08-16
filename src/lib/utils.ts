@@ -35,6 +35,28 @@ export function formatTime(time: string): string {
 }
 
 /**
+ * Returns the clinic's local calendar date (Asia/Kathmandu, UTC+5:45) as
+ * YYYY-MM-DD, for a given instant (defaults to now).
+ *
+ * Do not use `date.toISOString().split('T')[0]` for "today"/"tomorrow" —
+ * that converts to UTC first, which silently shifts the date by a day for
+ * roughly 6 hours of every Nepal day (the clinic's server and patients are
+ * both in Nepal, but a UTC-based server clock disagrees with them near
+ * midnight). This uses the same wall-clock calendar date the clinic and its
+ * patients actually see.
+ */
+export function clinicDateStr(date: Date = new Date()): string {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Kathmandu',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date)
+  const get = (type: string) => parts.find((p) => p.type === type)?.value
+  return `${get('year')}-${get('month')}-${get('day')}`
+}
+
+/**
  * Constructs a Supabase Storage public URL.
  * All storage paths are stored in the DB; URLs are constructed at render time.
  */

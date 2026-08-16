@@ -1,3 +1,4 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import VirtualTourClient from './VirtualTourClient'
 import type { VirtualTourRoomRow, VirtualTourRoomGalleryRow, VirtualTourHotspotRow, MediaLibraryRow } from '@/types/db'
@@ -12,6 +13,8 @@ export type RoomWithRelations = VirtualTourRoomRow & {
 }
 
 export default async function AdminVirtualTourPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
 
   const { data: rooms } = await supabase

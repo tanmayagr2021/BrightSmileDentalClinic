@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { requireAdminApi } from '@/lib/admin-auth'
 import { logAudit } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
@@ -15,8 +15,8 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { admin, error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { id } = await params
   const body = await req.json()
@@ -25,7 +25,7 @@ export async function PATCH(
   for (const key of ALLOWED) {
     if (body[key] !== undefined) updates[key] = body[key]
   }
-  updates.updated_by = user.id
+  updates.updated_by = admin.id
 
   const supabase = createAdminClient()
   const { data: before } = await supabase.from('virtual_tour_rooms').select('*').eq('id', id).single()
@@ -47,7 +47,7 @@ export async function PATCH(
   revalidatePath('/gallery')
 
   await logAudit({
-    actorId: user.id, action: 'update', resource: 'virtual_tour_rooms', resourceId: id,
+    actorId: admin.id, action: 'update', resource: 'virtual_tour_rooms', resourceId: id,
     oldData: before, newData: updates, req,
   })
 
@@ -58,8 +58,8 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { admin, error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { id } = await params
   const supabase = createAdminClient()
@@ -73,7 +73,7 @@ export async function DELETE(
   revalidatePath('/gallery')
 
   await logAudit({
-    actorId: user.id, action: 'delete', resource: 'virtual_tour_rooms', resourceId: id,
+    actorId: admin.id, action: 'delete', resource: 'virtual_tour_rooms', resourceId: id,
     oldData: before ? { name: before.name, slug: before.slug } : null, req,
   })
 

@@ -47,6 +47,17 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
   if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 })
 
+  // Disabling in admin_users must also revoke Supabase Auth access — otherwise
+  // a disabled admin's existing session (or a fresh login, since their
+  // password still works) keeps hitting every route that only checks
+  // getCurrentAdmin() indirectly via is_active... this ban is what actually
+  // makes is_active:false stop the account, not just the DB flag.
+  if (typeof body.is_active === 'boolean') {
+    await supabase.auth.admin
+      .updateUserById(id, { ban_duration: body.is_active ? 'none' : '876000h' })
+      .catch(() => {})
+  }
+
   await logAudit({
     actorId: admin.id,
     action: typeof body.is_active === 'boolean' ? (body.is_active ? 'enable' : 'disable') : 'update',

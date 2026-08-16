@@ -35,6 +35,17 @@ export async function requireSuperAdmin(): Promise<AdminUserWithRole> {
   return admin
 }
 
+// Server Component guard for regular CMS admin pages — any active,
+// non-deleted admin_users row (not just super_admin). Mirrors requireAdminApi
+// but redirects like requireSuperAdmin, since these are page.tsx, not routes.
+export async function requireAdmin(): Promise<AdminUserWithRole> {
+  const admin = await getCurrentAdmin()
+  if (!admin) {
+    redirect('/admin/unauthorized')
+  }
+  return admin
+}
+
 // API route guard — mirrors requireSuperAdmin but returns a 403 response
 // instead of redirecting, since route handlers can't redirect a fetch() call.
 export async function requireSuperAdminApi(): Promise<
@@ -43,6 +54,21 @@ export async function requireSuperAdminApi(): Promise<
   const admin = await getCurrentAdmin()
   if (!admin || admin.role !== 'super_admin') {
     return { error: NextResponse.json({ error: 'Forbidden — Super Admin access required' }, { status: 403 }) }
+  }
+  return { admin }
+}
+
+// API route guard for regular CMS admin endpoints — any active, non-deleted
+// admin_users row (not just super_admin). Use this instead of a bare
+// `auth.getUser()` check: getUser() only proves "logged in," not "an
+// authorized admin," and admin_users rows can be disabled without revoking
+// the underlying Supabase Auth session.
+export async function requireAdminApi(): Promise<
+  { admin: AdminUserWithRole; error?: undefined } | { admin?: undefined; error: NextResponse }
+> {
+  const admin = await getCurrentAdmin()
+  if (!admin) {
+    return { error: NextResponse.json({ error: 'Forbidden — Admin access required' }, { status: 403 }) }
   }
   return { admin }
 }

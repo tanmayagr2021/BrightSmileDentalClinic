@@ -1,9 +1,12 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import FaqsClient from '@/components/admin/FaqsClient'
 
 export const dynamic = 'force-dynamic'
 
 export default async function FaqsCmsPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('faqs')

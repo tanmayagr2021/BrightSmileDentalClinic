@@ -1,3 +1,4 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { notFound } from 'next/navigation'
 import DoctorEditClient from './DoctorEditClient'
@@ -9,6 +10,8 @@ export default async function EditDoctorPage({
 }: {
   params: Promise<{ id: string }>
 }) {
+  await requireAdmin()
+
   const { id: slug } = await params
   const supabase = createAdminClient()
 

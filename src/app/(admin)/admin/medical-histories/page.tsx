@@ -1,15 +1,12 @@
-import { createClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { redirect } from 'next/navigation'
 import MedicalHistoriesClient from '@/components/admin/MedicalHistoriesClient'
 import type { MedicalHistoryRow } from '@/types/db'
 
 export const metadata = { title: 'Medical Histories' }
 
 export default async function MedicalHistoriesPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/admin/login')
+  await requireAdmin()
 
   const admin = createAdminClient()
   const { data, count } = await admin

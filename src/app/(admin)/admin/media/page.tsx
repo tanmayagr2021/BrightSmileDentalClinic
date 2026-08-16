@@ -1,3 +1,4 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import MediaLibraryClient from '@/components/admin/MediaLibraryClient'
 import type { MediaLibraryRow } from '@/types/db'
@@ -5,6 +6,8 @@ import type { MediaLibraryRow } from '@/types/db'
 export const dynamic = 'force-dynamic'
 
 export default async function MediaLibraryPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
   const [{ data: media, error }, { data: usageRows }] = await Promise.all([
     supabase.from('media_library').select('*').eq('is_deleted', false).order('created_at', { ascending: false }),

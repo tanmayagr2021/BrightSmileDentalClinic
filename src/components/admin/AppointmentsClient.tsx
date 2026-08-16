@@ -220,9 +220,13 @@ export default function AppointmentsClient({ appointments }: { appointments: App
                     <a href={`tel:${appt.patient_phone}`} className="font-heading text-xs font-semibold text-primary hover:underline">
                       {appt.patient_phone}
                     </a>
-                    <a href={`mailto:${appt.patient_email}`} className="font-body text-xs text-gray-600 hover:underline truncate">
-                      {appt.patient_email}
-                    </a>
+                    {appt.patient_email ? (
+                      <a href={`mailto:${appt.patient_email}`} className="font-body text-xs text-gray-600 hover:underline truncate">
+                        {appt.patient_email}
+                      </a>
+                    ) : (
+                      <span className="font-body text-xs text-gray-400 italic">No email provided</span>
+                    )}
                   </div>
 
                   <p className="font-body text-xs text-gray-600">

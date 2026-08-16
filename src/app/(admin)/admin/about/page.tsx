@@ -234,7 +234,7 @@ export default function AdminAboutPage() {
               <input
                 value={item}
                 onChange={(e) => updateWhyItem(i, e.target.value)}
-                placeholder="e.g. 6 experienced NMC-registered dentists"
+                placeholder="e.g. All Nepal Medical Council registered dentists"
                 className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 font-body text-sm text-gray-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
               />
               <button

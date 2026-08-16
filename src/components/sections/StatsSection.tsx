@@ -50,7 +50,7 @@ export default function StatsSection({ stats }: { stats: Stat[] }) {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="grid grid-cols-2 gap-0 sm:grid-cols-4">
+        <div className={`grid gap-0 ${stats.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-4'}`}>
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}

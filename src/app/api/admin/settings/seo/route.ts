@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { requireAdminApi } from '@/lib/admin-auth'
 
 export const runtime = 'nodejs'
 
 export async function GET() {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const supabase = createAdminClient()
   const { data, error } = await supabase
@@ -19,8 +19,8 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const body: { slug: string; meta_title?: string; meta_description?: string; og_image_url?: string; is_noindex?: boolean }[] = await req.json()
   if (!Array.isArray(body)) return NextResponse.json({ error: 'Body must be an array' }, { status: 400 })

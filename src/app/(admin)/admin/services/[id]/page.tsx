@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
 
 type ServiceRow = {
@@ -17,7 +17,6 @@ type ServiceRow = {
 
 export default function EditServicePage() {
   const params = useParams()
-  const router = useRouter()
   const slug = params.id as string
 
   const [service, setService] = useState<ServiceRow | null>(null)

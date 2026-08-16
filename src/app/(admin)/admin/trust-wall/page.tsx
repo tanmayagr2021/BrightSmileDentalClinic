@@ -1,3 +1,4 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import TrustWallClient from './TrustWallClient'
 import type { TrustWallItemRow, MediaLibraryRow } from '@/types/db'
@@ -7,6 +8,8 @@ export const dynamic = 'force-dynamic'
 export type TrustWallItemWithImage = TrustWallItemRow & { image: MediaLibraryRow | null }
 
 export default async function AdminTrustWallPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
 
   const { data: items } = await supabase

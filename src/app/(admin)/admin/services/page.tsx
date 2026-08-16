@@ -1,9 +1,12 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import ServiceCategoriesClient from '@/components/admin/ServiceCategoriesClient'
 
 export const dynamic = 'force-dynamic'
 
 export default async function ServicesCmsPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
 
   const [{ data: categories, error }, { data: itemCounts }] = await Promise.all([

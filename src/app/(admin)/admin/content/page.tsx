@@ -1,9 +1,12 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import ContentBlocksClient from '@/components/admin/ContentBlocksClient'
 
 export const dynamic = 'force-dynamic'
 
 export default async function ContentBlocksPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('content_blocks')

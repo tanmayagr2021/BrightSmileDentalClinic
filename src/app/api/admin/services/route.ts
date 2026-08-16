@@ -1,19 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { requireAdminApi } from '@/lib/admin-auth'
 import { logAudit } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
 export const runtime = 'nodejs'
 
-async function getAuthUser() {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  return user
-}
-
 export async function GET() {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const supabase = createAdminClient()
   const { data, error } = await supabase
@@ -27,8 +22,8 @@ export async function GET() {
 
 // POST — create new service category
 export async function POST(req: NextRequest) {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { admin, error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const body = await req.json() as {
     name: string
@@ -64,8 +59,8 @@ export async function POST(req: NextRequest) {
       thumbnail_url: body.thumbnail_url?.trim() ?? null,
       sort_order: (last?.sort_order ?? 0) + 10,
       is_visible: true,
-      created_by: user.id,
-      updated_by: user.id,
+      created_by: admin.id,
+      updated_by: admin.id,
     })
     .select()
     .single()
@@ -76,7 +71,7 @@ export async function POST(req: NextRequest) {
   revalidatePath('/services')
 
   await logAudit({
-    actorId: user.id, action: 'create', resource: 'services', resourceId: data.id,
+    actorId: admin.id, action: 'create', resource: 'services', resourceId: data.id,
     newData: { name: data.name, slug: data.slug }, req,
   })
 
@@ -85,8 +80,8 @@ export async function POST(req: NextRequest) {
 
 // PATCH — bulk reorder/visibility update
 export async function PATCH(req: NextRequest) {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { admin, error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const body: { id: string; is_visible: boolean; sort_order: number }[] = await req.json()
 
@@ -102,7 +97,7 @@ export async function PATCH(req: NextRequest) {
       .update({
         is_visible: item.is_visible,
         sort_order: item.sort_order,
-        updated_by: user.id,
+        updated_by: admin.id,
         updated_at: new Date().toISOString(),
       })
       .eq('id', item.id)

@@ -1,21 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { requireAdminApi } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
 export const runtime = 'nodejs'
 
 type Params = { params: Promise<{ id: string }> }
 
-async function getAuthUser() {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  return user
-}
-
 // GET — list all items for a service category
 export async function GET(_req: NextRequest, { params }: Params) {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { id } = await params
   const supabase = createAdminClient()
@@ -32,8 +27,8 @@ export async function GET(_req: NextRequest, { params }: Params) {
 
 // POST — create new item for a service category
 export async function POST(req: NextRequest, { params }: Params) {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { id } = await params
   const body = await req.json().catch(() => null)
@@ -71,8 +66,8 @@ export async function POST(req: NextRequest, { params }: Params) {
 
 // PATCH — bulk reorder / visibility update
 export async function PATCH(req: NextRequest, { params }: Params) {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { id } = await params
   const body = await req.json().catch(() => null)

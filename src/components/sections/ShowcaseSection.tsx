@@ -11,8 +11,6 @@ import { trackEvent } from '@/lib/analytics'
 import { pick } from '@/lib/content-client'
 import VirtualTourPortal from '@/components/sections/VirtualTourPortal'
 
-type HourRow = { days: string; hours: string; open: boolean }
-
 type SlideData = {
   id: string
   title: string
@@ -31,14 +29,12 @@ const AUTO_MS = 7000
 
 export default function ShowcaseSection({
   slides,
-  openingHours: _openingHours,
   phone,
   content,
   virtualTourImageUrl = null,
   virtualTourRoomName = null,
 }: {
   slides: SlideData[]
-  openingHours?: HourRow[]
   phone?: string
   content: Record<string, string>
   virtualTourImageUrl?: string | null

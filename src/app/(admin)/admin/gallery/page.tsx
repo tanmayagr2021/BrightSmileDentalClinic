@@ -1,7 +1,10 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import GalleryClient from '@/components/admin/GalleryClient'
 
 export default async function GalleryAdminPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
 
   const [{ data: items }, { data: groups }] = await Promise.all([

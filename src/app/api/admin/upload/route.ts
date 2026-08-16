@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomUUID } from 'node:crypto'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { requireAdminApi } from '@/lib/admin-auth'
 import { MEDIA_BUCKETS, EXT_BY_MIME, processImage } from '@/lib/admin/process-image'
 
 export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest) {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { admin, error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const formData = await req.formData()
   const file = formData.get('file') as File | null
@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
       alt_text: altText,
       folder: folder ?? bucket,
       tags,
-      uploaded_by: user.id,
+      uploaded_by: admin.id,
     })
     .select()
     .single()

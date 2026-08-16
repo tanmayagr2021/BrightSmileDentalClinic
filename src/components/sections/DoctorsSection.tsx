@@ -104,7 +104,7 @@ export default function DoctorsSection({
                 {pick(content, 'home.doctors.heading', 'Meet Our Lead Dentists')}
               </motion.h2>
               <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-zinc-600 leading-relaxed">
-                {pick(content, 'home.doctors.intro', 'Appointments are available directly with our two lead dentists — both NMC-registered with over a decade of combined experience.')}
+                {pick(content, 'home.doctors.intro', 'Appointments are available directly with our two lead dentists — both NMC-registered with over 50 years of combined experience.')}
               </motion.p>
             </div>
             <motion.div variants={fadeUp} className="flex-shrink-0">

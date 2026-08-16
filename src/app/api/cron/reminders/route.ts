@@ -1,4 +1,6 @@
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendReminderEmail } from '@/lib/email'
+import { clinicDateStr } from '@/lib/utils'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const runtime = 'nodejs'
@@ -17,7 +19,7 @@ export async function GET(req: NextRequest) {
   // Find confirmed appointments tomorrow that haven't had reminders sent
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
-  const tomorrowStr = tomorrow.toISOString().split('T')[0]
+  const tomorrowStr = clinicDateStr(tomorrow)
 
   const { data: appointments, error } = await supabase
     .from('appointments')
@@ -32,11 +34,28 @@ export async function GET(req: NextRequest) {
   }
 
   let sent = 0
-  // Reminder email sending would go here (Resend not yet configured)
-  // For each appointment, send reminder and mark reminder_sent = true
+  let failed = 0
   for (const appt of appointments ?? []) {
-    console.log(`[Reminders] Would send reminder for appointment ${appt.id} to ${appt.patient_email}`)
-    // await sendReminderEmail(appt)
+    if (!appt.patient_email) {
+      failed++
+      continue
+    }
+
+    const result = await sendReminderEmail({
+      to: appt.patient_email,
+      patientName: appt.patient_name,
+      date: appt.appointment_date,
+      time: appt.appointment_time,
+    })
+
+    if (result.error || result.skipped) {
+      if (result.error) console.error(`[Reminders] Failed to send reminder for appointment ${appt.id}:`, result.error)
+      failed++
+      continue
+    }
+
+    // Only mark as sent once Resend has actually accepted the email —
+    // reminder_sent is a one-way flag, so a failed send must stay retryable.
     await supabase
       .from('appointments')
       .update({ reminder_sent: true, reminder_sent_at: new Date().toISOString() })
@@ -44,5 +63,5 @@ export async function GET(req: NextRequest) {
     sent++
   }
 
-  return NextResponse.json({ success: true, sent, total: appointments?.length ?? 0 })
+  return NextResponse.json({ success: true, sent, failed, total: appointments?.length ?? 0 })
 }

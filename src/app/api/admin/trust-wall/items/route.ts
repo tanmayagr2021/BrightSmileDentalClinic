@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { requireAdminApi } from '@/lib/admin-auth'
 import { logAudit } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
 export const runtime = 'nodejs'
 
 export async function GET() {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { data, error } = await createAdminClient()
     .from('trust_wall_items')
@@ -21,8 +21,8 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { admin, error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const body = await req.json()
   if (!body.module || !body.category || !body.title) {
@@ -50,8 +50,8 @@ export async function POST(req: NextRequest) {
       year: body.year ?? null,
       sort_order: (maxRow?.sort_order ?? -1) + 1,
       is_visible: false,
-      created_by: user.id,
-      updated_by: user.id,
+      created_by: admin.id,
+      updated_by: admin.id,
     })
     .select('*, image:media_library(*)')
     .single()
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
   revalidatePath('/about')
 
   await logAudit({
-    actorId: user.id, action: 'create', resource: 'trust_wall_items', resourceId: data.id, newData: data, req,
+    actorId: admin.id, action: 'create', resource: 'trust_wall_items', resourceId: data.id, newData: data, req,
   })
 
   return NextResponse.json(data)

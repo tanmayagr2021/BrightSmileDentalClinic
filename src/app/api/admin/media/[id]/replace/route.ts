@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomUUID } from 'node:crypto'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { requireAdminApi } from '@/lib/admin-auth'
 import { MEDIA_BUCKETS, EXT_BY_MIME, processImage } from '@/lib/admin/process-image'
 import { isTrackedColumn } from '@/lib/admin/media-usage-config'
 import { revalidatePath } from 'next/cache'
@@ -15,8 +15,8 @@ type Params = { params: Promise<{ id: string }> }
 // the new file appears everywhere the old one was referenced — without
 // the admin having to re-pick the image on every edit screen.
 export async function POST(req: NextRequest, { params }: Params) {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { id } = await params
   const supabase = createAdminClient()

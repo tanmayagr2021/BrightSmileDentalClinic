@@ -1,15 +1,12 @@
-import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { requireAdminApi } from '@/lib/admin-auth'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const runtime = 'nodejs'
 
 export async function GET(req: NextRequest) {
-  const supabase = await createClient()
-  const { data: { user }, error: authErr } = await supabase.auth.getUser()
-  if (authErr || !user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { searchParams } = new URL(req.url)
   const status = searchParams.get('status') // 'pending' | 'reviewed' | 'attached' | null

@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: '%s | Bright Smile Dental Clinic',
   },
   description:
-    'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. 6 experienced dentists offering implants, orthodontics, root canal, cosmetic dentistry & more. Book your appointment today.',
+    'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. Expert dentists offering implants, orthodontics, root canal, cosmetic dentistry & more. Book your appointment today.',
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
   ),
@@ -41,14 +41,14 @@ export const metadata: Metadata = {
     locale: 'en_US',
     title: 'Bright Smile Dental Clinic | Dentist in Kathmandu, Nepal',
     description:
-      'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. 6 experienced dentists offering implants, orthodontics, root canal, cosmetic dentistry & more.',
+      'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. Expert dentists offering implants, orthodontics, root canal, cosmetic dentistry & more.',
     images: [{ url: '/images/logo.jpg', width: 280, height: 112, alt: 'Bright Smile Dental Clinic' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Bright Smile Dental Clinic | Dentist in Kathmandu, Nepal',
     description:
-      'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. 6 experienced dentists offering implants, orthodontics, root canal, cosmetic dentistry & more.',
+      'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. Expert dentists offering implants, orthodontics, root canal, cosmetic dentistry & more.',
     images: ['/images/logo.jpg'],
   },
   robots: {

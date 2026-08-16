@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { requireAdminApi } from '@/lib/admin-auth'
 import { logAudit } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
 export const runtime = 'nodejs'
 
 export async function GET() {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { data, error } = await createAdminClient()
     .from('virtual_tour_rooms')
@@ -20,8 +20,8 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { admin, error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const body = await req.json()
   if (!body.name || !body.slug) {
@@ -45,8 +45,8 @@ export async function POST(req: NextRequest) {
       description: body.description ?? null,
       sort_order: (maxRow?.sort_order ?? -1) + 1,
       is_visible: false,
-      created_by: user.id,
-      updated_by: user.id,
+      created_by: admin.id,
+      updated_by: admin.id,
     })
     .select()
     .single()
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
   revalidatePath('/gallery')
 
   await logAudit({
-    actorId: user.id, action: 'create', resource: 'virtual_tour_rooms', resourceId: data.id,
+    actorId: admin.id, action: 'create', resource: 'virtual_tour_rooms', resourceId: data.id,
     newData: data, req,
   })
 

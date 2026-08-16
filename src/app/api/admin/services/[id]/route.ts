@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { requireAdminApi } from '@/lib/admin-auth'
 import { logAudit } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
@@ -8,14 +8,9 @@ export const runtime = 'nodejs'
 
 type Params = { params: Promise<{ id: string }> }
 
-async function getAuthUser() {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  return user
-}
-
 export async function GET(_req: NextRequest, { params }: Params) {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { id } = await params
   const supabase = createAdminClient()
@@ -32,15 +27,15 @@ export async function GET(_req: NextRequest, { params }: Params) {
 
 // PATCH — update editable content fields for a single service
 export async function PATCH(req: NextRequest, { params }: Params) {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { admin, error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { id } = await params
   const body = await req.json() as Record<string, unknown>
 
   const allowed = ['name', 'description', 'long_description', 'icon_name', 'thumbnail_url', 'is_visible', 'sort_order']
   const updates: Record<string, unknown> = {
-    updated_by: user.id,
+    updated_by: admin.id,
     updated_at: new Date().toISOString(),
   }
   for (const key of allowed) {
@@ -64,7 +59,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   revalidatePath('/services')
 
   await logAudit({
-    actorId: user.id, action: 'update', resource: 'services', resourceId: id,
+    actorId: admin.id, action: 'update', resource: 'services', resourceId: id,
     oldData: before, newData: updates, req,
   })
 
@@ -73,8 +68,8 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
 // DELETE — permanently remove a service category
 export async function DELETE(req: NextRequest, { params }: Params) {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { admin, error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { id } = await params
   const supabase = createAdminClient()
@@ -92,7 +87,7 @@ export async function DELETE(req: NextRequest, { params }: Params) {
   revalidatePath('/services')
 
   await logAudit({
-    actorId: user.id, action: 'delete', resource: 'services', resourceId: id,
+    actorId: admin.id, action: 'delete', resource: 'services', resourceId: id,
     oldData: before, req,
   })
 

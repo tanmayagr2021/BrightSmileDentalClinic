@@ -1,5 +1,7 @@
 import Link from 'next/link'
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { clinicDateStr } from '@/lib/utils'
 import {
   DOCTORS_STATIC,
   SERVICE_CATEGORIES_STATIC,
@@ -14,13 +16,13 @@ export const dynamic = 'force-dynamic'
 // ─── Helpers ─────────────────────────────────────────────
 
 function todayStr() {
-  return new Date().toISOString().split('T')[0]
+  return clinicDateStr()
 }
 
 function sevenDaysAgoStr() {
   const d = new Date()
   d.setDate(d.getDate() - 6)
-  return d.toISOString().split('T')[0]
+  return clinicDateStr(d)
 }
 
 function formatTime(timeStr: string) {
@@ -95,6 +97,8 @@ const STATUS_BADGE: Record<string, string> = {
 // ─── Page ────────────────────────────────────────────────
 
 export default async function DashboardPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
   const today = todayStr()
   const weekAgo = sevenDaysAgoStr()

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
@@ -38,8 +38,20 @@ type Step = 'doctor' | 'date' | 'time' | 'details' | 'confirm' | 'success'
 const STEPS: Step[] = ['doctor', 'date', 'time', 'details', 'confirm']
 const STEP_LABELS = ['Doctor', 'Date', 'Time', 'Details', 'Confirm']
 
-// Pre-mark some slots as unavailable for realism
-const UNAVAILABLE_SLOTS = new Set(['10:00 AM', '11:00 AM', '2:30 PM'])
+// Converts a Postgres "HH:MM:SS" time to the "H:MM AM/PM" strings used in
+// the slot grid, so booked times fetched from the server can be matched
+// against the displayed slots.
+function pgTimeToSlot(pgTime: string): string {
+  const [hStr, m] = pgTime.split(':')
+  const h = Number(hStr)
+  const h12 = h > 12 ? h - 12 : h === 0 ? 12 : h
+  const ampm = h >= 12 ? 'PM' : 'AM'
+  return `${h12}:${m} ${ampm}`
+}
+
+function localDateStr(date: Date): string {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
 
 function getCalendarDays(year: number, month: number): (Date | null)[] {
   const firstDay = new Date(year, month, 1)
@@ -247,8 +259,26 @@ function StepDate({ selected, onSelect }: { selected: Date | null; onSelect: (d:
   )
 }
 
-function StepTime({ date, selected, onSelect }: { date: Date; selected: string | null; onSelect: (t: string) => void }) {
+function StepTime({ date, doctorSlug, selected, onSelect }: { date: Date; doctorSlug: string; selected: string | null; onSelect: (t: string) => void }) {
   const slots = getTimeSlots(date)
+  const [bookedSlots, setBookedSlots] = useState<Set<string> | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    setBookedSlots(null)
+    const dateStr = localDateStr(date)
+    fetch(`/api/appointments/availability?doctorSlug=${encodeURIComponent(doctorSlug)}&date=${dateStr}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (cancelled) return
+        const times: string[] = data.bookedTimes ?? []
+        setBookedSlots(new Set(times.map(pgTimeToSlot)))
+      })
+      .catch(() => {
+        if (!cancelled) setBookedSlots(new Set())
+      })
+    return () => { cancelled = true }
+  }, [date, doctorSlug])
 
   return (
     <div>
@@ -259,7 +289,7 @@ function StepTime({ date, selected, onSelect }: { date: Date; selected: string |
 
       <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
         {slots.map((slot) => {
-          const unavailable = UNAVAILABLE_SLOTS.has(slot)
+          const unavailable = bookedSlots === null ? false : bookedSlots.has(slot)
           const sel = selected === slot
           return (
             <button
@@ -571,13 +601,16 @@ export default function AppointmentFlow({
     setSubmitting(true)
     setSubmitError('')
     try {
-      const dateStr = selectedDate.toISOString().split('T')[0]
+      // Use local date components, not toISOString() (which converts to UTC
+      // and rolls the date back a day for any timezone ahead of UTC — e.g.
+      // Nepal at UTC+5:45 — silently booking the wrong day for every patient).
+      const dateStr = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`
       const res = await fetch('/api/appointments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           patientName: form.name,
-          patientEmail: form.email || 'no-email@placeholder.com',
+          patientEmail: form.email,
           patientPhone: form.phone,
           doctorName: selectedDoctor.name,
           doctorSlug: selectedDoctor.slug,
@@ -650,7 +683,7 @@ export default function AppointmentFlow({
                   <StepDate selected={selectedDate} onSelect={(d) => { setSelectedDate(d); setSelectedTime(null) }} />
                 )}
                 {step === 'time' && selectedDate && (
-                  <StepTime date={selectedDate} selected={selectedTime} onSelect={setSelectedTime} />
+                  <StepTime date={selectedDate} doctorSlug={selectedDoctor.slug} selected={selectedTime} onSelect={setSelectedTime} />
                 )}
                 {step === 'details' && (
                   <StepDetails form={form} onChange={setForm} />

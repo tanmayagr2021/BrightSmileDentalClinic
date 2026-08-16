@@ -1,9 +1,12 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import TestimonialsClient from '@/components/admin/TestimonialsClient'
 
 export const dynamic = 'force-dynamic'
 
 export default async function TestimonialsCmsPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('testimonials')

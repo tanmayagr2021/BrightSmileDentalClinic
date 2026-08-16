@@ -249,7 +249,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
             </div>
             <div className="flex flex-wrap gap-3 flex-shrink-0">
               <a
-                href="tel:+97714419594"
+                href="tel:+97714519594"
                 className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-2.5 font-heading text-xs font-semibold text-dark transition-all hover:border-primary hover:text-primary"
               >
                 Call Us

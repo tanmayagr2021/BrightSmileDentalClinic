@@ -1,9 +1,12 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import AppointmentsClient from '@/components/admin/AppointmentsClient'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AppointmentsPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
 
   const { data: appointments, error } = await supabase

@@ -139,7 +139,7 @@ export default async function DoctorsPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl font-body text-[1rem] text-white/90 leading-relaxed lg:text-[1.05rem]">
-            Six NMC-registered dentists and specialists, supported by a dedicated clinical and administrative team — all committed to exceptional dental care in Kathmandu.
+            All Nepal Medical Council registered dentists and specialists, supported by a dedicated clinical and administrative team — all committed to exceptional dental care in Kathmandu.
           </p>
 
           {/* Trust row */}

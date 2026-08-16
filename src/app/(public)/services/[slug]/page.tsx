@@ -224,7 +224,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 Book Appointment
               </TrackedLink>
               <a
-                href="tel:+977144195940"
+                href="tel:+97714519594"
                 className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3.5 font-heading text-sm font-semibold text-white/70 transition-all hover:border-white/25 hover:text-white active:scale-[0.98]"
               >
                 Call Us Instead

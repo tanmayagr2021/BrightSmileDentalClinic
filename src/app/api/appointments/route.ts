@@ -9,7 +9,10 @@ export const runtime = 'nodejs'
 
 const Schema = z.object({
   patientName: z.string().min(2).max(100),
-  patientEmail: z.string().email(),
+  // Email is optional in the UI, but the appointments table's patient_email
+  // column is NOT NULL — an empty string is the "not provided" sentinel
+  // rather than a fabricated address, so it doesn't get emailed to.
+  patientEmail: z.union([z.string().email(), z.literal('')]),
   patientPhone: z.string().min(7).max(20),
   doctorName: z.string().min(2).max(100),
   doctorSlug: z.string(),
@@ -53,9 +56,40 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid input', details: parsed.error.flatten() }, { status: 400 })
   }
 
-  const { patientName, patientEmail, patientPhone, doctorName, appointmentDate, appointmentTime, notes } = parsed.data
+  const { patientName, patientEmail, patientPhone, doctorName, doctorSlug, appointmentDate, appointmentTime, notes } = parsed.data
 
   const supabase = createAdminClient()
+
+  const { data: doctor } = await supabase
+    .from('doctors')
+    .select('id')
+    .eq('slug', doctorSlug)
+    .is('deleted_at', null)
+    .single()
+
+  const pgTime = timeToPostgres(appointmentTime)
+
+  // Prevent double-booking: reject if this doctor already has a live
+  // appointment in this exact slot. The client-side calendar only shows a
+  // static set of hours — it doesn't know what's actually taken — so this
+  // check is the real guard against two patients booking the same slot.
+  if (doctor) {
+    const { data: conflict } = await supabase
+      .from('appointments')
+      .select('id')
+      .eq('doctor_id', doctor.id)
+      .eq('appointment_date', appointmentDate)
+      .eq('appointment_time', pgTime)
+      .in('status', ['pending', 'confirmed'])
+      .maybeSingle()
+
+    if (conflict) {
+      return NextResponse.json(
+        { error: 'That time slot was just booked by someone else. Please choose another time.' },
+        { status: 409 }
+      )
+    }
+  }
 
   // Insert appointment (service role bypasses RLS)
   const { data: appt, error: apptErr } = await supabase
@@ -64,8 +98,9 @@ export async function POST(req: NextRequest) {
       patient_name: patientName,
       patient_email: patientEmail,
       patient_phone: patientPhone,
+      doctor_id: doctor?.id ?? null,
       appointment_date: appointmentDate,
-      appointment_time: timeToPostgres(appointmentTime),
+      appointment_time: pgTime,
       duration_minutes: 30,
       status: 'pending',
       notes: notes ? `Doctor: ${doctorName}\n\n${notes}` : `Doctor: ${doctorName}`,
@@ -101,14 +136,16 @@ export async function POST(req: NextRequest) {
 
   // Send emails (non-blocking — failures don't affect response)
   await Promise.allSettled([
-    sendAppointmentConfirmation({
-      to: patientEmail,
-      patientName,
-      doctorName,
-      date: dateDisplay,
-      time: appointmentTime,
-      cancellationUrl,
-    }),
+    ...(patientEmail
+      ? [sendAppointmentConfirmation({
+          to: patientEmail,
+          patientName,
+          doctorName,
+          date: dateDisplay,
+          time: appointmentTime,
+          cancellationUrl,
+        })]
+      : []),
     sendAppointmentNotification({
       patientName,
       patientPhone,

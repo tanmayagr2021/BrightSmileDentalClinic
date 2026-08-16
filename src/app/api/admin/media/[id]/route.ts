@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { requireAdminApi } from '@/lib/admin-auth'
 
 export const runtime = 'nodejs'
 
 type Params = { params: Promise<{ id: string }> }
 
 export async function PATCH(req: NextRequest, { params }: Params) {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { id } = await params
   const body = await req.json().catch(() => null)
@@ -40,8 +40,8 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 //    something started referencing it again) then removes the Storage
 //    object and hard-deletes the row.
 export async function DELETE(req: NextRequest, { params }: Params) {
-  const { data: { user } } = await (await createClient()).auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   const { id } = await params
   const permanent = new URL(req.url).searchParams.get('permanent') === 'true'

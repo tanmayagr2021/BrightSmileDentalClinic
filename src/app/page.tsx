@@ -62,11 +62,11 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Bright Smile Dental Clinic | Dentist in Kathmandu, Nepal',
   description:
-    'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. 6 experienced dentists offering implants, orthodontics, root canal, cosmetic dentistry and more. Book your appointment today.',
+    'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. Expert dentists offering implants, orthodontics, root canal, cosmetic dentistry and more. Book your appointment today.',
   keywords: ['dentist Kathmandu', 'dental clinic Nepal', 'dental implants Kathmandu', 'orthodontics Nepal', 'root canal Kathmandu', 'teeth whitening Nepal'],
   openGraph: {
     title: 'Bright Smile Dental Clinic | Dentist in Kathmandu',
-    description: 'NMC-registered dental clinic in Nagpokhari, Naxal. 6 experienced dentists, modern equipment, transparent pricing.',
+    description: 'NMC-registered dental clinic in Nagpokhari, Naxal. Expert dentists, modern equipment, transparent pricing.',
     locale: 'en_GB',
     type: 'website',
   },
@@ -173,8 +173,7 @@ export default async function HomePage() {
   const homepageStats = [
     { count: s?.stat_patients ?? HOMEPAGE_STATS[0].count, suffix: '+', label: HOMEPAGE_STATS[0].label },
     { count: s?.stat_years ?? HOMEPAGE_STATS[1].count, suffix: '+', label: HOMEPAGE_STATS[1].label },
-    { count: s?.stat_treatments ?? HOMEPAGE_STATS[2].count, suffix: '+', label: HOMEPAGE_STATS[2].label },
-    { count: doctorData?.length ?? HOMEPAGE_STATS[3].count, suffix: '', label: s?.stat_team_label ?? HOMEPAGE_STATS[3].label },
+    { count: doctorData?.length ?? HOMEPAGE_STATS[2].count, suffix: '', label: s?.stat_team_label ?? HOMEPAGE_STATS[2].label },
   ]
 
   // Merge DB visibility/order with static content (shortDescription fallback, subServiceCount)
@@ -203,7 +202,6 @@ export default async function HomePage() {
       {/* 1. Hero — full-screen cinematic clinic showcase (always visible) */}
       <ShowcaseSection
         slides={showcaseSlides}
-        openingHours={openingHours}
         phone={clinicPhone}
         content={content}
         virtualTourImageUrl={virtualTourImageUrl}

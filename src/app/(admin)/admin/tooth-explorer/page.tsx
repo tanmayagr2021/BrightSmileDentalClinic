@@ -1,3 +1,4 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import ToothExplorerClient from './ToothExplorerClient'
 import type { ToothRow, ToothFaqRow, ToothImageRow, MediaLibraryRow, DoctorRow } from '@/types/db'
@@ -14,6 +15,8 @@ export type ToothWithRelations = ToothRow & {
 type ServiceRow = { id: string; name: string; category_id: string | null }
 
 export default async function AdminToothExplorerPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
 
   const [{ data: teeth }, { data: doctors }, { data: services }] = await Promise.all([

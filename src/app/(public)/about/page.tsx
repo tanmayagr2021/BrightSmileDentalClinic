@@ -68,8 +68,7 @@ export default async function AboutPage() {
   const stats = [
     { count: s?.stat_patients ?? HOMEPAGE_STATS[0].count, suffix: '+', label: HOMEPAGE_STATS[0].label },
     { count: s?.stat_years ?? HOMEPAGE_STATS[1].count, suffix: '+', label: HOMEPAGE_STATS[1].label },
-    { count: s?.stat_treatments ?? HOMEPAGE_STATS[2].count, suffix: '+', label: HOMEPAGE_STATS[2].label },
-    { count: doctorCount ?? HOMEPAGE_STATS[3].count, suffix: '', label: s?.stat_team_label ?? HOMEPAGE_STATS[3].label },
+    { count: doctorCount ?? HOMEPAGE_STATS[2].count, suffix: '', label: s?.stat_team_label ?? HOMEPAGE_STATS[2].label },
   ]
 
   return (
@@ -116,11 +115,11 @@ export default async function AboutPage() {
 
           {/* Description */}
           <p className="mt-8 max-w-xl font-body text-base text-white/90 leading-relaxed">
-            {pick(content, 'about.hero.description', 'Over a decade of trusted dental care in the heart of Kathmandu — built on expertise, compassion and an uncompromising commitment to every patient.')}
+            {pick(content, 'about.hero.description', '20 years of trusted dental care in the heart of Kathmandu — built on expertise, compassion and an uncompromising commitment to every patient.')}
           </p>
 
           {/* Stats strip */}
-          <div className="mt-16 grid grid-cols-2 border-t border-white/[0.07] pt-10 sm:grid-cols-4">
+          <div className={`mt-16 grid border-t border-white/[0.07] pt-10 ${stats.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-4'}`}>
             {stats.map((stat) => (
               <div
                 key={stat.label}

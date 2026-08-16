@@ -232,7 +232,7 @@ export default function PatientJourneySection({
           </div>
           <div className="flex flex-shrink-0 gap-3">
             <a
-              href="tel:+97714419594"
+              href="tel:+97714519594"
               className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 font-heading text-xs font-semibold text-white/85 transition-all hover:border-white/25 hover:text-white"
             >
               <svg

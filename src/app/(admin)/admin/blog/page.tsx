@@ -1,3 +1,4 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import BlogClient from '@/components/admin/BlogClient'
 import type { BlogPostRow } from '@/types/db'
@@ -5,6 +6,8 @@ import type { BlogPostRow } from '@/types/db'
 export const dynamic = 'force-dynamic'
 
 export default async function AdminBlogPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('blog_posts')

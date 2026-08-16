@@ -48,7 +48,7 @@ export default function TrustSection({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-2 gap-x-10 gap-y-10 lg:pt-8"
+            className="grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 lg:pt-8"
           >
             {indicators.map((item) => (
               <motion.div key={item.id} variants={fadeUp}>

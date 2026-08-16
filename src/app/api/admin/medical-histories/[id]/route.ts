@@ -1,5 +1,5 @@
-import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { requireAdminApi } from '@/lib/admin-auth'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -7,20 +7,13 @@ export const runtime = 'nodejs'
 
 type Params = { params: Promise<{ id: string }> }
 
-async function requireAdmin() {
-  const supabase = await createClient()
-  const { data: { user }, error } = await supabase.auth.getUser()
-  if (error || !user) return null
-  return user
-}
-
 export async function GET(_req: NextRequest, { params }: Params) {
   const { id } = await params
-  const user = await requireAdmin()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
-  const admin = createAdminClient()
-  const { data, error } = await admin
+  const supabase = createAdminClient()
+  const { data, error } = await supabase
     .from('medical_histories')
     .select('*')
     .eq('id', id)
@@ -38,8 +31,8 @@ const UpdateSchema = z.object({
 
 export async function PATCH(req: NextRequest, { params }: Params) {
   const { id } = await params
-  const user = await requireAdmin()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { admin, error: authError } = await requireAdminApi()
+  if (authError) return authError
 
   let body: unknown
   try { body = await req.json() } catch { return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 }) }
@@ -50,11 +43,11 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const updates: Record<string, unknown> = { ...parsed.data }
   if (parsed.data.status === 'reviewed') {
     updates.reviewed_at = new Date().toISOString()
-    updates.reviewed_by = user.id
+    updates.reviewed_by = admin.id
   }
 
-  const admin = createAdminClient()
-  const { data, error } = await admin
+  const supabase = createAdminClient()
+  const { data, error } = await supabase
     .from('medical_histories')
     .update(updates)
     .eq('id', id)
@@ -67,11 +60,11 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
 export async function DELETE(_req: NextRequest, { params }: Params) {
   const { id } = await params
-  const user = await requireAdmin()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { error: authError } = await requireAdminApi()
+  if (authError) return authError
 
-  const admin = createAdminClient()
-  const { error } = await admin.from('medical_histories').delete().eq('id', id)
+  const supabase = createAdminClient()
+  const { error } = await supabase.from('medical_histories').delete().eq('id', id)
   if (error) return NextResponse.json({ error: 'Delete failed' }, { status: 500 })
   return NextResponse.json({ success: true })
 }

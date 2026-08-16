@@ -50,7 +50,7 @@ type Intent =
   | 'doctor_sabin'
   | 'doctor_shashi'
   | 'doctor_rinky'
-  | 'doctor_ameena'
+  | 'doctor_ranjita'
   | 'whitening'
   | 'root_canal'
   | 'braces'
@@ -122,7 +122,7 @@ function detectIntent(msg: string): Intent {
   if (has(msg, 'sabin', 'dr sabin', 'dr. sabin', 'giri')) return 'doctor_sabin'
   if (has(msg, 'shashi', 'dr shashi', 'dr. shashi', 'singh', 'implantologist')) return 'doctor_shashi'
   if (has(msg, 'rinky', 'dr rinky', 'dr. rinky', 'nyachhyon', 'radiolog', 'oral medicine')) return 'doctor_rinky'
-  if (has(msg, 'ameena', 'dr ameena', 'dr. ameena', 'pradhan', 'periodont', 'gum specialist')) return 'doctor_ameena'
+  if (has(msg, 'ranjita', 'dr ranjita', 'dr. ranjita', 'shrestha', 'gorkhali', 'periodont', 'gum specialist')) return 'doctor_ranjita'
 
   // Doctors overview
   if (has(msg, 'doctor', 'doctors', 'dentist', 'dentists', 'specialist', 'specialists', 'staff', 'team', 'who', 'surgeon', 'meet'))
@@ -368,7 +368,7 @@ function buildResponse(intent: Intent): BotResponse {
     case 'doctor_binita': {
       const d = DOCTORS_STATIC.find((x) => x.slug === 'dr-binita-adhikari')!
       return {
-        text: `**${d.name}** (${d.qualification}, ${d.nmc}) is our general and dental surgeon with ${d.experience} of experience, known for her gentle, anxiety-easing approach. She specialises in ${d.specializations.slice(0, 3).join(', ')}. Available for online booking.`,
+        text: `**${d.name}** (${d.qualification}, ${d.nmc}) is one of our lead dentists with ${d.experience} of experience, known for her gentle, anxiety-easing approach and focus on correcting malaligned teeth. She specialises in ${d.specializations.slice(0, 3).join(', ')}. Available for online booking.`,
         navigateTo: '/doctors/dr-binita-adhikari',
         quickReplies: ['Book with Dr. Binita', 'All doctors', 'Our services'],
       }
@@ -377,16 +377,16 @@ function buildResponse(intent: Intent): BotResponse {
     case 'doctor_sabin': {
       const d = DOCTORS_STATIC.find((x) => x.slug === 'dr-sabin-giri')!
       return {
-        text: `**${d.name}** (${d.qualification}, ${d.nmc}) is our oral and maxillofacial surgeon specialising in ${d.specializations.slice(0, 3).join(', ')}. With ${d.experience} of experience, he handles complex surgical cases with precision. Appointments via clinic.`,
+        text: `**${d.name}** (${d.qualification}, ${d.nmc}) is a general dental practitioner focused on ${d.specializations.slice(0, 3).join(', ').toLowerCase()}. His expertise ensures safe, efficient treatment with minimal discomfort. Appointments via clinic.`,
         navigateTo: '/doctors/dr-sabin-giri',
-        quickReplies: ['Oral Surgery', 'Book an appointment', 'Contact us'],
+        quickReplies: ['Extractions', 'Book an appointment', 'Contact us'],
       }
     }
 
     case 'doctor_shashi': {
       const d = DOCTORS_STATIC.find((x) => x.slug === 'dr-shashi-bhushan-singh')!
       return {
-        text: `**${d.name}** (${d.qualification}, ${d.nmc}) is our resident implantologist with ${d.experience} of experience in ${d.specializations.slice(0, 3).join(', ')}. He offers single implants through to full-arch rehabilitation. Appointments via clinic.`,
+        text: `**${d.name}** (${d.qualification}, ${d.nmc}) is a general dental practitioner with ${d.experience} of experience in ${d.specializations.slice(0, 3).join(', ')}. He offers single implants through to full-arch rehabilitation. Appointments via clinic.`,
         navigateTo: '/doctors/dr-shashi-bhushan-singh',
         quickReplies: ['Dental Implants', 'Book an appointment', 'All doctors'],
       }
@@ -401,11 +401,11 @@ function buildResponse(intent: Intent): BotResponse {
       }
     }
 
-    case 'doctor_ameena': {
-      const d = DOCTORS_STATIC.find((x) => x.slug === 'dr-ameena-pradhan')!
+    case 'doctor_ranjita': {
+      const d = DOCTORS_STATIC.find((x) => x.slug === 'dr-ranjita-shrestha')!
       return {
-        text: `**${d.name}** (${d.qualification}, ${d.nmc}) is our MDS-qualified periodontist with ${d.experience} of experience specialising in ${d.specializations.slice(0, 3).join(', ')}. She manages complex gum conditions with precision and care. Appointments via clinic.`,
-        navigateTo: '/doctors/dr-ameena-pradhan',
+        text: `**${d.name}** (${d.nmc}) is our periodontist, specialising in ${d.specializations.slice(0, 3).join(', ')}. Appointments via clinic.`,
+        navigateTo: '/doctors/dr-ranjita-shrestha',
         quickReplies: ['Gum treatment', 'All doctors', 'Book an appointment'],
       }
     }

@@ -1,3 +1,4 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import HomepageSectionsClient from '@/components/admin/HomepageSectionsClient'
 import type { HomepageSectionRow } from '@/types/db'
@@ -19,6 +20,8 @@ const SECTION_METADATA: Record<string, { label: string; desc: string; editHref?:
 }
 
 export default async function HomepageCmsPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('homepage_sections')

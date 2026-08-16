@@ -1,7 +1,10 @@
+import { requireAdmin } from '@/lib/admin-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import ShowcaseClient from '@/components/admin/ShowcaseClient'
 
 export default async function ShowcaseAdminPage() {
+  await requireAdmin()
+
   const supabase = createAdminClient()
   const { data } = await supabase
     .from('showcase_slides')
