@@ -41,6 +41,71 @@ See `PROJECT_STATUS.md` for the complete phase-by-phase history.
 
 ---
 
+## Deployment (production runs on a VPS, not Vercel)
+
+Despite `vercel.json` and the "Vercel" mentions elsewhere in this file (stale —
+predate the VPS migration), **production is a self-managed VPS**, not Vercel.
+
+```
+GitHub (main)
+  -> GitHub Actions (.github/workflows/deploy.yml)
+    -> SSH (dedicated deploy key, GitHub secret only)
+      -> VPS 200.234.37.212, user tanmay
+        -> /var/www/brightsmile  (git checkout of this repo)
+          -> deploy.sh: git pull, npm ci, npm run build
+            -> pm2 reload brightsmile   (only if build succeeded)
+              -> Nginx reverse proxy (127.0.0.1:3000)
+                -> https://brightsmiledentalclinic.org
+```
+
+**How it deploys:** every push to `main` triggers `.github/workflows/deploy.yml`,
+which SSHes into the VPS and runs `/var/www/brightsmile/deploy.sh` (a copy of
+`scripts/deploy.sh` in this repo — if you edit the script, `scp` the change to
+the VPS too, see the comment at the top of that file). The script only
+restarts PM2 after `npm run build` succeeds, then runs a local
+(`127.0.0.1:3000`) and public HTTPS health check; if either the build or the
+health check fails, the job fails and the previously-running version keeps
+serving traffic untouched. Can also be triggered manually from the GitHub
+Actions tab (`workflow_dispatch`).
+
+**GitHub secrets** (Settings → Secrets and variables → Actions on the
+`tanmayagr2021/BrightSmileDentalClinic` repo — values are not documented here):
+- `VPS_HOST` — `200.234.37.212`
+- `VPS_USER` — `tanmay`
+- `VPS_PORT` — `22`
+- `VPS_SSH_KEY` — private half of a dedicated deploy keypair generated
+  specifically for CI (passphrase-less, so GitHub Actions can use it
+  non-interactively). Never reuses a developer's personal VPS key.
+- `VPS_KNOWN_HOSTS` — the VPS's SSH host key (`ssh-keyscan` output), so the
+  workflow verifies host identity instead of disabling `StrictHostKeyChecking`.
+
+The deploy key's **public** half is appended to
+`/home/tanmay/.ssh/authorized_keys` on the VPS (alongside, not replacing, the
+developer's own key).
+
+**Production environment variables** live only in `/var/www/brightsmile/.env.production`
+on the VPS (`chmod 600`), covering Supabase, Resend, Upstash, Umami, and
+`CRON_SECRET`/`REVALIDATION_SECRET`. The deploy pipeline never touches this
+file, never pulls it from GitHub, and it is gitignored (`.env.production`) so
+it can't be accidentally committed from either side.
+
+**Rollback:** `deploy.sh` writes the previous commit SHA to
+`/var/www/brightsmile/.last-deploy-previous-sha` before pulling. To roll back
+manually, SSH into the VPS and run:
+
+```
+cd /var/www/brightsmile
+git checkout <previous-known-good-sha>
+npm ci
+npm run build
+pm2 reload brightsmile
+```
+
+**Manual deploy** (if GitHub Actions is unavailable): SSH in and run
+`bash /var/www/brightsmile/deploy.sh` directly — it's the same script either way.
+
+---
+
 ## Architecture Decisions
 
 ### Route Groups

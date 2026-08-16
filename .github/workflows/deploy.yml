@@ -1,0 +1,63 @@
+name: Deploy to production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+# Only one deploy runs at a time. If several commits land in quick
+# succession, the newest queued run replaces the older *queued* one — an
+# already-running deploy is never interrupted mid-flight (safer than
+# cancelling a live SSH session partway through npm ci/build/pm2 reload).
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy ${{ github.sha }} to VPS
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "${{ secrets.VPS_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy over SSH
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          echo "Deploying commit ${{ github.sha }} to ${VPS_USER}@${VPS_HOST}"
+          ssh -i ~/.ssh/deploy_key \
+              -p "${VPS_PORT:-22}" \
+              -o UserKnownHostsFile=~/.ssh/known_hosts \
+              -o StrictHostKeyChecking=yes \
+              -o ConnectTimeout=15 \
+              "${VPS_USER}@${VPS_HOST}" \
+              'bash /var/www/brightsmile/deploy.sh'
+
+      - name: Report PM2 status
+        if: always()
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+              -p "${VPS_PORT:-22}" \
+              -o UserKnownHostsFile=~/.ssh/known_hosts \
+              -o StrictHostKeyChecking=yes \
+              -o ConnectTimeout=15 \
+              "${VPS_USER}@${VPS_HOST}" \
+              'pm2 status brightsmile && echo "--- currently deployed commit ---" && git -C /var/www/brightsmile rev-parse HEAD'
+
+      - name: Clean up SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
