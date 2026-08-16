@@ -28,6 +28,7 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
   }
 
   body {
@@ -35,6 +36,11 @@
     background-color: #ffffff;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Scroll-triggered reveal animations (slideInLeft/Right in animations.ts)
+       position elements off-screen before they animate in, which can
+       momentarily widen scrollWidth before the section is visible. This is
+       a safety net so that never becomes an actual horizontal scrollbar. */
+    overflow-x: hidden;
   }
 
   :focus-visible {

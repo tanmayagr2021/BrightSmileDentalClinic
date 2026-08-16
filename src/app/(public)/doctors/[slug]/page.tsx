@@ -118,12 +118,16 @@ export default async function DoctorProfilePage({ params }: Props) {
               </h1>
               <p className="mt-2 font-heading text-base font-semibold text-gray-500">{doctor.title}</p>
               <div className="mt-4 flex flex-wrap gap-3">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 font-heading text-xs font-semibold text-primary">
-                  {doctor.qualification}
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 font-heading text-xs font-semibold text-gray-600">
-                  {doctor.experience_text}
-                </span>
+                {doctor.qualification && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 font-heading text-xs font-semibold text-primary">
+                    {doctor.qualification}
+                  </span>
+                )}
+                {doctor.experience_text && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 font-heading text-xs font-semibold text-gray-600">
+                    {doctor.experience_text}
+                  </span>
+                )}
                 {doctor.is_bookable && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 font-heading text-xs font-semibold text-green-700">
                     <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
@@ -164,22 +168,28 @@ export default async function DoctorProfilePage({ params }: Props) {
             </section>
 
             {/* Education & Languages */}
-            <section className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Education</h3>
-                <p className="font-body text-sm text-dark leading-relaxed">{doctor.education}</p>
-              </div>
-              <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Languages</h3>
-                <div className="flex flex-wrap gap-2">
-                  {(doctor.languages ?? []).map((lang: string) => (
-                    <span key={lang} className="rounded-lg bg-tint px-3 py-1.5 font-heading text-xs font-semibold text-gray-600">
-                      {lang}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </section>
+            {(doctor.education || (doctor.languages ?? []).length > 0) && (
+              <section className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                {doctor.education && (
+                  <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                    <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Education</h3>
+                    <p className="font-body text-sm text-dark leading-relaxed">{doctor.education}</p>
+                  </div>
+                )}
+                {(doctor.languages ?? []).length > 0 && (
+                  <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                    <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Languages</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {doctor.languages.map((lang: string) => (
+                        <span key={lang} className="rounded-lg bg-tint px-3 py-1.5 font-heading text-xs font-semibold text-gray-600">
+                          {lang}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </section>
+            )}
 
           </div>
 

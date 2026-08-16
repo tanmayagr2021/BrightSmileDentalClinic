@@ -401,9 +401,11 @@ export default async function DoctorsPage() {
                       <span className="font-display text-2xl font-bold text-white">{doctorInitials(doc)}</span>
                     )}
                   </div>
-                  <span className="absolute right-3 top-3 rounded-lg bg-black/25 px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-white backdrop-blur-sm">
-                    {doc.qualification}
-                  </span>
+                  {doc.qualification && (
+                    <span className="absolute right-3 top-3 rounded-lg bg-black/25 px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-white backdrop-blur-sm">
+                      {doc.qualification}
+                    </span>
+                  )}
                 </div>
 
                 <div className="p-5">

@@ -114,7 +114,7 @@ export const DOCTORS_STATIC: Doctor[] = [
     sortOrder: 2,
   },
   {
-    slug: 'dr-ranjita-shrestha',
+    slug: 'dr-ranjita-shrestha-gorkhali',
     name: 'Dr. Ranjita Shrestha (Gorkhali)',
     shortName: 'Dr. Ranjita',
     qualification: '',

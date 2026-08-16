@@ -25,6 +25,15 @@ function has(msg: string, ...terms: string[]): boolean {
   return terms.some((t) => m.includes(lc(t)))
 }
 
+// Word-boundary version — for short, collision-prone terms like "hi" that
+// plain substring matching would falsely trigger on (e.g. "hi" inside
+// "Shashi" was swallowing every question about Dr. Shashi into the
+// greeting intent, since the greeting check runs before the doctor checks).
+function hasWord(msg: string, ...terms: string[]): boolean {
+  const m = lc(msg)
+  return terms.some((t) => new RegExp(`\\b${lc(t)}\\b`).test(m))
+}
+
 // ── Intent resolution ──────────────────────────────────────────
 
 type Intent =
@@ -66,8 +75,12 @@ type Intent =
   | 'unknown'
 
 function detectIntent(msg: string): Intent {
-  // Greeting
-  if (has(msg, 'hello', 'hi', 'hey', 'namaste', 'good morning', 'good afternoon', 'good evening', 'howdy', 'hiya'))
+  // Greeting — 'hi'/'hey' use word-boundary matching since they're short
+  // enough to false-positive inside unrelated words (e.g. "Shashi").
+  if (
+    has(msg, 'hello', 'namaste', 'good morning', 'good afternoon', 'good evening', 'howdy', 'hiya') ||
+    hasWord(msg, 'hi', 'hey')
+  )
     return 'greeting'
 
   // Thank you / bye
@@ -89,6 +102,17 @@ function detectIntent(msg: string): Intent {
   // Pricing / costs
   if (has(msg, 'price', 'cost', 'how much', 'fee', 'charge', 'expensive', 'afford', 'payment', 'insurance'))
     return 'pricing'
+
+  // Specific doctors — checked before generic service keywords, since a
+  // doctor mention should win even when their name/specialty overlaps with
+  // a generic term (e.g. "gum specialist" contains "gum", which would
+  // otherwise match the general-dentistry service check first).
+  if (has(msg, 'sachin', 'dr sachin', 'dr. sachin', 'agrawal')) return 'doctor_sachin'
+  if (has(msg, 'binita', 'dr binita', 'dr. binita', 'adhikari')) return 'doctor_binita'
+  if (has(msg, 'sabin', 'dr sabin', 'dr. sabin', 'giri')) return 'doctor_sabin'
+  if (has(msg, 'shashi', 'dr shashi', 'dr. shashi', 'singh', 'implantologist')) return 'doctor_shashi'
+  if (has(msg, 'rinky', 'dr rinky', 'dr. rinky', 'nyachhyon', 'radiolog', 'oral medicine')) return 'doctor_rinky'
+  if (has(msg, 'ranjita', 'dr ranjita', 'dr. ranjita', 'shrestha', 'gorkhali', 'periodont', 'gum specialist')) return 'doctor_ranjita'
 
   // Specific services first (more specific before general)
   if (has(msg, 'whiten', 'whitening', 'bleach')) return 'whitening'
@@ -115,14 +139,6 @@ function detectIntent(msg: string): Intent {
   // Services overview
   if (has(msg, 'service', 'services', 'treatment', 'treatments', 'what do you offer', 'what can you do', 'offer', 'speciality', 'specialties'))
     return 'services_all'
-
-  // Specific doctors
-  if (has(msg, 'sachin', 'dr sachin', 'dr. sachin', 'agrawal')) return 'doctor_sachin'
-  if (has(msg, 'binita', 'dr binita', 'dr. binita', 'adhikari')) return 'doctor_binita'
-  if (has(msg, 'sabin', 'dr sabin', 'dr. sabin', 'giri')) return 'doctor_sabin'
-  if (has(msg, 'shashi', 'dr shashi', 'dr. shashi', 'singh', 'implantologist')) return 'doctor_shashi'
-  if (has(msg, 'rinky', 'dr rinky', 'dr. rinky', 'nyachhyon', 'radiolog', 'oral medicine')) return 'doctor_rinky'
-  if (has(msg, 'ranjita', 'dr ranjita', 'dr. ranjita', 'shrestha', 'gorkhali', 'periodont', 'gum specialist')) return 'doctor_ranjita'
 
   // Doctors overview
   if (has(msg, 'doctor', 'doctors', 'dentist', 'dentists', 'specialist', 'specialists', 'staff', 'team', 'who', 'surgeon', 'meet'))
@@ -402,10 +418,10 @@ function buildResponse(intent: Intent): BotResponse {
     }
 
     case 'doctor_ranjita': {
-      const d = DOCTORS_STATIC.find((x) => x.slug === 'dr-ranjita-shrestha')!
+      const d = DOCTORS_STATIC.find((x) => x.slug === 'dr-ranjita-shrestha-gorkhali')!
       return {
         text: `**${d.name}** (${d.nmc}) is our periodontist, specialising in ${d.specializations.slice(0, 3).join(', ')}. Appointments via clinic.`,
-        navigateTo: '/doctors/dr-ranjita-shrestha',
+        navigateTo: '/doctors/dr-ranjita-shrestha-gorkhali',
         quickReplies: ['Gum treatment', 'All doctors', 'Book an appointment'],
       }
     }

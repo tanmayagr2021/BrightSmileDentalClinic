@@ -49,11 +49,10 @@ export default async function ServiceDetailPage({ params }: Props) {
       .eq('slug', slug)
       .single(),
     supabase
-      .from('services')
-      .select('id, name, slug, short_description, sort_order')
+      .from('service_items')
+      .select('id, name, description, sort_order')
       .eq('category_id', (await supabase.from('service_categories').select('id').eq('slug', slug).single()).data?.id ?? '')
-      .eq('is_active', true)
-      .is('deleted_at', null)
+      .eq('is_visible', true)
       .order('sort_order', { ascending: true }),
     supabase
       .from('service_categories')
