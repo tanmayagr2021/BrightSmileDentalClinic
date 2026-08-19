@@ -10,7 +10,7 @@ export const CLINIC_SUBTITLE = 'Dental Clinic Pvt. Ltd.'
 
 export const CLINIC_CONTACT = {
   phone: '+977-1-4519594',
-  phoneWhatsApp: '+977-9851058733',
+  phoneWhatsApp: '+91 8073047214',
   email: 'drsachin1108@gmail.com',
   emailAppointments: 'brightsmiledentalclinic1111@gmail.com',
   address: 'Nagpokhari, Naxal',

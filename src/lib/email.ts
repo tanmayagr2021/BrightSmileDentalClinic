@@ -6,7 +6,10 @@ import { Resend } from 'resend'
 // notification was silently failing to send.
 const FROM = `${process.env.RESEND_FROM_NAME ?? 'Bright Smile Dental Clinic'} <${process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev'}>`
 const CLINIC_PHONE = '+977-1-4519594'
-const CLINIC_WHATSAPP = '+977-9851058733'
+const CLINIC_WHATSAPP = '+91 8073047214'
+// Both must receive every clinic/admin notification (appointment + contact).
+// tanmayagr2021@gmail.com must NOT be a recipient.
+const ADMIN_NOTIFICATION_EMAILS = ['brightsmiledentalclinicpvt.ltd@gmail.com', 'drsachin1108@gmail.com']
 
 function resend() {
   const key = process.env.RESEND_API_KEY
@@ -117,8 +120,6 @@ export async function sendAppointmentNotification({
   const client = resend()
   if (!client) return { skipped: true }
 
-  const adminEmail = process.env.CLINIC_NOTIFY_EMAIL ?? 'brightsmiledentalclinicpvt.ltd@gmail.com'
-
   const html = `
 <!DOCTYPE html>
 <html>
@@ -141,7 +142,7 @@ export async function sendAppointmentNotification({
 
   const { error } = await client.emails.send({
     from: FROM,
-    to: adminEmail,
+    to: ADMIN_NOTIFICATION_EMAILS,
     subject: `[Booking] ${patientName} → ${doctorName} on ${date}`,
     html,
   })
@@ -235,8 +236,6 @@ export async function sendContactNotification({
   const client = resend()
   if (!client) return { skipped: true }
 
-  const adminEmail = process.env.CLINIC_NOTIFY_EMAIL ?? 'brightsmiledentalclinicpvt.ltd@gmail.com'
-
   const html = `
 <!DOCTYPE html>
 <html>
@@ -256,7 +255,7 @@ export async function sendContactNotification({
 
   const { error } = await client.emails.send({
     from: FROM,
-    to: adminEmail,
+    to: ADMIN_NOTIFICATION_EMAILS,
     subject: `[Contact] ${name} — new message`,
     html,
   })
