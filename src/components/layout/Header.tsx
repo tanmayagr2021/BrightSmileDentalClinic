@@ -32,8 +32,8 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
           className={cn(
             'w-auto object-contain transition-all duration-500',
             inverted
-              ? 'h-[3rem] lg:h-[4rem] bg-white px-2.5 py-1.5'
-              : 'h-[2.125rem] lg:h-[2.875rem]'
+              ? 'h-[4.25rem] lg:h-[6rem] bg-white px-2.5 py-1.5'
+              : 'h-12 lg:h-[3.75rem]'
           )}
           priority
         />
