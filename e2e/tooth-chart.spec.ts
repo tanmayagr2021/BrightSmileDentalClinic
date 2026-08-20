@@ -85,9 +85,9 @@ test.describe('Tooth chart — region browsing mode', () => {
     await page.getByRole('button', { name: 'Gums' }).click()
     const highlighted = page.locator('svg[aria-label*="Interactive dental chart"] rect[fill="rgba(156, 175, 136, 0.24)"]')
     await expect(highlighted).toHaveCount(0)
-    const link = page.getByRole('link', { name: 'Dr. Ameena Pradhan' })
+    const link = page.getByRole('link', { name: 'Dr. Ranjita Shrestha' })
     await expect(link).toBeVisible()
-    await expect(link).toHaveAttribute('href', '/doctors/dr-ameena-pradhan')
+    await expect(link).toHaveAttribute('href', '/doctors/dr-ranjita-shrestha-gorkhali')
   })
 
   test('region mode and tooth selection are independent of each other', async ({ page, browserName }) => {

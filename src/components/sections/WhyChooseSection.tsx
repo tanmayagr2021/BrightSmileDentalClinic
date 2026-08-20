@@ -120,7 +120,7 @@ export default function WhyChooseSection({
             className="lg:pb-2"
           >
             <p className="font-body text-base leading-relaxed text-zinc-600 max-w-lg">
-              {pick(content, 'home.why_choose.intro', 'Six reasons why patients across Kathmandu choose Bright Smile — and keep coming back for a lifetime of dental care.')}
+              {pick(content, 'home.why_choose.intro', 'Six reasons why patients across Kathmandu choose Bright Smile, and keep coming back for a lifetime of dental care.')}
             </p>
             <Link
               href="/appointments"

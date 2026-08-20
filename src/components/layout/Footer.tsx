@@ -52,7 +52,7 @@ function FooterLogo() {
         src="/images/logo.jpg"
         alt="Bright Smile Dental Clinic"
         width={200}
-        height={80}
+        height={200}
         className="h-16 w-auto rounded-xl bg-white/10 object-contain"
       />
     </Link>

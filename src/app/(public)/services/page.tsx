@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   alternates: { canonical: buildCanonical('/services') },
   title: 'Our Services',
   description:
-    'Comprehensive dental services at Bright Smile Dental Clinic — general dentistry, cosmetic dentistry, orthodontics, implants, oral surgery and paediatric dentistry.',
+    'Comprehensive dental services at Bright Smile Dental Clinic, covering all areas of dentistry from general and cosmetic dentistry to implants, orthodontics, prosthetics and specialist oral care.',
 }
 
 // Premium (high-value) services get large featured cards. Order is intentional.
@@ -135,7 +135,7 @@ export default async function ServicesPage() {
 
           {/* Description */}
           <p className="mt-6 max-w-lg font-body text-base text-white/90 leading-relaxed">
-            Comprehensive dental care for the whole family — from routine check-ups to
+            Comprehensive dental care for the whole family, from routine check-ups to
             advanced specialist treatments, all under one roof.
           </p>
 
@@ -172,7 +172,7 @@ export default async function ServicesPage() {
                 Where We Excel
               </h2>
               <p className="mt-4 max-w-xl font-body text-base text-zinc-600 leading-relaxed">
-                Our most requested, high-precision treatments — delivered by experienced
+                Our most requested, high-precision treatments, delivered by experienced
                 clinicians using modern technology and a meticulous, patient-first approach.
               </p>
             </div>
@@ -291,7 +291,7 @@ export default async function ServicesPage() {
                 Additional Services
               </h2>
               <p className="mt-4 max-w-xl font-body text-base text-zinc-600 leading-relaxed">
-                Everyday and specialist dental care that keeps your whole family healthy — every treatment delivered with the same attention to detail.
+                Everyday and specialist dental care that keeps your whole family healthy, every treatment delivered with the same attention to detail.
               </p>
             </div>
 
@@ -371,7 +371,7 @@ export default async function ServicesPage() {
             Not sure which treatment<br className="hidden sm:block" /> is right for you?
           </h2>
           <p className="mt-4 font-body text-base text-white/90 leading-relaxed">
-            Book a consultation and our team will assess your needs and explain all available options — clearly and without pressure.
+            Book a consultation and our team will assess your needs and explain all available options, clearly and without pressure.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link

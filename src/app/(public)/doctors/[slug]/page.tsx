@@ -153,19 +153,21 @@ export default async function DoctorProfilePage({ params }: Props) {
             </section>
 
             {/* Specializations */}
-            <section>
-              <h2 className="font-display text-3xl text-dark tracking-display mb-6">Areas of Expertise</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {(doctor.specializations ?? []).map((spec: string, i: number) => (
-                  <div key={spec} className="flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
-                      <span className="font-heading text-xs font-bold text-primary">{String(i + 1).padStart(2, '0')}</span>
+            {(doctor.specializations ?? []).length > 0 && (
+              <section>
+                <h2 className="font-display text-3xl text-dark tracking-display mb-6">Areas of Expertise</h2>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {(doctor.specializations ?? []).map((spec: string, i: number) => (
+                    <div key={spec} className="flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+                      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                        <span className="font-heading text-xs font-bold text-primary">{String(i + 1).padStart(2, '0')}</span>
+                      </div>
+                      <span className="font-heading text-sm font-semibold text-dark">{spec}</span>
                     </div>
-                    <span className="font-heading text-sm font-semibold text-dark">{spec}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Education & Languages */}
             {(doctor.education || (doctor.languages ?? []).length > 0) && (

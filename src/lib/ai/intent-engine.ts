@@ -1,4 +1,4 @@
-// Rule-based intent engine — zero API cost, all responses grounded in clinic data.
+// Rule-based intent engine: zero API cost, all responses grounded in clinic data.
 // Runs server-side only; no external network calls.
 
 import {
@@ -25,7 +25,7 @@ function has(msg: string, ...terms: string[]): boolean {
   return terms.some((t) => m.includes(lc(t)))
 }
 
-// Word-boundary version — for short, collision-prone terms like "hi" that
+// Word-boundary version, for short, collision-prone terms like "hi" that
 // plain substring matching would falsely trigger on (e.g. "hi" inside
 // "Shashi" was swallowing every question about Dr. Shashi into the
 // greeting intent, since the greeting check runs before the doctor checks).
@@ -60,6 +60,9 @@ type Intent =
   | 'doctor_shashi'
   | 'doctor_rinky'
   | 'doctor_ranjita'
+  | 'doctor_isfa'
+  | 'doctor_dikshya'
+  | 'doctor_barun'
   | 'whitening'
   | 'root_canal'
   | 'braces'
@@ -75,7 +78,7 @@ type Intent =
   | 'unknown'
 
 function detectIntent(msg: string): Intent {
-  // Greeting — 'hi'/'hey' use word-boundary matching since they're short
+  // Greeting: 'hi'/'hey' use word-boundary matching since they're short
   // enough to false-positive inside unrelated words (e.g. "Shashi").
   if (
     has(msg, 'hello', 'namaste', 'good morning', 'good afternoon', 'good evening', 'howdy', 'hiya') ||
@@ -103,7 +106,7 @@ function detectIntent(msg: string): Intent {
   if (has(msg, 'price', 'cost', 'how much', 'fee', 'charge', 'expensive', 'afford', 'payment', 'insurance'))
     return 'pricing'
 
-  // Specific doctors — checked before generic service keywords, since a
+  // Specific doctors: checked before generic service keywords, since a
   // doctor mention should win even when their name/specialty overlaps with
   // a generic term (e.g. "gum specialist" contains "gum", which would
   // otherwise match the general-dentistry service check first).
@@ -113,6 +116,9 @@ function detectIntent(msg: string): Intent {
   if (has(msg, 'shashi', 'dr shashi', 'dr. shashi', 'singh', 'implantologist')) return 'doctor_shashi'
   if (has(msg, 'rinky', 'dr rinky', 'dr. rinky', 'nyachhyon', 'radiolog', 'oral medicine')) return 'doctor_rinky'
   if (has(msg, 'ranjita', 'dr ranjita', 'dr. ranjita', 'shrestha', 'gorkhali', 'periodont', 'gum specialist')) return 'doctor_ranjita'
+  if (has(msg, 'isfa', 'dr isfa', 'dr. isfa', 'haque', 'maxillofacial', 'oral surgeon', 'oral and maxillofacial')) return 'doctor_isfa'
+  if (has(msg, 'dikshya', 'dr dikshya', 'dr. dikshya', 'bhusal')) return 'doctor_dikshya'
+  if (has(msg, 'barun', 'dr barun', 'dr. barun', 'kumar sah')) return 'doctor_barun'
 
   // Specific services first (more specific before general)
   if (has(msg, 'whiten', 'whitening', 'bleach')) return 'whitening'
@@ -215,7 +221,7 @@ function buildResponse(intent: Intent): BotResponse {
 
     case 'medical_history':
       return {
-        text: "You can fill in a secure medical history form right here — it only takes 2-3 minutes and helps our team prepare for your visit. Shall I open the form for you?",
+        text: "You can fill in a secure medical history form right here, it only takes 2-3 minutes and helps our team prepare for your visit. Shall I open the form for you?",
         isMedicalHistoryTrigger: true,
         quickReplies: ['Yes, open the form', 'Book an appointment', 'Contact us'],
       }
@@ -229,7 +235,7 @@ function buildResponse(intent: Intent): BotResponse {
 
     case 'pricing': {
       return {
-        text: "We don't publish prices publicly because every treatment is tailored to the individual. We always give you a clear, detailed estimate before anything begins — no surprises, no hidden costs, ever. Call us at **" + CLINIC_CONTACT.phone + "** or book a consultation to discuss your needs.",
+        text: "We don't publish prices publicly because every treatment is tailored to the individual. We always give you a clear, detailed estimate before anything begins. No surprises, no hidden costs, ever. Call us at **" + CLINIC_CONTACT.phone + "** or book a consultation to discuss your needs.",
         navigateTo: '/appointments',
         quickReplies: ['Book a consultation', 'Our services', 'Contact us'],
       }
@@ -244,13 +250,13 @@ function buildResponse(intent: Intent): BotResponse {
 
     case 'hours':
       return {
-        text: `Our clinic is open **${hours}**. We're closed on public holidays — please call ahead to confirm on those days. Walk-ins are welcome but an appointment ensures you're seen promptly.`,
+        text: `Our clinic is open **${hours}**. We're closed on public holidays, please call ahead to confirm on those days. Walk-ins are welcome but an appointment ensures you're seen promptly.`,
         quickReplies: ['Book an appointment', 'Our location', 'Contact us'],
       }
 
     case 'location':
       return {
-        text: `We're located at **Nagpokhari, Naxal, Kathmandu** — a central, easily accessible area. You can open directions in Google Maps by clicking below, or call us at **${CLINIC_CONTACT.phone}** for specific guidance.`,
+        text: `We're located at **Nagpokhari, Naxal, Kathmandu**, a central, easily accessible area. You can open directions in Google Maps by clicking below, or call us at **${CLINIC_CONTACT.phone}** for specific guidance.`,
         navigateTo: '/contact',
         quickReplies: ['Get directions', 'Call us', 'Our hours'],
       }
@@ -265,7 +271,7 @@ function buildResponse(intent: Intent): BotResponse {
     case 'services_all': {
       const names = SERVICE_CATEGORIES_STATIC.filter((s) => s.visible).map((s) => s.name).join(', ')
       return {
-        text: `We offer a full range of dental care including: **${names}**. Each service is delivered by our experienced, NMC-registered team with the latest equipment. Which area would you like to know more about?`,
+        text: `We offer a full range of dental care including: **${names}**. Each service is delivered by our experienced team, covering all areas of dentistry, with the latest equipment. Which area would you like to know more about?`,
         navigateTo: '/services',
         quickReplies: ['General Dentistry', 'Cosmetic Dentistry', 'Dental Implants', 'Orthodontics'],
       }
@@ -283,7 +289,7 @@ function buildResponse(intent: Intent): BotResponse {
     case 'service_cosmetic': {
       const svc = SERVICE_CATEGORIES_STATIC.find((s) => s.slug === 'cosmetic-dentistry')!
       return {
-        text: `Our **Cosmetic Dentistry** services include ${svc.subServices.map((s) => s.name).join(', ')}. We can design anything from a simple whitening to a full smile makeover — always natural-looking and tailored to you.`,
+        text: `Our **Cosmetic Dentistry** services include ${svc.subServices.map((s) => s.name).join(', ')}. We can design anything from a simple whitening to a full smile makeover, always natural-looking and tailored to you.`,
         navigateTo: '/services/cosmetic-dentistry',
         quickReplies: ['Teeth Whitening', 'Dental Veneers', 'Book a consultation'],
       }
@@ -291,7 +297,7 @@ function buildResponse(intent: Intent): BotResponse {
 
     case 'service_orthodontics': {
       return {
-        text: `Our **Orthodontics** services include metal braces, ceramic braces, clear aligners, and retainers — for patients of all ages. Treatment typically takes 12–24 months depending on complexity. Book a consultation for a personalised plan.`,
+        text: `Our **Orthodontics** services include metal braces, ceramic braces, clear aligners, and retainers, for patients of all ages. Treatment typically takes 12–24 months depending on complexity. Book a consultation for a personalised plan.`,
         navigateTo: '/services/orthodontics',
         quickReplies: ['Clear Aligners', 'Metal Braces', 'Book a consultation'],
       }
@@ -306,15 +312,15 @@ function buildResponse(intent: Intent): BotResponse {
 
     case 'service_surgery': {
       return {
-        text: `Our **Oral Surgery** services — performed by Dr. Sabin Giri — include wisdom tooth removal, complex extractions, surgical biopsies, frenectomies, and cyst removal. All procedures are done under local anaesthetic with comprehensive aftercare support.`,
+        text: `Our **Oral Surgery** services, performed by Dr. Isfa Banu Haque, our oral and maxillofacial surgeon, include wisdom tooth removal, complex extractions, minor surgical procedures, frenectomies, and cyst removal. All procedures are done under local anaesthetic with comprehensive aftercare support.`,
         navigateTo: '/services/oral-surgery',
-        quickReplies: ['Wisdom tooth removal', 'Book an appointment', 'Meet Dr. Sabin'],
+        quickReplies: ['Wisdom tooth removal', 'Book an appointment', 'Meet Dr. Isfa'],
       }
     }
 
     case 'service_implants': {
       return {
-        text: `**Dental Implants** are permanent, natural-looking tooth replacements — the gold standard in modern dentistry. We offer single implants, multiple implants, implant-supported bridges, and All-on-4/All-on-6 full-arch solutions. Dr. Shashi Bhushan Singh is our resident implant specialist.`,
+        text: `**Dental Implants** are permanent, natural-looking tooth replacements and the gold standard in modern dentistry. We offer single implants, multiple implants, implant-supported bridges, and All-on-4/All-on-6 full-arch solutions. Dr. Shashi Bhushan Singh is our resident implant specialist.`,
         navigateTo: '/services/dental-implants',
         quickReplies: ['Single implant', 'All-on-4', 'Meet Dr. Shashi', 'Book a consultation'],
       }
@@ -324,29 +330,29 @@ function buildResponse(intent: Intent): BotResponse {
       return {
         text: `We love treating children at Bright Smile! Our **Pediatric Dentistry** team uses a patient, gentle tell-show-do approach to make every visit positive. We recommend the first visit by your child\'s first birthday, or within 6 months of the first tooth appearing.`,
         navigateTo: '/services/pediatric-dentistry',
-        quickReplies: ['First dental visit', 'Dental sealants', 'Book an appointment'],
+        quickReplies: ["Children's fillings", 'Fluoride treatment', 'Book an appointment'],
       }
     }
 
     case 'whitening':
       return {
-        text: `Our **Professional Teeth Whitening** is clinically supervised for safe, noticeably brighter results — far superior to over-the-counter products. We assess suitability during a consultation to ensure the best outcome for your enamel and shade goals.`,
+        text: `Our **Professional Teeth Whitening** is clinically supervised for safe, noticeably brighter results, far superior to over-the-counter products. We assess suitability during a consultation to ensure the best outcome for your enamel and shade goals.`,
         navigateTo: '/services/cosmetic-dentistry',
         quickReplies: ['Book a consultation', 'Cosmetic Dentistry', 'Pricing info'],
       }
 
     case 'root_canal':
       return {
-        text: `**Root Canal Treatment (RCT)** at Bright Smile is performed with precision and care — most patients are surprised at how comfortable the procedure is under local anaesthetic. It relieves pain, clears infection, and saves your natural tooth. Recovery is typically straightforward.`,
+        text: `**Root Canal Treatment (RCT)** at Bright Smile is performed with precision and care. Most patients are surprised at how comfortable the procedure is under local anaesthetic. It relieves pain, clears infection, and saves your natural tooth. Recovery is typically straightforward.`,
         navigateTo: '/services/general-dentistry',
         quickReplies: ['Book an appointment', 'General Dentistry', 'Contact us'],
       }
 
     case 'extraction':
       return {
-        text: `Whether it's a routine extraction or a complex **wisdom tooth removal**, our oral surgeon Dr. Sabin Giri handles all cases with precision and care. Procedures are performed under local anaesthetic and include detailed aftercare instructions to ensure smooth recovery.`,
+        text: `Routine extractions are handled by Dr. Sabin Giri, while more complex cases such as **wisdom tooth removal** are handled by Dr. Isfa Banu Haque, our oral and maxillofacial surgeon. Procedures are performed under local anaesthetic and include detailed aftercare instructions to ensure smooth recovery.`,
         navigateTo: '/services/oral-surgery',
-        quickReplies: ['Wisdom tooth removal', 'Book an appointment', 'Meet Dr. Sabin'],
+        quickReplies: ['Wisdom tooth removal', 'Book an appointment', 'All doctors'],
       }
 
     case 'xray':
@@ -364,9 +370,9 @@ function buildResponse(intent: Intent): BotResponse {
       }
 
     case 'doctors_all': {
-      const list = doctors.map((d) => `**${d.shortName}** — ${d.role}`).join(', ')
+      const list = doctors.map((d) => `**${d.shortName}**, ${d.role}`).join(', ')
       return {
-        text: `Our team has ${doctors.length} experienced, NMC-registered dentists: ${list}. Bookable online: ${bookable.map((d) => d.shortName).join(' and ')}. Specialist appointments are arranged through the clinic.`,
+        text: `Our experienced team covers all areas of dentistry: ${list}. Bookable online: ${bookable.map((d) => d.shortName).join(' and ')}. Specialist appointments are arranged through the clinic.`,
         navigateTo: '/doctors',
         quickReplies: ['Dr. Sachin Agrawal', 'Dr. Binita Adhikari', 'Book an appointment'],
       }
@@ -402,7 +408,7 @@ function buildResponse(intent: Intent): BotResponse {
     case 'doctor_shashi': {
       const d = DOCTORS_STATIC.find((x) => x.slug === 'dr-shashi-bhushan-singh')!
       return {
-        text: `**${d.name}** (${d.qualification}, ${d.nmc}) is a general dental practitioner with ${d.experience} of experience in ${d.specializations.slice(0, 3).join(', ')}. He offers single implants through to full-arch rehabilitation. Appointments via clinic.`,
+        text: `**${d.name}** (${d.qualification}, ${d.nmc}) is a general dental practitioner with expertise in ${d.specializations.slice(0, 3).join(', ')}, and ${d.experience} in practice. He offers single implants through to full-arch rehabilitation. Appointments via clinic.`,
         navigateTo: '/doctors/dr-shashi-bhushan-singh',
         quickReplies: ['Dental Implants', 'Book an appointment', 'All doctors'],
       }
@@ -426,6 +432,33 @@ function buildResponse(intent: Intent): BotResponse {
       }
     }
 
+    case 'doctor_isfa': {
+      const d = DOCTORS_STATIC.find((x) => x.slug === 'dr-isfa-banu-haque')!
+      return {
+        text: `**${d.name}** (${d.nmc}) is our oral and maxillofacial surgeon, specialising in ${d.specializations.slice(0, 3).join(', ')}. Appointments via clinic.`,
+        navigateTo: '/doctors/dr-isfa-banu-haque',
+        quickReplies: ['Oral surgery', 'All doctors', 'Book an appointment'],
+      }
+    }
+
+    case 'doctor_dikshya': {
+      const d = DOCTORS_STATIC.find((x) => x.slug === 'dr-dikshya-bhusal')!
+      return {
+        text: `**${d.name}** (${d.nmc}) is a general dental practitioner at Bright Smile Dental Clinic. Appointments via clinic.`,
+        navigateTo: '/doctors/dr-dikshya-bhusal',
+        quickReplies: ['All doctors', 'Our services', 'Book an appointment'],
+      }
+    }
+
+    case 'doctor_barun': {
+      const d = DOCTORS_STATIC.find((x) => x.slug === 'dr-barun-kumar-sah')!
+      return {
+        text: `**${d.name}** (${d.nmc}) is a dentist at Bright Smile Dental Clinic. Appointments via clinic.`,
+        navigateTo: '/doctors/dr-barun-kumar-sah',
+        quickReplies: ['All doctors', 'Our services', 'Book an appointment'],
+      }
+    }
+
     case 'gallery':
       return {
         text: "Our gallery showcases the clinic's reception, patient lounge, treatment rooms, and advanced equipment. Take a look to get a feel for our clean, modern, comfortable environment before your visit.",
@@ -435,14 +468,14 @@ function buildResponse(intent: Intent): BotResponse {
 
     case 'about':
       return {
-        text: `Bright Smile Dental Clinic was founded in 2013 by Dr. Sachin Agrawal with a single mission: exceptional dental care delivered with genuine warmth. We've grown into one of Kathmandu's most trusted clinics — with 6 specialist dentists, modern digital equipment, and over 1,000 happy patients served.`,
+        text: `Bright Smile Dental Clinic was founded in 2006 by Dr. Sachin Agrawal with a single mission: exceptional dental care delivered with genuine warmth. We've grown into one of Kathmandu's most trusted clinics, with an experienced team of dentists covering all areas of dentistry, modern digital equipment, and over 5,000 happy patients served.`,
         navigateTo: '/about',
         quickReplies: ['Meet our team', 'Our services', 'Book an appointment'],
       }
 
     case 'testimonials':
       return {
-        text: "Our patients are our best advocates! We have hundreds of happy patients from across Kathmandu and beyond. You can read some of their stories on our testimonials page — rated 5 stars across the board.",
+        text: "Our patients are our best advocates! We have hundreds of happy patients from across Kathmandu and beyond. You can read some of their stories on our testimonials page, rated 5 stars across the board.",
         navigateTo: '/testimonials',
         quickReplies: ['Read testimonials', 'Book an appointment', 'Meet our doctors'],
       }
@@ -450,7 +483,7 @@ function buildResponse(intent: Intent): BotResponse {
     case 'faq': {
       const sample = FAQS_STATIC.slice(0, 2)
       return {
-        text: `Some common questions: **"${sample[0].q}"** — ${sample[0].a.slice(0, 80)}… You'll find answers to all our frequently asked questions on the FAQ page.`,
+        text: `Some common questions: **"${sample[0].q}"**: ${sample[0].a.slice(0, 80)}… You'll find answers to all our frequently asked questions on the FAQ page.`,
         navigateTo: '/faq',
         quickReplies: ['View all FAQs', 'Book an appointment', 'Contact us'],
       }
@@ -459,7 +492,7 @@ function buildResponse(intent: Intent): BotResponse {
     case 'unknown':
     default:
       return {
-        text: `I'm not sure I caught that — here are some things I can help you with! You can also call us directly at **${CLINIC_CONTACT.phone}** and our team will be happy to assist.`,
+        text: `I'm not sure I caught that. Here are some things I can help you with! You can also call us directly at **${CLINIC_CONTACT.phone}** and our team will be happy to assist.`,
         quickReplies: ['Book an appointment', 'Our services', 'Meet our doctors', 'Clinic hours'],
       }
   }

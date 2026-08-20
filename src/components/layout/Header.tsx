@@ -27,13 +27,13 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
         <Image
           src="/images/logo.jpg"
           alt="Bright Smile Dental Clinic"
-          width={280}
-          height={112}
+          width={200}
+          height={200}
           className={cn(
             'w-auto object-contain transition-all duration-500',
             inverted
-              ? 'h-[2.75rem] lg:h-[3.5rem] bg-white px-2.5 py-1.5'
-              : 'h-[1.75rem] lg:h-[2.25rem]'
+              ? 'h-[3rem] lg:h-[4rem] bg-white px-2.5 py-1.5'
+              : 'h-[2.125rem] lg:h-[2.875rem]'
           )}
           priority
         />

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   alternates: { canonical: buildCanonical('/doctors') },
   title: 'Our Doctors & Care Team',
   description:
-    'Meet the experts behind every smile at Bright Smile Dental Clinic — two lead dentists, four visiting specialists, and a dedicated clinical and administrative team committed to exceptional dental care.',
+    'Meet the experts behind every smile at Bright Smile Dental Clinic, an experienced team of dentists covering all areas of dentistry, supported by a dedicated clinical and administrative team.',
 }
 
 function NmcBadge() {
@@ -73,7 +73,7 @@ const ROLE_DESCRIPTIONS: Record<string, { icon: string; description: string; str
   },
   admin: {
     icon: 'M4 4h16v2H4V4zm0 4h16v2H4V8zm0 4h16v2H4v-2zm0 4h7v2H4v-2z',
-    description: 'Manages clinic operations, patient records, billing coordination and compliance — so the clinical team can focus entirely on you.',
+    description: 'Manages clinic operations, patient records, billing coordination and compliance, so the clinical team can focus entirely on you.',
     strength: 'Clinic operations',
   },
 }
@@ -139,15 +139,15 @@ export default async function DoctorsPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl font-body text-[1rem] text-white/90 leading-relaxed lg:text-[1.05rem]">
-            All Nepal Medical Council registered dentists and specialists, supported by a dedicated clinical and administrative team — all committed to exceptional dental care in Kathmandu.
+            Experienced team of dentists covering all areas of dentistry, supported by a dedicated clinical and administrative team, all committed to exceptional dental care in Kathmandu.
           </p>
 
           {/* Trust row */}
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3">
             {[
-              `${allDoctors.length} NMC-Registered Dentists`,
+              'Experienced Team of Dentists',
               'Specialist Consultants On-Call',
-              'Serving Kathmandu since 2013',
+              'Serving Kathmandu since 2006',
               'Nagpokhari, Naxal',
             ].map((item) => (
               <span key={item} className="flex items-center gap-2.5 font-heading text-[0.68rem] font-medium text-white/90">
@@ -174,7 +174,7 @@ export default async function DoctorsPage() {
                 Your Primary Care Contacts
               </h2>
               <p className="mt-4 max-w-lg font-body text-base text-gray-600 leading-relaxed">
-                All direct appointments are with Dr. Sachin or Dr. Binita — who assess your needs, design your care plan, and coordinate any specialist involvement.
+                All direct appointments are with Dr. Sachin or Dr. Binita, who assess your needs, design your care plan, and coordinate any specialist involvement.
               </p>
             </div>
             <div className="flex items-center gap-3 flex-shrink-0">
@@ -362,7 +362,7 @@ export default async function DoctorsPage() {
                 Where Specialists<br />Join Your Care
               </h2>
               <p className="mt-4 max-w-xl font-body text-base text-white/85 leading-relaxed">
-                For treatments requiring advanced expertise — implants, periodontics, oral surgery — our visiting specialists work within your coordinated care plan, arranged by your lead dentist.
+                For treatments requiring advanced expertise, such as implants, periodontics or oral surgery, our visiting specialists work within your coordinated care plan, arranged by your lead dentist.
               </p>
             </div>
             <div>

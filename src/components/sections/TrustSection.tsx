@@ -35,10 +35,10 @@ export default function TrustSection({
               <br />
               {pick(content, 'home.trust.heading_line2', 'count on.')}
               <br />
-              <span className="text-primary">{pick(content, 'home.trust.heading_line3', 'Since 2013.')}</span>
+              <span className="text-primary">{pick(content, 'home.trust.heading_line3', 'Since 2006.')}</span>
             </h2>
             <p className="mt-8 max-w-md font-body text-base text-gray-500 leading-relaxed">
-              {pick(content, 'home.trust.intro', 'Serving Kathmandu for over a decade — 1,000+ patients, 6 specialists, one commitment: exceptional care every visit.')}
+              {pick(content, 'home.trust.intro', 'Serving Kathmandu for 20 years, with 5,000+ patients and an experienced team covering all areas of dentistry, one commitment: exceptional care every visit.')}
             </p>
           </motion.div>
 

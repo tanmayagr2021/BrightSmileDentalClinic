@@ -113,9 +113,9 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
 
           {activeRegion === 'gums' ? (
             <p className="mt-2 text-center font-body text-xs text-white/60">
-              Gum health affects every tooth. For bleeding, swelling, or sensitivity, our periodontal team can help — meet{' '}
-              <Link href="/doctors/dr-ameena-pradhan" className="text-gold underline underline-offset-2 hover:text-gold/80">
-                Dr. Ameena Pradhan
+              Gum health affects every tooth. For bleeding, swelling, or sensitivity, our periodontal team can help, meet{' '}
+              <Link href="/doctors/dr-ranjita-shrestha-gorkhali" className="text-gold underline underline-offset-2 hover:text-gold/80">
+                Dr. Ranjita Shrestha
               </Link>
               .
             </p>

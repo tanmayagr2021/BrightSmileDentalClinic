@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   alternates: { canonical: buildCanonical('/about') },
   title: 'About Us',
   description:
-    'Learn about Bright Smile Dental Clinic — founded in 2013 in Kathmandu, our story, mission, vision and values behind a decade of trusted dental care.',
+    'Learn about Bright Smile Dental Clinic, founded in 2006 in Kathmandu, our story, mission, vision and values behind two decades of trusted dental care.',
 }
 
 type AboutContent = {
@@ -115,7 +115,7 @@ export default async function AboutPage() {
 
           {/* Description */}
           <p className="mt-8 max-w-xl font-body text-base text-white/90 leading-relaxed">
-            {pick(content, 'about.hero.description', '20 years of trusted dental care in the heart of Kathmandu — built on expertise, compassion and an uncompromising commitment to every patient.')}
+            {pick(content, 'about.hero.description', '20 years of trusted dental care in the heart of Kathmandu, built on expertise, compassion and an uncompromising commitment to every patient.')}
           </p>
 
           {/* Stats strip */}

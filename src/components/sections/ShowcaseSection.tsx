@@ -42,9 +42,9 @@ export default function ShowcaseSection({
 }) {
   const displayPhone = phone ?? CLINIC_CONTACT.phone
   const trustChips = [
-    pick(content, 'home.hero.badge_1', 'NMC Registered'),
-    pick(content, 'home.hero.badge_2', 'Est. 2013'),
-    pick(content, 'home.hero.badge_3', '6 Specialists'),
+    pick(content, 'home.hero.badge_1', 'Covering All Specialities'),
+    pick(content, 'home.hero.badge_2', 'Since 2006'),
+    pick(content, 'home.hero.badge_3', 'Experienced Team'),
     pick(content, 'home.hero.badge_4', 'Kathmandu'),
   ]
   const [active, setActive] = useState(0)
@@ -138,7 +138,7 @@ export default function ShowcaseSection({
 
           {/* Sub-copy */}
           <p className="mt-7 max-w-[38ch] font-body text-[0.95rem] leading-[1.8] text-white/75">
-            {pick(content, 'home.hero.subcopy', 'Modern dentistry with genuine care — six experienced specialists, transparent treatment planning, and results built to last.')}
+            {pick(content, 'home.hero.subcopy', 'Modern dentistry with genuine care, covering all specialities in dentistry, with transparent treatment planning and results built to last.')}
           </p>
 
           {/* Dual CTAs */}
