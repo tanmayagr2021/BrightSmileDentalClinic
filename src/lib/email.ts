@@ -9,7 +9,7 @@ const CLINIC_PHONE = '+977-1-4519594'
 const CLINIC_WHATSAPP = '+91 8073047214'
 // Both must receive every clinic/admin notification (appointment + contact).
 // tanmayagr2021@gmail.com must NOT be a recipient.
-const ADMIN_NOTIFICATION_EMAILS = ['brightsmiledentalclinicpvt.ltd@gmail.com', 'drsachin1108@gmail.com']
+const ADMIN_NOTIFICATION_EMAILS = ['drsachin1108@gmail.com', 'brightsmiledentalclinic1111@gmail.com']
 
 function resend() {
   const key = process.env.RESEND_API_KEY

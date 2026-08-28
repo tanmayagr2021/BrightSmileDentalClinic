@@ -51,7 +51,7 @@ export default async function ContactPage() {
   const [{ data: settingsData }, { data: hoursData }, content] = await Promise.all([
     supabase
       .from('site_settings')
-      .select('phone_primary, phone_whatsapp, email_appointments, address_line1, address_line2, address_city, google_maps_url, facebook_url')
+      .select('phone_primary, phone_whatsapp, email_appointments, address_line1, address_line2, address_city, google_maps_url, facebook_url, instagram_url')
       .limit(1)
       .single(),
     supabase
@@ -64,7 +64,7 @@ export default async function ContactPage() {
   const s = settingsData as {
     phone_primary?: string; phone_whatsapp?: string; email_appointments?: string
     address_line1?: string; address_line2?: string; address_city?: string
-    google_maps_url?: string; facebook_url?: string
+    google_maps_url?: string; facebook_url?: string; instagram_url?: string
   } | null
 
   const addressParts = [s?.address_line1, s?.address_line2, s?.address_city].filter(Boolean)
@@ -77,6 +77,7 @@ export default async function ContactPage() {
       address={addressParts.length > 0 ? addressParts.join(', ') : CLINIC_CONTACT.addressFull}
       mapsUrl={s?.google_maps_url ?? CLINIC_CONTACT.googleMapsUrl}
       facebook={s?.facebook_url ?? CLINIC_CONTACT.facebook}
+      instagram={s?.instagram_url ?? CLINIC_CONTACT.instagram}
       hours={buildHours(hoursData ?? [])}
       content={content}
     />

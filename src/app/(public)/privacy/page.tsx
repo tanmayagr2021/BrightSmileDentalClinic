@@ -34,7 +34,7 @@ export default function PrivacyPage() {
           </section>
           <section>
             <h2 className="font-heading text-base font-semibold text-dark mb-3">4. Contact</h2>
-            <p>For any privacy-related questions, contact us at <a href="mailto:drsachin1108@gmail.com" className="text-primary hover:underline">drsachin1108@gmail.com</a>.</p>
+            <p>For any privacy-related questions, contact us at <a href="mailto:brightsmiledentalclinic1111@gmail.com" className="text-primary hover:underline">brightsmiledentalclinic1111@gmail.com</a>.</p>
           </section>
         </div>
 

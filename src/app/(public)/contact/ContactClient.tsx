@@ -98,6 +98,7 @@ export default function ContactClient({
   address,
   mapsUrl,
   facebook,
+  instagram,
   hours,
   content,
 }: {
@@ -107,6 +108,7 @@ export default function ContactClient({
   address: string
   mapsUrl: string
   facebook: string
+  instagram: string
   hours: HourRow[]
   content: Record<string, string>
 }) {
@@ -299,17 +301,34 @@ export default function ContactClient({
                   </svg>
                   WhatsApp
                 </a>
-                <a
-                  href={facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 font-heading text-xs font-semibold text-white/75 transition-all hover:border-white/15 hover:text-white"
-                >
-                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
-                    <path d="M18 10a8 8 0 10-9.25 7.903V12.89H7.078V10H8.75V8.124c0-1.653.995-2.565 2.492-2.565.722 0 1.477.128 1.477.128v1.622h-.832c-.82 0-1.075.508-1.075 1.03V10h1.83l-.292 2.89H10.81v5.013A8.002 8.002 0 0018 10z" />
-                  </svg>
-                  Facebook
-                </a>
+                {facebook && (
+                  <a
+                    href={facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('Facebook Clicked', { location: 'social-row' })}
+                    className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 font-heading text-xs font-semibold text-white/75 transition-all hover:border-white/15 hover:text-white"
+                  >
+                    <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
+                      <path d="M18 10a8 8 0 10-9.25 7.903V12.89H7.078V10H8.75V8.124c0-1.653.995-2.565 2.492-2.565.722 0 1.477.128 1.477.128v1.622h-.832c-.82 0-1.075.508-1.075 1.03V10h1.83l-.292 2.89H10.81v5.013A8.002 8.002 0 0018 10z" />
+                    </svg>
+                    Facebook
+                  </a>
+                )}
+                {instagram && (
+                  <a
+                    href={instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('Instagram Clicked', { location: 'social-row' })}
+                    className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 font-heading text-xs font-semibold text-white/75 transition-all hover:border-white/15 hover:text-white"
+                  >
+                    <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M10 1.8c-2.223 0-2.5.01-3.373.05-.87.04-1.465.178-1.985.38a4.01 4.01 0 00-1.45.943c-.454.454-.735.91-.944 1.45-.202.52-.34 1.114-.38 1.985C1.81 7.48 1.8 7.757 1.8 10s.01 2.5.05 3.373c.04.87.178 1.465.38 1.985.209.54.49.996.944 1.45.454.454.91.735 1.45.944.52.202 1.114.34 1.985.38.872.04 1.15.05 3.373.05s2.5-.01 3.373-.05c.87-.04 1.465-.178 1.985-.38a4.01 4.01 0 001.45-.944c.454-.454.735-.91.944-1.45.202-.52.34-1.114.38-1.985.04-.872.05-1.15.05-3.373s-.01-2.5-.05-3.373c-.04-.87-.178-1.465-.38-1.985a4.01 4.01 0 00-.944-1.45 4.01 4.01 0 00-1.45-.944c-.52-.202-1.114-.34-1.985-.38C12.5 1.81 12.223 1.8 10 1.8zm0 1.475c2.187 0 2.445.008 3.308.048.798.036 1.232.17 1.52.282.383.148.655.326.942.613.287.287.465.56.613.942.112.288.246.722.282 1.52.04.863.048 1.122.048 3.308s-.008 2.445-.048 3.308c-.036.798-.17 1.232-.282 1.52a2.54 2.54 0 01-.613.942 2.54 2.54 0 01-.942.613c-.288.112-.722.246-1.52.282-.863.04-1.121.048-3.308.048s-2.445-.008-3.308-.048c-.798-.036-1.232-.17-1.52-.282a2.54 2.54 0 01-.942-.613 2.54 2.54 0 01-.613-.942c-.112-.288-.246-.722-.282-1.52-.04-.863-.048-1.122-.048-3.308s.008-2.445.048-3.308c.036-.798.17-1.232.282-1.52.148-.383.326-.655.613-.942a2.54 2.54 0 01.942-.613c.288-.112.722-.246 1.52-.282.863-.04 1.122-.048 3.308-.048zM10 5.838a4.163 4.163 0 100 8.325 4.163 4.163 0 000-8.325zm0 6.865a2.703 2.703 0 110-5.406 2.703 2.703 0 010 5.406zm5.298-7.03a.973.973 0 11-1.946 0 .973.973 0 011.946 0z" />
+                    </svg>
+                    Instagram
+                  </a>
+                )}
               </div>
             </div>
           </div>

@@ -138,7 +138,7 @@ export default function ShowcaseSection({
 
           {/* Sub-copy */}
           <p className="mt-7 max-w-[38ch] font-body text-[0.95rem] leading-[1.8] text-white/75">
-            {pick(content, 'home.hero.subcopy', 'Modern dentistry with genuine care, covering all specialities in dentistry, with transparent treatment planning and results built to last.')}
+            {pick(content, 'home.hero.subcopy', 'Modern dentistry with genuine care, covering every speciality, with transparent treatment planning and results built to last.')}
           </p>
 
           {/* Dual CTAs */}

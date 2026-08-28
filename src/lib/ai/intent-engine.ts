@@ -263,7 +263,7 @@ function buildResponse(intent: Intent): BotResponse {
 
     case 'contact':
       return {
-        text: `You can reach us by phone at **${CLINIC_CONTACT.phone}**, WhatsApp at **${CLINIC_CONTACT.phoneWhatsApp}**, or email at **${CLINIC_CONTACT.email}**. We're also on Facebook at Bright Smile Nepal. Our team typically responds within a few hours during clinic hours.`,
+        text: `You can reach us by phone at **${CLINIC_CONTACT.phone}**, WhatsApp at **${CLINIC_CONTACT.phoneWhatsApp}**, or email at **${CLINIC_CONTACT.email}**. We're also on Facebook (Bright Smile Nepal) and Instagram (@brightsmiles_np). Our team typically responds within a few hours during clinic hours.`,
         navigateTo: '/contact',
         quickReplies: ['Clinic hours', 'Our location', 'Book an appointment'],
       }

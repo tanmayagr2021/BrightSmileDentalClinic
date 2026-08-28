@@ -62,7 +62,7 @@ export function buildClinicSchema() {
       addressLocality: 'Kathmandu',
       addressCountry: 'NP',
     },
-    sameAs: [CLINIC_CONTACT.facebook].filter(Boolean),
+    sameAs: [CLINIC_CONTACT.facebook, CLINIC_CONTACT.instagram].filter(Boolean),
     openingHoursSpecification,
   }
 }

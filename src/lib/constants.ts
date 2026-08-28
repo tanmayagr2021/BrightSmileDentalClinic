@@ -11,13 +11,13 @@ export const CLINIC_SUBTITLE = 'Dental Clinic Pvt. Ltd.'
 export const CLINIC_CONTACT = {
   phone: '+977-1-4519594',
   phoneWhatsApp: '+91 8073047214',
-  email: 'drsachin1108@gmail.com',
+  email: 'brightsmiledentalclinic1111@gmail.com',
   emailAppointments: 'brightsmiledentalclinic1111@gmail.com',
   address: 'Nagpokhari, Naxal',
   addressFull: 'Nagpokhari, Naxal, Kathmandu, Nepal',
   googleMapsUrl: 'https://maps.app.goo.gl/1zc3q43cxKxpcoEM6',
   facebook: 'https://www.facebook.com/brightsmilenepal/',
-  instagram: '',
+  instagram: 'https://www.instagram.com/brightsmiles_np',
 } as const
 
 export const NAV_LINKS = [
