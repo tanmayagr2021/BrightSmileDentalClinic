@@ -6,7 +6,7 @@ import { Resend } from 'resend'
 // notification was silently failing to send.
 const FROM = `${process.env.RESEND_FROM_NAME ?? 'Bright Smile Dental Clinic'} <${process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev'}>`
 const CLINIC_PHONE = '+977-1-4519594'
-const CLINIC_WHATSAPP = '+91 8073047214'
+const CLINIC_WHATSAPP = '+977 9851058733'
 // Both must receive every clinic/admin notification (appointment + contact).
 // tanmayagr2021@gmail.com must NOT be a recipient.
 const ADMIN_NOTIFICATION_EMAILS = ['drsachin1108@gmail.com', 'brightsmiledentalclinic1111@gmail.com']

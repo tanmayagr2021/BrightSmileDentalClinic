@@ -7,6 +7,7 @@ import { fadeUp, stagger, slideInLeft, slideInRight, blurFadeIn } from '@/lib/an
 import { useTrackViewOnce } from '@/hooks/useTrackViewOnce'
 import { trackEvent } from '@/lib/analytics'
 import { pick, interpolate } from '@/lib/content-client'
+import { RESIDENT_DENTIST_SLUG } from '@/lib/constants'
 import type { TeamMemberRow } from '@/lib/content'
 import type { DoctorRow } from '@/types/db'
 
@@ -76,8 +77,11 @@ export default function DoctorsSection({
   content: Record<string, string>
   teamMembers: TeamMemberRow[]
 }) {
-  const leadDoctors = doctors.filter((d) => d.doctor_type === 'lead' && d.is_active && d.is_bookable)
-  const specialistCount = doctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).length
+  // The resident general practitioner (Dr. Dikshya) is featured on /doctors
+  // only — never surfaced on the homepage as a lead or a specialist.
+  const publicDoctors = doctors.filter((d) => d.slug !== RESIDENT_DENTIST_SLUG)
+  const leadDoctors = publicDoctors.filter((d) => d.doctor_type === 'lead' && d.is_active && d.is_bookable)
+  const specialistCount = publicDoctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).length
   const viewRef = useTrackViewOnce<HTMLElement>('Doctor Section Viewed')
   const hygienists = teamMembers.filter((m) => m.department === 'hygienist' || m.department === 'assistant')
   const supportTeam = teamMembers.filter((m) => m.department === 'reception' || m.department === 'admin')
@@ -288,7 +292,7 @@ export default function DoctorsSection({
                 </p>
                 <div className="mt-3 flex items-center gap-2">
                   <div className="flex -space-x-1.5">
-                    {doctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).slice(0, 4).map((d, i) => (
+                    {publicDoctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).slice(0, 4).map((d, i) => (
                       <div
                         key={d.slug}
                         className="flex h-6 w-6 items-center justify-center rounded-full text-[0.5rem] font-bold text-white ring-1 ring-white"

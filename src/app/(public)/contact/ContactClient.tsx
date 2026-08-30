@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { fadeUp, stagger } from '@/lib/animations'
 import { trackEvent } from '@/lib/analytics'
 import { pick, interpolate } from '@/lib/content-client'
+import { whatsappUrl } from '@/lib/utils'
+import { WHATSAPP_GREETING } from '@/lib/constants'
 
 const TREATMENT_OPTIONS = [
   'General Check-up',
@@ -237,7 +239,7 @@ export default function ContactClient({
                   {pick(content, 'contact.panel.whatsapp_label', 'WhatsApp')}
                 </p>
                 <a
-                  href={`https://wa.me/${phoneWhatsApp.replace(/[^0-9]/g, '')}`}
+                  href={whatsappUrl(phoneWhatsApp, WHATSAPP_GREETING)}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackEvent('WhatsApp Clicked', { location: 'contact-panel' })}
@@ -289,7 +291,7 @@ export default function ContactClient({
               {/* Social row */}
               <div className="mt-8 flex gap-4">
                 <a
-                  href={`https://wa.me/${phoneWhatsApp.replace(/[^0-9]/g, '')}`}
+                  href={whatsappUrl(phoneWhatsApp, WHATSAPP_GREETING)}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackEvent('WhatsApp Clicked', { location: 'social-row' })}

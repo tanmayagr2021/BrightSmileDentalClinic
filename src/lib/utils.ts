@@ -67,6 +67,18 @@ export function storageUrl(bucket: string, path: string): string {
 }
 
 /**
+ * Builds a WhatsApp click-to-chat URL. Strips everything but digits from the
+ * phone number and, when a message is given, pre-fills it in the WhatsApp
+ * compose box so the visitor only has to hit send.
+ * e.g. whatsappUrl('+977 9851058733', 'Hi') → https://wa.me/9779851058733?text=Hi
+ */
+export function whatsappUrl(phone: string, message?: string): string {
+  const digits = phone.replace(/[^0-9]/g, '')
+  const base = `https://wa.me/${digits}`
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base
+}
+
+/**
  * Clamps a number between min and max.
  */
 export function clamp(value: number, min: number, max: number): number {

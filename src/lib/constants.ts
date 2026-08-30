@@ -10,7 +10,7 @@ export const CLINIC_SUBTITLE = 'Dental Clinic Pvt. Ltd.'
 
 export const CLINIC_CONTACT = {
   phone: '+977-1-4519594',
-  phoneWhatsApp: '+91 8073047214',
+  phoneWhatsApp: '+977 9851058733',
   email: 'brightsmiledentalclinic1111@gmail.com',
   emailAppointments: 'brightsmiledentalclinic1111@gmail.com',
   address: 'Nagpokhari, Naxal',
@@ -19,6 +19,21 @@ export const CLINIC_CONTACT = {
   facebook: 'https://www.facebook.com/brightsmilenepal/',
   instagram: 'https://www.instagram.com/brightsmiles_np',
 } as const
+
+// Pre-filled into the WhatsApp compose box when a visitor taps any "WhatsApp
+// us" link, so the conversation opens with a friendly opening line already
+// typed — they just press send.
+export const WHATSAPP_GREETING =
+  "Hi Bright Smile Dental Clinic, I'd like to ask about your dental services."
+export const WHATSAPP_BOOKING_GREETING =
+  "Hi Bright Smile Dental Clinic, I'd like to book an appointment."
+
+// Dr. Dikshya Bhusal is the clinic's permanent in-house general dental
+// practitioner — she is neither a bookable lead dentist nor a visiting
+// specialist. She is featured on /doctors only, in her own section, and is
+// deliberately excluded from the homepage, the About team grid, and the
+// appointment booking flow. Guards across the public pages key off this slug.
+export const RESIDENT_DENTIST_SLUG = 'dr-dikshya-bhusal'
 
 export const NAV_LINKS = [
   { label: 'Services', href: '/services' },

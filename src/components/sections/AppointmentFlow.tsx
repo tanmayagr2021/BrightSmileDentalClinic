@@ -3,7 +3,8 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { CLINIC_CONTACT, OPENING_HOURS } from '@/lib/constants'
+import { CLINIC_CONTACT, OPENING_HOURS, RESIDENT_DENTIST_SLUG, WHATSAPP_BOOKING_GREETING } from '@/lib/constants'
+import { whatsappUrl } from '@/lib/utils'
 import { trackEvent } from '@/lib/analytics'
 import type { DoctorRow } from '@/types/db'
 
@@ -573,7 +574,9 @@ export default function AppointmentFlow({
   const displayPhoneWhatsApp = phoneWhatsApp ?? CLINIC_CONTACT.phoneWhatsApp
   const displayAddress = address ?? CLINIC_CONTACT.addressFull
   const displayHours = (openingHours && openingHours.length > 0) ? openingHours : [...OPENING_HOURS]
-  const bookableDoctors = doctorRows.filter((d) => d.is_bookable && d.is_active).map(adaptDoctor)
+  const bookableDoctors = doctorRows
+    .filter((d) => d.is_bookable && d.is_active && d.slug !== RESIDENT_DENTIST_SLUG)
+    .map(adaptDoctor)
 
   const [step, setStep] = useState<Step>('doctor')
   const [selectedDoctorSlug, setSelectedDoctorSlug] = useState<string | null>(null)
@@ -778,7 +781,7 @@ export default function AppointmentFlow({
                   </div>
                 </a>
                 <a
-                  href={`https://wa.me/${displayPhoneWhatsApp.replace(/[^0-9]/g, '')}`}
+                  href={whatsappUrl(displayPhoneWhatsApp, WHATSAPP_BOOKING_GREETING)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-2 flex items-center gap-3 rounded-xl border border-gray-200 px-4 py-3.5 text-dark transition-colors hover:border-primary hover:text-primary"

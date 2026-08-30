@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { CLINIC_STORY_STATIC, HOMEPAGE_STATS } from '@/lib/constants'
+import { CLINIC_STORY_STATIC, HOMEPAGE_STATS, RESIDENT_DENTIST_SLUG } from '@/lib/constants'
 import { buildCanonical } from '@/lib/schema'
 import { getContentBlocks } from '@/lib/content'
 import { pick, interpolate } from '@/lib/content-client'
@@ -49,7 +49,9 @@ export default async function AboutPage() {
       .order('sort_order', { ascending: true }),
   ])
 
-  const teamDoctors: DoctorRow[] = teamData ?? []
+  // The resident general practitioner (Dr. Dikshya) is featured on /doctors
+  // only — kept out of the About team grid.
+  const teamDoctors: DoctorRow[] = (teamData ?? []).filter((d) => d.slug !== RESIDENT_DENTIST_SLUG)
   const teamLeads = teamDoctors.filter((d) => d.doctor_type === 'lead')
   const teamSpecialists = teamDoctors.filter((d) => d.doctor_type === 'specialist')
 

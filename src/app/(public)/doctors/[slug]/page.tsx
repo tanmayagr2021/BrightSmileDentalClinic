@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { CLINIC_CONTACT } from '@/lib/constants'
+import { CLINIC_CONTACT, RESIDENT_DENTIST_SLUG } from '@/lib/constants'
 import { buildPhysicianSchema, buildCanonical } from '@/lib/schema'
 import TrackOnMount from '@/components/analytics/TrackOnMount'
 import TrackedLink from '@/components/analytics/TrackedLink'
@@ -63,6 +63,10 @@ export default async function DoctorProfilePage({ params }: Props) {
   ])
 
   if (!doctor) notFound()
+
+  // The resident general practitioner is a salaried in-house dentist, not a
+  // bookable provider — her profile never shows a booking CTA.
+  const isBookable = doctor.is_bookable && doctor.slug !== RESIDENT_DENTIST_SLUG
 
   const otherDoctors: DoctorRow[] = othersData ?? []
   const clinicPhone = (settingsData as { phone_primary?: string } | null)?.phone_primary ?? CLINIC_CONTACT.phone
@@ -128,7 +132,7 @@ export default async function DoctorProfilePage({ params }: Props) {
                     {doctor.experience_text}
                   </span>
                 )}
-                {doctor.is_bookable && (
+                {isBookable && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 font-heading text-xs font-semibold text-green-700">
                     <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
                     Accepting Patients
@@ -207,7 +211,7 @@ export default async function DoctorProfilePage({ params }: Props) {
                 Consult with<br />
                 <span className="text-primary">{dShortName(doctor)}</span>
               </p>
-              {doctor.is_bookable ? (
+              {isBookable ? (
                 <>
                   <p className="mt-3 font-body text-sm text-white/50">
                     {dShortName(doctor)} is currently accepting new patients.
@@ -221,6 +225,10 @@ export default async function DoctorProfilePage({ params }: Props) {
                     Book Appointment
                   </TrackedLink>
                 </>
+              ) : doctor.slug === RESIDENT_DENTIST_SLUG ? (
+                <p className="mt-3 font-body text-sm text-white/50">
+                  {dShortName(doctor)} is our full-time in-house dentist. Call the clinic to arrange a visit.
+                </p>
               ) : (
                 <p className="mt-3 font-body text-sm text-white/50">
                   {dShortName(doctor)} sees patients by referral. Call us to discuss your needs.

@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import { whatsappUrl } from '@/lib/utils'
+import { WHATSAPP_GREETING } from '@/lib/constants'
 
 function PhoneIcon() {
   return (
@@ -29,7 +31,7 @@ function WhatsAppIcon() {
 
 export default function MobileActionBar({ phone, phoneWhatsApp }: { phone: string; phoneWhatsApp?: string }) {
   const tel = phone.replace(/[^0-9+]/g, '')
-  const whatsappDigits = phoneWhatsApp?.replace(/[^0-9]/g, '')
+  const whatsappHref = phoneWhatsApp ? whatsappUrl(phoneWhatsApp, WHATSAPP_GREETING) : null
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden" aria-label="Quick actions">
@@ -48,9 +50,9 @@ export default function MobileActionBar({ phone, phoneWhatsApp }: { phone: strin
         </a>
 
         {/* WhatsApp */}
-        {whatsappDigits && (
+        {whatsappHref && (
           <a
-            href={`https://wa.me/${whatsappDigits}`}
+            href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
             className="flex flex-1 items-center justify-center gap-2 py-4 font-heading text-sm font-semibold text-white/65 transition-colors hover:text-white active:bg-white/5"

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { CLINIC_CONTACT } from '@/lib/constants'
+import { CLINIC_CONTACT, RESIDENT_DENTIST_SLUG } from '@/lib/constants'
 import type { DoctorRow } from '@/types/db'
 import { doctorColor, doctorInitials } from '@/lib/doctor-display'
 import { buildCanonical } from '@/lib/schema'
@@ -80,6 +80,165 @@ const ROLE_DESCRIPTIONS: Record<string, { icon: string; description: string; str
 
 function tInitials(m: TeamMemberRow) { return m.initials ?? m.name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
 
+// Large editorial card, shared by the lead dentists and the resident general
+// practitioner. The resident dentist (Dr. Dikshya) reuses the exact visual
+// treatment but is never rendered as a bookable provider.
+function LeadDoctorCard({ doc }: { doc: DoctorRow }) {
+  const bookable = doc.is_bookable && doc.slug !== RESIDENT_DENTIST_SLUG
+  return (
+    <div
+      className="group overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-card transition-all duration-500 hover:shadow-premium"
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
+
+        {/* Left — colored banner */}
+        <div
+          className="relative flex min-h-[320px] flex-col justify-between overflow-hidden p-10 lg:min-h-[420px]"
+          style={{ backgroundColor: doctorColor(doc) }}
+        >
+          {/* Grid overlay */}
+          <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05]" aria-hidden="true">
+            <defs>
+              <pattern id={`doc-grid-${doc.slug}`} width="24" height="24" patternUnits="userSpaceOnUse">
+                <path d="M 24 0 L 0 0 0 24" fill="none" stroke="white" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill={`url(#doc-grid-${doc.slug})`} />
+          </svg>
+
+          {/* Decorative depth circles */}
+          <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/[0.04]" aria-hidden="true" />
+          <div className="pointer-events-none absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-white/[0.035]" aria-hidden="true" />
+
+          {/* Large avatar — top */}
+          <div className="relative self-start">
+            <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-2xl bg-white/15 ring-2 ring-white/20 transition-transform duration-300 group-hover:scale-105">
+              {doc.profile_image_url ? (
+                <Image src={doc.profile_image_url} alt={doc.full_name} fill className="object-cover object-top" sizes="112px" />
+              ) : (
+                <span className="font-display text-5xl font-bold text-white">{doctorInitials(doc)}</span>
+              )}
+            </div>
+            <div className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-green-400 ring-2 ring-white/25">
+              <span className="h-2.5 w-2.5 rounded-full bg-white" />
+            </div>
+          </div>
+
+          {/* Bottom: name + credentials */}
+          <div className="relative mt-auto">
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              <span className="rounded-xl bg-white/20 px-3 py-1.5 font-heading text-xs font-semibold text-white backdrop-blur-sm">
+                {doc.qualification}
+              </span>
+              <span className="rounded-xl bg-white/10 px-3 py-1.5 font-heading text-[0.6rem] font-semibold tracking-wide text-white/80">
+                NMC {doc.nmc_number}
+              </span>
+            </div>
+            <h2 className="font-display text-2xl text-white sm:text-[1.9rem] leading-tight">
+              {doc.full_name}
+            </h2>
+            <p className="mt-1 font-body text-sm text-white/85">{doc.title}</p>
+            {doc.experience_text && (
+              <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/75">
+                {doc.experience_text}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Right — rich content */}
+        <div className="flex flex-col justify-between p-10 lg:p-12">
+          <div>
+            {/* Credential badges */}
+            <div className="mb-7 flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2 rounded-full border border-teal/20 bg-teal/5 px-3.5 py-1.5">
+                <NmcBadge />
+                <span className="font-heading text-[0.65rem] font-semibold text-teal">
+                  NMC Verified · {doc.nmc_number}
+                </span>
+              </div>
+              {bookable ? (
+                <div className="flex items-center gap-1.5 rounded-full border border-green-100 bg-green-50 px-3.5 py-1.5">
+                  <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-500" />
+                  <span className="font-heading text-[0.62rem] font-semibold text-green-700">
+                    Accepting Appointments
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5 rounded-full border border-gray-100 bg-gray-50 px-3.5 py-1.5">
+                  <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400" />
+                  <span className="font-heading text-[0.62rem] font-semibold text-gray-600">
+                    Full-Time Dentist
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Biography — short, first-glance summary; full bio is one click away via "Full Profile" */}
+            <p className="font-body text-[0.96rem] leading-[1.75] text-gray-600">
+              {doc.short_bio}
+            </p>
+
+            {/* Specializations */}
+            {(doc.specializations ?? []).length > 0 && (
+              <div className="mt-7">
+                <p className="mb-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-600">
+                  Areas of Focus
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {(doc.specializations ?? []).slice(0, 4).map((s) => (
+                    <span
+                      key={s}
+                      className="rounded-xl border border-gray-100 bg-tint px-3 py-1.5 font-heading text-[0.65rem] font-semibold text-dark/70"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Credentials row */}
+            <div className="mt-7 flex flex-wrap items-center gap-6 border-t border-gray-50 pt-6 font-body text-xs text-gray-600">
+              {(doc.languages ?? []).length > 0 && (
+                <span className="flex items-center gap-2">
+                  <GlobeIcon />
+                  {(doc.languages ?? []).join(' · ')}
+                </span>
+              )}
+              {doc.education && (
+                <span className="flex items-center gap-2">
+                  <GradCap />
+                  {doc.education.split(' — ')[0]}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* CTAs */}
+          <div className={`mt-8 grid gap-3 ${bookable ? 'grid-cols-2' : 'grid-cols-1'}`}>
+            {bookable && (
+              <Link
+                href="/appointments"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/30 active:scale-[0.97]"
+              >
+                Book Appointment
+              </Link>
+            )}
+            <Link
+              href={`/doctors/${doc.slug}`}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-5 py-3.5 font-heading text-sm font-semibold text-dark transition-all hover:border-dark hover:bg-dark hover:text-white active:scale-[0.97]"
+            >
+              Full Profile <ArrowRight />
+            </Link>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
 export default async function DoctorsPage() {
   const supabase = createAdminClient()
   const [{ data }, { data: settingsData }, teamMembers] = await Promise.all([
@@ -95,8 +254,12 @@ export default async function DoctorsPage() {
 
   const allDoctors: DoctorRow[] = data ?? []
   const clinicPhone = (settingsData as { phone_primary?: string } | null)?.phone_primary ?? CLINIC_CONTACT.phone
-  const leadDoctors = allDoctors.filter((d) => d.doctor_type === 'lead')
-  const specialists = allDoctors.filter((d) => d.doctor_type === 'specialist')
+  // Dr. Dikshya is the clinic's permanent in-house general practitioner. She
+  // is featured here in her own section (below), never mixed into the lead
+  // dentists or the visiting specialists.
+  const residentDentist = allDoctors.find((d) => d.slug === RESIDENT_DENTIST_SLUG) ?? null
+  const leadDoctors = allDoctors.filter((d) => d.doctor_type === 'lead' && d.slug !== RESIDENT_DENTIST_SLUG)
+  const specialists = allDoctors.filter((d) => d.doctor_type === 'specialist' && d.slug !== RESIDENT_DENTIST_SLUG)
   const hygienists = teamMembers.filter((m) => m.department === 'hygienist' || m.department === 'assistant')
   const supportTeam = teamMembers.filter((m) => m.department === 'reception' || m.department === 'admin')
 
@@ -188,159 +351,28 @@ export default async function DoctorsPage() {
           {/* Full-width editorial lead cards */}
           <div className="space-y-8">
             {leadDoctors.map((doc) => (
-              <div
-                key={doc.slug}
-                className="group overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-card transition-all duration-500 hover:shadow-premium"
-              >
-                <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
-
-                  {/* Left — colored banner */}
-                  <div
-                    className="relative flex min-h-[320px] flex-col justify-between overflow-hidden p-10 lg:min-h-[420px]"
-                    style={{ backgroundColor: doctorColor(doc) }}
-                  >
-                    {/* Grid overlay */}
-                    <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05]" aria-hidden="true">
-                      <defs>
-                        <pattern id={`doc-grid-${doc.slug}`} width="24" height="24" patternUnits="userSpaceOnUse">
-                          <path d="M 24 0 L 0 0 0 24" fill="none" stroke="white" strokeWidth="0.5" />
-                        </pattern>
-                      </defs>
-                      <rect width="100%" height="100%" fill={`url(#doc-grid-${doc.slug})`} />
-                    </svg>
-
-                    {/* Decorative depth circles */}
-                    <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/[0.04]" aria-hidden="true" />
-                    <div className="pointer-events-none absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-white/[0.035]" aria-hidden="true" />
-
-                    {/* Large avatar — top */}
-                    <div className="relative self-start">
-                      <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-2xl bg-white/15 ring-2 ring-white/20 transition-transform duration-300 group-hover:scale-105">
-                        {doc.profile_image_url ? (
-                          <Image src={doc.profile_image_url} alt={doc.full_name} fill className="object-cover object-top" sizes="112px" />
-                        ) : (
-                          <span className="font-display text-5xl font-bold text-white">{doctorInitials(doc)}</span>
-                        )}
-                      </div>
-                      <div className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-green-400 ring-2 ring-white/25">
-                        <span className="h-2.5 w-2.5 rounded-full bg-white" />
-                      </div>
-                    </div>
-
-                    {/* Bottom: name + credentials */}
-                    <div className="relative mt-auto">
-                      <div className="mb-3 flex flex-wrap items-center gap-2">
-                        <span className="rounded-xl bg-white/20 px-3 py-1.5 font-heading text-xs font-semibold text-white backdrop-blur-sm">
-                          {doc.qualification}
-                        </span>
-                        <span className="rounded-xl bg-white/10 px-3 py-1.5 font-heading text-[0.6rem] font-semibold tracking-wide text-white/80">
-                          NMC {doc.nmc_number}
-                        </span>
-                      </div>
-                      <h2 className="font-display text-2xl text-white sm:text-[1.9rem] leading-tight">
-                        {doc.full_name}
-                      </h2>
-                      <p className="mt-1 font-body text-sm text-white/85">{doc.title}</p>
-                      {doc.experience_text && (
-                        <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/75">
-                          {doc.experience_text}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Right — rich content */}
-                  <div className="flex flex-col justify-between p-10 lg:p-12">
-                    <div>
-                      {/* Credential badges */}
-                      <div className="mb-7 flex flex-wrap items-center gap-3">
-                        <div className="flex items-center gap-2 rounded-full border border-teal/20 bg-teal/5 px-3.5 py-1.5">
-                          <NmcBadge />
-                          <span className="font-heading text-[0.65rem] font-semibold text-teal">
-                            NMC Verified · {doc.nmc_number}
-                          </span>
-                        </div>
-                        {doc.is_bookable ? (
-                          <div className="flex items-center gap-1.5 rounded-full border border-green-100 bg-green-50 px-3.5 py-1.5">
-                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-500" />
-                            <span className="font-heading text-[0.62rem] font-semibold text-green-700">
-                              Accepting Appointments
-                            </span>
-                          </div>
-                        ) : (
-                          <div className="flex items-center gap-1.5 rounded-full border border-gray-100 bg-gray-50 px-3.5 py-1.5">
-                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400" />
-                            <span className="font-heading text-[0.62rem] font-semibold text-gray-600">
-                              Full-Time Dentist
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Biography — short, first-glance summary; full bio is one click away via "Full Profile" */}
-                      <p className="font-body text-[0.96rem] leading-[1.75] text-gray-600">
-                        {doc.short_bio}
-                      </p>
-
-                      {/* Specializations */}
-                      {(doc.specializations ?? []).length > 0 && (
-                        <div className="mt-7">
-                          <p className="mb-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-600">
-                            Areas of Focus
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            {(doc.specializations ?? []).slice(0, 4).map((s) => (
-                              <span
-                                key={s}
-                                className="rounded-xl border border-gray-100 bg-tint px-3 py-1.5 font-heading text-[0.65rem] font-semibold text-dark/70"
-                              >
-                                {s}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Credentials row */}
-                      <div className="mt-7 flex flex-wrap items-center gap-6 border-t border-gray-50 pt-6 font-body text-xs text-gray-600">
-                        {(doc.languages ?? []).length > 0 && (
-                          <span className="flex items-center gap-2">
-                            <GlobeIcon />
-                            {(doc.languages ?? []).join(' · ')}
-                          </span>
-                        )}
-                        {doc.education && (
-                          <span className="flex items-center gap-2">
-                            <GradCap />
-                            {doc.education.split(' — ')[0]}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* CTAs */}
-                    <div className={`mt-8 grid gap-3 ${doc.is_bookable ? 'grid-cols-2' : 'grid-cols-1'}`}>
-                      {doc.is_bookable && (
-                        <Link
-                          href="/appointments"
-                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/30 active:scale-[0.97]"
-                        >
-                          Book Appointment
-                        </Link>
-                      )}
-                      <Link
-                        href={`/doctors/${doc.slug}`}
-                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-5 py-3.5 font-heading text-sm font-semibold text-dark transition-all hover:border-dark hover:bg-dark hover:text-white active:scale-[0.97]"
-                      >
-                        Full Profile <ArrowRight />
-                      </Link>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
+              <LeadDoctorCard key={doc.slug} doc={doc} />
             ))}
           </div>
+
+          {/* ── Resident dentist — same editorial card, own framing ── */}
+          {residentDentist && (
+            <div className="mt-16">
+              <div className="mb-10">
+                <span className="eyebrow mb-3 inline-flex items-center gap-2">
+                  <span className="inline-block h-px w-5 bg-primary/60" />
+                  Resident Dentist
+                </span>
+                <h2 className="font-display text-4xl text-dark sm:text-5xl tracking-display leading-[1.06]">
+                  Our Full-Time General Practitioner
+                </h2>
+                <p className="mt-4 max-w-xl font-body text-base text-gray-600 leading-relaxed">
+                  A permanent, in-house member of the clinical team, on hand every day for routine and general dental care, working alongside Dr. Sachin and Dr. Binita.
+                </p>
+              </div>
+              <LeadDoctorCard doc={residentDentist} />
+            </div>
+          )}
         </div>
       </section>
 

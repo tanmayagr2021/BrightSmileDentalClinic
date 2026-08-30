@@ -4,7 +4,9 @@ import {
   CLINIC_TAGLINE,
   CLINIC_CONTACT,
   OPENING_HOURS,
+  WHATSAPP_GREETING,
 } from '@/lib/constants'
+import { whatsappUrl } from '@/lib/utils'
 import { createAdminClient } from '@/lib/supabase/admin'
 import Container from '@/components/ui/Container'
 import { getContentBlocks } from '@/lib/content'
@@ -231,7 +233,7 @@ export default async function Footer() {
                 <p className="font-body text-sm text-white/75 leading-relaxed">{clinicAddress}</p>
               </div>
               <ContactRow icon={<PhoneIcon />} href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</ContactRow>
-              <ContactRow icon={<WhatsAppIcon />} href={`https://wa.me/${phoneWhatsApp.replace(/[^0-9]/g, '')}`} external>{phoneWhatsApp}</ContactRow>
+              <ContactRow icon={<WhatsAppIcon />} href={whatsappUrl(phoneWhatsApp, WHATSAPP_GREETING)} external>{phoneWhatsApp}</ContactRow>
               <ContactRow icon={<MailIcon />} href={`mailto:${emailAppointments}`}>{emailAppointments}</ContactRow>
             </div>
           </div>
