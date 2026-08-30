@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: buildCanonical('/choose-your-tooth') },
   title: 'Choose Your Tooth',
   description:
-    'Click any tooth on our interactive dental chart to learn about common problems, treatments, recovery times, and the Bright Smile doctors who specialize in that area.',
+    'Click any tooth on our interactive dental chart to learn what it does and the common problems it faces.',
 }
 
 export default async function ChooseYourToothPage() {
@@ -17,13 +17,7 @@ export default async function ChooseYourToothPage() {
 
   const { data: teeth } = await supabase
     .from('teeth')
-    .select(`
-      *,
-      faqs:tooth_faqs(*),
-      images:tooth_images(*, media:media_library(*)),
-      tooth_doctors(doctor:doctors(id, full_name, slug, title, profile_image_url, color_hex, initials)),
-      tooth_services(service:services(id, name, slug))
-    `)
+    .select('*')
     .eq('is_active', true)
     .order('tooth_number', { ascending: true })
 

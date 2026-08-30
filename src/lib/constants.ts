@@ -882,7 +882,7 @@ export const CLINIC_STORY_STATIC = {
     'Convenient location in Nagpokhari, Naxal, Kathmandu',
   ],
   story:
-    "Bright Smile Dental Clinic was founded in 2006 by Dr. Sachin Agrawal with a single vision: to provide dental care of the highest quality to every patient who walks through our doors.\n\nWhat started as a modest practice has grown into one of Kathmandu's most trusted dental clinics, with an experienced team of dentists covering all areas of dentistry, modern equipment, and over 5,000 happy patients served.\n\nOur philosophy is simple: every patient deserves excellent dental care delivered with genuine warmth. We believe a healthy smile has the power to transform lives, and we are privileged to be part of those transformations every day.",
+    "Bright Smile Dental Clinic was founded in 2006 by Dr. Sachin Agrawal with a single vision: to provide dental care of the highest quality to every patient who walks through our doors.\n\nWhat started as a modest practice has grown into one of Kathmandu's most trusted dental clinics, with an experienced team of dentists covering all areas of dentistry, modern equipment, and over 10,000 happy patients served.\n\nOur philosophy is simple: every patient deserves excellent dental care delivered with genuine warmth. We believe a healthy smile has the power to transform lives, and we are privileged to be part of those transformations every day.",
 } as const
 
 // ─── Gallery ──────────────────────────────────────────────────

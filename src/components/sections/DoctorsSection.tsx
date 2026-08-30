@@ -76,7 +76,7 @@ export default function DoctorsSection({
   content: Record<string, string>
   teamMembers: TeamMemberRow[]
 }) {
-  const leadDoctors = doctors.filter((d) => d.doctor_type === 'lead' && d.is_active)
+  const leadDoctors = doctors.filter((d) => d.doctor_type === 'lead' && d.is_active && d.is_bookable)
   const specialistCount = doctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).length
   const viewRef = useTrackViewOnce<HTMLElement>('Doctor Section Viewed')
   const hygienists = teamMembers.filter((m) => m.department === 'hygienist' || m.department === 'assistant')

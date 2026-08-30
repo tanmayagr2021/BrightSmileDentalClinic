@@ -260,12 +260,21 @@ export default async function DoctorsPage() {
                             NMC Verified · {doc.nmc_number}
                           </span>
                         </div>
-                        <div className="flex items-center gap-1.5 rounded-full border border-green-100 bg-green-50 px-3.5 py-1.5">
-                          <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-500" />
-                          <span className="font-heading text-[0.62rem] font-semibold text-green-700">
-                            Accepting Appointments
-                          </span>
-                        </div>
+                        {doc.is_bookable ? (
+                          <div className="flex items-center gap-1.5 rounded-full border border-green-100 bg-green-50 px-3.5 py-1.5">
+                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-500" />
+                            <span className="font-heading text-[0.62rem] font-semibold text-green-700">
+                              Accepting Appointments
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1.5 rounded-full border border-gray-100 bg-gray-50 px-3.5 py-1.5">
+                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400" />
+                            <span className="font-heading text-[0.62rem] font-semibold text-gray-600">
+                              Full-Time Dentist
+                            </span>
+                          </div>
+                        )}
                       </div>
 
                       {/* Biography — short, first-glance summary; full bio is one click away via "Full Profile" */}
@@ -310,13 +319,15 @@ export default async function DoctorsPage() {
                     </div>
 
                     {/* CTAs */}
-                    <div className="mt-8 grid grid-cols-2 gap-3">
-                      <Link
-                        href="/appointments"
-                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/30 active:scale-[0.97]"
-                      >
-                        Book Appointment
-                      </Link>
+                    <div className={`mt-8 grid gap-3 ${doc.is_bookable ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                      {doc.is_bookable && (
+                        <Link
+                          href="/appointments"
+                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/30 active:scale-[0.97]"
+                        >
+                          Book Appointment
+                        </Link>
+                      )}
                       <Link
                         href={`/doctors/${doc.slug}`}
                         className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-5 py-3.5 font-heading text-sm font-semibold text-dark transition-all hover:border-dark hover:bg-dark hover:text-white active:scale-[0.97]"

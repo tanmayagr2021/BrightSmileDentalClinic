@@ -468,7 +468,7 @@ function buildResponse(intent: Intent): BotResponse {
 
     case 'about':
       return {
-        text: `Bright Smile Dental Clinic was founded in 2006 by Dr. Sachin Agrawal with a single mission: exceptional dental care delivered with genuine warmth. We've grown into one of Kathmandu's most trusted clinics, with an experienced team of dentists covering all areas of dentistry, modern digital equipment, and over 5,000 happy patients served.`,
+        text: `Bright Smile Dental Clinic was founded in 2006 by Dr. Sachin Agrawal with a single mission: exceptional dental care delivered with genuine warmth. We've grown into one of Kathmandu's most trusted clinics, with an experienced team of dentists covering all areas of dentistry, modern digital equipment, and over 10,000 happy patients served.`,
         navigateTo: '/about',
         quickReplies: ['Meet our team', 'Our services', 'Book an appointment'],
       }
