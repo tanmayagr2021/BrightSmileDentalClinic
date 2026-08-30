@@ -44,8 +44,8 @@ export const OPENING_HOURS = [
 ] as const
 
 export const HOMEPAGE_STATS = [
-  { count: 5000, suffix: '+', label: 'Patients Treated' },
-  { count: 20, suffix: '+', label: 'Years of Service' },
+  { count: 10000, suffix: '+', label: 'Patients Treated' },
+  { count: 20, suffix: '+', label: 'Years of Service & Experience' },
   { count: 6, suffix: '', label: 'Expert Doctors' },
 ] as const
 

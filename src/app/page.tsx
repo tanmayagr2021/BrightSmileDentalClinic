@@ -173,7 +173,6 @@ export default async function HomePage() {
   const homepageStats = [
     { count: s?.stat_patients ?? HOMEPAGE_STATS[0].count, suffix: '+', label: HOMEPAGE_STATS[0].label },
     { count: s?.stat_years ?? HOMEPAGE_STATS[1].count, suffix: '+', label: HOMEPAGE_STATS[1].label },
-    { count: doctorData?.length ?? HOMEPAGE_STATS[2].count, suffix: '', label: s?.stat_team_label ?? HOMEPAGE_STATS[2].label },
   ]
 
   // Merge DB visibility/order with static content (shortDescription fallback, subServiceCount)
