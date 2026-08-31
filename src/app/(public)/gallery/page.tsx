@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { buildCanonical } from '@/lib/schema'
 import VirtualTourExperience, { type TourRoom } from '@/components/virtual-tour/VirtualTourExperience'
+import GalleryGrid, { type GalleryGridItem } from '@/components/gallery/GalleryGrid'
 
 const PLACEHOLDER_TILES = [
   { icon: 'M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z M15 13a3 3 0 11-6 0 3 3 0 016 0z', label: 'Reception Area', aspect: 'tall' },
@@ -210,37 +210,7 @@ export default async function GalleryPage() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-              {galleryItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="group relative overflow-hidden rounded-2xl bg-gray-100 aspect-square"
-                >
-                  {item.image_url ? (
-                    <Image
-                      src={item.image_url}
-                      alt={item.alt_text ?? 'Clinic photo'}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center bg-tint">
-                      <svg viewBox="0 0 24 24" fill="none" className="h-10 w-10 text-gray-300" aria-hidden="true">
-                        <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.5" />
-                        <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="1.5" />
-                        <path d="M3 15l5-4 4 4 2-2 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
-                  )}
-                  {item.caption && (
-                    <div className="absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-black/60 to-transparent px-3 pb-3 pt-6 transition-transform duration-300 group-hover:translate-y-0">
-                      <p className="font-body text-xs text-white">{item.caption}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+            <GalleryGrid items={galleryItems as GalleryGridItem[]} />
           </>
         )}
       </div>

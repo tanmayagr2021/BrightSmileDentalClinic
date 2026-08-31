@@ -53,3 +53,6 @@ qa/
 # hosting/handoff docs — contain live production secrets, never commit
 *.docx
 hosting.docx
+
+# Local design/photo source assets (large; not part of the app build)
+/ASSETS/
