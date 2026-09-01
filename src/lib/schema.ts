@@ -53,7 +53,8 @@ export function buildClinicSchema() {
     '@type': ['Dentist', 'MedicalBusiness'],
     name: CLINIC_NAME,
     url: SITE_URL,
-    image: `${SITE_URL}/images/logo.jpg`,
+    image: `${SITE_URL}/images/logo-og.jpg`,
+    logo: `${SITE_URL}/images/logo-icon.png`,
     telephone: CLINIC_CONTACT.phone,
     email: CLINIC_CONTACT.email,
     address: {

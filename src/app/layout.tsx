@@ -42,14 +42,14 @@ export const metadata: Metadata = {
     title: 'Bright Smile Dental Clinic | Dentist in Kathmandu, Nepal',
     description:
       'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. Expert dentists offering implants, orthodontics, root canal, cosmetic dentistry & more.',
-    images: [{ url: '/images/logo.jpg', width: 280, height: 112, alt: 'Bright Smile Dental Clinic' }],
+    images: [{ url: '/images/logo-og.jpg', width: 1200, height: 630, alt: 'Bright Smile Dental Clinic' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Bright Smile Dental Clinic | Dentist in Kathmandu, Nepal',
     description:
       'NMC-registered dental clinic in Nagpokhari, Naxal, Kathmandu. Expert dentists offering implants, orthodontics, root canal, cosmetic dentistry & more.',
-    images: ['/images/logo.jpg'],
+    images: ['/images/logo-og.jpg'],
   },
   robots: {
     index: true,

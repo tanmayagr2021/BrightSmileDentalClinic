@@ -51,11 +51,11 @@ function FooterLogo() {
       className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl transition-opacity hover:opacity-85"
     >
       <Image
-        src="/images/logo.jpg"
+        src="/images/logo-icon-white.png"
         alt="Bright Smile Dental Clinic"
-        width={200}
-        height={200}
-        className="h-16 w-auto rounded-xl bg-white/10 object-contain"
+        width={512}
+        height={512}
+        className="h-14 w-14 object-contain"
       />
     </Link>
   )

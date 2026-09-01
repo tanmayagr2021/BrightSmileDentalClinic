@@ -11,48 +11,54 @@ import { pick } from '@/lib/content-client'
 import { useFocusTrap } from '@/lib/use-focus-trap'
 
 function BrandMark({ inverted = false }: { inverted?: boolean }) {
+  // `inverted` = transparent hero header (tall bar, dark background).
+  // Not inverted = the compact scrolled/inner-page bar (h-[3.25rem]/h-[4rem]),
+  // so the mark and wordmark are noticeably smaller there.
   return (
     <Link
       href="/"
       aria-label="Bright Smile Dental Clinic — home"
-      className="flex items-center gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm group"
+      className="flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm group"
     >
-      {/* Logo image */}
-      <div className={cn(
-        'flex-shrink-0 overflow-hidden transition-all duration-500 group-hover:opacity-90',
-        inverted
-          ? 'rounded-xl shadow-[0_6px_24px_rgba(0,0,0,0.65),0_0_0_1px_rgba(255,255,255,0.14)]'
-          : ''
-      )}>
-        <Image
-          src="/images/logo.jpg"
-          alt="Bright Smile Dental Clinic"
-          width={200}
-          height={200}
-          className={cn(
-            'w-auto object-contain transition-all duration-500',
-            inverted
-              ? 'h-[4.25rem] lg:h-[6rem] bg-white px-2.5 py-1.5'
-              : 'h-12 lg:h-[3.75rem]'
-          )}
-          priority
-        />
-      </div>
+      {/* Tooth monogram — the tight-cropped icon, sized to the bar */}
+      <Image
+        src={inverted ? '/images/logo-icon-white.png' : '/images/logo-icon.png'}
+        alt="Bright Smile Dental Clinic"
+        width={512}
+        height={512}
+        className={cn(
+          'flex-shrink-0 object-contain transition-all duration-500 group-hover:opacity-90',
+          inverted
+            ? 'h-11 w-11 drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] lg:h-[3.25rem] lg:w-[3.25rem]'
+            : 'h-8 w-8 lg:h-10 lg:w-10'
+        )}
+        priority
+      />
 
-      {/* Brand identity text block — desktop, transparent/hero state only */}
-      {inverted && (
-        <div className="hidden lg:flex flex-col leading-none gap-[0.3rem] pl-4 border-l border-white/15">
-          <span className="font-display leading-none tracking-[-0.018em] text-white text-[1.15rem]">
-            {CLINIC_NAME_SHORT}
-          </span>
-          <span className="font-heading font-semibold leading-none tracking-[0.008em] text-white/85 text-[0.7rem]">
-            {CLINIC_SUBTITLE}
-          </span>
-          <span className="font-heading font-medium uppercase leading-none tracking-[0.16em] text-white/55 text-[0.4rem]">
+      {/* Wordmark — real text, always crisp and legible */}
+      <div className="flex flex-col leading-none">
+        <span className={cn(
+          'font-display leading-none tracking-[-0.015em]',
+          inverted
+            ? 'text-white text-[1.05rem] lg:text-[1.2rem]'
+            : 'text-dark text-[0.95rem] lg:text-[1.1rem]'
+        )}>
+          {CLINIC_NAME_SHORT}
+        </span>
+        <span className={cn(
+          'mt-[0.3rem] font-heading font-semibold uppercase leading-none tracking-[0.12em]',
+          inverted
+            ? 'text-white/70 text-[0.5rem] lg:text-[0.55rem]'
+            : 'text-primary text-[0.46rem] lg:text-[0.5rem]'
+        )}>
+          {CLINIC_SUBTITLE}
+        </span>
+        {inverted && (
+          <span className="mt-[0.28rem] hidden font-heading font-medium uppercase leading-none tracking-[0.15em] text-white/45 text-[0.4rem] sm:block lg:text-[0.42rem]">
             {CLINIC_TAGLINE}
           </span>
-        </div>
-      )}
+        )}
+      </div>
     </Link>
   )
 }
