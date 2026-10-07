@@ -7,9 +7,11 @@ import { Resend } from 'resend'
 const FROM = `${process.env.RESEND_FROM_NAME ?? 'Bright Smile Dental Clinic'} <${process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev'}>`
 const CLINIC_PHONE = '+977-1-4519594'
 const CLINIC_WHATSAPP = '+977 9851058733'
-// Both must receive every clinic/admin notification (appointment + contact).
-// tanmayagr2021@gmail.com must NOT be a recipient.
+// Contact-form notifications go to both clinic inboxes; new-booking
+// notifications go to Dr. Sachin only (owner request, Oct 2026).
+// tanmayagr2021@gmail.com must NOT be a recipient of either.
 const ADMIN_NOTIFICATION_EMAILS = ['drsachin1108@gmail.com', 'brightsmiledentalclinic1111@gmail.com']
+const APPOINTMENT_NOTIFICATION_EMAILS = ['drsachin1108@gmail.com']
 
 function resend() {
   const key = process.env.RESEND_API_KEY
@@ -142,7 +144,7 @@ export async function sendAppointmentNotification({
 
   const { error } = await client.emails.send({
     from: FROM,
-    to: ADMIN_NOTIFICATION_EMAILS,
+    to: APPOINTMENT_NOTIFICATION_EMAILS,
     subject: `[Booking] ${patientName} → ${doctorName} on ${date}`,
     html,
   })

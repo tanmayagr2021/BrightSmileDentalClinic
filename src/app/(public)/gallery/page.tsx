@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { buildCanonical } from '@/lib/schema'
-import VirtualTourExperience, { type TourRoom } from '@/components/virtual-tour/VirtualTourExperience'
+import VirtualTourExperience from '@/components/virtual-tour/VirtualTourExperience'
 import GalleryGrid, { type GalleryGridItem } from '@/components/gallery/GalleryGrid'
 
 const PLACEHOLDER_TILES = [
@@ -128,7 +128,7 @@ export const metadata: Metadata = {
 export default async function GalleryPage() {
   const supabase = createAdminClient()
 
-  const [{ data: items }, { data: groups }, { data: tourRooms }] = await Promise.all([
+  const [{ data: items }, { data: groups }] = await Promise.all([
     supabase
       .from('gallery')
       .select('*, gallery_groups(id, name, slug)')
@@ -141,22 +141,10 @@ export default async function GalleryPage() {
       .is('deleted_at', null)
       .eq('is_visible', true)
       .order('sort_order', { ascending: true }),
-    supabase
-      .from('virtual_tour_rooms')
-      .select(`
-        *,
-        thumbnail:media_library!virtual_tour_rooms_thumbnail_media_id_fkey(*),
-        panorama:media_library!virtual_tour_rooms_panorama_media_id_fkey(*),
-        gallery:virtual_tour_room_gallery(*, media:media_library(*)),
-        hotspots:virtual_tour_hotspots!virtual_tour_hotspots_room_id_fkey(*)
-      `)
-      .eq('is_visible', true)
-      .order('sort_order', { ascending: true }),
   ])
 
   const galleryItems = items ?? []
   const galleryGroups = groups ?? []
-  const virtualTourRooms = (tourRooms as TourRoom[]) ?? []
 
   return (
     <div style={{ background: '#0E1B2E' }} className="min-h-screen">
@@ -177,18 +165,14 @@ export default async function GalleryPage() {
       </div>
 
       {/* Virtual Clinic Tour — embedded near the top of Gallery, the primary
-          public discovery point for the 360 experience (see /virtual-tour
-          for the standalone fullscreen route). */}
-      {virtualTourRooms.length > 0 && (
-        <>
-          <div id="virtual-tour" className="scroll-mt-24">
-            <VirtualTourExperience rooms={virtualTourRooms} variant="embedded" />
-          </div>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="h-px bg-white/[0.06]" />
-          </div>
-        </>
-      )}
+          public discovery point for the walkthrough (see /virtual-tour for
+          the standalone route). Scenes live in src/data/virtual-tour.ts. */}
+      <div id="virtual-tour" className="scroll-mt-24">
+        <VirtualTourExperience variant="embedded" />
+      </div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="h-px bg-white/[0.06]" />
+      </div>
 
       {/* Content */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

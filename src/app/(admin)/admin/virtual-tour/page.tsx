@@ -28,5 +28,13 @@ export default async function AdminVirtualTourPage() {
     `)
     .order('sort_order', { ascending: true })
 
-  return <VirtualTourClient initialRooms={(rooms as RoomWithRelations[]) ?? []} />
+  return (
+    <>
+      <div className="mx-6 mt-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 font-body text-xs text-amber-900">
+        The public Virtual Tour no longer reads these rooms. Its scenes, hotspots and starting views are now defined in{' '}
+        <code className="font-mono">src/data/virtual-tour.ts</code> and change with a code deploy. Edits made here won&apos;t appear on the website.
+      </div>
+      <VirtualTourClient initialRooms={(rooms as RoomWithRelations[]) ?? []} />
+    </>
+  )
 }

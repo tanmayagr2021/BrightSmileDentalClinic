@@ -3,38 +3,27 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
-import { fadeUp, stagger, blurFadeIn } from '@/lib/animations'
-import { mediaDisplayUrl } from '@/lib/admin/media-url'
-import type { VirtualTourRoomRow, VirtualTourRoomGalleryRow, VirtualTourHotspotRow, MediaLibraryRow } from '@/types/db'
+import { fadeUp, blurFadeIn } from '@/lib/animations'
+import { TOUR_SCENES, TOUR_START, getTourScene } from '@/data/virtual-tour'
 import PanoramaModalLoader from './PanoramaModalLoader'
 
-export type TourRoom = VirtualTourRoomRow & {
-  thumbnail: MediaLibraryRow | null
-  panorama: MediaLibraryRow | null
-  gallery: (VirtualTourRoomGalleryRow & { media: MediaLibraryRow | null })[]
-  hotspots: VirtualTourHotspotRow[]
-}
-
 export default function VirtualTourExperience({
-  rooms,
   variant = 'standalone',
 }: {
-  rooms: TourRoom[]
   /** 'embedded' drops the full-page hero/background so this can sit inside another page (the Gallery page). */
   variant?: 'standalone' | 'embedded'
 }) {
-  const [activeRoomId, setActiveRoomId] = useState<string | null>(null)
-  const withPanorama = rooms.filter((r) => r.panorama && mediaDisplayUrl(r.panorama))
+  const [startSceneId, setStartSceneId] = useState<string | null>(null)
   const embedded = variant === 'embedded'
   const prefersReducedMotion = useReducedMotion()
   // Embedded mode nests inside the Gallery page (which owns the page's h1),
   // so this section's heading must step down to h2 to keep a valid outline.
   const Heading = embedded ? motion.h2 : motion.h1
+  const start = getTourScene(TOUR_START) ?? TOUR_SCENES[0]
 
   const content = (
     <>
-      {/* Hero / intro */}
-      <section className={embedded ? 'relative mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8' : 'relative overflow-hidden px-6 pb-16 pt-32 sm:pt-40'}>
+      <section className={embedded ? 'relative mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8' : 'relative overflow-hidden px-6 pb-12 pt-32 sm:pt-40'}>
         {!embedded && (
           <div className="pointer-events-none absolute inset-0 opacity-[0.06]" aria-hidden="true">
             <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-gold blur-[160px]" />
@@ -48,7 +37,7 @@ export default function VirtualTourExperience({
             variants={fadeUp}
             className="eyebrow-dark mb-4 font-heading text-xs font-semibold uppercase tracking-[0.25em] text-gold"
           >
-            360° Experience
+            Virtual Tour
           </motion.p>
           <Heading
             initial="hidden"
@@ -67,83 +56,65 @@ export default function VirtualTourExperience({
             transition={{ delay: 0.1 }}
             className={embedded ? 'mt-4 max-w-xl font-body text-sm text-white/60' : 'mx-auto mt-5 max-w-xl font-body text-base text-white/60'}
           >
-            Explore every room in a fully immersive 360° walkthrough — before you ever step through our doors.
+            Walk from the front desk through the lounge and into each of our three treatment rooms, so the place feels familiar before your first visit.
           </motion.p>
         </div>
       </section>
 
-      {/* Room selector */}
       <motion.section
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-80px' }}
-        variants={stagger}
-        className={embedded ? 'relative mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8' : 'relative mx-auto max-w-6xl px-6 pb-28'}
+        variants={fadeUp}
+        className={embedded ? 'relative mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8' : 'relative mx-auto max-w-6xl px-4 pb-28 sm:px-6'}
       >
-        {rooms.length === 0 ? (
-          <p className="py-16 text-center font-body text-white/60">The virtual tour is being prepared — please check back soon.</p>
-        ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {rooms.map((room) => {
-              const thumbUrl = room.thumbnail ? mediaDisplayUrl(room.thumbnail) : null
-              const hasPano = room.panorama && mediaDisplayUrl(room.panorama)
-              return (
-                <motion.button
-                  key={room.id}
-                  variants={fadeUp}
-                  disabled={!hasPano}
-                  onClick={() => hasPano && setActiveRoomId(room.id)}
-                  whileHover={hasPano && !prefersReducedMotion ? { y: -6 } : undefined}
-                  className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] text-left backdrop-blur-sm transition-colors hover:border-gold/40 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  <div className="relative h-52 w-full overflow-hidden">
-                    {thumbUrl ? (
-                      <Image
-                        src={thumbUrl}
-                        alt={room.name}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center bg-white/[0.04] font-body text-xs text-white/60">No preview yet</div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0E1B2E] via-transparent to-transparent" />
-                    {hasPano && (
-                      <div className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 px-3 py-1.5 backdrop-blur-sm">
-                        <span className="h-1.5 w-1.5 rounded-full bg-gold" />
-                        <span className="font-heading text-[0.6rem] font-semibold uppercase tracking-wider text-white">360°</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <h3 className="font-display text-xl text-white">{room.name}</h3>
-                    {room.description && (
-                      <p className="mt-2 line-clamp-2 font-body text-sm text-white/55">{room.description}</p>
-                    )}
-                    <div className="mt-4 flex items-center gap-2 font-heading text-xs font-semibold uppercase tracking-wider text-gold">
-                      {hasPano ? 'Enter Room' : 'Coming Soon'}
-                      {hasPano && (
-                        <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden="true">
-                          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      )}
-                    </div>
-                  </div>
-                </motion.button>
-              )
-            })}
+        {/* The way in: one wide window onto the first scene. */}
+        <button
+          type="button"
+          onClick={() => setStartSceneId(start.id)}
+          className="group relative block aspect-[4/3] w-full overflow-hidden rounded-3xl border border-white/10 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-[#0E1B2E] sm:aspect-[21/9]"
+          aria-label={`Start the virtual tour at ${start.name}`}
+        >
+          <Image
+            src={start.src}
+            alt={`${start.name} at Bright Smile Dental Clinic`}
+            fill
+            priority={!embedded}
+            sizes="(max-width: 1280px) 100vw, 1200px"
+            className={`object-cover transition-transform duration-[1200ms] ease-out ${prefersReducedMotion ? '' : 'group-hover:scale-[1.03]'}`}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A1128]/85 via-[#0A1128]/10 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-3 p-5 sm:flex-row sm:items-end sm:justify-between sm:p-8">
+            <div>
+              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gold/90">Starts at</p>
+              <p className="mt-1 font-display text-2xl text-white sm:text-3xl">{start.name}</p>
+            </div>
+            <span className="inline-flex items-center gap-2 rounded-full bg-gold px-5 py-3 font-heading text-sm font-semibold text-[#0A1128] transition-all duration-300 group-hover:gap-3 group-hover:bg-gold-light">
+              Start the tour
+              <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
           </div>
-        )}
+        </button>
+
+        {/* Secondary: drop straight into a particular room. */}
+        <div className="mt-5 flex flex-wrap items-center gap-2">
+          <span className="mr-1 font-body text-xs text-white/60">Or start in</span>
+          {TOUR_SCENES.filter((s) => s.id !== start.id).map((scene) => (
+            <button
+              key={scene.id}
+              type="button"
+              onClick={() => setStartSceneId(scene.id)}
+              className="rounded-full border border-white/15 px-3.5 py-2 font-heading text-[0.7rem] font-semibold text-white/75 transition-colors hover:border-gold/50 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              {scene.name}
+            </button>
+          ))}
+        </div>
       </motion.section>
 
-      {activeRoomId && withPanorama.length > 0 && (
-        <PanoramaModalLoader
-          rooms={withPanorama}
-          startRoomId={activeRoomId}
-          onClose={() => setActiveRoomId(null)}
-        />
-      )}
+      {startSceneId && <PanoramaModalLoader startSceneId={startSceneId} onClose={() => setStartSceneId(null)} />}
     </>
   )
 

@@ -39,7 +39,7 @@ export default function VirtualTourPortal({ imageUrl, roomName, variant }: Virtu
   const reduced = usePrefersReducedMotion()
   if (!imageUrl) return null
 
-  const accessibleLabel = 'Step inside before you visit — explore the clinic in 360 degrees'
+  const accessibleLabel = 'Step inside before you visit — take the virtual tour of the clinic'
   const alt = roomName ? `Inside Bright Smile Dental Clinic — ${roomName}` : 'Inside Bright Smile Dental Clinic'
 
   const driftTransition = reduced
@@ -73,7 +73,7 @@ export default function VirtualTourPortal({ imageUrl, roomName, variant }: Virtu
 
           <span className="absolute right-2.5 top-2.5 flex items-center gap-1 rounded-full border border-gold/40 bg-black/40 px-2 py-1 font-heading text-[0.55rem] font-bold uppercase tracking-wider text-gold backdrop-blur-sm transition-colors duration-300 group-hover:border-gold/70 group-hover:text-gold-light">
             <CompassIcon className="h-2.5 w-2.5" />
-            360°
+            Tour
           </span>
 
           <div className="absolute inset-x-0 bottom-0 p-3.5">
@@ -84,7 +84,7 @@ export default function VirtualTourPortal({ imageUrl, roomName, variant }: Virtu
               Step inside before you visit.
             </p>
             <span className="mt-1.5 inline-flex items-center gap-1.5 font-heading text-[0.65rem] font-semibold text-white/80 transition-all duration-300 group-hover:gap-2.5 group-hover:text-gold">
-              Explore the clinic in 360°
+              Walk through the clinic
               <ArrowIcon className="h-3 w-3" />
             </span>
           </div>
@@ -117,7 +117,7 @@ export default function VirtualTourPortal({ imageUrl, roomName, variant }: Virtu
         <div className="absolute inset-0 bg-black/20" />
         <span className="absolute left-1.5 top-1.5 flex items-center gap-0.5 rounded-full border border-gold/40 bg-black/50 px-1.5 py-0.5 font-heading text-[0.5rem] font-bold uppercase tracking-wider text-gold backdrop-blur-sm">
           <CompassIcon className="h-2 w-2" />
-          360°
+          Tour
         </span>
       </div>
       <div className="min-w-0 flex-1">
@@ -128,7 +128,7 @@ export default function VirtualTourPortal({ imageUrl, roomName, variant }: Virtu
           Step inside before you visit.
         </p>
         <span className="mt-1 inline-flex items-center gap-1.5 font-heading text-[0.65rem] font-semibold text-white/70 transition-all duration-300 group-hover:gap-2.5 group-hover:text-gold">
-          Explore in 360°
+          Take the tour
           <ArrowIcon className="h-3 w-3" />
         </span>
       </div>
