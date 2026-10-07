@@ -22,6 +22,10 @@ export default function BeforeAfterSection({
 }) {
   const [activeCategory, setActiveCategory] = useState<Category>('all')
   const filtered = activeCategory === 'all' ? cases : cases.filter((c) => c.category === activeCategory)
+  // Only offer filters that have at least one case behind them.
+  const categories = CATEGORY_ORDER.filter((cat) => cat === 'all' || cases.some((c) => c.category === cat))
+  // Set to an empty string in the CMS once the cases are real patient photos.
+  const imageLabel = pick(content, 'home.before_after.image_label', 'Illustration')
   const viewRef = useTrackViewOnce<HTMLElement>('Before/After Viewed')
 
   const categoryLabels: Record<Category, string> = {
@@ -53,7 +57,7 @@ export default function BeforeAfterSection({
               {pick(content, 'home.before_after.heading', 'Before & After')}
             </motion.h2>
             <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-white/85 leading-relaxed">
-              {pick(content, 'home.before_after.intro', 'Real transformations from our patients. Photos will be added as patients provide consent — check back soon.')}
+              {pick(content, 'home.before_after.intro', 'What these treatments can change. The pictures are illustrations, not our patients. We’ll add real cases here once patients give us permission.')}
             </motion.p>
           </div>
           <motion.div variants={fadeUp}>
@@ -77,7 +81,7 @@ export default function BeforeAfterSection({
           viewport={{ once: true }}
           className="mb-10 flex flex-wrap gap-2"
         >
-          {CATEGORY_ORDER.map((cat) => (
+          {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
@@ -100,7 +104,7 @@ export default function BeforeAfterSection({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
+            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
           >
             {filtered.map((item) => (
               <motion.div
@@ -109,14 +113,14 @@ export default function BeforeAfterSection({
                 className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
               >
                 {/* Before / After visual */}
-                <div className="relative h-52 overflow-hidden">
+                <div className="relative h-60 overflow-hidden">
                   {/* Before half */}
                   <div
                     className="absolute inset-y-0 left-0 w-1/2"
                     style={item.before_image_url ? undefined : { background: `linear-gradient(160deg, ${item.before_gradient} 0%, #1a0f0f 100%)` }}
                   >
                     {item.before_image_url && (
-                      <Image src={item.before_image_url} alt={`${item.title} — before`} fill className="object-cover" sizes="(min-width: 1024px) 25vw, 50vw" />
+                      <Image src={item.before_image_url} alt={`${item.title} — before`} fill className="object-cover" sizes="(min-width: 1024px) 17vw, 50vw" />
                     )}
                     {/* Decorative depth circle */}
                     <div className="absolute -bottom-6 -left-6 h-20 w-20 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)' }} aria-hidden="true" />
@@ -131,13 +135,19 @@ export default function BeforeAfterSection({
                     style={item.after_image_url ? undefined : { background: `linear-gradient(160deg, #0a0f1d 0%, ${item.after_gradient} 100%)` }}
                   >
                     {item.after_image_url && (
-                      <Image src={item.after_image_url} alt={`${item.title} — after`} fill className="object-cover" sizes="(min-width: 1024px) 25vw, 50vw" />
+                      <Image src={item.after_image_url} alt={`${item.title} — after`} fill className="object-cover" sizes="(min-width: 1024px) 17vw, 50vw" />
                     )}
                     <div className="absolute -top-6 -right-6 h-20 w-20 rounded-full opacity-25" style={{ background: 'radial-gradient(circle, rgba(74,155,111,0.5) 0%, transparent 70%)' }} aria-hidden="true" />
-                    <div className="absolute bottom-3 right-3 rounded-full bg-primary/20 px-2.5 py-1 font-heading text-[0.65rem] font-bold tracking-[0.12em] text-primary backdrop-blur-sm border border-primary/20">
+                    <div className="absolute bottom-3 right-3 rounded-full bg-gold px-2.5 py-1 font-heading text-[0.65rem] font-bold tracking-[0.12em] text-[#0A1128]">
                       AFTER
                     </div>
                   </div>
+
+                  {imageLabel && item.before_image_url && item.after_image_url && (
+                    <div className="absolute left-3 top-3 rounded-full bg-black/45 px-2.5 py-1 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-white/90 backdrop-blur-sm">
+                      {imageLabel}
+                    </div>
+                  )}
 
                   {/* Center divider */}
                   <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-white/10" aria-hidden="true" />
@@ -190,7 +200,7 @@ export default function BeforeAfterSection({
           viewport={{ once: true }}
           className="mt-10 text-center font-body text-xs text-white/80"
         >
-          {pick(content, 'home.before_after.bottom_note', 'Patient photos are uploaded by our clinical team with full written consent. All cases are genuine.')}
+          {pick(content, 'home.before_after.bottom_note', 'Illustrations only, to show what each treatment does. Every mouth is different, so your dentist will tell you honestly what to expect for yours.')}
         </motion.p>
 
       </div>
