@@ -114,10 +114,20 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                 &ldquo;
               </div>
 
-              <blockquote>
-                <p className="font-display text-2xl text-white leading-relaxed tracking-display sm:text-3xl lg:text-4xl">
-                  {featured.text}
-                </p>
+              {/* Longer reviews keep their paragraphs: the opening one is the
+                  pull quote, the rest read as body text beneath it. */}
+              <blockquote className="max-w-4xl">
+                {featured.text.split(/\n\s*\n/).map((para, i) =>
+                  i === 0 ? (
+                    <p key={i} className="font-display text-2xl text-white leading-relaxed tracking-display sm:text-3xl lg:text-4xl">
+                      {para}
+                    </p>
+                  ) : (
+                    <p key={i} className="mt-6 max-w-3xl font-body text-base leading-[1.8] text-white/70 sm:text-lg">
+                      {para}
+                    </p>
+                  )
+                )}
               </blockquote>
 
               {/* Stars */}
@@ -126,8 +136,8 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                   <svg key={i} viewBox="0 0 16 16" className="h-5 w-5" aria-hidden="true">
                     <path
                       d="M8 1.5l1.8 3.6 4 .6-2.9 2.8.7 4L8 10.4l-3.6 1.9.7-4-2.9-2.8 4-.6z"
-                      fill="#0C3C2D"
-                      stroke="#0C3C2D"
+                      fill="#C9A24B"
+                      stroke="#C9A24B"
                       strokeWidth="1"
                       strokeLinejoin="round"
                     />
@@ -147,25 +157,25 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                 )}
 
                 {/* Verified Patient badge */}
-                <div className="flex items-center gap-1.5 rounded-xl border border-teal/25 bg-teal/10 px-3 py-2">
-                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-teal" aria-hidden="true">
+                <div className="flex items-center gap-1.5 rounded-xl border border-gold/30 bg-gold/10 px-3 py-2">
+                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-gold" aria-hidden="true">
                     <path
                       d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z"
-                      fill="#0C3C2D"
+                      fill="#C9A24B"
                       fillOpacity="0.2"
-                      stroke="#0C3C2D"
+                      stroke="#C9A24B"
                       strokeWidth="1.2"
                       strokeLinejoin="round"
                     />
                     <path
                       d="M5.5 8l2 2 3.5-3.5"
-                      stroke="#0C3C2D"
+                      stroke="#C9A24B"
                       strokeWidth="1.2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <span className="font-heading text-xs font-semibold text-teal">Verified Patient</span>
+                  <span className="font-heading text-xs font-semibold text-gold">Verified Patient</span>
                 </div>
               </div>
             </motion.div>
@@ -228,7 +238,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                     ))}
                   </div>
 
-                  <p className="font-body text-sm leading-relaxed text-gray-600">
+                  <p className="whitespace-pre-line font-body text-sm leading-relaxed text-gray-600">
                     &ldquo;{t.text}&rdquo;
                   </p>
 
