@@ -26,7 +26,7 @@ export default async function BlogPage() {
 
   return (
     <div className="bg-white">
-      <div className="bg-tint border-b border-gray-100 py-16 lg:py-20">
+      <div className="bg-ivory-waves border-b border-ink/10 py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="eyebrow mb-3 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />
@@ -42,7 +42,7 @@ export default async function BlogPage() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         {typedPosts.length === 0 ? (
           <div className="mx-auto max-w-md rounded-2xl border border-gray-100 bg-tint p-12 shadow-sm text-center">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-gold-ink">
               <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7" aria-hidden="true">
                 <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -51,7 +51,7 @@ export default async function BlogPage() {
             <p className="mt-3 font-body text-sm text-gray-500">
               Our team is writing helpful dental health guides. Check back soon.
             </p>
-            <Link href="/" className="mt-6 inline-block font-body text-sm text-primary hover:underline underline-offset-2">
+            <Link href="/" className="mt-6 inline-block font-body text-sm text-gold-ink hover:underline underline-offset-2">
               ← Back to home
             </Link>
           </div>
@@ -99,7 +99,7 @@ export default async function BlogPage() {
                   )}
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="mt-5 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary hover:text-primary-dark transition-colors"
+                    className="mt-5 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-gold-ink hover:text-primary-dark transition-colors"
                   >
                     Read More
                     <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3" aria-hidden="true">

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <div className="bg-white">
-      <div className="bg-tint border-b border-gray-100 py-16">
+      <div className="bg-ivory-waves border-b border-ink/10 py-16">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <h1 className="font-display text-4xl text-dark tracking-display">Privacy Policy</h1>
           <p className="mt-3 font-body text-sm text-gray-500">Last updated: June 2026</p>
@@ -34,12 +34,12 @@ export default function PrivacyPage() {
           </section>
           <section>
             <h2 className="font-heading text-base font-semibold text-dark mb-3">4. Contact</h2>
-            <p>For any privacy-related questions, contact us at <a href="mailto:brightsmiledentalclinic1111@gmail.com" className="text-primary hover:underline">brightsmiledentalclinic1111@gmail.com</a>.</p>
+            <p>For any privacy-related questions, contact us at <a href="mailto:brightsmiledentalclinic1111@gmail.com" className="text-gold-ink hover:underline">brightsmiledentalclinic1111@gmail.com</a>.</p>
           </section>
         </div>
 
         <div className="mt-12">
-          <Link href="/" className="font-body text-sm text-primary hover:underline underline-offset-2">← Back to home</Link>
+          <Link href="/" className="font-body text-sm text-gold-ink hover:underline underline-offset-2">← Back to home</Link>
         </div>
       </div>
     </div>

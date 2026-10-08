@@ -66,7 +66,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
           </motion.h2>
           <motion.p variants={fadeUp} className="mx-auto mt-4 max-w-xl font-body text-base text-gray-500">
             Everything you need to know before your visit. Can&apos;t find your answer?{' '}
-            <a href="/contact" className="text-primary underline-offset-2 hover:underline">
+            <a href="/contact" className="text-gold-ink underline-offset-2 hover:underline">
               Contact us.
             </a>
           </motion.p>
@@ -102,7 +102,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
                   <span className={`font-heading font-semibold leading-snug transition-colors duration-200 text-base sm:text-[1.05rem] ${isOpen ? 'text-dark' : 'text-gray-700'}`}>
                     {faq.q}
                   </span>
-                  <div className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${isOpen ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'}`}>
+                  <div className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${isOpen ? 'bg-primary text-ink' : 'bg-gray-100 text-gray-600'}`}>
                     <svg viewBox="0 0 20 20" fill="none" className={`h-3.5 w-3.5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true">
                       <path d="M5 7.5l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

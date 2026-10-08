@@ -6,10 +6,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { CLINIC_CONTACT } from '@/lib/constants'
 import MagneticWrap from '@/components/motion/MagneticWrap'
-import Parallax from '@/components/motion/Parallax'
 import { trackEvent } from '@/lib/analytics'
 import { pick } from '@/lib/content-client'
-import VirtualTourPortal from '@/components/sections/VirtualTourPortal'
 
 type SlideData = {
   id: string
@@ -27,18 +25,24 @@ type SlideData = {
 
 const AUTO_MS = 7000
 
+const SLIDE_BTN =
+  'flex h-8 w-8 items-center justify-center rounded-full border border-ink/20 bg-white/50 text-ink-muted transition-all hover:border-ink/40 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold'
+
+// The curved edge of the ivory panel, in a 0–100 box stretched over the
+// panel. Same path drives the mask and the gold hairline so they line up.
+const SWEEP_EDGE = 'M57 0 C50 34 62 68 96 100'
+const SWEEP_MASK = `url("data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><filter id='f'><feGaussianBlur stdDeviation='0.6'/></filter><path filter='url(#f)' d='M0 0 H57 C50 34 62 68 96 100 H0 Z' fill='#000'/></svg>`
+)}")`
+
 export default function ShowcaseSection({
   slides,
   phone,
   content,
-  virtualTourImageUrl = null,
-  virtualTourRoomName = null,
 }: {
   slides: SlideData[]
   phone?: string
   content: Record<string, string>
-  virtualTourImageUrl?: string | null
-  virtualTourRoomName?: string | null
 }) {
   const displayPhone = phone ?? CLINIC_CONTACT.phone
   const trustChips = [
@@ -78,84 +82,103 @@ export default function ShowcaseSection({
 
   return (
     <section
-      className="-mt-[4.75rem] lg:-mt-[6.5rem] relative overflow-hidden flex flex-col lg:flex-row"
-      style={{ minHeight: '100svh' }}
+      className="-mt-[4.75rem] lg:-mt-[6.5rem] relative overflow-hidden bg-ivory-waves lg:min-h-[100svh]"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       aria-label="Bright Smile Dental Clinic"
     >
-      {/* ── LEFT: Authority copy panel — 42% on desktop ── */}
+      {/* ── Clinic photo — full-bleed on the right on desktop, a banner
+          under the header on mobile ── */}
+      <div className="relative mt-[4.75rem] aspect-[4/3] w-full overflow-hidden sm:aspect-[16/9] lg:absolute lg:inset-y-0 lg:right-0 lg:left-[28%] lg:mt-0 lg:aspect-auto lg:w-auto">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current.id}
+            initial={{ opacity: 0, scale: 1.04 }}
+            animate={{ opacity: 1, scale: 1, transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] } }}
+            exit={{ opacity: 0, transition: { duration: 0.35 } }}
+            className="absolute inset-0"
+          >
+            {current.image_url ? (
+              <Image
+                src={current.image_url}
+                alt={current.title}
+                fill
+                className="object-cover"
+                priority
+                sizes="(min-width: 1024px) 72vw, 100vw"
+              />
+            ) : (
+              <div
+                className="flex h-full w-full items-center justify-center"
+                style={{ background: `linear-gradient(155deg, ${current.gradient_from} 0%, ${current.gradient_to} 100%)` }}
+              >
+                <span className="px-10 text-center font-display text-xl tracking-display text-white/80">
+                  {current.title}
+                </span>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Light haze at the top so the nav stays readable over the photo */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-44 bg-gradient-to-b from-white/75 via-white/30 to-transparent lg:block" aria-hidden="true" />
+        {/* Mobile: photo fades into the ivory copy panel below */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#F8F6F3] to-transparent lg:hidden" aria-hidden="true" />
+      </div>
+
+      {/* ── Ivory sweep — the curved panel the copy sits on (desktop) ── */}
       <div
-        className="relative z-10 order-2 lg:order-1 flex flex-col justify-center px-8 pt-12 pb-14 sm:px-12 lg:w-[42%] lg:px-14 lg:pt-[8.5rem] lg:pb-16 xl:px-18"
-        style={{ background: '#0E1B2E' }}
+        className="pointer-events-none absolute inset-y-0 left-0 z-[1] hidden w-[74%] bg-ivory-waves lg:block"
+        style={{ WebkitMaskImage: SWEEP_MASK, maskImage: SWEEP_MASK, WebkitMaskSize: '100% 100%', maskSize: '100% 100%' }}
+        aria-hidden="true"
+      />
+      {/* Gold hairline tracing the sweep's edge, echoing the background's lines */}
+      <svg
+        className="pointer-events-none absolute inset-y-0 left-0 z-[2] hidden h-full w-[74%] lg:block"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
       >
-        {/* Subtle architectural grid */}
-        <svg
-          className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.025]"
-          aria-hidden="true"
-        >
-          <defs>
-            <pattern id="hero-grid" width="52" height="52" patternUnits="userSpaceOnUse">
-              <path d="M 52 0 L 0 0 0 52" fill="none" stroke="white" strokeWidth="0.5" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#hero-grid)" />
-        </svg>
+        <path d={SWEEP_EDGE} fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="6" vectorEffect="non-scaling-stroke" opacity="0.55" />
+        <path d={SWEEP_EDGE} fill="none" stroke="#C9A24B" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.7" />
+      </svg>
 
-        {/* Accent glow — drifts gently on scroll */}
-        <Parallax strength={0.07} className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 -translate-x-1/3 translate-y-1/3">
-          <div
-            className="h-64 w-64 rounded-full blur-3xl"
-            style={{ background: 'rgba(201, 162, 75, 0.07)' }}
-            aria-hidden="true"
-          />
-        </Parallax>
+      {/* ── Copy ── */}
+      <div className="relative z-10 flex flex-col justify-center px-6 pb-14 pt-4 sm:px-10 lg:min-h-[100svh] lg:pb-16 lg:pl-14 lg:pr-0 lg:pt-[8.5rem] xl:pl-16">
+        <div className="max-w-xl lg:max-w-[38vw]">
 
-        <div className="relative max-w-lg">
-
-          {/* Eyebrow — gold on dark for visibility */}
-          <div className="mb-8 flex items-center gap-3">
+          {/* Eyebrow */}
+          <div className="mb-7 flex items-center gap-3">
             <span className="h-px w-8 flex-shrink-0 bg-gold" aria-hidden="true" />
-            <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+            <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-gold-ink">
               {pick(content, 'home.hero.eyebrow', 'Bright Smile Dental Clinic · Kathmandu')}
             </span>
           </div>
 
           {/* Hero headline */}
           <h1
-            className="font-display leading-[1.02] text-white"
-            style={{ fontSize: 'clamp(2.6rem, 4.8vw, 5rem)', letterSpacing: '-0.024em' }}
+            className="font-display leading-[1.02] text-ink"
+            style={{ fontSize: 'clamp(2.6rem, 4.4vw, 5rem)', letterSpacing: '-0.024em' }}
           >
             {pick(content, 'home.hero.headline_line1', 'Expert Dental Care,')}
-            <span
-              className="block mt-1"
-              style={{ color: '#C9A24B' }}
-            >
+            <span className="mt-1 block text-gold-dark">
               {pick(content, 'home.hero.headline_line2', 'Comfortable')}
             </span>
             <span className="block">{pick(content, 'home.hero.headline_line3', 'Experience.')}</span>
           </h1>
 
           {/* Sub-copy */}
-          <p className="mt-7 max-w-[38ch] font-body text-[0.95rem] leading-[1.8] text-white/75">
+          <p className="mt-7 max-w-[40ch] font-body text-[0.95rem] leading-[1.8] text-ink-muted">
             {pick(content, 'home.hero.subcopy', 'Modern dentistry with genuine care, covering every speciality, with transparent treatment planning and results built to last.')}
           </p>
 
           {/* Dual CTAs */}
           <div className="mt-10 flex flex-wrap items-center gap-3">
-            {/* PRIMARY — gold */}
             <MagneticWrap strength={0.25} className="inline-block">
               <Link
                 href="/appointments"
                 onClick={() => trackEvent('Hero CTA Clicked', { label: 'Book Consultation' })}
-                className="inline-flex items-center gap-2.5 rounded-xl px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold transition-all duration-200 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0E1B2E]"
-                style={{
-                  background: '#C9A24B',
-                  color: '#14202E',
-                  boxShadow: '0 4px 20px rgba(201, 162, 75, 0.35), 0 1px 4px rgba(201, 162, 75, 0.18)',
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#A8823A' }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#C9A24B' }}
+                className="btn-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
               >
                 {pick(content, 'home.hero.cta_primary', 'Book Consultation')}
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
@@ -164,14 +187,10 @@ export default function ShowcaseSection({
               </Link>
             </MagneticWrap>
 
-            {/* SECONDARY — ghost */}
             <Link
               href="/gallery"
               onClick={() => trackEvent('View Gallery Clicked')}
-              className="inline-flex items-center gap-2.5 rounded-xl border px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold transition-all duration-200 hover:text-white active:scale-[0.97] focus-visible:outline-none"
-              style={{ borderColor: 'rgba(255,255,255,0.14)', color: 'rgba(255,255,255,0.6)' }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.28)' }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.14)' }}
+              className="inline-flex items-center gap-2.5 rounded-xl border border-ink/20 bg-white/60 px-7 py-[0.875rem] font-heading text-[0.85rem] font-semibold text-ink backdrop-blur-sm transition-all duration-200 hover:border-ink/40 hover:bg-white active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
                 <rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
@@ -187,14 +206,9 @@ export default function ShowcaseSection({
             {trustChips.map((label) => (
               <span
                 key={label}
-                className="inline-flex items-center gap-2 rounded-full px-3.5 py-[0.35rem] font-heading text-[0.65rem] font-medium uppercase tracking-[0.14em]"
-                style={{
-                  border: '1px solid rgba(201, 162, 75, 0.18)',
-                  color: 'rgba(255,255,255,0.65)',
-                  background: 'rgba(201, 162, 75, 0.04)',
-                }}
+                className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-white/55 px-3.5 py-[0.35rem] font-heading text-[0.65rem] font-medium uppercase tracking-[0.14em] text-ink-muted backdrop-blur-sm"
               >
-                <span className="h-[3px] w-[3px] flex-shrink-0 rounded-full" style={{ background: '#C9A24B' }} aria-hidden="true" />
+                <span className="h-[3px] w-[3px] flex-shrink-0 rounded-full bg-gold" aria-hidden="true" />
                 {label}
               </span>
             ))}
@@ -213,7 +227,7 @@ export default function ShowcaseSection({
                   className="relative h-[2px] overflow-hidden rounded-full transition-all duration-500 focus-visible:outline-none"
                   style={{
                     width: i === active ? '2rem' : '0.375rem',
-                    backgroundColor: i === active ? '#C9A24B' : 'rgba(255,255,255,0.18)',
+                    backgroundColor: i === active ? '#C9A24B' : 'rgba(20,32,46,0.2)',
                   }}
                 />
               ))}
@@ -221,7 +235,7 @@ export default function ShowcaseSection({
             <div className="flex gap-1.5">
               <button
                 onClick={() => { setIsManuallyPaused(true); advance(-1) }}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all hover:border-white/30 hover:text-white/85 focus-visible:outline-none"
+                className={SLIDE_BTN}
                 aria-label="Previous slide"
               >
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
@@ -230,7 +244,7 @@ export default function ShowcaseSection({
               </button>
               <button
                 onClick={() => { setIsManuallyPaused(true); advance(1) }}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all hover:border-white/30 hover:text-white/85 focus-visible:outline-none"
+                className={SLIDE_BTN}
                 aria-label="Next slide"
               >
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
@@ -241,7 +255,7 @@ export default function ShowcaseSection({
                   a way to stop auto-advancing content that isn't hover-only */}
               <button
                 onClick={() => setIsManuallyPaused((p) => !p)}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all hover:border-white/30 hover:text-white/85 focus-visible:outline-none"
+                className={SLIDE_BTN}
                 aria-label={isPaused ? 'Play slideshow' : 'Pause slideshow'}
               >
                 {isPaused ? (
@@ -263,130 +277,27 @@ export default function ShowcaseSection({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.25 }}
-                className="hidden font-heading text-[0.6rem] text-white/55 sm:block"
+                className="hidden font-heading text-[0.6rem] text-ink-soft sm:block"
               >
                 {current.subtitle || current.title}
               </motion.span>
             </AnimatePresence>
           </div>
-
-          {/* Virtual Tour discovery — mobile/tablet teaser (desktop gets the
-              floating window card inset in the image panel, below) */}
-          <VirtualTourPortal variant="teaser" imageUrl={virtualTourImageUrl} roomName={virtualTourRoomName} />
         </div>
       </div>
 
-      {/* ── RIGHT: Clinic image panel — 58% on desktop ── */}
-      <div
-        className="relative order-1 lg:order-2 flex-1 overflow-hidden bg-[#060a18]"
-        style={{ minHeight: 'clamp(52vw, 55vw, 55vh)' }}
-      >
-        {/* Progress bars */}
-        <div className="absolute top-[4.75rem] lg:top-[6.5rem] left-0 right-0 z-20 flex gap-0.5 px-0">
-          {slides.map((_, i) => (
-            <div key={i} className="relative h-[2px] flex-1 overflow-hidden bg-white/10">
-              {i < active && <div className="absolute inset-0 bg-white/40" />}
-              {i === active && (
-                <motion.div
-                  className="absolute inset-0 origin-left"
-                  style={{ background: '#C9A24B' }}
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: isPaused ? undefined : 1 }}
-                  transition={{ duration: AUTO_MS / 1000, ease: 'linear' }}
-                  key={`prog-${active}-${isPaused}`}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Slide images — framed at 4:3 (matching the admin crop tool's
-            aspect exactly) and vertically centered in the taller panel,
-            rather than object-cover-stretched to the panel's own shape.
-            The navy letterbox bars read as an intentional cinematic frame. */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current.id}
-            initial={{ opacity: 0, scale: 1.04 }}
-            animate={{ opacity: 1, scale: 1, transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] } }}
-            exit={{ opacity: 0, transition: { duration: 0.35 } }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            {current.image_url ? (
-              <div className="relative w-full aspect-[4/3] max-h-full">
-                <Image
-                  src={current.image_url}
-                  alt={current.title}
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(min-width: 1024px) 58vw, 100vw"
-                />
-                {/* Left blend into navy panel */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0E1B2E]/60 lg:from-[#0E1B2E]/30 via-transparent to-transparent" />
-                {/* Bottom gradient */}
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent" />
-              </div>
-            ) : (
-              <div
-                className="relative flex w-full aspect-[4/3] max-h-full items-center justify-center"
-                style={{ background: `linear-gradient(155deg, ${current.gradient_from} 0%, ${current.gradient_to} 100%)` }}
-              >
-                <span className="font-display text-xl text-white/80 tracking-display px-10 text-center">
-                  {current.title}
-                </span>
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Gold accent line — top of image panel */}
-        <div
-          className="absolute top-[4.75rem] lg:top-[6.5rem] left-0 right-0 z-30 h-px"
-          style={{ background: 'linear-gradient(to right, rgba(201, 162, 75,0.4), transparent)' }}
-          aria-hidden="true"
-        />
-
-        {/* Slide label */}
-        <div className="absolute bottom-0 inset-x-0 z-10 px-5 pb-5 lg:px-6 lg:pb-6">
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={active}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="font-heading text-[0.62rem] font-medium uppercase tracking-[0.18em] text-white/55"
-            >
-              {current.image_url ? (current.subtitle || current.title) : ''}
-            </motion.span>
-          </AnimatePresence>
-        </div>
-
-        {/* Phone CTA overlay — bottom right */}
-        <div className="absolute bottom-5 right-5 z-10 hidden lg:block">
-          <a
-            href={`tel:${displayPhone.replace(/[^0-9+]/g, '')}`}
-            onClick={() => trackEvent('Phone Clicked', { location: 'hero' })}
-            className="flex items-center gap-2.5 rounded-xl px-4 py-2.5 font-heading text-xs font-semibold transition-all"
-            style={{
-              background: 'rgba(10, 17, 40, 0.7)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              color: 'rgba(255,255,255,0.6)',
-              backdropFilter: 'blur(12px)',
-            }}
-          >
-            <svg viewBox="0 0 14 14" fill="currentColor" className="h-3 w-3 text-gold" aria-hidden="true">
-              <path d="M1 1.5h2.8L4.8 4.5l-1.2.8A6.4 6.4 0 007 9.4l.8-1.2 3 1v2.3a.4.4 0 01-.4.4C4.8 11.9 1 8.1 1 3a.4.4 0 010-.4V1.5z" />
-            </svg>
-            {displayPhone}
-          </a>
-        </div>
-
-        {/* Virtual Tour discovery — desktop floating window card, bottom-left
-            (mirrors the phone CTA at bottom-right); mobile/tablet teaser
-            lives in the text panel above. */}
-        <VirtualTourPortal variant="card" imageUrl={virtualTourImageUrl} roomName={virtualTourRoomName} />
+      {/* Phone CTA — bottom right over the photo */}
+      <div className="absolute bottom-6 right-6 z-10 hidden lg:block">
+        <a
+          href={`tel:${displayPhone.replace(/[^0-9+]/g, '')}`}
+          onClick={() => trackEvent('Phone Clicked', { location: 'hero' })}
+          className="flex items-center gap-2.5 rounded-xl border border-white/15 bg-ink/70 px-4 py-2.5 font-heading text-xs font-semibold text-white/90 backdrop-blur-md transition-colors hover:bg-ink/85"
+        >
+          <svg viewBox="0 0 14 14" fill="currentColor" className="h-3 w-3 text-gold" aria-hidden="true">
+            <path d="M1 1.5h2.8L4.8 4.5l-1.2.8A6.4 6.4 0 007 9.4l.8-1.2 3 1v2.3a.4.4 0 01-.4.4C4.8 11.9 1 8.1 1 3a.4.4 0 010-.4V1.5z" />
+          </svg>
+          {displayPhone}
+        </a>
       </div>
     </section>
   )

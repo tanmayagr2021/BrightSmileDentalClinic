@@ -220,7 +220,7 @@ function LeadDoctorCard({ doc }: { doc: DoctorRow }) {
             {bookable && (
               <Link
                 href="/appointments"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/30 active:scale-[0.97]"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-ink shadow-md shadow-primary/20 transition-all hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/30 active:scale-[0.97]"
               >
                 Book Appointment
               </Link>
@@ -269,13 +269,13 @@ export default async function DoctorsPage() {
       {/* ── HERO — Dark Premium ── */}
       <section
         className="relative overflow-hidden py-24 lg:py-32"
-        style={{ background: '#0E1B2E' }}
+        data-surface="ivory"
       >
         {/* Architectural grid */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.022]" aria-hidden="true">
           <defs>
             <pattern id="doctors-grid" width="52" height="52" patternUnits="userSpaceOnUse">
-              <path d="M 52 0 L 0 0 0 52" fill="none" stroke="white" strokeWidth="0.5" />
+              <path d="M 52 0 L 0 0 0 52" fill="none" stroke="#14202E" strokeWidth="0.5" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#doctors-grid)" />
@@ -287,21 +287,21 @@ export default async function DoctorsPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Eyebrow */}
-          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-gold">
+          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-gold-ink">
             <span className="inline-block h-px w-7 bg-gold/60" />
             Our People
           </span>
 
           {/* Headline */}
           <h1
-            className="font-display leading-[1.04] text-white tracking-display"
+            className="font-display leading-[1.04] text-ink tracking-display"
             style={{ fontSize: 'clamp(2.8rem, 6vw, 5.5rem)', textShadow: '0 2px 40px rgba(0,0,0,0.4)' }}
           >
             The Experts Behind<br />
-            <span className="text-gold">Every Smile</span>
+            <span className="text-gold-dark">Every Smile</span>
           </h1>
 
-          <p className="mt-6 max-w-2xl font-body text-[1rem] text-white/90 leading-relaxed lg:text-[1.05rem]">
+          <p className="mt-6 max-w-2xl font-body text-[1rem] text-ink-muted leading-relaxed lg:text-[1.05rem]">
             Experienced team of dentists covering all areas of dentistry, supported by a dedicated clinical and administrative team, all committed to exceptional dental care in Kathmandu.
           </p>
 
@@ -313,7 +313,7 @@ export default async function DoctorsPage() {
               'Serving Kathmandu since 2006',
               'Nagpokhari, Naxal',
             ].map((item) => (
-              <span key={item} className="flex items-center gap-2.5 font-heading text-[0.68rem] font-medium text-white/90">
+              <span key={item} className="flex items-center gap-2.5 font-heading text-[0.68rem] font-medium text-ink-muted">
                 <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gold" />
                 {item}
               </span>
@@ -343,7 +343,7 @@ export default async function DoctorsPage() {
             <div className="flex items-center gap-3 flex-shrink-0">
               <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
                 <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-                <span className="font-heading text-xs font-semibold text-primary">Accepting New Patients</span>
+                <span className="font-heading text-xs font-semibold text-gold-ink">Accepting New Patients</span>
               </div>
             </div>
           </div>
@@ -379,13 +379,13 @@ export default async function DoctorsPage() {
       {/* ── SPECIALIST CONSULTANTS ── */}
       <section
         className="relative overflow-hidden py-24 lg:py-28"
-        style={{ background: '#0E1B2E' }}
+        data-surface="ivory"
       >
         {/* Subtle grid */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.02]" aria-hidden="true">
           <defs>
             <pattern id="spec-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#14202E" strokeWidth="0.5" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#spec-grid)" />
@@ -397,21 +397,21 @@ export default async function DoctorsPage() {
           {/* Header */}
           <div className="mb-14 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
-              <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-gold">
+              <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-gold-ink">
                 <span className="inline-block h-px w-7 bg-gold/60" />
                 Specialist Consultants
               </span>
-              <h2 className="font-display text-4xl text-white tracking-display leading-[1.06] sm:text-5xl">
+              <h2 className="font-display text-4xl text-ink tracking-display leading-[1.06] sm:text-5xl">
                 Where Specialists<br />Join Your Care
               </h2>
-              <p className="mt-4 max-w-xl font-body text-base text-white/85 leading-relaxed">
+              <p className="mt-4 max-w-xl font-body text-base text-ink-muted leading-relaxed">
                 For treatments requiring advanced expertise, such as implants, periodontics or oral surgery, our visiting specialists work within your coordinated care plan, arranged by your lead dentist.
               </p>
             </div>
             <div>
               <a
                 href={`tel:${clinicPhone.replace(/\s/g, '')}`}
-                className="inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 px-6 py-3 font-heading text-sm font-semibold text-white transition-all hover:bg-white/10 active:scale-[0.98]"
+                className="inline-flex items-center gap-2.5 rounded-xl border border-ink/10 bg-white/70 px-6 py-3 font-heading text-sm font-semibold text-ink transition-all hover:bg-white active:scale-[0.98]"
               >
                 Ask About Specialists
                 <ArrowRight className="h-4 w-4" />
@@ -424,7 +424,7 @@ export default async function DoctorsPage() {
             {specialists.map((doc) => (
               <div
                 key={doc.slug}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm transition-all duration-300 hover:border-white/15 hover:bg-white/[0.07]"
+                className="group relative overflow-hidden rounded-2xl border border-[#E7E1D6] bg-white shadow-soft transition-all duration-300 hover:shadow-card-hover"
               >
                 {/* Colored header strip */}
                 <div
@@ -452,15 +452,15 @@ export default async function DoctorsPage() {
                 </div>
 
                 <div className="p-5">
-                  <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-primary">
+                  <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold-ink">
                     NMC {doc.nmc_number}
                   </p>
-                  <h3 className="mt-1.5 font-heading text-sm font-semibold leading-snug text-white">{doc.full_name}</h3>
-                  <p className="mt-0.5 font-body text-xs text-white/90">{doc.title}</p>
+                  <h3 className="mt-1.5 font-heading text-sm font-semibold leading-snug text-ink">{doc.full_name}</h3>
+                  <p className="mt-0.5 font-body text-xs text-ink-muted">{doc.title}</p>
 
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(doc.specializations ?? []).slice(0, 2).map((s) => (
-                      <span key={s} className="rounded-lg bg-white/10 px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-white/90">
+                      <span key={s} className="rounded-lg bg-tint px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-ink-muted">
                         {s}
                       </span>
                     ))}
@@ -468,7 +468,7 @@ export default async function DoctorsPage() {
 
                   <Link
                     href={`/doctors/${doc.slug}`}
-                    className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 font-heading text-xs font-semibold text-white/85 transition-all hover:bg-white/10 hover:text-white active:scale-[0.97]"
+                    className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-ink/10 bg-white/70 px-4 py-2.5 font-heading text-xs font-semibold text-ink-muted transition-all hover:bg-white hover:text-ink active:scale-[0.97]"
                   >
                     View Profile <ArrowRight className="h-3 w-3" />
                   </Link>
@@ -538,7 +538,7 @@ export default async function DoctorsPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-heading text-sm font-semibold text-dark truncate">{member.name}</h3>
-                        <p className="font-body text-xs text-primary font-medium">{member.role}</p>
+                        <p className="font-body text-xs text-gold-ink font-medium">{member.role}</p>
                       </div>
                     </div>
 
@@ -594,7 +594,7 @@ export default async function DoctorsPage() {
                       </div>
                       <div>
                         <h3 className="font-heading text-sm font-semibold text-dark">{member.name}</h3>
-                        <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-wide text-primary">{member.role}</p>
+                        <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-wide text-gold-ink">{member.role}</p>
                       </div>
                     </div>
 
@@ -609,16 +609,16 @@ export default async function DoctorsPage() {
 
           {/* Closing CTA strip */}
           <div
-            className="overflow-hidden rounded-2xl p-8 text-center lg:p-12"
-            style={{ background: '#0E1B2E' }}
+            className="overflow-hidden rounded-2xl border border-[#E7E1D6] p-8 text-center shadow-soft lg:p-12"
+            data-surface="ivory"
           >
-            <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-gold mb-4">
+            <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-gold-ink mb-4">
               Direct Bookings Available
             </p>
-            <p className="font-display text-2xl text-white tracking-display sm:text-3xl">
+            <p className="font-display text-2xl text-ink tracking-display sm:text-3xl">
               Ready to meet the team?
             </p>
-            <p className="mx-auto mt-3 max-w-lg font-body text-sm text-white/85 leading-relaxed">
+            <p className="mx-auto mt-3 max-w-lg font-body text-sm text-ink-muted leading-relaxed">
               Direct appointments are available with Dr. Sachin Agrawal and Dr. Binita Adhikari. Specialist and hygienist sessions are coordinated as part of your personalised care plan.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -631,7 +631,7 @@ export default async function DoctorsPage() {
               </Link>
               <a
                 href={`tel:${clinicPhone.replace(/\s/g, '')}`}
-                className="inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/10 px-8 py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-white/15"
+                className="inline-flex items-center gap-2.5 rounded-xl border border-ink/10 bg-white/70 px-8 py-3.5 font-heading text-sm font-semibold text-ink transition-all hover:bg-white"
               >
                 {clinicPhone}
               </a>

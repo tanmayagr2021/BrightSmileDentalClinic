@@ -23,7 +23,7 @@ function ChevronIcon({ open }: { open: boolean }) {
     <svg
       viewBox="0 0 20 20"
       fill="none"
-      className={`h-5 w-5 flex-shrink-0 text-primary transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+      className={`h-5 w-5 flex-shrink-0 text-gold-ink transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
       aria-hidden="true"
     >
       <path d="M5 7.5l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -78,7 +78,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
       />
 
       {/* Page header */}
-      <div className="bg-tint border-b border-gray-100 py-16 lg:py-20">
+      <div className="bg-ivory-waves border-b border-ink/10 py-16 lg:py-20">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <span className="eyebrow mb-3 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />
@@ -89,7 +89,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
           </h1>
           <p className="mt-4 max-w-xl font-body text-base text-gray-500 leading-relaxed">
             Everything you need to know before your visit. Can&apos;t find your answer?{' '}
-            <Link href="/contact" className="text-primary underline-offset-2 hover:underline">Contact us.</Link>
+            <Link href="/contact" className="text-gold-ink underline-offset-2 hover:underline">Contact us.</Link>
           </p>
 
           {/* Search */}
@@ -126,7 +126,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
               onClick={() => { setActiveCategory(cat); setOpenIndex(null) }}
               className={`rounded-full px-4 py-2 font-heading text-xs font-semibold transition-all ${
                 activeCategory === cat
-                  ? 'bg-primary text-white shadow-sm'
+                  ? 'bg-primary text-ink shadow-sm'
                   : 'border border-gray-200 text-gray-500 hover:border-primary/30 hover:text-primary'
               }`}
             >
@@ -169,7 +169,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
                     >
                       <div className="flex items-start gap-3">
                         <span className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-[0.65rem] font-bold transition-colors ${
-                          isOpen ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'
+                          isOpen ? 'bg-primary text-ink' : 'bg-gray-100 text-gray-600'
                         }`} aria-hidden="true">
                           {i + 1}
                         </span>
@@ -198,7 +198,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
                             </p>
                             {faq.category && (
                               <div className="mt-4 flex items-center gap-3">
-                                <span className="inline-block rounded-full bg-tint px-2.5 py-1 font-heading text-[0.65rem] font-semibold text-primary uppercase tracking-wide">
+                                <span className="inline-block rounded-full bg-tint px-2.5 py-1 font-heading text-[0.65rem] font-semibold text-gold-ink uppercase tracking-wide">
                                   {CATEGORY_LABELS[faq.category] ?? faq.category}
                                 </span>
                               </div>
@@ -224,7 +224,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
               <p className="font-heading text-sm font-semibold text-dark">No questions found</p>
               <p className="mt-1 font-body text-sm text-gray-600">
                 Try a different search term or{' '}
-                <button onClick={() => { setSearch(''); setActiveCategory('all') }} className="text-primary hover:underline underline-offset-2">
+                <button onClick={() => { setSearch(''); setActiveCategory('all') }} className="text-gold-ink hover:underline underline-offset-2">
                   clear filters
                 </button>
               </p>
@@ -256,7 +256,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
               </a>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark"
+                className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-heading text-xs font-semibold text-ink transition-all hover:bg-primary-dark"
               >
                 Send a Message
               </Link>
@@ -265,7 +265,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
         </motion.div>
 
         <div className="mt-10 text-center">
-          <Link href="/" className="font-body text-sm text-primary hover:underline underline-offset-2">
+          <Link href="/" className="font-body text-sm text-gold-ink hover:underline underline-offset-2">
             ← Back to home
           </Link>
         </div>

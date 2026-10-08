@@ -23,7 +23,7 @@ export default async function TestimonialsPage() {
 
   return (
     <div className="bg-white">
-      <div className="bg-tint border-b border-gray-100 py-16 lg:py-20">
+      <div className="bg-ivory-waves border-b border-ink/10 py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="eyebrow mb-3 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />
@@ -36,7 +36,7 @@ export default async function TestimonialsPage() {
       </div>
       <TestimonialsSection testimonials={data ?? []} />
       <div className="pb-20 text-center">
-        <Link href="/" className="font-body text-sm text-primary hover:underline underline-offset-2">← Back to home</Link>
+        <Link href="/" className="font-body text-sm text-gold-ink hover:underline underline-offset-2">← Back to home</Link>
       </div>
     </div>
   )

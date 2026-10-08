@@ -99,7 +99,7 @@ export default async function ServicesPage() {
       {/* ── Hero — full dark ── */}
       <div
         className="relative overflow-hidden py-16 lg:py-24"
-        style={{ background: '#0E1B2E' }}
+        data-surface="ivory"
       >
         {/* Architectural grid overlay */}
         <svg
@@ -108,7 +108,7 @@ export default async function ServicesPage() {
         >
           <defs>
             <pattern id="services-grid" width="52" height="52" patternUnits="userSpaceOnUse">
-              <path d="M 52 0 L 0 0 0 52" fill="none" stroke="white" strokeWidth="0.5" />
+              <path d="M 52 0 L 0 0 0 52" fill="none" stroke="#14202E" strokeWidth="0.5" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#services-grid)" />
@@ -120,37 +120,37 @@ export default async function ServicesPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Eyebrow */}
-          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
             <span className="inline-block h-px w-6 bg-gold/60" />
             What We Offer
           </span>
 
           {/* Headline */}
           <h1
-            className="mt-5 font-display text-white tracking-display leading-[1.05]"
+            className="mt-5 font-display text-ink tracking-display leading-[1.05]"
             style={{ fontSize: 'clamp(2.6rem, 5.5vw, 4.5rem)' }}
           >
             Our Services
           </h1>
 
           {/* Description */}
-          <p className="mt-6 max-w-lg font-body text-base text-white/90 leading-relaxed">
+          <p className="mt-6 max-w-lg font-body text-base text-ink-muted leading-relaxed">
             Comprehensive dental care for the whole family, from routine check-ups to
             advanced specialist treatments, all under one roof.
           </p>
 
           {/* Service navigation — numbered list style */}
-          <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-4 border-t border-white/[0.08] pt-8 sm:grid-cols-3">
+          <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-4 border-t border-ink/10 pt-8 sm:grid-cols-3">
             {services.map((s, index) => (
               <Link
                 key={s.slug}
                 href={`#${s.slug}`}
                 className="group flex items-center gap-3 scroll-smooth"
               >
-                <span className="w-8 flex-shrink-0 font-display text-xl font-bold text-white/75 transition-colors group-hover:text-gold">
+                <span className="w-8 flex-shrink-0 font-display text-xl font-bold text-ink-muted transition-colors group-hover:text-gold-ink">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="font-heading text-sm font-semibold text-white/85 transition-colors group-hover:text-white">
+                <span className="font-heading text-sm font-semibold text-ink-muted transition-colors group-hover:text-ink">
                   {s.name}
                 </span>
               </Link>
@@ -161,11 +161,11 @@ export default async function ServicesPage() {
 
       {/* ── PREMIUM / SIGNATURE SERVICES ── */}
       {premiumServices.length > 0 && (
-        <section className="bg-ivory py-20 lg:py-28">
+        <section className="bg-tint py-20 lg:py-28">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {/* Banner header */}
             <div className="mb-12 border-l-4 border-gold pl-6">
-              <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-primary">
+              <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-gold-ink">
                 Signature Treatments
               </span>
               <h2 className="mt-2 font-display text-4xl text-dark tracking-display leading-[1.06] sm:text-5xl">
@@ -182,14 +182,13 @@ export default async function ServicesPage() {
                 <article
                   key={service.slug}
                   id={service.slug}
-                  className="group relative scroll-mt-24 overflow-hidden rounded-3xl shadow-glass-dark transition-all duration-500"
-                  style={{ background: '#0E1B2E' }}
+                  className="group relative scroll-mt-24 overflow-hidden rounded-3xl border border-[#E7E1D6] bg-white shadow-soft transition-all duration-500"
                 >
                   {/* Faint grid pattern */}
                   <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.025]" aria-hidden="true">
                     <defs>
                       <pattern id={`prem-grid-${service.slug}`} width="44" height="44" patternUnits="userSpaceOnUse">
-                        <path d="M 44 0 L 0 0 0 44" fill="none" stroke="white" strokeWidth="0.5" />
+                        <path d="M 44 0 L 0 0 0 44" fill="none" stroke="#14202E" strokeWidth="0.5" />
                       </pattern>
                     </defs>
                     <rect width="100%" height="100%" fill={`url(#prem-grid-${service.slug})`} />
@@ -210,18 +209,18 @@ export default async function ServicesPage() {
                     {/* Left — narrative */}
                     <div className="flex flex-col">
                       <div className="flex items-center gap-4">
-                        <span className="font-display text-5xl font-bold leading-none text-gold sm:text-6xl">
+                        <span className="font-display text-5xl font-bold leading-none text-gold-dark sm:text-6xl">
                           {String(index + 1).padStart(2, '0')}
                         </span>
-                        <span className="rounded-full border border-gold/30 bg-gold/10 px-3 py-1 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-gold">
+                        <span className="rounded-full border border-gold/30 bg-gold/10 px-3 py-1 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-gold-ink">
                           Signature
                         </span>
                       </div>
 
-                      <h3 className="mt-6 font-display text-3xl text-white tracking-display leading-tight sm:text-4xl">
+                      <h3 className="mt-6 font-display text-3xl text-ink tracking-display leading-tight sm:text-4xl">
                         {service.name}
                       </h3>
-                      <p className="mt-4 font-body text-[0.95rem] text-white/90 leading-relaxed">
+                      <p className="mt-4 font-body text-[0.95rem] text-ink-muted leading-relaxed">
                         {service.description}
                       </p>
 
@@ -229,19 +228,19 @@ export default async function ServicesPage() {
                       <ul className="mt-6 space-y-2.5">
                         {service.benefits.map((b) => (
                           <li key={b} className="flex items-start gap-3">
-                            <span className="mt-0.5 flex-shrink-0 text-gold">
+                            <span className="mt-0.5 flex-shrink-0 text-gold-ink">
                               <Check />
                             </span>
-                            <span className="font-body text-sm text-white/85 leading-relaxed">{b}</span>
+                            <span className="font-body text-sm text-ink-muted leading-relaxed">{b}</span>
                           </li>
                         ))}
                       </ul>
 
                       {/* CTA */}
-                      <div className="mt-8 flex flex-wrap gap-3 border-t border-white/10 pt-6">
+                      <div className="mt-8 flex flex-wrap gap-3 border-t border-ink/10 pt-6">
                         <Link
                           href={`/services/${service.slug}`}
-                          className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] px-5 py-3 font-heading text-sm font-semibold text-white transition-all hover:bg-white/[0.1] active:scale-[0.97]"
+                          className="inline-flex items-center gap-2 rounded-xl border border-ink/20 bg-white/70 px-5 py-3 font-heading text-sm font-semibold text-ink transition-all hover:bg-white active:scale-[0.97]"
                         >
                           Details
                         </Link>
@@ -256,17 +255,17 @@ export default async function ServicesPage() {
 
                     {/* Right — sub-services visual grid */}
                     <div>
-                      <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+                      <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                         Treatments Included
                       </p>
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         {service.subServices.map((sub) => (
                           <div
                             key={sub.name}
-                            className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm transition-all duration-300 hover:border-gold/30 hover:bg-white/[0.07]"
+                            className="rounded-2xl border border-ink/10 bg-[#FAF7F1] p-4 transition-all duration-300 hover:border-gold/40 hover:bg-white"
                           >
-                            <p className="font-heading text-sm font-semibold text-white leading-snug">{sub.name}</p>
-                            <p className="mt-1.5 font-body text-sm text-white/85 leading-relaxed">{sub.description}</p>
+                            <p className="font-heading text-sm font-semibold text-ink leading-snug">{sub.name}</p>
+                            <p className="mt-1.5 font-body text-sm text-ink-muted leading-relaxed">{sub.description}</p>
                           </div>
                         ))}
                       </div>
@@ -284,7 +283,7 @@ export default async function ServicesPage() {
         <section className="border-t border-gray-100 bg-white py-20 lg:py-28">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-12 border-l-4 border-primary/70 pl-6">
-              <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-primary">
+              <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-gold-ink">
                 Complete Care
               </span>
               <h2 className="mt-2 font-display text-4xl text-dark tracking-display leading-[1.06] sm:text-5xl">
@@ -338,7 +337,7 @@ export default async function ServicesPage() {
                   <div className="mt-7 flex items-center gap-3 border-t border-gray-50 pt-5">
                     <Link
                       href={`/services/${service.slug}`}
-                      className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-primary transition-colors hover:text-primary-dark"
+                      className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-gold-ink transition-colors hover:text-primary-dark"
                     >
                       Full Details <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
@@ -360,17 +359,17 @@ export default async function ServicesPage() {
       {/* ── CTA strip — dark centered ── */}
       <div
         className="py-20 lg:py-24"
-        style={{ background: '#0E1B2E' }}
+        data-surface="ivory"
       >
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-gold">
+          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
             <span className="h-px w-6 bg-gold/60" />
             Free Consultation
           </span>
-          <h2 className="font-display text-3xl text-white tracking-display sm:text-4xl">
+          <h2 className="font-display text-3xl text-ink tracking-display sm:text-4xl">
             Not sure which treatment<br className="hidden sm:block" /> is right for you?
           </h2>
-          <p className="mt-4 font-body text-base text-white/90 leading-relaxed">
+          <p className="mt-4 font-body text-base text-ink-muted leading-relaxed">
             Book a consultation and our team will assess your needs and explain all available options, clearly and without pressure.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
@@ -383,7 +382,7 @@ export default async function ServicesPage() {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-8 py-4 font-heading text-sm font-semibold text-white/80 transition-all hover:bg-white/10 hover:text-white active:scale-[0.97]"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-ink/10 bg-white/70 px-8 py-4 font-heading text-sm font-semibold text-ink-muted transition-all hover:bg-white hover:text-ink active:scale-[0.97]"
             >
               Ask a Question
             </Link>

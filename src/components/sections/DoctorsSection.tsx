@@ -180,7 +180,7 @@ export default function DoctorsSection({
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <h3 className="font-heading text-xl font-semibold text-dark">{doc.full_name}</h3>
-                    <p className="mt-0.5 font-body text-sm font-medium text-primary">{doc.title}</p>
+                    <p className="mt-0.5 font-body text-sm font-medium text-gold-ink">{doc.title}</p>
                   </div>
                   <div className="flex items-center gap-1.5 rounded-full bg-teal/10 px-2.5 py-1 flex-shrink-0">
                     <NmcBadge />
@@ -218,7 +218,7 @@ export default function DoctorsSection({
                   <Link
                     href="/appointments"
                     onClick={() => trackEvent('Book Doctor Clicked', { doctor: doc.slug })}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 font-heading text-xs font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.97]"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 font-heading text-xs font-semibold text-ink transition-all hover:bg-primary-dark active:scale-[0.97]"
                   >
                     <CalIcon />
                     Book with {dShortName(doc).replace('Dr. ', 'Dr ')}
@@ -250,7 +250,7 @@ export default function DoctorsSection({
             </p>
             <Link
               href="/doctors"
-              className="inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary hover:underline underline-offset-2"
+              className="inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-gold-ink hover:underline underline-offset-2"
             >
               {pick(content, 'home.doctors.pathway_link_label', 'Meet the full team')} <ArrowRight className="h-3 w-3" />
             </Link>
@@ -259,7 +259,7 @@ export default function DoctorsSection({
           <div className="grid grid-cols-1 divide-y divide-gray-50 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
             <div className="flex items-start gap-4 px-7 py-6">
               <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
-                <span className="font-heading text-xs font-bold text-primary">01</span>
+                <span className="font-heading text-xs font-bold text-gold-ink">01</span>
               </div>
               <div>
                 <p className="font-heading text-sm font-semibold text-dark">{pick(content, 'home.doctors.pathway_step1_title', 'Consult a Lead Dentist')}</p>
@@ -271,7 +271,7 @@ export default function DoctorsSection({
 
             <div className="flex items-start gap-4 px-7 py-6">
               <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
-                <span className="font-heading text-xs font-bold text-primary">02</span>
+                <span className="font-heading text-xs font-bold text-gold-ink">02</span>
               </div>
               <div>
                 <p className="font-heading text-sm font-semibold text-dark">{pick(content, 'home.doctors.pathway_step2_title', 'Your Plan Is Mapped')}</p>
@@ -358,7 +358,7 @@ export default function DoctorsSection({
               <div className="flex flex-col gap-3">
                 {supportTeam.map((s) => (
                   <div key={s.id} className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-xs font-bold text-primary">
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-xs font-bold text-gold-ink">
                       {tInitials(s)}
                     </div>
                     <div>
@@ -370,7 +370,7 @@ export default function DoctorsSection({
               </div>
               <Link
                 href="/doctors"
-                className="mt-5 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary transition-all hover:gap-2.5"
+                className="mt-5 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-gold-ink transition-all hover:gap-2.5"
               >
                 {pick(content, 'home.doctors.team_meet_everyone_label', 'Meet everyone')} <ArrowRight className="h-3 w-3" />
               </Link>

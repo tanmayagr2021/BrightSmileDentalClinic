@@ -101,7 +101,7 @@ export default function GalleryGrid({ items }: { items: GalleryGridItem[] }) {
                 : {})}
               className={`group relative block w-full overflow-hidden rounded-2xl bg-gray-100 aspect-square ${
                 openable
-                  ? 'cursor-zoom-in transition-shadow hover:shadow-premium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0E1B2E]'
+                  ? 'cursor-zoom-in transition-shadow hover:shadow-premium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white'
                   : ''
               }`}
             >

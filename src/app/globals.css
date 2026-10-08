@@ -16,6 +16,10 @@
   --color-teal: #0C3C2D;
   --color-cream: #E9E2D3;
   --color-cream-muted: #C9BFAE;
+  /* Light ivory theme */
+  --color-ivory-base: #F8F6F3;
+  --color-gold-ink: #8A6524;
+  --color-line: #E7E1D6;
 }
 
 @layer base {
@@ -88,6 +92,29 @@
     box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.07);
   }
 
+  /* Signature ivory-waves surface — used by the hero and every feature band
+     that used to be navy. Base colour matches the image's centre so there's
+     no flash before it loads. */
+  .bg-ivory-waves,
+  [data-surface='ivory'] {
+    background-color: var(--color-ivory-base);
+    background-image: url('/images/bg-ivory-waves.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Same surface for full-height page wrappers: the artwork keeps its own
+     proportions across the top of the page instead of being zoomed to cover
+     a very tall box, and the base colour carries on below it. */
+  .bg-ivory-page {
+    background-color: var(--color-ivory-base);
+    background-image: url('/images/bg-ivory-waves.webp');
+    background-size: 100% auto;
+    background-position: top center;
+    background-repeat: no-repeat;
+  }
+
   /* Section tint background */
   .bg-section {
     background-color: var(--color-tint);
@@ -100,12 +127,12 @@
 
   /* Eyebrow / label on LIGHT backgrounds */
   .eyebrow {
-    @apply font-heading text-xs font-semibold uppercase tracking-[0.2em] text-primary;
+    @apply font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold-ink;
   }
 
   /* Eyebrow / label on DARK backgrounds — uses gold for visibility */
   .eyebrow-dark {
-    @apply font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold;
+    @apply font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold-ink;
   }
 
   /* Premium card — consistent design language */

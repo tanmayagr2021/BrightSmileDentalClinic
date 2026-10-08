@@ -25,9 +25,9 @@ const variantStyles: Record<Variant, string> = {
   secondary:
     'bg-dark text-cream hover:bg-dark/90 active:scale-[0.98] shadow-sm hover:shadow',
   outline:
-    'border border-primary text-primary hover:bg-primary hover:text-[#14202E] active:scale-[0.98]',
+    'border border-primary text-gold-ink hover:bg-primary hover:text-[#14202E] active:scale-[0.98]',
   ghost:
-    'text-primary hover:bg-primary/10 active:scale-[0.98]',
+    'text-gold-ink hover:bg-primary/10 active:scale-[0.98]',
   white:
     'border border-white/40 text-white hover:bg-white hover:text-dark active:scale-[0.98]',
 }

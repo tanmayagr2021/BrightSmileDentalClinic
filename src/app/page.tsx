@@ -56,6 +56,7 @@ import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import WhyChooseSection from '@/components/sections/WhyChooseSection'
 import FaqSection from '@/components/sections/FaqSection'
 import CtaSection from '@/components/sections/CtaSection'
+import VirtualTourPortal from '@/components/sections/VirtualTourPortal'
 
 export const dynamic = 'force-dynamic'
 
@@ -196,11 +197,11 @@ export default async function HomePage() {
         slides={showcaseSlides}
         phone={clinicPhone}
         content={content}
-        virtualTourImageUrl={virtualTourImageUrl}
-        virtualTourRoomName={virtualTourRoomName}
       />
       {/* 2. Trust — stats + quick credentials */}
       {sectionVisible('stats') && <StatsSection stats={homepageStats} />}
+      {/* Virtual tour invite — moved out of the hero */}
+      <VirtualTourPortal variant="band" imageUrl={virtualTourImageUrl} roomName={virtualTourRoomName} />
       {sectionVisible('trust') && <TrustSection content={content} indicators={trustIndicators} />}
       {/* 3. How it works — patient journey timeline */}
       <PatientJourneySection content={content} steps={patientJourneySteps} />

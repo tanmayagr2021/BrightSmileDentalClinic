@@ -37,7 +37,7 @@ export default function BeforeAfterSection({
   }
 
   return (
-    <section ref={viewRef} className="bg-dark py-24 lg:py-32">
+    <section ref={viewRef} className="bg-white py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Section header */}
@@ -49,21 +49,21 @@ export default function BeforeAfterSection({
           className="mb-14 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between"
         >
           <div>
-            <motion.span variants={fadeUp} className="mb-3 inline-flex items-center gap-2 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-gold">
+            <motion.span variants={fadeUp} className="mb-3 inline-flex items-center gap-2 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-gold-ink">
               <span className="inline-block h-px w-5 bg-gold/60" />
               {pick(content, 'home.before_after.eyebrow', 'Results')}
             </motion.span>
-            <motion.h2 variants={fadeUp} className="font-display text-4xl text-white sm:text-5xl tracking-display">
+            <motion.h2 variants={fadeUp} className="font-display text-4xl text-ink sm:text-5xl tracking-display">
               {pick(content, 'home.before_after.heading', 'Before & After')}
             </motion.h2>
-            <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-white/85 leading-relaxed">
+            <motion.p variants={fadeUp} className="mt-4 max-w-lg font-body text-base text-ink-muted leading-relaxed">
               {pick(content, 'home.before_after.intro', 'What these treatments can change. The pictures are illustrations, not our patients. We’ll add real cases here once patients give us permission.')}
             </motion.p>
           </div>
           <motion.div variants={fadeUp}>
             <Link
               href="/appointments"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-3 font-heading text-sm font-semibold text-white/80 transition-all hover:bg-white/10 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-xl border border-ink/10 bg-white/70 px-6 py-3 font-heading text-sm font-semibold text-ink-muted transition-all hover:bg-white hover:text-ink"
             >
               {pick(content, 'home.before_after.cta_label', 'Book a Consultation')}
               <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
@@ -87,8 +87,8 @@ export default function BeforeAfterSection({
               onClick={() => setActiveCategory(cat)}
               className={`rounded-full px-4 py-2 font-heading text-xs font-semibold transition-all ${
                 activeCategory === cat
-                  ? 'bg-primary text-white'
-                  : 'border border-white/10 text-white/75 hover:border-white/25 hover:text-white'
+                  ? 'bg-primary text-ink'
+                  : 'border border-ink/10 text-ink-muted hover:border-ink/20 hover:text-ink'
               }`}
             >
               {categoryLabels[cat]}
@@ -110,7 +110,7 @@ export default function BeforeAfterSection({
               <motion.div
                 key={item.id}
                 variants={liftIn}
-                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+                className="group overflow-hidden rounded-2xl border border-ink/10 bg-white/70"
               >
                 {/* Before / After visual */}
                 <div className="relative h-60 overflow-hidden">
@@ -172,17 +172,17 @@ export default function BeforeAfterSection({
 
                 {/* Content */}
                 <div className="p-5">
-                  <span className="inline-block mb-2 rounded-full bg-primary/15 px-2.5 py-1 font-heading text-[0.65rem] font-semibold text-primary tracking-wide uppercase">
+                  <span className="inline-block mb-2 rounded-full bg-primary/15 px-2.5 py-1 font-heading text-[0.65rem] font-semibold text-gold-ink tracking-wide uppercase">
                     {categoryLabels[item.category]}
                   </span>
-                  <h3 className="font-heading text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 font-body text-xs text-white/80 leading-relaxed">{item.treatment_details}</p>
+                  <h3 className="font-heading text-sm font-semibold text-ink">{item.title}</h3>
+                  <p className="mt-1 font-body text-xs text-ink-muted leading-relaxed">{item.treatment_details}</p>
                   <div className="mt-4 flex items-center gap-1.5">
-                    <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3 text-white/30" aria-hidden="true">
+                    <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3 text-ink/40" aria-hidden="true">
                       <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1" />
                       <path d="M6 3.5V6l2 1.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
                     </svg>
-                    <span className="font-body text-[0.65rem] text-white/75">
+                    <span className="font-body text-[0.65rem] text-ink-muted">
                       {interpolate(pick(content, 'home.before_after.duration_label_template', 'Treatment duration: {duration}'), { duration: item.duration })}
                     </span>
                   </div>
@@ -198,7 +198,7 @@ export default function BeforeAfterSection({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mt-10 text-center font-body text-xs text-white/80"
+          className="mt-10 text-center font-body text-xs text-ink-muted"
         >
           {pick(content, 'home.before_after.bottom_note', 'Illustrations only, to show what each treatment does. Every mouth is different, so your dentist will tell you honestly what to expect for yours.')}
         </motion.p>

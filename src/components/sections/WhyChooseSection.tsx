@@ -124,7 +124,7 @@ export default function WhyChooseSection({
             </p>
             <Link
               href="/appointments"
-              className="mt-6 inline-flex items-center gap-2 font-heading text-sm font-semibold text-primary transition-all hover:gap-3"
+              className="mt-6 inline-flex items-center gap-2 font-heading text-sm font-semibold text-gold-ink transition-all hover:gap-3"
             >
               {pick(content, 'home.why_choose.cta_label', 'Book your visit')}
               <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
@@ -160,7 +160,7 @@ export default function WhyChooseSection({
 
                 {/* Title + Icon */}
                 <div className="relative flex items-start gap-3 lg:items-center">
-                  <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/15 lg:mt-0">
+                  <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-gold-ink transition-colors group-hover:bg-primary/15 lg:mt-0">
                     {reasonIcon(i)}
                   </div>
                   <h3 className="font-heading text-base font-semibold text-dark leading-snug sm:text-[1.05rem]">
@@ -196,7 +196,7 @@ export default function WhyChooseSection({
                         onClick={() => setOpenIndex(isOpen ? null : i)}
                         aria-expanded={isOpen}
                         aria-controls={`why-choose-rest-${reason.id}`}
-                        className="mt-2 inline-flex items-center gap-1 font-heading text-xs font-semibold text-primary transition-colors hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+                        className="mt-2 inline-flex items-center gap-1 font-heading text-xs font-semibold text-gold-ink transition-colors hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
                       >
                         {isOpen ? 'Show less' : 'Read more'}
                         <svg viewBox="0 0 12 12" fill="none" className={`h-3 w-3 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true">

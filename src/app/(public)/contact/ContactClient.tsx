@@ -79,7 +79,7 @@ function InfoCard({
 }) {
   return (
     <div className="flex gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-gold-ink">
         {icon}
       </div>
       <div>
@@ -181,7 +181,7 @@ export default function ContactClient({
       <div className="flex min-h-[calc(100vh-56px)] flex-col lg:flex-row">
 
         {/* LEFT PANEL — dark, contact info */}
-        <div className="relative flex flex-col overflow-hidden bg-[#0E1B2E] px-8 py-14 lg:w-[42%] lg:px-14 lg:py-20 xl:px-16">
+        <div className="relative flex flex-col overflow-hidden bg-ivory-waves px-8 py-14 lg:w-[42%] lg:px-14 lg:py-20 xl:px-16">
           {/* Architectural grid overlay */}
           <svg
             className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.025]"
@@ -189,7 +189,7 @@ export default function ContactClient({
           >
             <defs>
               <pattern id="contact-grid" width="52" height="52" patternUnits="userSpaceOnUse">
-                <path d="M 52 0 L 0 0 0 52" fill="none" stroke="white" strokeWidth="0.5" />
+                <path d="M 52 0 L 0 0 0 52" fill="none" stroke="#14202E" strokeWidth="0.5" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#contact-grid)" />
@@ -205,14 +205,14 @@ export default function ContactClient({
           <div className="relative z-10 flex flex-col h-full">
             {/* Top: eyebrow + heading + desc */}
             <div>
-              <span className="inline-flex items-center gap-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+              <span className="inline-flex items-center gap-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                 <span className="inline-block h-px w-5 bg-gold" />
                 {pick(content, 'contact.hero.eyebrow', 'Get in Touch')}
               </span>
-              <h1 className="mt-4 font-display text-5xl text-white tracking-display leading-[1.06] lg:text-6xl">
+              <h1 className="mt-4 font-display text-5xl text-ink tracking-display leading-[1.06] lg:text-6xl">
                 {pick(content, 'contact.hero.headline_line1', "Let's talk about")}<br />{pick(content, 'contact.hero.headline_line2', 'your smile.')}
               </h1>
-              <p className="mt-5 max-w-xs font-body text-sm text-white/85 leading-relaxed">
+              <p className="mt-5 max-w-xs font-body text-sm text-ink-muted leading-relaxed">
                 {pick(content, 'contact.hero.description', "We're here to answer your questions — no commitment, no pressure. Reach us by phone, WhatsApp, email, or the form.")}
               </p>
             </div>
@@ -221,13 +221,13 @@ export default function ContactClient({
             <div className="mt-14 lg:mt-auto lg:pt-16">
               {/* Phone */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   {pick(content, 'contact.panel.phone_label', 'Phone')}
                 </p>
                 <a
                   href={`tel:${phone}`}
                   onClick={() => trackEvent('Phone Clicked', { location: 'contact-panel' })}
-                  className="font-display text-3xl text-white transition-colors hover:text-primary"
+                  className="font-display text-3xl text-ink transition-colors hover:text-gold-ink"
                 >
                   {phone}
                 </a>
@@ -235,7 +235,7 @@ export default function ContactClient({
 
               {/* WhatsApp */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   {pick(content, 'contact.panel.whatsapp_label', 'WhatsApp')}
                 </p>
                 <a
@@ -243,7 +243,7 @@ export default function ContactClient({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackEvent('WhatsApp Clicked', { location: 'contact-panel' })}
-                  className="font-body text-base text-white/75 transition-colors hover:text-white"
+                  className="font-body text-base text-ink-muted transition-colors hover:text-ink"
                 >
                   {phoneWhatsApp}
                 </a>
@@ -251,13 +251,13 @@ export default function ContactClient({
 
               {/* Email */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   {pick(content, 'contact.panel.email_label', 'Email')}
                 </p>
                 <a
                   href={`mailto:${email}`}
                   onClick={() => trackEvent('Email Clicked')}
-                  className="break-all font-body text-sm text-white/75 transition-colors hover:text-white"
+                  className="break-all font-body text-sm text-ink-muted transition-colors hover:text-ink"
                 >
                   {email}
                 </a>
@@ -265,22 +265,22 @@ export default function ContactClient({
 
               {/* Address */}
               <div>
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
+                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   {pick(content, 'contact.panel.address_label', 'Address')}
                 </p>
-                <p className="font-body text-sm text-white/85 leading-relaxed">{address}</p>
+                <p className="font-body text-sm text-ink-muted leading-relaxed">{address}</p>
               </div>
 
               {/* Opening Hours */}
-              <div className="mt-8 border-t border-white/[0.06] pt-8">
-                <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
+              <div className="mt-8 border-t border-ink/10 pt-8">
+                <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   Opening Hours
                 </p>
-                <div className="divide-y divide-white/[0.04]">
+                <div className="divide-y divide-ink/10">
                   {hours.map((h) => (
                     <div key={h.days} className="flex justify-between gap-3 py-2">
-                      <span className="font-body text-xs text-white/75">{h.days}</span>
-                      <span className="flex-shrink-0 font-heading text-xs font-semibold text-white/75">
+                      <span className="font-body text-xs text-ink-muted">{h.days}</span>
+                      <span className="flex-shrink-0 font-heading text-xs font-semibold text-ink-muted">
                         {h.open ? h.hours : 'Closed'}
                       </span>
                     </div>
@@ -295,7 +295,7 @@ export default function ContactClient({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackEvent('WhatsApp Clicked', { location: 'social-row' })}
-                  className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 font-heading text-xs font-semibold text-white/75 transition-all hover:border-white/15 hover:text-white"
+                  className="flex items-center gap-2 rounded-xl border border-ink/10 bg-white/70 px-4 py-2.5 font-heading text-xs font-semibold text-ink-muted transition-all hover:border-ink/20 hover:text-ink"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -309,7 +309,7 @@ export default function ContactClient({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => trackEvent('Facebook Clicked', { location: 'social-row' })}
-                    className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 font-heading text-xs font-semibold text-white/75 transition-all hover:border-white/15 hover:text-white"
+                    className="flex items-center gap-2 rounded-xl border border-ink/10 bg-white/70 px-4 py-2.5 font-heading text-xs font-semibold text-ink-muted transition-all hover:border-ink/20 hover:text-ink"
                   >
                     <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
                       <path d="M18 10a8 8 0 10-9.25 7.903V12.89H7.078V10H8.75V8.124c0-1.653.995-2.565 2.492-2.565.722 0 1.477.128 1.477.128v1.622h-.832c-.82 0-1.075.508-1.075 1.03V10h1.83l-.292 2.89H10.81v5.013A8.002 8.002 0 0018 10z" />
@@ -323,7 +323,7 @@ export default function ContactClient({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => trackEvent('Instagram Clicked', { location: 'social-row' })}
-                    className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 font-heading text-xs font-semibold text-white/75 transition-all hover:border-white/15 hover:text-white"
+                    className="flex items-center gap-2 rounded-xl border border-ink/10 bg-white/70 px-4 py-2.5 font-heading text-xs font-semibold text-ink-muted transition-all hover:border-ink/20 hover:text-ink"
                   >
                     <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
                       <path fillRule="evenodd" clipRule="evenodd" d="M10 1.8c-2.223 0-2.5.01-3.373.05-.87.04-1.465.178-1.985.38a4.01 4.01 0 00-1.45.943c-.454.454-.735.91-.944 1.45-.202.52-.34 1.114-.38 1.985C1.81 7.48 1.8 7.757 1.8 10s.01 2.5.05 3.373c.04.87.178 1.465.38 1.985.209.54.49.996.944 1.45.454.454.91.735 1.45.944.52.202 1.114.34 1.985.38.872.04 1.15.05 3.373.05s2.5-.01 3.373-.05c.87-.04 1.465-.178 1.985-.38a4.01 4.01 0 001.45-.944c.454-.454.735-.91.944-1.45.202-.52.34-1.114.38-1.985.04-.872.05-1.15.05-3.373s-.01-2.5-.05-3.373c-.04-.87-.178-1.465-.38-1.985a4.01 4.01 0 00-.944-1.45 4.01 4.01 0 00-1.45-.944c-.52-.202-1.114-.34-1.985-.38C12.5 1.81 12.223 1.8 10 1.8zm0 1.475c2.187 0 2.445.008 3.308.048.798.036 1.232.17 1.52.282.383.148.655.326.942.613.287.287.465.56.613.942.112.288.246.722.282 1.52.04.863.048 1.122.048 3.308s-.008 2.445-.048 3.308c-.036.798-.17 1.232-.282 1.52a2.54 2.54 0 01-.613.942 2.54 2.54 0 01-.942.613c-.288.112-.722.246-1.52.282-.863.04-1.121.048-3.308.048s-2.445-.008-3.308-.048c-.798-.036-1.232-.17-1.52-.282a2.54 2.54 0 01-.942-.613 2.54 2.54 0 01-.613-.942c-.112-.288-.246-.722-.282-1.52-.04-.863-.048-1.122-.048-3.308s.008-2.445.048-3.308c.036-.798.17-1.232.282-1.52.148-.383.326-.655.613-.942a2.54 2.54 0 01.942-.613c.288-.112.722-.246 1.52-.282.863-.04 1.122-.048 3.308-.048zM10 5.838a4.163 4.163 0 100 8.325 4.163 4.163 0 000-8.325zm0 6.865a2.703 2.703 0 110-5.406 2.703 2.703 0 010 5.406zm5.298-7.03a.973.973 0 11-1.946 0 .973.973 0 011.946 0z" />
@@ -435,7 +435,7 @@ export default function ContactClient({
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="w-full rounded-xl bg-primary py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98] disabled:opacity-60 sm:w-auto sm:px-8"
+                      className="w-full rounded-xl bg-primary py-3.5 font-heading text-sm font-semibold text-ink transition-all hover:bg-primary-dark active:scale-[0.98] disabled:opacity-60 sm:w-auto sm:px-8"
                     >
                       {submitting ? 'Sending...' : pick(content, 'contact.form.submit_label', 'Send Message')}
                     </button>
@@ -460,7 +460,7 @@ export default function ContactClient({
                 className="flex flex-col items-center py-8 text-center"
               >
                 <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                  <svg viewBox="0 0 32 32" fill="none" className="h-8 w-8 text-primary" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none" className="h-8 w-8 text-gold-ink" aria-hidden="true">
                     <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M10 16l4 4 8-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -477,7 +477,7 @@ export default function ContactClient({
                     setSubmitted(false)
                     setForm({ name: '', phone: '', email: '', treatment: '', message: '' })
                   }}
-                  className="mt-6 font-heading text-sm font-semibold text-primary hover:text-primary-dark underline-offset-2 hover:underline"
+                  className="mt-6 font-heading text-sm font-semibold text-gold-ink hover:text-primary-dark underline-offset-2 hover:underline"
                 >
                   {pick(content, 'contact.form.send_another_label', 'Send another message')}
                 </button>
@@ -507,17 +507,17 @@ export default function ContactClient({
               onClick={() => trackEvent('Map Clicked')}
               aria-label="Open Bright Smile Dental Clinic on Google Maps"
               className="group relative block overflow-hidden rounded-2xl border border-gray-100 h-80 sm:h-96 transition-all duration-300 hover:shadow-premium hover:border-primary/20"
-              style={{ background: '#0E1B2E' }}
+              data-surface="ivory"
             >
               {/* Dot grid */}
               <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">
                 <defs>
                   <pattern id="map-dots" width="28" height="28" patternUnits="userSpaceOnUse">
-                    <circle cx="1" cy="1" r="0.8" fill="white" fillOpacity="0.055" />
+                    <circle cx="1" cy="1" r="0.8" fill="#14202E" fillOpacity="0.055" />
                   </pattern>
                   <pattern id="map-roads-h" width="112" height="112" patternUnits="userSpaceOnUse">
-                    <line x1="0" y1="56" x2="112" y2="56" stroke="white" strokeWidth="0.6" strokeOpacity="0.06" />
-                    <line x1="56" y1="0" x2="56" y2="112" stroke="white" strokeWidth="0.6" strokeOpacity="0.06" />
+                    <line x1="0" y1="56" x2="112" y2="56" stroke="#14202E" strokeWidth="0.6" strokeOpacity="0.06" />
+                    <line x1="56" y1="0" x2="56" y2="112" stroke="#14202E" strokeWidth="0.6" strokeOpacity="0.06" />
                   </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill="url(#map-dots)" />
@@ -526,11 +526,11 @@ export default function ContactClient({
 
               {/* Road lines — decorative */}
               <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.08]" aria-hidden="true">
-                <line x1="0" y1="55%" x2="100%" y2="55%" stroke="white" strokeWidth="1.5" />
-                <line x1="35%" y1="0" x2="35%" y2="100%" stroke="white" strokeWidth="1" />
-                <line x1="70%" y1="0" x2="70%" y2="100%" stroke="white" strokeWidth="0.7" />
-                <line x1="0" y1="25%" x2="100%" y2="25%" stroke="white" strokeWidth="0.7" />
-                <line x1="0" y1="78%" x2="100%" y2="78%" stroke="white" strokeWidth="0.5" />
+                <line x1="0" y1="55%" x2="100%" y2="55%" stroke="#14202E" strokeWidth="1.5" />
+                <line x1="35%" y1="0" x2="35%" y2="100%" stroke="#14202E" strokeWidth="1" />
+                <line x1="70%" y1="0" x2="70%" y2="100%" stroke="#14202E" strokeWidth="0.7" />
+                <line x1="0" y1="25%" x2="100%" y2="25%" stroke="#14202E" strokeWidth="0.7" />
+                <line x1="0" y1="78%" x2="100%" y2="78%" stroke="#14202E" strokeWidth="0.5" />
               </svg>
 
               {/* Accent glow */}
@@ -549,20 +549,20 @@ export default function ContactClient({
                   <div className="mx-auto mt-1 h-1.5 w-6 rounded-full bg-black/25 blur-sm" />
                 </div>
                 <div className="text-center">
-                  <p className="font-heading text-base font-semibold text-white">Bright Smile Dental Clinic</p>
-                  <p className="mt-1 font-body text-sm text-white/85">{address}</p>
+                  <p className="font-heading text-base font-semibold text-ink">Bright Smile Dental Clinic</p>
+                  <p className="mt-1 font-body text-sm text-ink-muted">{address}</p>
                 </div>
               </div>
 
               {/* Open in Maps CTA */}
-              <div className="absolute bottom-0 inset-x-0 flex items-center justify-center gap-2.5 border-t border-white/10 bg-white/[0.04] py-3.5 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/[0.08]">
-                <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-primary flex-shrink-0" aria-hidden="true">
+              <div className="absolute bottom-0 inset-x-0 flex items-center justify-center gap-2.5 border-t border-ink/10 bg-white/70 py-3.5 backdrop-blur-sm transition-all duration-300 group-hover:bg-white">
+                <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-gold-ink flex-shrink-0" aria-hidden="true">
                   <path d="M8 2a4 4 0 014 4c0 3-4 8-4 8s-4-5-4-8a4 4 0 014-4zm0 2.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" stroke="currentColor" strokeWidth="1.2" />
                 </svg>
-                <span className="font-heading text-xs font-semibold text-white/75 transition-colors group-hover:text-white">
+                <span className="font-heading text-xs font-semibold text-ink-muted transition-colors group-hover:text-ink">
                   Open in Google Maps
                 </span>
-                <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-white/60 transition-all group-hover:translate-x-0.5 group-hover:text-white/70" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-ink-muted transition-all group-hover:translate-x-0.5 group-hover:text-ink-muted" aria-hidden="true">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
@@ -611,7 +611,7 @@ export default function ContactClient({
           </motion.div>
 
           <div className="mt-10 text-center">
-            <Link href="/" className="font-body text-sm text-primary hover:underline underline-offset-2">
+            <Link href="/" className="font-body text-sm text-gold-ink hover:underline underline-offset-2">
               {pick(content, 'contact.back_home_label', '← Back to home')}
             </Link>
           </div>

@@ -35,7 +35,7 @@ export default function VirtualTourExperience({
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
-            className="eyebrow-dark mb-4 font-heading text-xs font-semibold uppercase tracking-[0.25em] text-gold"
+            className="eyebrow-dark mb-4 font-heading text-xs font-semibold uppercase tracking-[0.25em] text-gold-ink"
           >
             Virtual Tour
           </motion.p>
@@ -44,7 +44,7 @@ export default function VirtualTourExperience({
             whileInView="visible"
             viewport={{ once: true }}
             variants={blurFadeIn}
-            className={embedded ? 'font-display text-3xl text-white sm:text-4xl' : 'font-display text-4xl text-white sm:text-5xl md:text-6xl'}
+            className={embedded ? 'font-display text-3xl text-ink sm:text-4xl' : 'font-display text-4xl text-ink sm:text-5xl md:text-6xl'}
           >
             Step Inside Our Clinic
           </Heading>
@@ -54,7 +54,7 @@ export default function VirtualTourExperience({
             viewport={{ once: true }}
             variants={fadeUp}
             transition={{ delay: 0.1 }}
-            className={embedded ? 'mt-4 max-w-xl font-body text-sm text-white/60' : 'mx-auto mt-5 max-w-xl font-body text-base text-white/60'}
+            className={embedded ? 'mt-4 max-w-xl font-body text-sm text-ink-muted' : 'mx-auto mt-5 max-w-xl font-body text-base text-ink-muted'}
           >
             Walk from the front desk through the lounge and into each of our three treatment rooms, so the place feels familiar before your first visit.
           </motion.p>
@@ -72,7 +72,7 @@ export default function VirtualTourExperience({
         <button
           type="button"
           onClick={() => setStartSceneId(start.id)}
-          className="group relative block aspect-[4/3] w-full overflow-hidden rounded-3xl border border-white/10 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-[#0E1B2E] sm:aspect-[21/9]"
+          className="group relative block aspect-[4/3] w-full overflow-hidden rounded-3xl border border-white/10 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-white sm:aspect-[21/9]"
           aria-label={`Start the virtual tour at ${start.name}`}
         >
           <Image
@@ -100,13 +100,13 @@ export default function VirtualTourExperience({
 
         {/* Secondary: drop straight into a particular room. */}
         <div className="mt-5 flex flex-wrap items-center gap-2">
-          <span className="mr-1 font-body text-xs text-white/60">Or start in</span>
+          <span className="mr-1 font-body text-xs text-ink-muted">Or start in</span>
           {TOUR_SCENES.filter((s) => s.id !== start.id).map((scene) => (
             <button
               key={scene.id}
               type="button"
               onClick={() => setStartSceneId(scene.id)}
-              className="rounded-full border border-white/15 px-3.5 py-2 font-heading text-[0.7rem] font-semibold text-white/75 transition-colors hover:border-gold/50 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="rounded-full border border-ink/20 px-3.5 py-2 font-heading text-[0.7rem] font-semibold text-ink-muted transition-colors hover:border-gold/50 hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               {scene.name}
             </button>
@@ -121,7 +121,7 @@ export default function VirtualTourExperience({
   if (embedded) return content
 
   return (
-    <div style={{ background: '#0E1B2E' }} className="min-h-screen">
+    <div className="min-h-screen bg-ivory-page">
       {content}
     </div>
   )

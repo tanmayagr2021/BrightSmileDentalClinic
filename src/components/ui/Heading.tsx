@@ -23,7 +23,7 @@ const levelStyles: Record<Level, string> = {
 const colorStyles: Record<Color, string> = {
   dark: 'text-dark',
   white: 'text-white',
-  primary: 'text-primary',
+  primary: 'text-gold-ink',
 }
 
 const alignStyles: Record<Align, string> = {

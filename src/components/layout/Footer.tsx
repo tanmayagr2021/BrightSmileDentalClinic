@@ -51,7 +51,7 @@ function FooterLogo() {
       className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl transition-opacity hover:opacity-85"
     >
       <Image
-        src="/images/logo-icon-white.png"
+        src="/images/logo-icon.png"
         alt="Bright Smile Dental Clinic"
         width={512}
         height={512}
@@ -68,9 +68,9 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Open Bright Smile Dental Clinic in Google Maps"
-      className="group relative block h-full min-h-[240px] overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      className="group relative block h-full min-h-[240px] overflow-hidden rounded-2xl border border-[#E7E1D6] bg-tint shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     >
-      {/* Live OpenStreetMap — dark tinted to match footer palette */}
+      {/* Live OpenStreetMap — warm, softened tint to match the ivory footer */}
       <iframe
         src="https://www.openstreetmap.org/export/embed.html?bbox=85.3135%2C27.7130%2C85.3255%2C27.7200&layer=mapnik&marker=27.7165%2C85.3195"
         title="Bright Smile Dental Clinic map location"
@@ -78,14 +78,13 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
         className="pointer-events-none absolute inset-0 h-[calc(100%+2px)] w-full"
         style={{
           border: 'none',
-          filter: 'invert(92%) hue-rotate(210deg) saturate(0.65) brightness(0.82)',
+          filter: 'saturate(0.55) sepia(0.12) brightness(1.02)',
           marginTop: '-1px',
         }}
       />
 
       {/* Depth vignette */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-dark/30 via-transparent to-dark/80" aria-hidden="true" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-dark/25 via-transparent to-dark/25" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-ink/75" aria-hidden="true" />
 
       {/* Live badge — top left */}
       <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full border border-white/10 bg-dark/55 px-2.5 py-1 backdrop-blur-sm">
@@ -150,9 +149,9 @@ function ContactRow({ icon, href, external, children }: {
     <a
       href={href}
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      className="group flex items-center gap-3 font-body text-sm text-white/75 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white"
+      className="group flex items-center gap-3 font-body text-sm text-ink-muted transition-colors hover:text-ink focus-visible:outline-none focus-visible:text-ink"
     >
-      <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-primary transition-colors group-hover:border-primary/30 group-hover:bg-primary/10">
+      <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-ink/10 bg-white/70 text-gold-ink transition-colors group-hover:border-primary/30 group-hover:bg-primary/10">
         {icon}
       </span>
       <span className="min-w-0 break-words">{children}</span>
@@ -186,17 +185,17 @@ export default async function Footer() {
   const hours = buildHours(hoursData ?? [])
 
   return (
-    <footer className="bg-[#0E1B2E]" aria-labelledby="footer-heading">
+    <footer className="border-t border-ink/10 bg-tint" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">Footer</h2>
 
       <Container>
         {/* Brand */}
         <div className="pt-16 pb-10 lg:pt-20">
           <FooterLogo />
-          <p className="mt-5 font-display text-2xl tracking-tight text-white sm:text-[1.75rem]">
+          <p className="mt-5 font-display text-2xl tracking-tight text-ink sm:text-[1.75rem]">
             {pick(content, 'footer.brand_name', 'Bright Smile Dental Clinic')}
           </p>
-          <p className="mt-1.5 font-body text-sm text-white/75">
+          <p className="mt-1.5 font-body text-sm text-ink-muted">
             {CLINIC_TAGLINE}
           </p>
         </div>
@@ -207,8 +206,8 @@ export default async function Footer() {
           <FooterMap address={clinicAddress} mapsUrl={clinicMapsUrl} />
 
           {/* Contact info card */}
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-7 backdrop-blur-sm lg:p-8">
-            <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold">
+          <div className="rounded-2xl border border-ink/10 bg-white/70 p-7 backdrop-blur-sm lg:p-8">
+            <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold-ink">
               {pick(content, 'footer.contact_heading', 'Visit & Contact')}
             </h3>
 
@@ -216,21 +215,21 @@ export default async function Footer() {
             <dl className="mt-5 space-y-2">
               {hours.map((item) => (
                 <div key={item.days} className="flex items-baseline justify-between gap-4">
-                  <dt className="font-body text-sm text-white/75">{item.days}</dt>
-                  <dd className="font-heading text-sm font-medium text-white text-right">{item.hours}</dd>
+                  <dt className="font-body text-sm text-ink-muted">{item.days}</dt>
+                  <dd className="font-heading text-sm font-medium text-ink text-right">{item.hours}</dd>
                 </div>
               ))}
             </dl>
 
-            <div className="my-6 h-px w-full bg-white/10" />
+            <div className="my-6 h-px w-full bg-ink/10" />
 
             {/* Contact list */}
             <div className="space-y-3.5">
               <div className="flex items-start gap-3">
-                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-primary">
+                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-ink/10 bg-white/70 text-gold-ink">
                   <LocationIcon />
                 </span>
-                <p className="font-body text-sm text-white/75 leading-relaxed">{clinicAddress}</p>
+                <p className="font-body text-sm text-ink-muted leading-relaxed">{clinicAddress}</p>
               </div>
               <ContactRow icon={<PhoneIcon />} href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</ContactRow>
               <ContactRow icon={<WhatsAppIcon />} href={whatsappUrl(phoneWhatsApp, WHATSAPP_GREETING)} external>{phoneWhatsApp}</ContactRow>
@@ -253,8 +252,8 @@ export default async function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 py-7 sm:flex-row">
-          <p className="font-body text-xs text-white/60 text-center sm:text-left">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-ink/10 py-7 sm:flex-row">
+          <p className="font-body text-xs text-ink-soft text-center sm:text-left">
             &copy; {year} Bright Smile Dental Clinic Pvt. Ltd. · All rights reserved.
           </p>
           <div className="flex items-center gap-5">
@@ -264,7 +263,7 @@ export default async function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Bright Smile Dental Clinic on Facebook"
-                className="text-white/60 transition-colors hover:text-white/70"
+                className="text-ink-soft transition-colors hover:text-ink-muted"
               >
                 <FacebookIcon />
               </a>
@@ -275,21 +274,21 @@ export default async function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Bright Smile Dental Clinic on Instagram"
-                className="text-white/60 transition-colors hover:text-white/70"
+                className="text-ink-soft transition-colors hover:text-ink-muted"
               >
                 <InstagramIcon />
               </a>
             )}
-            <span className="h-3 w-px bg-white/15" aria-hidden="true" />
+            <span className="h-3 w-px bg-ink/10" aria-hidden="true" />
             <Link
               href="/privacy"
-              className="font-body text-xs text-white/60 hover:text-white/70 transition-colors"
+              className="font-body text-xs text-ink-soft hover:text-ink-muted transition-colors"
             >
               Privacy
             </Link>
-            <span className="h-3 w-px bg-white/15" aria-hidden="true" />
-            <span className="flex items-center gap-1.5 font-body text-xs text-white/60">
-              <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-primary" aria-hidden="true">
+            <span className="h-3 w-px bg-ink/10" aria-hidden="true" />
+            <span className="flex items-center gap-1.5 font-body text-xs text-ink-soft">
+              <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-gold-ink" aria-hidden="true">
                 <path d="M4 8.5l2.5 2.5L12 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               NMC Registered

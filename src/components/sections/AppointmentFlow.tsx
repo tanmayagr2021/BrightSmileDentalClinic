@@ -236,7 +236,7 @@ function StepDate({ selected, onSelect }: { selected: Date | null; onSelect: (d:
                 disabled={past}
                 className={`mx-auto flex h-9 w-9 items-center justify-center rounded-xl font-heading text-sm transition-all ${
                   sel
-                    ? 'bg-primary text-white font-semibold'
+                    ? 'bg-primary text-ink font-semibold'
                     : past
                     ? 'text-gray-200 cursor-not-allowed'
                     : 'text-gray-700 hover:bg-tint hover:text-primary'
@@ -252,7 +252,7 @@ function StepDate({ selected, onSelect }: { selected: Date | null; onSelect: (d:
       </div>
 
       {selected && (
-        <p className="mt-3 font-body text-xs text-primary font-medium">
+        <p className="mt-3 font-body text-xs text-gold-ink font-medium">
           Selected: {formatDate(selected)}
         </p>
       )}
@@ -299,7 +299,7 @@ function StepTime({ date, doctorSlug, selected, onSelect }: { date: Date; doctor
               disabled={unavailable}
               className={`rounded-xl border px-3 py-3 font-heading text-xs font-semibold transition-all ${
                 sel
-                  ? 'border-primary bg-primary text-white'
+                  ? 'border-primary bg-primary text-ink'
                   : unavailable
                   ? 'border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed line-through decoration-gray-300'
                   : 'border-gray-200 text-dark hover:border-primary hover:text-primary hover:bg-primary/5'
@@ -455,7 +455,7 @@ function StepSuccess({ doctor, date, time, name, phone }: { doctor: BookableDoct
         <motion.svg
           viewBox="0 0 40 40"
           fill="none"
-          className="h-10 w-10 text-primary"
+          className="h-10 w-10 text-gold-ink"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
@@ -489,7 +489,7 @@ function StepSuccess({ doctor, date, time, name, phone }: { doctor: BookableDoct
               'See you at Nagpokhari, Naxal, Kathmandu!',
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-2.5">
-                <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-[0.6rem] font-bold text-primary">
+                <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-[0.6rem] font-bold text-gold-ink">
                   {i + 1}
                 </span>
                 <span className="font-body text-xs text-gray-600 leading-relaxed">{item}</span>
@@ -507,7 +507,7 @@ function StepSuccess({ doctor, date, time, name, phone }: { doctor: BookableDoct
           </Link>
           <Link
             href="/services"
-            className="rounded-xl bg-primary px-6 py-3 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark"
+            className="rounded-xl bg-primary px-6 py-3 font-heading text-sm font-semibold text-ink transition-all hover:bg-primary-dark"
           >
             Explore Our Services
           </Link>
@@ -515,7 +515,7 @@ function StepSuccess({ doctor, date, time, name, phone }: { doctor: BookableDoct
 
         <p className="mt-8 font-body text-xs text-gray-600">
           Need to speak to us directly?{' '}
-          <a href={`tel:${phone}`} className="text-primary hover:underline">
+          <a href={`tel:${phone}`} className="text-gold-ink hover:underline">
             {phone}
           </a>
         </p>
@@ -544,7 +544,7 @@ function ProgressBar({ currentStep }: { currentStep: number }) {
           <span
             key={i}
             className={`font-heading text-[0.62rem] font-semibold transition-colors ${
-              i === currentStep ? 'text-primary' : i < currentStep ? 'text-gray-600' : 'text-gray-500'
+              i === currentStep ? 'text-gold-ink' : i < currentStep ? 'text-gray-600' : 'text-gray-500'
             }`}
           >
             {STEP_LABELS[i]}
@@ -721,7 +721,7 @@ export default function AppointmentFlow({
                   disabled={!canProceed || submitting}
                   className={`flex items-center gap-2 rounded-xl px-7 py-2.5 font-heading text-sm font-semibold transition-all ${
                     canProceed && !submitting
-                      ? 'bg-primary text-white hover:bg-primary-dark active:scale-[0.98]'
+                      ? 'bg-primary text-ink hover:bg-primary-dark active:scale-[0.98]'
                       : 'bg-gray-100 text-gray-300 cursor-not-allowed'
                   }`}
                 >
@@ -770,7 +770,7 @@ export default function AppointmentFlow({
                 <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Prefer to Call?</h3>
                 <a
                   href={`tel:${displayPhone}`}
-                  className="flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3.5 text-primary transition-colors hover:bg-primary/10"
+                  className="flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3.5 text-gold-ink transition-colors hover:bg-primary/10"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 flex-shrink-0" aria-hidden="true">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />

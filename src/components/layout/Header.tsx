@@ -22,14 +22,14 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
     >
       {/* Tooth monogram — the tight-cropped icon, sized to the bar */}
       <Image
-        src={inverted ? '/images/logo-icon-white.png' : '/images/logo-icon.png'}
+        src="/images/logo-icon.png"
         alt="Bright Smile Dental Clinic"
         width={512}
         height={512}
         className={cn(
           'flex-shrink-0 object-contain transition-all duration-500 group-hover:opacity-90',
           inverted
-            ? 'h-11 w-11 drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] lg:h-[3.25rem] lg:w-[3.25rem]'
+            ? 'h-11 w-11 lg:h-[3.25rem] lg:w-[3.25rem]'
             : 'h-8 w-8 lg:h-10 lg:w-10'
         )}
         priority
@@ -40,7 +40,7 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
         <span className={cn(
           'font-display leading-none tracking-[-0.015em]',
           inverted
-            ? 'text-white text-[1.05rem] lg:text-[1.2rem]'
+            ? 'text-ink text-[1.05rem] lg:text-[1.2rem]'
             : 'text-dark text-[0.95rem] lg:text-[1.1rem]'
         )}>
           {CLINIC_NAME_SHORT}
@@ -48,13 +48,13 @@ function BrandMark({ inverted = false }: { inverted?: boolean }) {
         <span className={cn(
           'mt-[0.3rem] font-heading font-semibold uppercase leading-none tracking-[0.12em]',
           inverted
-            ? 'text-white/70 text-[0.5rem] lg:text-[0.55rem]'
-            : 'text-primary text-[0.46rem] lg:text-[0.5rem]'
+            ? 'text-ink-muted text-[0.5rem] lg:text-[0.55rem]'
+            : 'text-gold-ink text-[0.46rem] lg:text-[0.5rem]'
         )}>
           {CLINIC_SUBTITLE}
         </span>
         {inverted && (
-          <span className="mt-[0.28rem] hidden font-heading font-medium uppercase leading-none tracking-[0.15em] text-white/45 text-[0.4rem] sm:block lg:text-[0.42rem]">
+          <span className="mt-[0.28rem] hidden font-heading font-medium uppercase leading-none tracking-[0.15em] text-gold-ink text-[0.4rem] sm:block lg:text-[0.42rem]">
             {CLINIC_TAGLINE}
           </span>
         )}
@@ -142,8 +142,8 @@ export default function Header({ content }: { content: Record<string, string> })
                   className={cn(
                     'relative font-heading text-[0.82rem] font-medium transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm py-1 tracking-[0.01em]',
                     isActive
-                      ? (isTransparent ? 'text-white' : 'text-dark')
-                      : (isTransparent ? 'text-white/75 hover:text-white' : 'text-gray-500 hover:text-dark')
+                      ? 'text-ink'
+                      : (isTransparent ? 'text-ink/80 hover:text-ink' : 'text-ink-muted hover:text-ink')
                   )}
                 >
                   {link.label}
@@ -151,7 +151,7 @@ export default function Header({ content }: { content: Record<string, string> })
                     className={cn(
                       'absolute inset-x-0 -bottom-0.5 h-px origin-left rounded-full transition-transform duration-250',
                       isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
-                      isTransparent ? 'bg-white/60' : 'bg-primary'
+                      'bg-gold'
                     )}
                   />
                 </Link>
@@ -165,9 +165,7 @@ export default function Header({ content }: { content: Record<string, string> })
               href="/appointments"
               className={cn(
                 'inline-flex items-center gap-2 rounded-xl px-6 py-3 font-heading text-[0.82rem] font-semibold transition-all duration-300 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
-                isTransparent
-                  ? 'bg-white text-dark shadow-[0_4px_20px_rgba(0,0,0,0.25),0_1px_0_rgba(255,255,255,0.8)_inset] hover:bg-white/95 hover:shadow-[0_6px_28px_rgba(0,0,0,0.3)]'
-                  : 'bg-gold text-[#14202E] shadow-button-gold hover:bg-gold-dark hover:shadow-glow-gold'
+                'bg-gold text-ink shadow-button-gold hover:bg-gold-dark hover:shadow-glow-gold'
               )}
             >
               {ctaLabel}
@@ -183,7 +181,7 @@ export default function Header({ content }: { content: Record<string, string> })
             onClick={() => setMenuOpen((v) => !v)}
             className={cn(
               'flex lg:hidden items-center justify-center p-2 -mr-1 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
-              isTransparent ? 'text-white/80 hover:text-white hover:bg-white/10' : 'text-gray-600 hover:text-dark hover:bg-gray-50'
+              'text-ink-muted hover:text-ink hover:bg-ink/5'
             )}
             aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={menuOpen}
@@ -204,7 +202,7 @@ export default function Header({ content }: { content: Record<string, string> })
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.22 }}
-              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-50 bg-ink/40 backdrop-blur-sm lg:hidden"
               onClick={closeMenu}
               aria-hidden="true"
             />
@@ -217,17 +215,16 @@ export default function Header({ content }: { content: Record<string, string> })
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
-              className="fixed right-0 top-0 bottom-0 z-50 flex w-full max-w-[340px] flex-col lg:hidden"
-              style={{ background: '#0E1B2E' }}
+              className="fixed right-0 top-0 bottom-0 z-50 flex w-full max-w-[340px] flex-col bg-ivory-waves lg:hidden"
               role="dialog"
               aria-modal="true"
               aria-label="Mobile navigation"
             >
-              <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
+              <div className="flex items-center justify-between border-b border-ink/10 px-6 py-5">
                 <BrandMark inverted />
                 <button
                   onClick={closeMenu}
-                  className="flex items-center justify-center rounded-xl p-2 text-white/65 hover:text-white hover:bg-white/10 transition-colors"
+                  className="flex items-center justify-center rounded-xl p-2 text-ink-muted hover:text-ink hover:bg-ink/5 transition-colors"
                   aria-label="Close menu"
                 >
                   <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5" aria-hidden="true">
@@ -252,12 +249,12 @@ export default function Header({ content }: { content: Record<string, string> })
                           onClick={closeMenu}
                           aria-current={isActive ? 'page' : undefined}
                           className={cn(
-                            'flex items-center justify-between py-4 font-heading text-base font-medium transition-colors border-b focus-visible:outline-none focus-visible:text-white',
-                            isActive ? 'text-gold border-white/10' : 'text-white/85 hover:text-white border-white/5'
+                            'flex items-center justify-between py-4 font-heading text-base font-medium transition-colors border-b focus-visible:outline-none focus-visible:text-ink',
+                            isActive ? 'text-gold-ink border-ink/10' : 'text-ink hover:text-gold-ink border-ink/5'
                           )}
                         >
                           {link.label}
-                          <svg viewBox="0 0 16 16" fill="none" className={cn('h-4 w-4', isActive ? 'text-gold' : 'text-white/55')} aria-hidden="true">
+                          <svg viewBox="0 0 16 16" fill="none" className={cn('h-4 w-4', isActive ? 'text-gold-ink' : 'text-ink-soft')} aria-hidden="true">
                             <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </Link>
@@ -267,15 +264,15 @@ export default function Header({ content }: { content: Record<string, string> })
                 </ul>
               </nav>
 
-              <div className="border-t border-white/10 p-6 space-y-3">
+              <div className="border-t border-ink/10 p-6 space-y-3">
                 <Link
                   href="/appointments"
                   onClick={closeMenu}
-                  className="flex w-full items-center justify-center rounded-xl bg-gold px-6 py-3.5 font-heading text-sm font-semibold text-[#14202E] shadow-button-gold transition-all hover:bg-gold-dark active:scale-[0.97]"
+                  className="flex w-full items-center justify-center rounded-xl bg-gold px-6 py-3.5 font-heading text-sm font-semibold text-ink shadow-button-gold transition-all hover:bg-gold-dark active:scale-[0.97]"
                 >
                   {ctaLabel}
                 </Link>
-                <p className="text-center font-body text-xs text-white/65">
+                <p className="text-center font-body text-xs text-ink-muted">
                   Nagpokhari, Naxal · Kathmandu, Nepal
                 </p>
               </div>

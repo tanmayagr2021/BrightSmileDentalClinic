@@ -36,13 +36,12 @@ export default function MobileActionBar({ phone, phoneWhatsApp }: { phone: strin
   return (
     <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden" aria-label="Quick actions">
       <div
-        className="flex divide-x divide-white/[0.07] border-t border-white/[0.08] shadow-[0_-8px_32px_rgba(0,0,0,0.4)]"
-        style={{ background: '#0E1B2E' }}
+        className="flex divide-x divide-ink/10 border-t border-ink/10 bg-white/95 shadow-[0_-8px_32px_rgba(20,32,46,0.10)] backdrop-blur-xl"
       >
         {/* Call */}
         <a
           href={`tel:${tel}`}
-          className="flex flex-1 items-center justify-center gap-2 py-4 font-heading text-sm font-semibold text-white/65 transition-colors hover:text-white active:bg-white/5"
+          className="flex flex-1 items-center justify-center gap-2 py-4 font-heading text-sm font-semibold text-ink-muted transition-colors hover:text-ink active:bg-ink/5"
           aria-label={`Call clinic: ${phone}`}
         >
           <PhoneIcon />
@@ -55,7 +54,7 @@ export default function MobileActionBar({ phone, phoneWhatsApp }: { phone: strin
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-1 items-center justify-center gap-2 py-4 font-heading text-sm font-semibold text-white/65 transition-colors hover:text-white active:bg-white/5"
+            className="flex flex-1 items-center justify-center gap-2 py-4 font-heading text-sm font-semibold text-ink-muted transition-colors hover:text-ink active:bg-ink/5"
             aria-label="Message clinic on WhatsApp"
           >
             <WhatsAppIcon />

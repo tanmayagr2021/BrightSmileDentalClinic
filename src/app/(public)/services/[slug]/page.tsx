@@ -115,7 +115,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               href="/appointments"
               event="Service CTA Clicked"
               data={{ service: category.slug, label: 'Book an Appointment' }}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark active:scale-[0.98]"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-3.5 font-heading text-sm font-semibold text-ink shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark active:scale-[0.98]"
             >
               Book an Appointment
             </TrackedLink>
@@ -144,7 +144,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 {subServices.map((sub, i) => (
                   <div key={sub.id ?? i} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
                     <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-                      <span className="font-heading text-xs font-bold text-primary">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="font-heading text-xs font-bold text-gold-ink">{String(i + 1).padStart(2, '0')}</span>
                     </div>
                     <h3 className="font-heading text-sm font-semibold text-dark">{sub.name}</h3>
                     <p className="mt-2 font-body text-sm text-gray-500 leading-relaxed">
@@ -166,7 +166,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                   <div className="space-y-0">
                     {staticEntry.processSteps.map((step, i) => (
                       <div key={i} className="relative flex gap-6 pb-8 last:pb-0">
-                        <div className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary text-white">
+                        <div className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary text-ink">
                           <span className="font-heading text-[0.65rem] font-bold">{step.step}</span>
                         </div>
                         <div className="pt-0.5 pb-2">
@@ -203,28 +203,28 @@ export default async function ServiceDetailPage({ params }: Props) {
           <div className="space-y-6">
 
             {/* Book card */}
-            <div className="rounded-2xl bg-dark p-7 text-white">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-white/75 mb-3">
+            <div className="rounded-2xl border border-[#E7E1D6] bg-ivory-waves p-7 text-ink shadow-soft">
+              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-3">
                 Ready to Begin?
               </h3>
-              <p className="font-display text-xl text-white leading-snug">
+              <p className="font-display text-xl text-ink leading-snug">
                 Book a consultation for<br />
-                <span className="text-primary">{category.name}</span>
+                <span className="text-gold-dark">{category.name}</span>
               </p>
-              <p className="mt-3 font-body text-sm text-white/50">
+              <p className="mt-3 font-body text-sm text-ink-soft">
                 Our team will assess your needs and explain the most suitable treatment options.
               </p>
               <TrackedLink
                 href="/appointments"
                 event="Service CTA Clicked"
                 data={{ service: category.slug, label: 'Book Appointment' }}
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98]"
+                className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-ink transition-all hover:bg-primary-dark active:scale-[0.98]"
               >
                 Book Appointment
               </TrackedLink>
               <a
                 href="tel:+97714519594"
-                className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3.5 font-heading text-sm font-semibold text-white/70 transition-all hover:border-white/25 hover:text-white active:scale-[0.98]"
+                className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-ink/20 px-5 py-3.5 font-heading text-sm font-semibold text-ink-muted transition-all hover:border-ink/20 hover:text-ink active:scale-[0.98]"
               >
                 Call Us Instead
               </a>
@@ -239,7 +239,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 <div className="space-y-3">
                   {staticEntry.benefits.map((b) => (
                     <div key={b} className="flex items-start gap-3">
-                      <svg viewBox="0 0 16 16" fill="none" className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" aria-hidden="true">
+                      <svg viewBox="0 0 16 16" fill="none" className="mt-0.5 h-4 w-4 flex-shrink-0 text-gold-ink" aria-hidden="true">
                         <circle cx="8" cy="8" r="7" fill="#0C3C2D" fillOpacity="0.12" />
                         <path d="M5 8l2 2 4-4" stroke="#0C3C2D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>

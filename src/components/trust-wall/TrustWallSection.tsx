@@ -58,20 +58,20 @@ function TrustCard({ item }: { item: PublicTrustItem }) {
       variants={fadeUp}
       role="listitem"
       aria-label={`${CATEGORY_LABEL[item.category]}: ${item.title}${item.year ? `, ${item.year}` : ''}`}
-      className="group relative flex-shrink-0 w-[300px] snap-start overflow-hidden rounded-3xl border border-white/10 p-6 backdrop-blur-md transition-all hover:border-gold/40"
-      style={{ background: 'linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015))' }}
+      className="group relative flex-shrink-0 w-[300px] snap-start overflow-hidden rounded-3xl border border-ink/10 bg-white p-6 shadow-soft transition-all hover:border-gold/40"
+      
     >
       {/* Timeline dot + connector */}
       <div className="absolute -top-3 left-6 flex items-center gap-2" aria-hidden="true">
         <span className="h-2.5 w-2.5 rounded-full bg-gold shadow-[0_0_12px_2px_rgba(197,160,89,0.6)]" />
       </div>
 
-      <div className="relative h-32 w-full overflow-hidden rounded-2xl bg-white/[0.04]">
+      <div className="relative h-32 w-full overflow-hidden rounded-2xl bg-tint">
         {url ? (
           <Image src={url} alt="" fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="300px" />
         ) : (
           <div className="flex h-full items-center justify-center">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="h-9 w-9 text-white/25" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="h-9 w-9 text-ink/40" aria-hidden="true">
               <path d={CATEGORY_ICON[item.category]} />
             </svg>
           </div>
@@ -80,12 +80,12 @@ function TrustCard({ item }: { item: PublicTrustItem }) {
 
       <div className="mt-5">
         <div className="flex items-center gap-2">
-          <span className="font-heading text-[0.6rem] font-semibold uppercase tracking-wider text-gold">{CATEGORY_LABEL[item.category]}</span>
-          {item.year && <span className="font-body text-[0.65rem] text-white/50">· {item.year}</span>}
+          <span className="font-heading text-[0.6rem] font-semibold uppercase tracking-wider text-gold-ink">{CATEGORY_LABEL[item.category]}</span>
+          {item.year && <span className="font-body text-[0.65rem] text-ink-soft">· {item.year}</span>}
         </div>
-        <h4 className="mt-1.5 font-display text-lg text-white">{item.title}</h4>
-        {item.issuer && <p className="mt-0.5 font-body text-xs text-white/60">{item.issuer}</p>}
-        {item.description && <p className="mt-2 font-body text-sm text-white/70 line-clamp-3">{item.description}</p>}
+        <h4 className="mt-1.5 font-display text-lg text-ink">{item.title}</h4>
+        {item.issuer && <p className="mt-0.5 font-body text-xs text-ink-soft">{item.issuer}</p>}
+        {item.description && <p className="mt-2 font-body text-sm text-ink-muted line-clamp-3">{item.description}</p>}
       </div>
     </motion.div>
   )
@@ -103,14 +103,14 @@ export default function TrustWallSection({ items }: { items: PublicTrustItem[] }
   if (visibleModules.length === 0) return null
 
   return (
-    <div style={{ background: '#0E1B2E' }} className="py-24 lg:py-32">
+    <div className="bg-tint py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
         <motion.p
           initial={prefersReducedMotion ? undefined : 'hidden'}
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
-          className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold"
+          className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink"
         >
           <span className="inline-block h-px w-6 bg-gold/60" aria-hidden="true" />
           Why Patients Trust Bright Smile
@@ -120,7 +120,7 @@ export default function TrustWallSection({ items }: { items: PublicTrustItem[] }
           whileInView="visible"
           viewport={{ once: true }}
           variants={blurFadeIn}
-          className="mt-5 font-display text-4xl text-white tracking-display sm:text-5xl"
+          className="mt-5 font-display text-4xl text-ink tracking-display sm:text-5xl"
         >
           Trust, Technology &amp; Clinical Standards
         </motion.h2>
@@ -130,7 +130,7 @@ export default function TrustWallSection({ items }: { items: PublicTrustItem[] }
           viewport={{ once: true }}
           variants={fadeUp}
           transition={{ delay: 0.1 }}
-          className="mt-5 max-w-xl font-body text-base text-white/70"
+          className="mt-5 max-w-xl font-body text-base text-ink-muted"
         >
           Every award, protocol, and instrument we use is chosen for one reason — your safety and your smile.
         </motion.p>
@@ -150,23 +150,23 @@ export default function TrustWallSection({ items }: { items: PublicTrustItem[] }
           >
             <div className="mb-8 flex items-end justify-between gap-4">
               <div>
-                <motion.p variants={fadeUp} className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+                <motion.p variants={fadeUp} className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold-ink">
                   {mod.eyebrow}
                 </motion.p>
-                <motion.h3 variants={fadeUp} className="mt-2 font-display text-3xl text-white">
+                <motion.h3 variants={fadeUp} className="mt-2 font-display text-3xl text-ink">
                   {mod.label}
                 </motion.h3>
-                <motion.p variants={fadeUp} className="mt-2 max-w-md font-body text-sm text-white/60">
+                <motion.p variants={fadeUp} className="mt-2 max-w-md font-body text-sm text-ink-soft">
                   {mod.blurb}
                 </motion.p>
               </div>
-              <motion.span variants={fadeUp} aria-hidden="true" className="hidden shrink-0 font-heading text-[0.65rem] font-semibold text-white/60 sm:inline">
+              <motion.span variants={fadeUp} aria-hidden="true" className="hidden shrink-0 font-heading text-[0.65rem] font-semibold text-ink-soft sm:inline">
                 {String(mi + 1).padStart(2, '0')} / {String(visibleModules.length).padStart(2, '0')}
               </motion.span>
             </div>
 
             {/* Timeline connector line */}
-            <motion.div variants={lineReveal} className="mb-4 h-px w-full bg-gradient-to-r from-gold/50 via-white/10 to-transparent" aria-hidden="true" />
+            <motion.div variants={lineReveal} className="mb-4 h-px w-full bg-gradient-to-r from-gold/50 via-ink/10 to-transparent" aria-hidden="true" />
 
             <div role="list" className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 -mx-1 px-1">
               {modItems.map((item) => (

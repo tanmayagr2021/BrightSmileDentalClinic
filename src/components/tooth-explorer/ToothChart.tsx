@@ -12,7 +12,7 @@ export const IVORY = '#F5EFE4' // ivory — tooth has admin content configured
 export const SAGE = '#9CAF88' // region-highlight only — distinct from the
 // reserved verification `teal` (#0C3C2D), intentionally not a theme token
 const SAGE_FILL = 'rgba(156,175,136,0.24)'
-const ACCENT_SHADE = 'rgba(14,27,46,0.22)' // dark-navy overlay for cusps/edges
+const ACCENT_SHADE = 'rgba(14,27,46,0.16)' // navy overlay for cusps/edges
 
 type CuspSpec = { dx: number; dy: number; r: number }
 type CrownSpec = {
@@ -101,17 +101,17 @@ export default function ToothChart({
           the whole arch (not at center, where front teeth sit closest to the
           bite line), and the orientation hint out at the margins, in the wide
           gap beside the canine/premolar teeth. */}
-      <line x1={CENTER_X - 250} y1={250} x2={CENTER_X + 250} y2={250} stroke="#ffffff" strokeOpacity={0.06} strokeDasharray="2 6" strokeWidth={1.5} aria-hidden="true" />
-      <text x={CENTER_X} y={36} textAnchor="middle" className="font-heading" fill="#ffffff" fillOpacity={0.25} fontSize={10} letterSpacing={2} aria-hidden="true">
+      <line x1={CENTER_X - 250} y1={250} x2={CENTER_X + 250} y2={250} stroke="#14202E" strokeOpacity={0.14} strokeDasharray="2 6" strokeWidth={1.5} aria-hidden="true" />
+      <text x={CENTER_X} y={36} textAnchor="middle" className="font-heading" fill="#14202E" fillOpacity={0.45} fontSize={10} letterSpacing={2} aria-hidden="true">
         UPPER ARCH
       </text>
-      <text x={CENTER_X} y={452} textAnchor="middle" className="font-heading" fill="#ffffff" fillOpacity={0.25} fontSize={10} letterSpacing={2} aria-hidden="true">
+      <text x={CENTER_X} y={452} textAnchor="middle" className="font-heading" fill="#14202E" fillOpacity={0.45} fontSize={10} letterSpacing={2} aria-hidden="true">
         LOWER ARCH
       </text>
-      <text x={CENTER_X - 190} y={253} textAnchor="middle" className="font-heading" fill="#ffffff" fillOpacity={0.2} fontSize={8} letterSpacing={1.2} aria-hidden="true">
+      <text x={CENTER_X - 190} y={253} textAnchor="middle" className="font-heading" fill="#14202E" fillOpacity={0.4} fontSize={8} letterSpacing={1.2} aria-hidden="true">
         {'◄ PATIENT’S RIGHT'}
       </text>
-      <text x={CENTER_X + 190} y={253} textAnchor="middle" className="font-heading" fill="#ffffff" fillOpacity={0.2} fontSize={8} letterSpacing={1.2} aria-hidden="true">
+      <text x={CENTER_X + 190} y={253} textAnchor="middle" className="font-heading" fill="#14202E" fillOpacity={0.4} fontSize={8} letterSpacing={1.2} aria-hidden="true">
         {'PATIENT’S LEFT ►'}
       </text>
 
@@ -124,8 +124,8 @@ export default function ToothChart({
         const occlusalSign = t.arch === 'upper' ? 1 : -1
         const rx = t.width * crown.rx
 
-        const fill = isSelected ? GOLD : inRegion ? SAGE_FILL : isActive ? IVORY : 'rgba(255,255,255,0.14)'
-        const stroke = isSelected ? GOLD : inRegion ? SAGE : 'rgba(255,255,255,0.35)'
+        const fill = isSelected ? GOLD : inRegion ? SAGE_FILL : isActive ? '#FFFFFF' : 'rgba(20,32,46,0.05)'
+        const stroke = isSelected ? GOLD : inRegion ? SAGE : isActive ? '#A8957A' : 'rgba(20,32,46,0.2)'
 
         return (
           <motion.g
@@ -142,7 +142,7 @@ export default function ToothChart({
             tabIndex={0}
             aria-pressed={isSelected}
             aria-label={`${label}${inRegion && activeRegionLabel ? `, in ${activeRegionLabel}` : ''}${isActive ? '' : ' (details coming soon)'}`}
-            className="cursor-pointer outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/80 rounded-full"
+            className="cursor-pointer outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold rounded-full"
             initial={false}
             whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
             whileFocus={prefersReducedMotion ? undefined : { scale: 1.03 }}

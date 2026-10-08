@@ -20,6 +20,14 @@ const config: Config = {
           DEFAULT: '#C9A24B',
           dark: '#A8823A',
           light: '#E7D3A1',
+          // Gold dark enough for small text on the ivory/white surfaces
+          ink: '#8A6524',
+        },
+        // Text on the light ivory theme
+        ink: {
+          DEFAULT: '#14202E',
+          muted: '#4A5565',
+          soft: '#6B7280',
         },
         // Deep Emerald — verification/trust/status only (NMC badges, "Active",
         // "Verified Patient"). Not a general brand accent.
@@ -80,6 +88,7 @@ const config: Config = {
         'glass': '0 4px 24px rgba(0, 0, 0, 0.08)',
         'glass-dark': '0 24px 64px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.07)',
         'card': '0 1px 12px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.04)',
+        'soft': '0 2px 6px rgba(20, 32, 46, 0.04), 0 12px 32px -8px rgba(20, 32, 46, 0.10)',
         'card-hover': '0 16px 48px rgba(0, 0, 0, 0.10), 0 4px 12px rgba(0, 0, 0, 0.05)',
         'premium': '0 24px 72px rgba(14, 27, 46, 0.22), 0 8px 24px rgba(14, 27, 46, 0.10)',
         'glow-primary': '0 0 40px rgba(201, 162, 75, 0.22)',

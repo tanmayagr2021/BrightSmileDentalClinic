@@ -86,7 +86,7 @@ export default async function AppointmentsPage({
   return (
     <div className="bg-white">
       {/* Page header */}
-      <div className="bg-tint border-b border-gray-100 py-16 lg:py-20">
+      <div className="bg-ivory-waves border-b border-ink/10 py-16 lg:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <span className="eyebrow mb-3 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />

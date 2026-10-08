@@ -35,14 +35,14 @@ type Stat = { count: number; suffix: string; label: string }
 
 export default function StatsSection({ stats }: { stats: Stat[] }) {
   return (
-    <section className="relative overflow-hidden bg-[#0E1B2E]">
+    <section className="relative overflow-hidden bg-white">
 
       {/* Subtle dot-grid texture */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="stat-dot-grid" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
-              <circle cx="1" cy="1" r="1" fill="white" fillOpacity="0.04" />
+              <circle cx="1" cy="1" r="1" fill="#14202E" fillOpacity="0.04" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#stat-dot-grid)" />
@@ -63,19 +63,19 @@ export default function StatsSection({ stats }: { stats: Stat[] }) {
               {/* Vertical separator */}
               {i > 0 && (
                 <span
-                  className="pointer-events-none absolute left-0 top-1/2 hidden h-16 w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-white/10 to-transparent sm:block"
+                  className="pointer-events-none absolute left-0 top-1/2 hidden h-16 w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-ink/10 to-transparent sm:block"
                   aria-hidden="true"
                 />
               )}
 
               {/* Number + superscript suffix */}
               <div className="inline-flex items-start">
-                <span className="font-display text-6xl font-bold leading-none text-white tabular-nums sm:text-7xl lg:text-[6rem]">
+                <span className="font-display text-6xl font-bold leading-none text-ink tabular-nums sm:text-7xl lg:text-[6rem]">
                   <Counter count={stat.count} suffix="" />
                 </span>
                 {stat.suffix && (
                   <span
-                    className="ml-1 font-display text-3xl font-bold leading-none text-gold"
+                    className="ml-1 font-display text-3xl font-bold leading-none text-gold-dark"
                     style={{ paddingTop: '0.35rem' }}
                   >
                     {stat.suffix}
@@ -93,7 +93,7 @@ export default function StatsSection({ stats }: { stats: Stat[] }) {
                 aria-hidden="true"
               />
 
-              <span className="mt-4 font-heading text-sm font-semibold uppercase tracking-[0.2em] text-white/75">
+              <span className="mt-4 font-heading text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">
                 {stat.label}
               </span>
             </motion.div>

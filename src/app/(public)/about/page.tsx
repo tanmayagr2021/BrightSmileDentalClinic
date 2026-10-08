@@ -79,7 +79,7 @@ export default async function AboutPage() {
       {/* ── Hero — full dark with ghost founding year ── */}
       <div
         className="relative overflow-hidden py-28 lg:py-40"
-        style={{ background: '#0E1B2E' }}
+        data-surface="ivory"
       >
         {/* Architectural grid overlay */}
         <svg
@@ -88,7 +88,7 @@ export default async function AboutPage() {
         >
           <defs>
             <pattern id="about-grid" width="52" height="52" patternUnits="userSpaceOnUse">
-              <path d="M 52 0 L 0 0 0 52" fill="none" stroke="white" strokeWidth="0.5" />
+              <path d="M 52 0 L 0 0 0 52" fill="none" stroke="#14202E" strokeWidth="0.5" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#about-grid)" />
@@ -96,7 +96,7 @@ export default async function AboutPage() {
 
         {/* Ghost founding year */}
         <span
-          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 select-none font-display font-bold text-white/[0.03]"
+          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 select-none font-display font-bold text-ink/[0.06]"
           style={{ fontSize: 'clamp(8rem, 20vw, 16rem)' }}
           aria-hidden="true"
         >
@@ -105,32 +105,32 @@ export default async function AboutPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Eyebrow */}
-          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
             <span className="inline-block h-px w-6 bg-gold/60" />
             {interpolate(pick(content, 'about.hero.eyebrow_template', 'Founded {year}'), { year: founded })}
           </span>
 
           {/* Headline */}
-          <h1 className="mt-5 font-display text-6xl text-white tracking-display leading-[0.95] sm:text-7xl lg:text-[7rem]">
+          <h1 className="mt-5 font-display text-6xl text-ink tracking-display leading-[0.95] sm:text-7xl lg:text-[7rem]">
             {pick(content, 'about.hero.headline_line1', 'Our')}<br />{pick(content, 'about.hero.headline_line2', 'Story.')}
           </h1>
 
           {/* Description */}
-          <p className="mt-8 max-w-xl font-body text-base text-white/90 leading-relaxed">
+          <p className="mt-8 max-w-xl font-body text-base text-ink-muted leading-relaxed">
             {pick(content, 'about.hero.description', '20 years of trusted dental care in the heart of Kathmandu, built on expertise, compassion and an uncompromising commitment to every patient.')}
           </p>
 
           {/* Stats strip */}
-          <div className={`mt-16 grid border-t border-white/[0.07] pt-10 ${stats.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-4'}`}>
+          <div className={`mt-16 grid border-t border-ink/10 pt-10 ${stats.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-4'}`}>
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="border-l border-white/[0.07] pl-6 first:border-l-0 first:pl-0"
+                className="border-l border-ink/10 pl-6 first:border-l-0 first:pl-0"
               >
-                <p className="font-display text-4xl text-white">
+                <p className="font-display text-4xl text-ink">
                   {stat.count}{stat.suffix}
                 </p>
-                <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75">
+                <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   {stat.label}
                 </p>
               </div>
@@ -146,7 +146,7 @@ export default async function AboutPage() {
 
             {/* Left: pull-quote + mission / vision */}
             <div>
-              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                 <span className="inline-block h-px w-6 bg-primary/60" />
                 {pick(content, 'about.story.eyebrow', 'How We Started')}
               </span>
@@ -157,7 +157,7 @@ export default async function AboutPage() {
 
               <div className="mt-10 space-y-8 border-t border-gray-100 pt-10">
                 <div>
-                  <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+                  <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                     {pick(content, 'about.story.mission_label', 'Our Mission')}
                   </p>
                   <p className="font-body text-base text-gray-600 leading-relaxed">
@@ -193,7 +193,7 @@ export default async function AboutPage() {
         <div className="bg-ivory py-24 lg:py-32">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-16 text-center">
-              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                 <span className="inline-block h-px w-6 bg-primary/60" />
                 Our Team
                 <span className="inline-block h-px w-6 bg-primary/60" />
@@ -260,15 +260,15 @@ export default async function AboutPage() {
       {/* ── Values — horizontal editorial rows ── */}
       <div
         className="py-24 lg:py-32"
-        style={{ background: '#0E1B2E' }}
+        data-surface="ivory"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+            <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
               <span className="inline-block h-px w-6 bg-gold/60" />
               {pick(content, 'about.values.eyebrow', 'What Guides Us')}
             </span>
-            <h2 className="mt-5 font-display text-5xl text-white tracking-display sm:text-6xl">
+            <h2 className="mt-5 font-display text-5xl text-ink tracking-display sm:text-6xl">
               {pick(content, 'about.values.heading', 'Our Values')}
             </h2>
           </div>
@@ -278,23 +278,23 @@ export default async function AboutPage() {
               <div
                 key={value.title}
                 className={[
-                  'grid items-center border-b border-white/[0.06] py-12 lg:py-16',
+                  'grid items-center border-b border-ink/10 py-12 lg:py-16',
                   'grid-cols-[4rem_1fr] gap-8 sm:grid-cols-[6rem_1fr_1.5fr] sm:gap-12 lg:grid-cols-[8rem_1fr_2fr] lg:gap-20',
-                  i === 0 ? 'border-t border-white/[0.06]' : '',
+                  i === 0 ? 'border-t border-ink/10' : '',
                 ].join(' ')}
               >
                 {/* Ghost number */}
-                <span aria-hidden="true" className="select-none font-display text-4xl font-bold tabular-nums text-white/[0.07] sm:text-5xl lg:text-7xl">
+                <span aria-hidden="true" className="select-none font-display text-4xl font-bold tabular-nums text-ink/[0.06] sm:text-5xl lg:text-7xl">
                   {String(i + 1).padStart(2, '0')}
                 </span>
 
                 {/* Title */}
-                <h3 className="font-display text-2xl text-white tracking-display sm:text-3xl">
+                <h3 className="font-display text-2xl text-ink tracking-display sm:text-3xl">
                   {value.title}
                 </h3>
 
                 {/* Description — hidden on mobile */}
-                <p className="hidden font-body text-sm text-white/85 leading-relaxed sm:block">
+                <p className="hidden font-body text-sm text-ink-muted leading-relaxed sm:block">
                   {value.description}
                 </p>
               </div>
@@ -313,7 +313,7 @@ export default async function AboutPage() {
 
             {/* Left: numbered list */}
             <div>
-              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                 <span className="inline-block h-px w-6 bg-primary/60" />
                 {pick(content, 'about.why_choose.eyebrow', 'Why Bright Smile')}
               </span>
@@ -344,7 +344,7 @@ export default async function AboutPage() {
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/appointments"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark active:scale-[0.98]"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3.5 font-heading text-sm font-semibold text-ink shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark active:scale-[0.98]"
                 >
                   {pick(content, 'about.why_choose.cta_book_label', 'Book an Appointment')}
                 </Link>

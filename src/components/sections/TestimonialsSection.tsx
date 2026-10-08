@@ -24,7 +24,7 @@ function InitialsAvatar({ name, size = 'md' }: { name: string; size?: 'sm' | 'md
   const initials = name.split(' ').map((n) => n[0]).join('').slice(0, 2)
   const sizes = { sm: 'h-8 w-8 text-xs', md: 'h-10 w-10 text-sm', lg: 'h-12 w-12 text-base' }
   return (
-    <div className={`${sizes[size]} flex flex-shrink-0 items-center justify-center rounded-full bg-primary font-heading font-bold text-white`}>
+    <div className={`${sizes[size]} flex flex-shrink-0 items-center justify-center rounded-full bg-primary font-heading font-bold text-ink`}>
       {initials}
     </div>
   )
@@ -70,7 +70,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
   return (
     <>
       {/* ─── Part 1 — Dark editorial feature ─────────────────────────────── */}
-      <section className="bg-[#0E1B2E] py-24 lg:py-32">
+      <section className="bg-ivory-waves py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
           {/* Section header — left-aligned */}
@@ -83,14 +83,14 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
           >
             <motion.span
               variants={fadeUp}
-              className="mb-3 inline-flex items-center gap-2 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-gold"
+              className="mb-3 inline-flex items-center gap-2 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-gold-ink"
             >
               <span className="inline-block h-px w-5 bg-gold" aria-hidden="true" />
               Patient Stories
             </motion.span>
             <motion.h2
               variants={fadeUp}
-              className="font-display text-4xl text-white sm:text-5xl lg:text-6xl tracking-display leading-[1.06]"
+              className="font-display text-4xl text-ink sm:text-5xl lg:text-6xl tracking-display leading-[1.06]"
             >
               What Our Patients Say
             </motion.h2>
@@ -107,7 +107,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
             >
               {/* Large decorative opening quote mark */}
               <div
-                className="pointer-events-none select-none font-display leading-none text-primary/20"
+                className="pointer-events-none select-none font-display leading-none text-gold/30"
                 style={{ fontSize: '8rem', lineHeight: 1, marginBottom: '-2.5rem' }}
                 aria-hidden="true"
               >
@@ -119,11 +119,11 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
               <blockquote className="max-w-4xl">
                 {featured.text.split(/\n\s*\n/).map((para, i) =>
                   i === 0 ? (
-                    <p key={i} className="font-display text-2xl text-white leading-relaxed tracking-display sm:text-3xl lg:text-4xl">
+                    <p key={i} className="font-display text-2xl text-ink leading-relaxed tracking-display sm:text-3xl lg:text-4xl">
                       {para}
                     </p>
                   ) : (
-                    <p key={i} className="mt-6 max-w-3xl font-body text-base leading-[1.8] text-white/70 sm:text-lg">
+                    <p key={i} className="mt-6 max-w-3xl font-body text-base leading-[1.8] text-ink-muted sm:text-lg">
                       {para}
                     </p>
                   )
@@ -148,17 +148,17 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
               {/* Patient info row */}
               <div className="mt-6 flex flex-wrap items-center gap-4">
                 <InitialsAvatar name={featured.name} size="md" />
-                <p className="font-heading text-base font-semibold text-white">{featured.name}</p>
+                <p className="font-heading text-base font-semibold text-ink">{featured.name}</p>
 
                 {featured.treatment && (
-                  <span className="rounded-full bg-primary/15 px-3 py-1 font-heading text-xs font-semibold uppercase tracking-wide text-primary">
+                  <span className="rounded-full bg-primary/15 px-3 py-1 font-heading text-xs font-semibold uppercase tracking-wide text-gold-ink">
                     {featured.treatment}
                   </span>
                 )}
 
                 {/* Verified Patient badge */}
                 <div className="flex items-center gap-1.5 rounded-xl border border-gold/30 bg-gold/10 px-3 py-2">
-                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-gold" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-gold-ink" aria-hidden="true">
                     <path
                       d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z"
                       fill="#C9A24B"
@@ -175,7 +175,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <span className="font-heading text-xs font-semibold text-gold">Verified Patient</span>
+                  <span className="font-heading text-xs font-semibold text-gold-ink">Verified Patient</span>
                 </div>
               </div>
             </motion.div>
@@ -187,7 +187,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
-            className="border-t border-white/10 pt-10"
+            className="border-t border-ink/10 pt-10"
           >
             <div className="flex flex-wrap items-center">
               {[
@@ -197,11 +197,11 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
               ].map((item, i) => (
                 <div key={item.label} className="flex items-center">
                   {i > 0 && (
-                    <span className="mx-8 inline-block h-8 w-px bg-white/[0.12]" aria-hidden="true" />
+                    <span className="mx-8 inline-block h-8 w-px bg-ink/10" aria-hidden="true" />
                   )}
                   <div>
-                    <p className="font-display text-2xl leading-none text-white">{item.value}</p>
-                    <p className="mt-1 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-white/75">
+                    <p className="font-display text-2xl leading-none text-ink">{item.value}</p>
+                    <p className="mt-1 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-ink-muted">
                       {item.label}
                     </p>
                   </div>
@@ -243,7 +243,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                   </p>
 
                   {t.treatment && (
-                    <span className="mt-4 inline-block rounded-full bg-tint px-2.5 py-1 font-heading text-[0.65rem] font-semibold uppercase tracking-wide text-primary">
+                    <span className="mt-4 inline-block rounded-full bg-tint px-2.5 py-1 font-heading text-[0.65rem] font-semibold uppercase tracking-wide text-gold-ink">
                       {t.treatment}
                     </span>
                   )}
@@ -267,7 +267,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
           >
             <Link
               href="/testimonials"
-              className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-primary transition-all hover:text-primary-dark"
+              className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-gold-ink transition-all hover:text-primary-dark"
             >
               Read all patient stories
               <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">

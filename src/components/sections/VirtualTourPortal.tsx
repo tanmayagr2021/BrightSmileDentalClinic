@@ -28,11 +28,12 @@ function ArrowIcon({ className }: { className?: string }) {
 interface VirtualTourPortalProps {
   imageUrl: string | null
   roomName?: string | null
-  variant: 'card' | 'teaser'
+  variant: 'card' | 'teaser' | 'band'
 }
 
-// A compact, image-led "window into the clinic" tucked into the existing
-// homepage hero — not a new section, not another button. Pulls its photo
+// A compact, image-led "window into the clinic". The homepage uses the
+// 'band' variant just below the hero; 'card'/'teaser' are the older in-hero
+// placements, kept for reuse. Pulls its photo
 // straight from a real Virtual Tour room (never a hardcoded/invented image),
 // so if no room has a thumbnail yet, it renders nothing rather than fake it.
 export default function VirtualTourPortal({ imageUrl, roomName, variant }: VirtualTourPortalProps) {
@@ -46,6 +47,52 @@ export default function VirtualTourPortal({ imageUrl, roomName, variant }: Virtu
     ? undefined
     : { duration: 16, repeat: Infinity, ease: 'easeInOut' as const }
   const driftAnimate = reduced ? undefined : { x: ['0%', '-4.5%', '0%'] }
+
+  if (variant === 'band') {
+    return (
+      <section className="bg-white py-10 sm:py-14" aria-label="Virtual tour">
+        <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-14">
+          <Link
+            href={TOUR_HREF}
+            onClick={() => trackEvent('Hero Virtual Tour Portal Clicked', { location: 'home_band' })}
+            aria-label={accessibleLabel}
+            className="group grid overflow-hidden rounded-3xl border border-[#E7E1D6] bg-ivory-waves shadow-soft transition-shadow duration-300 hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 md:grid-cols-[1.35fr_1fr]"
+          >
+            <div className="relative aspect-[16/9] overflow-hidden md:aspect-auto md:min-h-[17rem]">
+              <motion.div className="absolute -inset-x-[6%] inset-y-0" animate={driftAnimate} transition={driftTransition}>
+                <Image
+                  src={imageUrl}
+                  alt={alt}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  sizes="(min-width: 768px) 55vw, 100vw"
+                />
+              </motion.div>
+              <span className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full border border-white/40 bg-white/80 px-2.5 py-1 font-heading text-[0.6rem] font-bold uppercase tracking-wider text-gold-ink backdrop-blur-sm">
+                <CompassIcon className="h-3 w-3" />
+                360° Tour
+              </span>
+            </div>
+            <div className="flex flex-col justify-center gap-3 p-7 sm:p-10">
+              <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+                See Where We Work
+              </p>
+              <p className="font-display text-3xl leading-tight text-ink sm:text-[2.1rem]">
+                Step inside before you visit.
+              </p>
+              <p className="max-w-[38ch] font-body text-sm leading-relaxed text-ink-muted">
+                Walk through reception, the waiting area and our treatment rooms in 360°, so the clinic feels familiar before your first appointment.
+              </p>
+              <span className="mt-2 inline-flex w-fit items-center gap-2 font-heading text-sm font-semibold text-ink transition-all duration-300 group-hover:gap-3 group-hover:text-gold-ink">
+                Walk through the clinic
+                <ArrowIcon className="h-3.5 w-3.5" />
+              </span>
+            </div>
+          </Link>
+        </div>
+      </section>
+    )
+  }
 
   if (variant === 'card') {
     return (

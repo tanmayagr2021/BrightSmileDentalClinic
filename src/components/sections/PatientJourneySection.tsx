@@ -93,7 +93,7 @@ export default function PatientJourneySection({
   return (
     <section
       className="relative overflow-hidden py-24 lg:py-32"
-      style={{ background: '#0E1B2E' }}
+      data-surface="ivory"
     >
       {/* Architectural grid overlay */}
       <svg
@@ -102,7 +102,7 @@ export default function PatientJourneySection({
       >
         <defs>
           <pattern id="journey-grid" width="52" height="52" patternUnits="userSpaceOnUse">
-            <path d="M 52 0 L 0 0 0 52" fill="none" stroke="white" strokeWidth="0.5" />
+            <path d="M 52 0 L 0 0 0 52" fill="none" stroke="#14202E" strokeWidth="0.5" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#journey-grid)" />
@@ -128,16 +128,16 @@ export default function PatientJourneySection({
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+            <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
               <span className="inline-block h-px w-7 bg-gold/60" />
               {pick(content, 'home.journey.eyebrow', 'The Experience')}
             </span>
-            <h2 className="font-display text-4xl leading-[1.06] text-white sm:text-5xl lg:text-6xl tracking-display">
+            <h2 className="font-display text-4xl leading-[1.06] text-ink sm:text-5xl lg:text-6xl tracking-display">
               {pick(content, 'home.journey.heading_line1', 'A Day at')}
               <br />
-              <span className="text-gold">{pick(content, 'home.journey.heading_line2', 'Bright Smile')}</span>
+              <span className="text-gold-dark">{pick(content, 'home.journey.heading_line2', 'Bright Smile')}</span>
             </h2>
-            <p className="mt-4 max-w-lg font-body text-base text-white/85 leading-relaxed">
+            <p className="mt-4 max-w-lg font-body text-base text-ink-muted leading-relaxed">
               {pick(content, 'home.journey.intro', "From your first call to your final follow-up — every moment is crafted around your comfort, clarity, and confidence.")}
             </p>
           </motion.div>
@@ -177,11 +177,11 @@ export default function PatientJourneySection({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-                className="group relative border-l border-white/10 px-5 py-10 transition-all duration-300 first:border-l-0 hover:bg-white/[0.035] lg:px-6 lg:py-12"
+                className="group relative border-l border-ink/10 px-5 py-10 transition-all duration-300 first:border-l-0 hover:bg-white/70 lg:px-6 lg:py-12"
               >
                 {/* Ghost step number */}
                 <span
-                  className="pointer-events-none select-none font-display text-7xl font-bold leading-none text-white/[0.07] transition-colors duration-300 group-hover:text-primary/[0.12] lg:text-8xl"
+                  className="pointer-events-none select-none font-display text-7xl font-bold leading-none text-ink/[0.06] transition-colors duration-300 group-hover:text-primary/[0.12] lg:text-8xl"
                   aria-hidden="true"
                 >
                   {String(step.step).padStart(2, '0')}
@@ -191,22 +191,22 @@ export default function PatientJourneySection({
                 <div className="mb-5 mt-6 h-px w-6 bg-primary/40 transition-all duration-300 group-hover:w-10 group-hover:bg-primary" />
 
                 {/* Step icon */}
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15 text-primary">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15 text-gold-ink">
                   {STEP_ICONS[step.step]}
                 </div>
 
                 {/* Title */}
-                <h3 className="mt-4 font-heading text-sm font-semibold leading-snug text-white">
+                <h3 className="mt-4 font-heading text-sm font-semibold leading-snug text-ink">
                   {step.title}
                 </h3>
 
                 {/* Sublabel */}
-                <p className="mt-1 font-heading text-[0.65rem] font-medium text-primary/90">
+                <p className="mt-1 font-heading text-[0.65rem] font-medium text-gold-ink">
                   {step.subtitle}
                 </p>
 
                 {/* Description */}
-                <p className="mt-3 font-body text-xs leading-relaxed text-white/90">
+                <p className="mt-3 font-body text-xs leading-relaxed text-ink-muted">
                   {step.description}
                 </p>
               </motion.div>
@@ -220,20 +220,20 @@ export default function PatientJourneySection({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="flex flex-col items-start gap-4 border-t border-white/10 pt-10 sm:flex-row sm:items-center sm:justify-between"
+          className="flex flex-col items-start gap-4 border-t border-ink/10 pt-10 sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
-            <p className="font-heading text-sm font-semibold text-white">
+            <p className="font-heading text-sm font-semibold text-ink">
               {pick(content, 'home.journey.bottom_heading', 'Ready to start your journey?')}
             </p>
-            <p className="mt-1 font-body text-xs text-white/80">
+            <p className="mt-1 font-body text-xs text-ink-muted">
               {pick(content, 'home.journey.bottom_subtext', 'Our team answers questions before you book — no commitment needed.')}
             </p>
           </div>
           <div className="flex flex-shrink-0 gap-3">
             <a
               href="tel:+97714519594"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 font-heading text-xs font-semibold text-white/85 transition-all hover:border-white/25 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-xl border border-ink/10 bg-white/70 px-5 py-2.5 font-heading text-xs font-semibold text-ink-muted transition-all hover:border-ink/20 hover:text-ink"
             >
               <svg
                 viewBox="0 0 16 16"

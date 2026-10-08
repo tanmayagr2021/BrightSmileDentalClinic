@@ -134,7 +134,7 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="mt-12 border-t border-gray-100 pt-8">
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-primary hover:text-primary-dark transition-colors"
+                className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-gold-ink hover:text-primary-dark transition-colors"
               >
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
                   <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -145,19 +145,19 @@ export default async function BlogPostPage({ params }: Props) {
           </article>
 
           <aside className="space-y-6">
-            <div className="rounded-2xl bg-dark p-7 text-white">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-white/75 mb-3">
+            <div className="rounded-2xl border border-[#E7E1D6] bg-ivory-waves p-7 text-ink shadow-soft">
+              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-3">
                 Need Dental Care?
               </h3>
-              <p className="font-display text-lg text-white leading-snug">
+              <p className="font-display text-lg text-ink leading-snug">
                 Book a consultation today
               </p>
-              <p className="mt-2 font-body text-sm text-white/50">
+              <p className="mt-2 font-body text-sm text-ink-soft">
                 Our expert team is ready to help with all your dental needs.
               </p>
               <Link
                 href="/appointments"
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark"
+                className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 font-heading text-sm font-semibold text-ink transition-all hover:bg-primary-dark"
               >
                 Book Appointment
               </Link>

@@ -123,7 +123,7 @@ export default async function DoctorProfilePage({ params }: Props) {
               <p className="mt-2 font-heading text-base font-semibold text-gray-500">{doctor.title}</p>
               <div className="mt-4 flex flex-wrap gap-3">
                 {doctor.qualification && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 font-heading text-xs font-semibold text-primary">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 font-heading text-xs font-semibold text-gold-ink">
                     {doctor.qualification}
                   </span>
                 )}
@@ -164,7 +164,7 @@ export default async function DoctorProfilePage({ params }: Props) {
                   {(doctor.specializations ?? []).map((spec: string, i: number) => (
                     <div key={spec} className="flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                       <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
-                        <span className="font-heading text-xs font-bold text-primary">{String(i + 1).padStart(2, '0')}</span>
+                        <span className="font-heading text-xs font-bold text-gold-ink">{String(i + 1).padStart(2, '0')}</span>
                       </div>
                       <span className="font-heading text-sm font-semibold text-dark">{spec}</span>
                     </div>
@@ -203,40 +203,40 @@ export default async function DoctorProfilePage({ params }: Props) {
           <div className="space-y-6">
 
             {/* Book card */}
-            <div className="rounded-2xl bg-dark p-7 text-white">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-white/75 mb-3">
+            <div className="rounded-2xl border border-[#E7E1D6] bg-ivory-waves p-7 text-ink shadow-soft">
+              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-3">
                 Book a Visit
               </h3>
-              <p className="font-display text-xl text-white leading-snug">
+              <p className="font-display text-xl text-ink leading-snug">
                 Consult with<br />
-                <span className="text-primary">{dShortName(doctor)}</span>
+                <span className="text-gold-dark">{dShortName(doctor)}</span>
               </p>
               {isBookable ? (
                 <>
-                  <p className="mt-3 font-body text-sm text-white/50">
+                  <p className="mt-3 font-body text-sm text-ink-soft">
                     {dShortName(doctor)} is currently accepting new patients.
                   </p>
                   <TrackedLink
                     href="/appointments"
                     event="Book Doctor Clicked"
                     data={{ doctor: doctor.slug }}
-                    className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-white transition-all hover:bg-primary-dark active:scale-[0.98]"
+                    className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 font-heading text-sm font-semibold text-ink transition-all hover:bg-primary-dark active:scale-[0.98]"
                   >
                     Book Appointment
                   </TrackedLink>
                 </>
               ) : doctor.slug === RESIDENT_DENTIST_SLUG ? (
-                <p className="mt-3 font-body text-sm text-white/50">
+                <p className="mt-3 font-body text-sm text-ink-soft">
                   {dShortName(doctor)} is our full-time in-house dentist. Call the clinic to arrange a visit.
                 </p>
               ) : (
-                <p className="mt-3 font-body text-sm text-white/50">
+                <p className="mt-3 font-body text-sm text-ink-soft">
                   {dShortName(doctor)} sees patients by referral. Call us to discuss your needs.
                 </p>
               )}
               <a
                 href={`tel:${clinicPhone}`}
-                className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 px-5 py-3.5 font-heading text-sm font-semibold text-white/70 transition-all hover:border-white/25 hover:text-white active:scale-[0.98]"
+                className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-ink/20 px-5 py-3.5 font-heading text-sm font-semibold text-ink-muted transition-all hover:border-ink/20 hover:text-ink active:scale-[0.98]"
               >
                 Call {clinicPhone}
               </a>
@@ -272,7 +272,7 @@ export default async function DoctorProfilePage({ params }: Props) {
               </div>
               <Link
                 href="/doctors"
-                className="mt-4 block text-center font-heading text-xs font-semibold text-primary hover:underline underline-offset-2"
+                className="mt-4 block text-center font-heading text-xs font-semibold text-gold-ink hover:underline underline-offset-2"
               >
                 View Full Team
               </Link>

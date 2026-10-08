@@ -45,7 +45,7 @@ export default function CtaSection({
   const displayHours = (openingHours && openingHours.length > 0) ? openingHours : [...OPENING_HOURS]
 
   return (
-    <section className="overflow-hidden bg-[#0E1B2E]">
+    <section className="overflow-hidden bg-ivory-waves">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
 
@@ -61,23 +61,23 @@ export default function CtaSection({
             <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.02]" aria-hidden="true">
               <defs>
                 <pattern id="cta-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#14202E" strokeWidth="0.5" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#cta-grid)" />
             </svg>
 
-            <motion.span variants={fadeUp} className="mb-5 inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+            <motion.span variants={fadeUp} className="mb-5 inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
               <span className="inline-block h-px w-7 bg-gold/60" />
               {pick(content, 'home.cta.eyebrow', 'Get Started Today')}
             </motion.span>
 
-            <motion.h2 variants={fadeUp} className="relative font-display leading-[1.04] text-white tracking-display" style={{ fontSize: 'clamp(2.5rem, 4.5vw, 4rem)' }}>
+            <motion.h2 variants={fadeUp} className="relative font-display leading-[1.04] text-ink tracking-display" style={{ fontSize: 'clamp(2.5rem, 4.5vw, 4rem)' }}>
               {pick(content, 'home.cta.heading_line1', 'Ready for Your')}<br />
-              <span className="text-gold">{pick(content, 'home.cta.heading_line2', 'Best Smile?')}</span>
+              <span className="text-gold-dark">{pick(content, 'home.cta.heading_line2', 'Best Smile?')}</span>
             </motion.h2>
 
-            <motion.p variants={fadeUp} className="mt-6 max-w-md font-body text-base text-white/85 leading-relaxed">
+            <motion.p variants={fadeUp} className="mt-6 max-w-md font-body text-base text-ink-muted leading-relaxed">
               {pick(content, 'home.cta.intro', 'Take the first step towards a healthier, more confident smile. Book your consultation today — our team is here to help every step of the way.')}
             </motion.p>
 
@@ -95,7 +95,7 @@ export default function CtaSection({
               </MagneticWrap>
               <a
                 href={`tel:${displayPhone.replace(/-/g, '')}`}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-9 py-4 font-heading text-sm font-semibold text-white/85 transition-all hover:border-white/30 hover:text-white active:scale-[0.98]"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-ink/20 px-9 py-4 font-heading text-sm font-semibold text-ink-muted transition-all hover:border-ink/20 hover:text-ink active:scale-[0.98]"
               >
                 <PhoneIcon />
                 {displayPhone}
@@ -112,8 +112,8 @@ export default function CtaSection({
                 pick(content, 'home.cta.trust_chip_2', 'Call Before You Commit'),
                 pick(content, 'home.cta.trust_chip_3', 'No Hidden Charges'),
               ].map((item) => (
-                <span key={item} className="flex items-center gap-2 font-body text-xs text-white/80">
-                  <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3 flex-shrink-0 text-gold" aria-hidden="true">
+                <span key={item} className="flex items-center gap-2 font-body text-xs text-ink-muted">
+                  <svg viewBox="0 0 12 12" fill="none" className="h-3 w-3 flex-shrink-0 text-gold-ink" aria-hidden="true">
                     <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                   {item}
@@ -128,20 +128,20 @@ export default function CtaSection({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-80px' }}
-            className="relative border-l border-white/5 px-8 py-20 sm:px-12 lg:px-14 lg:py-28"
+            className="relative border-l border-ink/10 px-8 py-20 sm:px-12 lg:px-14 lg:py-28"
           >
             {/* Subtle right-side glow */}
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-white/[0.02] to-transparent" aria-hidden="true" />
+            <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-white/50 to-transparent" aria-hidden="true" />
 
-            <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/85 mb-6">
+            <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted mb-6">
               {pick(content, 'home.cta.hours_heading', 'Opening Hours')}
             </h3>
 
             <div className="space-y-4 mb-10">
               {displayHours.map((slot) => (
-                <div key={slot.days} className="flex items-center justify-between border-b border-white/5 pb-4">
-                  <span className="font-body text-sm text-white/85">{slot.days}</span>
-                  <span className="font-heading text-sm font-semibold text-white">
+                <div key={slot.days} className="flex items-center justify-between border-b border-ink/10 pb-4">
+                  <span className="font-body text-sm text-ink-muted">{slot.days}</span>
+                  <span className="font-heading text-sm font-semibold text-ink">
                     {('open' in slot && !slot.open) ? 'Closed' : slot.hours}
                   </span>
                 </div>
@@ -149,16 +149,16 @@ export default function CtaSection({
             </div>
 
             <div className="mb-8">
-              <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/85 mb-4">
+              <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted mb-4">
                 {pick(content, 'home.cta.location_heading', 'Location')}
               </h3>
-              <p className="font-body text-sm text-white/85 leading-relaxed">{displayAddress}</p>
+              <p className="font-body text-sm text-ink-muted leading-relaxed">{displayAddress}</p>
               {displayMapsUrl && (
                 <a
                   href={displayMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary transition-all hover:text-primary-light"
+                  className="mt-3 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-gold-ink transition-all hover:text-gold-dark"
                 >
                   {pick(content, 'home.cta.directions_label', 'Get Directions')} <ArrowRight />
                 </a>
@@ -166,18 +166,18 @@ export default function CtaSection({
             </div>
 
             <div>
-              <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/85 mb-4">
+              <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted mb-4">
                 {pick(content, 'home.cta.contact_heading', 'Contact')}
               </h3>
               <div className="space-y-2.5">
-                <a href={`tel:${displayPhone}`} className="flex items-center gap-2.5 font-body text-sm text-white/85 transition-colors hover:text-white">
-                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-primary/60" aria-hidden="true">
+                <a href={`tel:${displayPhone}`} className="flex items-center gap-2.5 font-body text-sm text-ink-muted transition-colors hover:text-ink">
+                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-gold-ink" aria-hidden="true">
                     <path d="M2 2.5h2.5l1 2.5-1.5 1a8 8 0 004 4l1-1.5 2.5 1V12a1 1 0 01-1 1C5.5 13 2 8.5 2 3.5A1 1 0 012 2.5z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                   {displayPhone}
                 </a>
-                <a href={`mailto:${displayEmail}`} className="flex items-center gap-2.5 font-body text-sm text-white/85 transition-colors hover:text-white">
-                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-primary/60" aria-hidden="true">
+                <a href={`mailto:${displayEmail}`} className="flex items-center gap-2.5 font-body text-sm text-ink-muted transition-colors hover:text-ink">
+                  <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-gold-ink" aria-hidden="true">
                     <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
                     <path d="M1.5 6l6.5 4 6.5-4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
                   </svg>

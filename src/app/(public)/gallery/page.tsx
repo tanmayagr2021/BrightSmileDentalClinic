@@ -21,7 +21,7 @@ function TileInner({ icon, label, index }: { icon: string; label: string; index:
       <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.045]" aria-hidden="true">
         <defs>
           <pattern id={`gallery-dots-${index}`} width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.8" fill="white" />
+            <circle cx="1" cy="1" r="0.8" fill="#14202E" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill={`url(#gallery-dots-${index})`} />
@@ -34,7 +34,7 @@ function TileInner({ icon, label, index }: { icon: string; label: string; index:
 
       {/* Icon + label */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-5">
-        <div className="h-14 w-14 flex items-center justify-center rounded-2xl border border-white/[0.07] bg-white/[0.04]">
+        <div className="h-14 w-14 flex items-center justify-center rounded-2xl border border-ink/10 bg-white/70">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -42,21 +42,21 @@ function TileInner({ icon, label, index }: { icon: string; label: string; index:
             strokeWidth="1.2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="h-7 w-7 text-white/45"
+            className="h-7 w-7 text-ink-soft"
             aria-hidden="true"
           >
             <path d={icon} />
           </svg>
         </div>
-        <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/55 text-center">
+        <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ink-soft text-center">
           {label}
         </span>
       </div>
 
       {/* Coming soon strip */}
-      <div className="absolute bottom-0 inset-x-0 flex items-center justify-center gap-1.5 border-t border-white/[0.05] bg-black/10 py-2 backdrop-blur-sm">
+      <div className="absolute bottom-0 inset-x-0 flex items-center justify-center gap-1.5 border-t border-ink/10 bg-black/10 py-2 backdrop-blur-sm">
         <span className="h-1 w-1 rounded-full bg-primary/50" />
-        <span className="font-heading text-[0.65rem] font-semibold tracking-[0.1em] text-white/50">
+        <span className="font-heading text-[0.65rem] font-semibold tracking-[0.1em] text-ink-soft">
           Photo coming soon
         </span>
       </div>
@@ -100,15 +100,15 @@ function GalleryEmptyState() {
 
       {/* CTA */}
       <div className="mt-16 flex flex-col items-center gap-6 text-center">
-        <p className="font-display text-3xl text-white tracking-display">
+        <p className="font-display text-3xl text-ink tracking-display">
           Come see us in person.
         </p>
-        <p className="font-body text-sm text-white/75">
+        <p className="font-body text-sm text-ink-muted">
           Our clinic speaks for itself. Book a visit and tour our space.
         </p>
         <Link
           href="/appointments"
-          className="rounded-xl bg-primary px-8 py-4 font-heading text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark"
+          className="rounded-xl bg-primary px-8 py-4 font-heading text-sm font-semibold text-ink shadow-lg shadow-primary/20 transition-all hover:bg-primary-dark"
         >
           Book a Visit
         </Link>
@@ -147,21 +147,21 @@ export default async function GalleryPage() {
   const galleryGroups = groups ?? []
 
   return (
-    <div style={{ background: '#0E1B2E' }} className="min-h-screen">
+    <div className="min-h-screen bg-ivory-page">
       {/* Hero — integrated into dark page */}
       <div className="mx-auto max-w-7xl px-4 pt-28 pb-12 sm:px-6 lg:px-8">
-        <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
+        <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
           <span className="inline-block h-px w-6 bg-gold/60" />
           Visual Tour
         </span>
-        <h1 className="mt-6 font-display text-6xl text-white sm:text-7xl lg:text-[7rem] tracking-display leading-[0.95]">
+        <h1 className="mt-6 font-display text-6xl text-ink sm:text-7xl lg:text-[7rem] tracking-display leading-[0.95]">
           Our<br />Space.
         </h1>
-        <p className="mt-5 max-w-md font-body text-base text-white/75 leading-relaxed">
+        <p className="mt-5 max-w-md font-body text-base text-ink-muted leading-relaxed">
           A look inside our clinic — spaces designed for comfort, equipment built for precision.
           Photos added with patient consent.
         </p>
-        <div className="mt-12 h-px bg-white/[0.06]" />
+        <div className="mt-12 h-px bg-ink/10" />
       </div>
 
       {/* Virtual Clinic Tour — embedded near the top of Gallery, the primary
@@ -171,7 +171,7 @@ export default async function GalleryPage() {
         <VirtualTourExperience variant="embedded" />
       </div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="h-px bg-white/[0.06]" />
+        <div className="h-px bg-ink/10" />
       </div>
 
       {/* Content */}
@@ -186,7 +186,7 @@ export default async function GalleryPage() {
                 {galleryGroups.map((g) => (
                   <span
                     key={g.id}
-                    className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 font-heading text-xs font-semibold text-white/50"
+                    className="rounded-lg border border-ink/10 bg-white/70 px-3 py-1.5 font-heading text-xs font-semibold text-ink-soft"
                   >
                     {g.name}
                   </span>
