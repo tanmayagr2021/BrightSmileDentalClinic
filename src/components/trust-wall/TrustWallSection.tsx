@@ -63,7 +63,7 @@ function TrustCard({ item }: { item: PublicTrustItem }) {
     >
       {/* Timeline dot + connector */}
       <div className="absolute -top-3 left-6 flex items-center gap-2" aria-hidden="true">
-        <span className="h-2.5 w-2.5 rounded-full bg-gold shadow-[0_0_12px_2px_rgba(197,160,89,0.6)]" />
+        <span className="h-2.5 w-2.5 rounded-full bg-gold shadow-[0_0_12px_2px_rgba(212,165,106,0.6)]" />
       </div>
 
       <div className="relative h-32 w-full overflow-hidden rounded-2xl bg-tint">
@@ -103,7 +103,7 @@ export default function TrustWallSection({ items }: { items: PublicTrustItem[] }
   if (visibleModules.length === 0) return null
 
   return (
-    <div className="bg-tint py-24 lg:py-32">
+    <div className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
         <motion.p
           initial={prefersReducedMotion ? undefined : 'hidden'}

@@ -54,7 +54,7 @@ export default function ServicesSection({
 }) {
   const viewRef = useTrackViewOnce<HTMLElement>('Services Viewed')
   return (
-    <section ref={viewRef} className="relative overflow-hidden bg-ivory py-24 lg:py-32">
+    <section ref={viewRef} className="relative overflow-hidden py-24 lg:py-32">
       {/* Subtle top gradient */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white to-transparent"

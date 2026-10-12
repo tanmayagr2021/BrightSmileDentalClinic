@@ -12,16 +12,16 @@ const config: Config = {
         // Champagne Gold — primary CTA/accent (previously emerald green;
         // green is now reserved exclusively for verification/trust/status).
         primary: {
-          DEFAULT: '#C9A24B',
-          dark: '#A8823A',
-          light: '#E7D3A1',
+          DEFAULT: '#D4A56A',
+          dark: '#B98A50',
+          light: '#EBCB98',
         },
         gold: {
-          DEFAULT: '#C9A24B',
-          dark: '#A8823A',
-          light: '#E7D3A1',
+          DEFAULT: '#D4A56A',
+          dark: '#B98A50',
+          light: '#EBCB98',
           // Gold dark enough for small text on the ivory/white surfaces
-          ink: '#8A6524',
+          ink: '#8C6232',
         },
         // Text on the light ivory theme
         ink: {
@@ -91,11 +91,11 @@ const config: Config = {
         'soft': '0 2px 6px rgba(20, 32, 46, 0.04), 0 12px 32px -8px rgba(20, 32, 46, 0.10)',
         'card-hover': '0 16px 48px rgba(0, 0, 0, 0.10), 0 4px 12px rgba(0, 0, 0, 0.05)',
         'premium': '0 24px 72px rgba(14, 27, 46, 0.22), 0 8px 24px rgba(14, 27, 46, 0.10)',
-        'glow-primary': '0 0 40px rgba(201, 162, 75, 0.22)',
-        'glow-gold': '0 0 40px rgba(201, 162, 75, 0.28)',
+        'glow-primary': '0 0 40px rgba(212, 165, 106, 0.22)',
+        'glow-gold': '0 0 40px rgba(212, 165, 106, 0.28)',
         'lift': '0 8px 32px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.06)',
-        'button': '0 4px 16px rgba(201, 162, 75, 0.28), 0 1px 4px rgba(201, 162, 75, 0.14)',
-        'button-gold': '0 4px 20px rgba(201, 162, 75, 0.35), 0 1px 4px rgba(201, 162, 75, 0.18)',
+        'button': '0 4px 16px rgba(212, 165, 106, 0.28), 0 1px 4px rgba(212, 165, 106, 0.14)',
+        'button-gold': '0 4px 20px rgba(212, 165, 106, 0.35), 0 1px 4px rgba(212, 165, 106, 0.18)',
       },
     },
   },

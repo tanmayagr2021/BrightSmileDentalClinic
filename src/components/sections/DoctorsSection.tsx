@@ -87,7 +87,7 @@ export default function DoctorsSection({
   const supportTeam = teamMembers.filter((m) => m.department === 'reception' || m.department === 'admin')
 
   return (
-    <section ref={viewRef} className="bg-ivory py-24 lg:py-32">
+    <section ref={viewRef} className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Section header */}

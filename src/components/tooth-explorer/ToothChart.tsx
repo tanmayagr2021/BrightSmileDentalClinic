@@ -7,7 +7,7 @@ export type ToothStatus = 'default' | 'active' | 'selected'
 
 // Current design tokens (tailwind.config.ts) — kept as local constants here
 // since raw hex is the existing convention for SVG fill/stroke in this file.
-export const GOLD = '#C9A24B' // primary/gold — selected tooth
+export const GOLD = '#D4A56A' // primary/gold — selected tooth
 export const IVORY = '#F5EFE4' // ivory — tooth has admin content configured
 export const SAGE = '#9CAF88' // region-highlight only — distinct from the
 // reserved verification `teal` (#0C3C2D), intentionally not a theme token

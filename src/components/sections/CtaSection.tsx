@@ -45,7 +45,7 @@ export default function CtaSection({
   const displayHours = (openingHours && openingHours.length > 0) ? openingHours : [...OPENING_HOURS]
 
   return (
-    <section className="overflow-hidden bg-ivory-waves">
+    <section className="overflow-hidden">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
 

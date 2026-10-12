@@ -74,12 +74,11 @@ export default async function AboutPage() {
   ]
 
   return (
-    <div className="bg-white">
+    <div>
 
       {/* ── Hero — full dark with ghost founding year ── */}
       <div
         className="relative overflow-hidden py-28 lg:py-40"
-        data-surface="ivory"
       >
         {/* Architectural grid overlay */}
         <svg
@@ -190,7 +189,7 @@ export default async function AboutPage() {
 
       {/* ── Our Team — faces, not bios ── */}
       {teamDoctors.length > 0 && (
-        <div className="bg-ivory py-24 lg:py-32">
+        <div className="py-24 lg:py-32">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-16 text-center">
               <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
@@ -260,7 +259,6 @@ export default async function AboutPage() {
       {/* ── Values — horizontal editorial rows ── */}
       <div
         className="py-24 lg:py-32"
-        data-surface="ivory"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16">

@@ -11,8 +11,8 @@ function StarIcon({ filled }: { filled: boolean }) {
     <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden="true">
       <path
         d="M8 1.5l1.8 3.6 4 .6-2.9 2.8.7 4L8 10.4l-3.6 1.9.7-4-2.9-2.8 4-.6z"
-        fill={filled ? '#C9A24B' : 'none'}
-        stroke={filled ? '#C9A24B' : '#d1d5db'}
+        fill={filled ? '#D4A56A' : 'none'}
+        stroke={filled ? '#D4A56A' : '#d1d5db'}
         strokeWidth="1"
         strokeLinejoin="round"
       />
@@ -70,7 +70,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
   return (
     <>
       {/* ─── Part 1 — Dark editorial feature ─────────────────────────────── */}
-      <section className="bg-ivory-waves py-24 lg:py-32">
+      <section className="py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
           {/* Section header — left-aligned */}
@@ -136,8 +136,8 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                   <svg key={i} viewBox="0 0 16 16" className="h-5 w-5" aria-hidden="true">
                     <path
                       d="M8 1.5l1.8 3.6 4 .6-2.9 2.8.7 4L8 10.4l-3.6 1.9.7-4-2.9-2.8 4-.6z"
-                      fill="#C9A24B"
-                      stroke="#C9A24B"
+                      fill="#D4A56A"
+                      stroke="#D4A56A"
                       strokeWidth="1"
                       strokeLinejoin="round"
                     />
@@ -161,15 +161,15 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                   <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 flex-shrink-0 text-gold-ink" aria-hidden="true">
                     <path
                       d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z"
-                      fill="#C9A24B"
+                      fill="#D4A56A"
                       fillOpacity="0.2"
-                      stroke="#C9A24B"
+                      stroke="#D4A56A"
                       strokeWidth="1.2"
                       strokeLinejoin="round"
                     />
                     <path
                       d="M5.5 8l2 2 3.5-3.5"
-                      stroke="#C9A24B"
+                      stroke="#D4A56A"
                       strokeWidth="1.2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -214,7 +214,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
       </section>
 
       {/* ─── Part 2 — Secondary testimonials on white ─────────────────────── */}
-      <section className="bg-white py-24 lg:py-32">
+      <section className="py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
           <motion.div

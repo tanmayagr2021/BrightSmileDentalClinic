@@ -86,10 +86,10 @@ export default async function ServiceDetailPage({ params }: Props) {
   const otherCategories = (allCategoriesData ?? []) as ServiceCategoryRow[]
 
   return (
-    <div className="bg-white">
+    <div>
       <TrackOnMount event="Service Viewed" data={{ service: category.slug }} />
       {/* Hero */}
-      <div className="bg-tint border-b border-gray-100 py-20 lg:py-28">
+      <div className="py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-6">
             <Link href="/services" className="font-body text-sm text-gray-600 hover:text-primary transition-colors">
@@ -203,7 +203,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           <div className="space-y-6">
 
             {/* Book card */}
-            <div className="rounded-2xl border border-[#E7E1D6] bg-ivory-waves p-7 text-ink shadow-soft">
+            <div className="rounded-2xl border border-[#E7E1D6] bg-white/70 backdrop-blur-sm p-7 text-ink shadow-soft">
               <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-3">
                 Ready to Begin?
               </h3>

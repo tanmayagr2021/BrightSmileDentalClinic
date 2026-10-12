@@ -10,8 +10,8 @@ export default function TypingIndicator() {
         className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold"
         style={{
           background: 'linear-gradient(135deg, #0E1B2E 0%, #1a2540 100%)',
-          border: '1px solid rgba(201, 162, 75,0.35)',
-          color: '#C9A24B',
+          border: '1px solid rgba(212, 165, 106, 0.35)',
+          color: '#D4A56A',
           fontFamily: 'Georgia, serif',
         }}
         aria-hidden="true"
@@ -32,7 +32,7 @@ export default function TypingIndicator() {
           <motion.span
             key={i}
             className="h-1.5 w-1.5 rounded-full"
-            style={{ backgroundColor: '#C9A24B' }}
+            style={{ backgroundColor: '#D4A56A' }}
             animate={{ opacity: [0.3, 1, 0.3], y: [0, -3, 0] }}
             transition={{
               duration: 1.1,

@@ -93,7 +93,6 @@ export default function PatientJourneySection({
   return (
     <section
       className="relative overflow-hidden py-24 lg:py-32"
-      data-surface="ivory"
     >
       {/* Architectural grid overlay */}
       <svg

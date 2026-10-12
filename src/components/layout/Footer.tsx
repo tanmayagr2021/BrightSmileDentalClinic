@@ -185,7 +185,7 @@ export default async function Footer() {
   const hours = buildHours(hoursData ?? [])
 
   return (
-    <footer className="border-t border-ink/10 bg-tint" aria-labelledby="footer-heading">
+    <footer className="" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">Footer</h2>
 
       <Container>

@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #C9A24B;
-  --color-primary-dark: #A8823A;
-  --color-primary-light: #E7D3A1;
-  --color-gold: #C9A24B;
-  --color-gold-dark: #A8823A;
+  --color-primary: #D4A56A;
+  --color-primary-dark: #B98A50;
+  --color-primary-light: #EBCB98;
+  --color-gold: #D4A56A;
+  --color-gold-dark: #B98A50;
   --color-dark: #0E1B2E;
   --color-deep: #070F1C;
   --color-slate: #1E293B;
@@ -18,7 +18,7 @@
   --color-cream-muted: #C9BFAE;
   /* Light ivory theme */
   --color-ivory-base: #F8F6F3;
-  --color-gold-ink: #8A6524;
+  --color-gold-ink: #8C6232;
   --color-line: #E7E1D6;
 }
 
@@ -54,7 +54,7 @@
   }
 
   ::selection {
-    background-color: rgba(201, 162, 75, 0.18);
+    background-color: rgba(212, 165, 106, 0.18);
     color: var(--color-dark);
   }
 
@@ -115,6 +115,20 @@
     background-repeat: no-repeat;
   }
 
+  /* Whole-page backdrop behind every public page. A fixed layer rather than
+     background-attachment: fixed, which iOS Safari ignores. */
+  .site-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--color-ivory-base);
+    background-image: url('/images/bg-ivory-waves.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
   /* Section tint background */
   .bg-section {
     background-color: var(--color-tint);
@@ -143,6 +157,17 @@
   /* Section heading — premium scale */
   .heading-xl {
     @apply font-display text-4xl text-dark tracking-display leading-[1.06] sm:text-5xl lg:text-[3.5rem];
+  }
+
+  /* Sheen on every solid gold surface (buttons, badges, the header CTA): a
+     soft highlight from the top-left so the gold reads as polished metal
+     rather than flat paint. Sits over the background colour, so hover:bg-*
+     colour changes still work underneath it. */
+  .bg-gold,
+  .bg-primary,
+  .btn-gold,
+  .btn-primary {
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 42%, rgba(255, 255, 255, 0) 60%, rgba(120, 80, 30, 0.08) 100%);
   }
 
   /* Gold CTA button — premium calls to action */
@@ -179,7 +204,7 @@
   /* Bright AI panel — gold-tinted thin scrollbar */
   .scrollbar-ai {
     scrollbar-width: thin;
-    scrollbar-color: rgba(201, 162, 75, 0.2) transparent;
+    scrollbar-color: rgba(212, 165, 106, 0.2) transparent;
   }
   .scrollbar-ai::-webkit-scrollbar {
     width: 4px;
@@ -188,11 +213,11 @@
     background: transparent;
   }
   .scrollbar-ai::-webkit-scrollbar-thumb {
-    background: rgba(201, 162, 75, 0.2);
+    background: rgba(212, 165, 106, 0.2);
     border-radius: 2px;
   }
   .scrollbar-ai::-webkit-scrollbar-thumb:hover {
-    background: rgba(201, 162, 75, 0.35);
+    background: rgba(212, 165, 106, 0.35);
   }
 }
 

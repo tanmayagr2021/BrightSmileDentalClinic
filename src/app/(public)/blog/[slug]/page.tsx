@@ -67,8 +67,8 @@ export default async function BlogPostPage({ params }: Props) {
   const typedPost = post as BlogPostRow
 
   return (
-    <div className="bg-white">
-      <div className="bg-tint border-b border-gray-100 py-16 lg:py-20">
+    <div>
+      <div className="py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-6">
             <Link href="/blog" className="font-body text-sm text-gray-600 hover:text-primary transition-colors">
@@ -145,7 +145,7 @@ export default async function BlogPostPage({ params }: Props) {
           </article>
 
           <aside className="space-y-6">
-            <div className="rounded-2xl border border-[#E7E1D6] bg-ivory-waves p-7 text-ink shadow-soft">
+            <div className="rounded-2xl border border-[#E7E1D6] bg-white/70 backdrop-blur-sm p-7 text-ink shadow-soft">
               <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-3">
                 Need Dental Care?
               </h3>

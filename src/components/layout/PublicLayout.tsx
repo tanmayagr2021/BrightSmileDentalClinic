@@ -23,6 +23,10 @@ export default async function PublicLayout({ children }: PublicLayoutProps) {
         Skip to main content
       </a>
 
+      {/* One backdrop for the whole page: pinned to the viewport so every
+          section scrolls over the same continuous ivory waves */}
+      <div className="site-backdrop" aria-hidden="true" />
+
       <Header content={content} />
 
       {/* pb-[4.5rem] on mobile reserves space above the fixed action bar */}

@@ -50,13 +50,13 @@ export default function VirtualTourPortal({ imageUrl, roomName, variant }: Virtu
 
   if (variant === 'band') {
     return (
-      <section className="bg-white py-10 sm:py-14" aria-label="Virtual tour">
+      <section className="py-10 sm:py-14" aria-label="Virtual tour">
         <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-14">
           <Link
             href={TOUR_HREF}
             onClick={() => trackEvent('Hero Virtual Tour Portal Clicked', { location: 'home_band' })}
             aria-label={accessibleLabel}
-            className="group grid overflow-hidden rounded-3xl border border-[#E7E1D6] bg-ivory-waves shadow-soft transition-shadow duration-300 hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 md:grid-cols-[1.35fr_1fr]"
+            className="group grid overflow-hidden rounded-3xl border border-[#E7E1D6] bg-white/70 backdrop-blur-sm shadow-soft transition-shadow duration-300 hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 md:grid-cols-[1.35fr_1fr]"
           >
             <div className="relative aspect-[16/9] overflow-hidden md:aspect-auto md:min-h-[17rem]">
               <motion.div className="absolute -inset-x-[6%] inset-y-0" animate={driftAnimate} transition={driftTransition}>

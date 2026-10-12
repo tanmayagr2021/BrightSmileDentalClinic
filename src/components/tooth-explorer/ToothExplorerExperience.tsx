@@ -21,7 +21,7 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
   const tooth = teeth.find((t) => t.tooth_number === selectedNumber) ?? null
 
   return (
-    <div className="min-h-screen bg-ivory-page">
+    <div className="min-h-screen">
       <section className="relative overflow-hidden px-6 pb-10 pt-32 sm:pt-40">
         <div className="pointer-events-none absolute inset-0 opacity-[0.06]" aria-hidden="true">
           <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-gold blur-[160px]" />

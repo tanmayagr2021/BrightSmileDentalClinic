@@ -79,14 +79,14 @@ export default async function DoctorProfilePage({ params }: Props) {
   })
 
   return (
-    <div className="bg-white">
+    <div>
       <TrackOnMount event="Doctor Profile Viewed" data={{ doctor: doctor.slug }} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(physicianSchema) }}
       />
       {/* Hero */}
-      <div className="border-b border-gray-100 py-20 lg:py-28" style={{ backgroundColor: `${dColor(doctor)}12` }}>
+      <div className="py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <div className="mb-6 flex items-center gap-2">
@@ -203,7 +203,7 @@ export default async function DoctorProfilePage({ params }: Props) {
           <div className="space-y-6">
 
             {/* Book card */}
-            <div className="rounded-2xl border border-[#E7E1D6] bg-ivory-waves p-7 text-ink shadow-soft">
+            <div className="rounded-2xl border border-[#E7E1D6] bg-white/70 backdrop-blur-sm p-7 text-ink shadow-soft">
               <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-3">
                 Book a Visit
               </h3>

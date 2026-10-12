@@ -35,7 +35,7 @@ type Stat = { count: number; suffix: string; label: string }
 
 export default function StatsSection({ stats }: { stats: Stat[] }) {
   return (
-    <section className="relative overflow-hidden bg-white">
+    <section className="relative overflow-hidden">
 
       {/* Subtle dot-grid texture */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">

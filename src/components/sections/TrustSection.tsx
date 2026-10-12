@@ -13,7 +13,7 @@ export default function TrustSection({
   indicators: TrustIndicatorRow[]
 }) {
   return (
-    <section className="relative bg-white py-24 lg:py-36">
+    <section className="relative py-24 lg:py-36">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Asymmetric split grid */}

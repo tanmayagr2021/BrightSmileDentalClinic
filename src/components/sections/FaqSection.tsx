@@ -39,7 +39,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqRow[] }) {
   }
 
   return (
-    <section className="bg-ivory py-24 lg:py-32">
+    <section className="py-24 lg:py-32">
       <Script
         id="faq-schema"
         type="application/ld+json"

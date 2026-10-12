@@ -94,12 +94,11 @@ export default async function ServicesPage() {
   const standardServices = services.filter((s) => !PREMIUM_SLUGS.has(s.slug))
 
   return (
-    <div className="bg-white">
+    <div>
 
       {/* ── Hero — full dark ── */}
       <div
         className="relative overflow-hidden py-16 lg:py-24"
-        data-surface="ivory"
       >
         {/* Architectural grid overlay */}
         <svg
@@ -161,7 +160,7 @@ export default async function ServicesPage() {
 
       {/* ── PREMIUM / SIGNATURE SERVICES ── */}
       {premiumServices.length > 0 && (
-        <section className="bg-tint py-20 lg:py-28">
+        <section className="py-20 lg:py-28">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {/* Banner header */}
             <div className="mb-12 border-l-4 border-gold pl-6">
@@ -280,7 +279,7 @@ export default async function ServicesPage() {
 
       {/* ── ADDITIONAL SERVICES — compact grid ── */}
       {standardServices.length > 0 && (
-        <section className="border-t border-gray-100 bg-white py-20 lg:py-28">
+        <section className="py-20 lg:py-28">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-12 border-l-4 border-primary/70 pl-6">
               <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-gold-ink">
@@ -359,7 +358,6 @@ export default async function ServicesPage() {
       {/* ── CTA strip — dark centered ── */}
       <div
         className="py-20 lg:py-24"
-        data-surface="ivory"
       >
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">

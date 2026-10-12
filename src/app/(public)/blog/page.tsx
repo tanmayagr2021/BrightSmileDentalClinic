@@ -25,8 +25,8 @@ export default async function BlogPage() {
   const typedPosts = (posts ?? []) as Pick<BlogPostRow, 'id' | 'title' | 'slug' | 'excerpt' | 'cover_image_url' | 'published_at' | 'read_time_minutes' | 'is_featured'>[]
 
   return (
-    <div className="bg-white">
-      <div className="bg-ivory-waves border-b border-ink/10 py-16 lg:py-20">
+    <div>
+      <div className="py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="eyebrow mb-3 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />

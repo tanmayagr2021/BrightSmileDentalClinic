@@ -66,7 +66,7 @@ export default function MobileActionBar({ phone, phoneWhatsApp }: { phone: strin
         <Link
           href="/appointments"
           className="flex flex-1 items-center justify-center gap-2 py-4 font-heading text-sm font-semibold transition-colors active:opacity-90"
-          style={{ background: '#C9A24B', color: '#14202E' }}
+          style={{ background: '#D4A56A', color: '#14202E' }}
           aria-label="Book an appointment"
         >
           <CalendarIcon />
@@ -75,7 +75,7 @@ export default function MobileActionBar({ phone, phoneWhatsApp }: { phone: strin
       </div>
 
       {/* iOS safe area fill */}
-      <div className="h-[env(safe-area-inset-bottom,0px)]" style={{ background: '#C9A24B' }} />
+      <div className="h-[env(safe-area-inset-bottom,0px)]" style={{ background: '#D4A56A' }} />
     </div>
   )
 }

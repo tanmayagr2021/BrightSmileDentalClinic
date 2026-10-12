@@ -109,7 +109,7 @@ export default function MedicalHistoryWizard({ sessionId, onComplete, onCancel }
         <div>
           <h3
             className="text-sm font-semibold"
-            style={{ color: '#C9A24B', fontFamily: 'var(--font-poppins)' }}
+            style={{ color: '#D4A56A', fontFamily: 'var(--font-poppins)' }}
           >
             Medical History
           </h3>
@@ -133,7 +133,7 @@ export default function MedicalHistoryWizard({ sessionId, onComplete, onCancel }
       <div className="h-0.5 w-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
         <motion.div
           className="h-full"
-          style={{ background: 'linear-gradient(90deg, #C9A24B, #A8823A)' }}
+          style={{ background: 'linear-gradient(90deg, #D4A56A, #B98A50)' }}
           animate={{ width: `${((stepIndex + 1) / MEDICAL_HISTORY_STEPS.length) * 100}%` }}
           transition={{ duration: 0.4, ease: 'easeInOut' }}
         />
@@ -209,10 +209,10 @@ export default function MedicalHistoryWizard({ sessionId, onComplete, onCancel }
             disabled={submitting}
             className="flex items-center gap-2 rounded-xl px-5 py-2 text-xs font-semibold transition-all duration-200 hover:opacity-90 active:scale-[0.97] disabled:opacity-60"
             style={{
-              background: 'linear-gradient(135deg, #C9A24B 0%, #A8823A 100%)',
+              background: 'linear-gradient(135deg, #D4A56A 0%, #B98A50 100%)',
               color: '#14202E',
               fontFamily: 'var(--font-poppins)',
-              boxShadow: '0 4px 16px rgba(201, 162, 75,0.3)',
+              boxShadow: '0 4px 16px rgba(212, 165, 106, 0.3)',
             }}
           >
             {submitting ? (
@@ -230,7 +230,7 @@ export default function MedicalHistoryWizard({ sessionId, onComplete, onCancel }
             disabled={step === 'personal' && !data.patientName.trim()}
             className="flex items-center gap-1.5 rounded-xl px-5 py-2 text-xs font-semibold transition-all duration-200 hover:opacity-90 active:scale-[0.97] disabled:opacity-50"
             style={{
-              background: 'linear-gradient(135deg, #C9A24B 0%, #A8823A 100%)',
+              background: 'linear-gradient(135deg, #D4A56A 0%, #B98A50 100%)',
               color: '#14202E',
               fontFamily: 'var(--font-poppins)',
             }}
@@ -268,7 +268,7 @@ function Field({
         style={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-poppins)' }}
       >
         {label}
-        {required && <span style={{ color: '#C9A24B' }}> *</span>}
+        {required && <span style={{ color: '#D4A56A' }}> *</span>}
       </label>
       {canAssociate ? cloneElement(children as React.ReactElement<{ id?: string }>, { id }) : children}
     </div>
@@ -393,15 +393,15 @@ function ComplaintStep({
               style={{
                 background:
                   data.dentalAnxietyLevel === level
-                    ? 'linear-gradient(135deg, rgba(201, 162, 75,0.2) 0%, rgba(201, 162, 75,0.1) 100%)'
+                    ? 'linear-gradient(135deg, rgba(212, 165, 106, 0.2) 0%, rgba(212, 165, 106, 0.1) 100%)'
                     : 'rgba(255,255,255,0.04)',
                 border:
                   data.dentalAnxietyLevel === level
-                    ? '1px solid rgba(201, 162, 75,0.5)'
+                    ? '1px solid rgba(212, 165, 106, 0.5)'
                     : '1px solid rgba(255,255,255,0.1)',
                 color:
                   data.dentalAnxietyLevel === level
-                    ? '#C9A24B'
+                    ? '#D4A56A'
                     : 'rgba(255,255,255,0.55)',
                 fontFamily: 'var(--font-poppins)',
               }}
@@ -433,13 +433,13 @@ function MedicalStep({
             className="rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200"
             style={{
               background: data.medicalConditions.includes(c)
-                ? 'rgba(201, 162, 75,0.18)'
+                ? 'rgba(212, 165, 106, 0.18)'
                 : 'rgba(255,255,255,0.05)',
               border: data.medicalConditions.includes(c)
-                ? '1px solid rgba(201, 162, 75,0.5)'
+                ? '1px solid rgba(212, 165, 106, 0.5)'
                 : '1px solid rgba(255,255,255,0.1)',
               color: data.medicalConditions.includes(c)
-                ? '#C9A24B'
+                ? '#D4A56A'
                 : 'rgba(255,255,255,0.6)',
               fontFamily: 'var(--font-poppins)',
             }}
@@ -505,15 +505,15 @@ function DentalStep({
               style={{
                 background:
                   data.lastDentalVisit === opt
-                    ? 'rgba(201, 162, 75,0.15)'
+                    ? 'rgba(212, 165, 106, 0.15)'
                     : 'rgba(255,255,255,0.04)',
                 border:
                   data.lastDentalVisit === opt
-                    ? '1px solid rgba(201, 162, 75,0.45)'
+                    ? '1px solid rgba(212, 165, 106, 0.45)'
                     : '1px solid rgba(255,255,255,0.09)',
                 color:
                   data.lastDentalVisit === opt
-                    ? '#C9A24B'
+                    ? '#D4A56A'
                     : 'rgba(255,255,255,0.55)',
                 fontFamily: 'var(--font-poppins)',
               }}
@@ -666,7 +666,7 @@ function ReviewStep({ data }: { data: MedicalHistoryData }) {
           >
             <p
               className="mb-2 text-xs font-semibold uppercase tracking-wider"
-              style={{ color: '#C9A24B', fontFamily: 'var(--font-poppins)' }}
+              style={{ color: '#D4A56A', fontFamily: 'var(--font-poppins)' }}
             >
               {section.title}
             </p>

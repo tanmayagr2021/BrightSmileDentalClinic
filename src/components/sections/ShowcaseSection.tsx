@@ -28,11 +28,12 @@ const AUTO_MS = 7000
 const SLIDE_BTN =
   'flex h-8 w-8 items-center justify-center rounded-full border border-ink/20 bg-white/50 text-ink-muted transition-all hover:border-ink/40 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold'
 
-// The curved edge of the ivory panel, in a 0–100 box stretched over the
-// panel. Same path drives the mask and the gold hairline so they line up.
-const SWEEP_EDGE = 'M57 0 C50 34 62 68 96 100'
-const SWEEP_MASK = `url("data:image/svg+xml,${encodeURIComponent(
-  `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><filter id='f'><feGaussianBlur stdDeviation='0.6'/></filter><path filter='url(#f)' d='M0 0 H57 C50 34 62 68 96 100 H0 Z' fill='#000'/></svg>`
+// Desktop: the photo dissolves into the page backdrop along a gentle curve
+// instead of meeting it at a hard edge. Drawn in a 0–100 box stretched over
+// the whole hero; the wide blur is the feather. The shape overshoots the box
+// so the blur never fades the top, right or bottom edges.
+const PHOTO_FADE_MASK = `url("data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><filter id='f' filterUnits='userSpaceOnUse' x='-50' y='-50' width='200' height='200'><feGaussianBlur stdDeviation='7 5'/></filter><path filter='url(#f)' d='M46 -30 C41 20 47 70 70 130 H150 V-30 Z' fill='#000'/></svg>`
 )}")`
 
 export default function ShowcaseSection({
@@ -82,14 +83,17 @@ export default function ShowcaseSection({
 
   return (
     <section
-      className="-mt-[4.75rem] lg:-mt-[6.5rem] relative overflow-hidden bg-ivory-waves lg:min-h-[100svh]"
+      className="-mt-[4.75rem] lg:-mt-[6.5rem] relative overflow-hidden lg:min-h-[100svh]"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       aria-label="Bright Smile Dental Clinic"
     >
-      {/* ── Clinic photo — full-bleed on the right on desktop, a banner
-          under the header on mobile ── */}
-      <div className="relative mt-[4.75rem] aspect-[4/3] w-full overflow-hidden sm:aspect-[16/9] lg:absolute lg:inset-y-0 lg:right-0 lg:left-[28%] lg:mt-0 lg:aspect-auto lg:w-auto">
+      {/* ── Clinic photo — fills the hero on desktop and fades out towards
+          the copy; a banner under the header on mobile ── */}
+      <div
+        className="relative mt-[4.75rem] aspect-[4/3] w-full overflow-hidden [mask-image:linear-gradient(to_bottom,#000_70%,transparent)] sm:aspect-[16/9] lg:absolute lg:inset-0 lg:mt-0 lg:aspect-auto lg:[mask-image:var(--photo-fade)] lg:[mask-size:100%_100%]"
+        style={{ ['--photo-fade' as string]: PHOTO_FADE_MASK }}
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={current.id}
@@ -121,27 +125,8 @@ export default function ShowcaseSection({
         </AnimatePresence>
 
         {/* Light haze at the top so the nav stays readable over the photo */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-44 bg-gradient-to-b from-white/75 via-white/30 to-transparent lg:block" aria-hidden="true" />
-        {/* Mobile: photo fades into the ivory copy panel below */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#F8F6F3] to-transparent lg:hidden" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-44 bg-gradient-to-b from-white/70 via-white/25 to-transparent lg:block" aria-hidden="true" />
       </div>
-
-      {/* ── Ivory sweep — the curved panel the copy sits on (desktop) ── */}
-      <div
-        className="pointer-events-none absolute inset-y-0 left-0 z-[1] hidden w-[74%] bg-ivory-waves lg:block"
-        style={{ WebkitMaskImage: SWEEP_MASK, maskImage: SWEEP_MASK, WebkitMaskSize: '100% 100%', maskSize: '100% 100%' }}
-        aria-hidden="true"
-      />
-      {/* Gold hairline tracing the sweep's edge, echoing the background's lines */}
-      <svg
-        className="pointer-events-none absolute inset-y-0 left-0 z-[2] hidden h-full w-[74%] lg:block"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path d={SWEEP_EDGE} fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="6" vectorEffect="non-scaling-stroke" opacity="0.55" />
-        <path d={SWEEP_EDGE} fill="none" stroke="#C9A24B" strokeWidth="1.2" vectorEffect="non-scaling-stroke" opacity="0.7" />
-      </svg>
 
       {/* ── Copy ── */}
       <div className="relative z-10 flex flex-col justify-center px-6 pb-14 pt-4 sm:px-10 lg:min-h-[100svh] lg:pb-16 lg:pl-14 lg:pr-0 lg:pt-[8.5rem] xl:pl-16">
@@ -227,7 +212,7 @@ export default function ShowcaseSection({
                   className="relative h-[2px] overflow-hidden rounded-full transition-all duration-500 focus-visible:outline-none"
                   style={{
                     width: i === active ? '2rem' : '0.375rem',
-                    backgroundColor: i === active ? '#C9A24B' : 'rgba(20,32,46,0.2)',
+                    backgroundColor: i === active ? '#D4A56A' : 'rgba(20,32,46,0.2)',
                   }}
                 />
               ))}

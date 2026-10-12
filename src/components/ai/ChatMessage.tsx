@@ -52,7 +52,7 @@ export default function ChatMessage({
           style={
             isUser
               ? {
-                  background: 'linear-gradient(135deg, #C9A24B 0%, #A8823A 100%)',
+                  background: 'linear-gradient(135deg, #D4A56A 0%, #B98A50 100%)',
                   color: '#14202E',
                   fontFamily: 'var(--font-poppins)',
                   fontWeight: 500,
@@ -87,9 +87,9 @@ export default function ChatMessage({
             transition={{ delay: 0.15 }}
             className="flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-semibold transition-all duration-200 hover:opacity-80 active:scale-[0.97]"
             style={{
-              background: 'rgba(201, 162, 75,0.12)',
-              border: '1px solid rgba(201, 162, 75,0.32)',
-              color: '#C9A24B',
+              background: 'rgba(212, 165, 106, 0.12)',
+              border: '1px solid rgba(212, 165, 106, 0.32)',
+              color: '#D4A56A',
               fontFamily: 'var(--font-poppins)',
             }}
           >
@@ -132,9 +132,9 @@ export default function ChatMessage({
             transition={{ delay: 0.2 }}
             className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-semibold transition-all duration-200 hover:opacity-80 active:scale-[0.97]"
             style={{
-              background: 'linear-gradient(135deg, rgba(201, 162, 75,0.15) 0%, rgba(201, 162, 75,0.08) 100%)',
-              border: '1px solid rgba(201, 162, 75,0.4)',
-              color: '#C9A24B',
+              background: 'linear-gradient(135deg, rgba(212, 165, 106, 0.15) 0%, rgba(212, 165, 106, 0.08) 100%)',
+              border: '1px solid rgba(212, 165, 106, 0.4)',
+              color: '#D4A56A',
               fontFamily: 'var(--font-poppins)',
             }}
           >
@@ -181,7 +181,7 @@ function FormattedContent({
         return (
           <p key={i} className={`${isBullet ? 'flex gap-1.5' : ''} ${i > 0 ? 'mt-1.5' : ''}`}>
             {isBullet && (
-              <span style={{ color: '#C9A24B', flexShrink: 0, marginTop: '2px' }}>·</span>
+              <span style={{ color: '#D4A56A', flexShrink: 0, marginTop: '2px' }}>·</span>
             )}
             <span>{parsed}</span>
           </p>
@@ -195,7 +195,7 @@ function parseBold(text: string): React.ReactNode {
   const parts = text.split(/(\*\*[^*]+\*\*)/)
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i} style={{ color: '#C9A24B', fontWeight: 600 }}>{part.slice(2, -2)}</strong>
+      return <strong key={i} style={{ color: '#D4A56A', fontWeight: 600 }}>{part.slice(2, -2)}</strong>
     }
     return <span key={i}>{part}</span>
   })

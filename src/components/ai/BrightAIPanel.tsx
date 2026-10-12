@@ -178,7 +178,7 @@ export default function BrightAIPanel({
               border: '1px solid rgba(255,255,255,0.09)',
               borderRadius: '20px',
               boxShadow:
-                '0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(201, 162, 75,0.08) inset, 0 1px 0 rgba(255,255,255,0.07) inset',
+                '0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(212, 165, 106, 0.08) inset, 0 1px 0 rgba(255,255,255,0.07) inset',
             }}
             initial={{ opacity: 0, scale: 0.94, y: 16, transformOrigin: 'bottom right' }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -189,7 +189,7 @@ export default function BrightAIPanel({
             <div
               className="h-[2px] w-full shrink-0"
               style={{
-                background: 'linear-gradient(90deg, transparent 0%, #C9A24B 35%, #E7D3A1 65%, transparent 100%)',
+                background: 'linear-gradient(90deg, transparent 0%, #D4A56A 35%, #EBCB98 65%, transparent 100%)',
                 opacity: 0.7,
               }}
             />
@@ -205,7 +205,7 @@ export default function BrightAIPanel({
                   <div
                     ref={scrollRef}
                     className="flex-1 overflow-y-auto py-3"
-                    style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(201, 162, 75,0.2) transparent' }}
+                    style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(212, 165, 106, 0.2) transparent' }}
                   >
                     {/* Welcome message */}
                     {messages.length === 0 && (
@@ -297,7 +297,7 @@ export default function BrightAIPanel({
                         disabled={!input.trim() || isStreaming}
                         className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-200 hover:opacity-80 active:scale-95 disabled:opacity-30"
                         style={{
-                          background: 'linear-gradient(135deg, #C9A24B 0%, #A8823A 100%)',
+                          background: 'linear-gradient(135deg, #D4A56A 0%, #B98A50 100%)',
                         }}
                         aria-label="Send message"
                       >
@@ -430,7 +430,7 @@ function WelcomeMessage() {
           className="text-sm leading-relaxed"
           style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-inter)' }}
         >
-          {"Hello! I’m "}<strong style={{ color: '#C9A24B' }}>Bright AI</strong>{", your digital receptionist at Bright Smile Dental Clinic. I can help you find the right doctor, explore our services, book an appointment, or answer any questions about your dental care. How can I help you today?"}
+          {"Hello! I’m "}<strong style={{ color: '#D4A56A' }}>Bright AI</strong>{", your digital receptionist at Bright Smile Dental Clinic. I can help you find the right doctor, explore our services, book an appointment, or answer any questions about your dental care. How can I help you today?"}
         </p>
       </div>
       <span

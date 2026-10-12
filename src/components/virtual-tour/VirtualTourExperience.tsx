@@ -121,7 +121,7 @@ export default function VirtualTourExperience({
   if (embedded) return content
 
   return (
-    <div className="min-h-screen bg-ivory-page">
+    <div className="min-h-screen">
       {content}
     </div>
   )

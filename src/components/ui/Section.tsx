@@ -11,9 +11,9 @@ interface SectionProps {
 }
 
 const backgroundClasses: Record<Background, string> = {
-  white: 'bg-white',
-  tint: 'bg-tint',
-  dark: 'bg-ivory-waves',
+  white: 'bg-transparent',
+  tint: 'bg-transparent',
+  dark: 'bg-transparent',
   transparent: 'bg-transparent',
 }
 

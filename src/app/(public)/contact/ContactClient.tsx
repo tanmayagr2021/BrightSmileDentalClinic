@@ -153,7 +153,7 @@ export default function ContactClient({
   }
 
   return (
-    <div className="bg-white">
+    <div>
       {/* Emergency banner */}
       <div className="bg-red-50 border-b border-red-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -181,7 +181,7 @@ export default function ContactClient({
       <div className="flex min-h-[calc(100vh-56px)] flex-col lg:flex-row">
 
         {/* LEFT PANEL — dark, contact info */}
-        <div className="relative flex flex-col overflow-hidden bg-ivory-waves px-8 py-14 lg:w-[42%] lg:px-14 lg:py-20 xl:px-16">
+        <div className="relative flex flex-col overflow-hidden px-8 py-14 lg:w-[42%] lg:px-14 lg:py-20 xl:px-16">
           {/* Architectural grid overlay */}
           <svg
             className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.025]"
@@ -337,7 +337,7 @@ export default function ContactClient({
         </div>
 
         {/* RIGHT PANEL — white, form */}
-        <div className="flex-1 bg-white px-8 py-14 lg:px-14 lg:py-20 xl:px-16">
+        <div className="flex-1 px-8 py-14 lg:px-14 lg:py-20 xl:px-16">
           <motion.div
             variants={stagger}
             initial="hidden"
@@ -488,8 +488,8 @@ export default function ContactClient({
       </div>
 
       {/* Below split — map + directions */}
-      <div className="bg-white">
-        <div className="border-t border-gray-100">
+      <div>
+        <div>
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -506,8 +506,7 @@ export default function ContactClient({
               rel="noopener noreferrer"
               onClick={() => trackEvent('Map Clicked')}
               aria-label="Open Bright Smile Dental Clinic on Google Maps"
-              className="group relative block overflow-hidden rounded-2xl border border-gray-100 h-80 sm:h-96 transition-all duration-300 hover:shadow-premium hover:border-primary/20"
-              data-surface="ivory"
+              className="group relative block overflow-hidden rounded-2xl border border-gray-100 h-80 sm:h-96 transition-all duration-300 hover:shadow-premium hover:border-primary/20 bg-white/70"
             >
               {/* Dot grid */}
               <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">

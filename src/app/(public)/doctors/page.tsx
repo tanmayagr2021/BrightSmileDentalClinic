@@ -269,7 +269,6 @@ export default async function DoctorsPage() {
       {/* ── HERO — Dark Premium ── */}
       <section
         className="relative overflow-hidden py-24 lg:py-32"
-        data-surface="ivory"
       >
         {/* Architectural grid */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.022]" aria-hidden="true">
@@ -323,7 +322,7 @@ export default async function DoctorsPage() {
       </section>
 
       {/* ── LEAD DENTISTS — Editorial Feature Cards ── */}
-      <section className="bg-ivory py-24 lg:py-32">
+      <section className="py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
           {/* Section header */}
@@ -379,7 +378,6 @@ export default async function DoctorsPage() {
       {/* ── SPECIALIST CONSULTANTS ── */}
       <section
         className="relative overflow-hidden py-24 lg:py-28"
-        data-surface="ivory"
       >
         {/* Subtle grid */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.02]" aria-hidden="true">
@@ -480,7 +478,7 @@ export default async function DoctorsPage() {
       </section>
 
       {/* ── COMPLETE CARE TEAM ── */}
-      <section className="bg-white py-24 lg:py-32">
+      <section className="py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
           {/* Section header */}
@@ -609,8 +607,7 @@ export default async function DoctorsPage() {
 
           {/* Closing CTA strip */}
           <div
-            className="overflow-hidden rounded-2xl border border-[#E7E1D6] p-8 text-center shadow-soft lg:p-12"
-            data-surface="ivory"
+            className="overflow-hidden rounded-2xl border border-[#E7E1D6] p-8 text-center shadow-soft backdrop-blur-sm bg-white/70 lg:p-12"
           >
             <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-gold-ink mb-4">
               Direct Bookings Available

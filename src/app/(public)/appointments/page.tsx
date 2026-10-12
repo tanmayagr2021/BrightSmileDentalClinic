@@ -84,9 +84,9 @@ export default async function AppointmentsPage({
   const openingHours = buildHours(hoursData ?? [])
 
   return (
-    <div className="bg-white">
+    <div>
       {/* Page header */}
-      <div className="bg-ivory-waves border-b border-ink/10 py-16 lg:py-20">
+      <div className="py-16 lg:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <span className="eyebrow mb-3 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />
