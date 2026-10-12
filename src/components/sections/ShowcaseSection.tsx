@@ -48,7 +48,7 @@ export default function ShowcaseSection({
   const displayPhone = phone ?? CLINIC_CONTACT.phone
   const trustChips = [
     pick(content, 'home.hero.badge_1', 'Covering All Specialities'),
-    pick(content, 'home.hero.badge_2', 'Since 2006'),
+    pick(content, 'home.hero.badge_2', 'Est. 2013'),
     pick(content, 'home.hero.badge_3', 'Experienced Team'),
     pick(content, 'home.hero.badge_4', 'Kathmandu'),
   ]

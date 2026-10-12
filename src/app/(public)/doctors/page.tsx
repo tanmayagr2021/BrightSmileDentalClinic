@@ -309,7 +309,7 @@ export default async function DoctorsPage() {
             {[
               'Experienced Team of Dentists',
               'Specialist Consultants On-Call',
-              'Serving Kathmandu since 2006',
+              'Serving Kathmandu since 2013',
               'Nagpokhari, Naxal',
             ].map((item) => (
               <span key={item} className="flex items-center gap-2.5 font-heading text-[0.68rem] font-medium text-ink-muted">

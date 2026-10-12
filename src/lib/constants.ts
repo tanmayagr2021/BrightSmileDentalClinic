@@ -16,8 +16,8 @@ export const CLINIC_CONTACT = {
   address: 'Nagpokhari, Naxal',
   addressFull: 'Nagpokhari, Naxal, Kathmandu, Nepal',
   googleMapsUrl: 'https://maps.app.goo.gl/1zc3q43cxKxpcoEM6',
-  facebook: 'https://www.facebook.com/brightsmilenepal/',
-  instagram: 'https://www.instagram.com/brightsmiles_np',
+  facebook: 'https://www.facebook.com/search/top?q=bright%20smile%20dental%20clinic',
+  instagram: 'https://www.instagram.com/brightsmiles_np/',
 } as const
 
 // Pre-filled into the WhatsApp compose box when a visitor taps any "WhatsApp
@@ -865,7 +865,7 @@ export const TESTIMONIALS_STATIC: Testimonial[] = [
 // Future: fetch from `site_settings` → about / clinic_story
 
 export const CLINIC_STORY_STATIC = {
-  founded: '2006',
+  founded: '2013',
   mission:
     'To provide exceptional dental care that improves lives, through clinical excellence, genuine compassion, and an unwavering commitment to patient comfort.',
   vision:
@@ -890,14 +890,14 @@ export const CLINIC_STORY_STATIC = {
   ],
   whyChooseUs: [
     'Experienced team of dentists covering all areas of dentistry',
-    'Care you can count on since 2006',
+    'Care you can count on since 2013',
     'Modern digital X-ray and advanced sterilisation equipment',
     'Gentle approach, especially for anxious and paediatric patients',
     'Clear, upfront pricing, no surprises',
     'Convenient location in Nagpokhari, Naxal, Kathmandu',
   ],
   story:
-    "Bright Smile Dental Clinic was founded in 2006 by Dr. Sachin Agrawal with a single vision: to provide dental care of the highest quality to every patient who walks through our doors.\n\nWhat started as a modest practice has grown into one of Kathmandu's most trusted dental clinics, with an experienced team of dentists covering all areas of dentistry, modern equipment, and over 10,000 happy patients served.\n\nOur philosophy is simple: every patient deserves excellent dental care delivered with genuine warmth. We believe a healthy smile has the power to transform lives, and we are privileged to be part of those transformations every day.",
+    "Bright Smile Dental Clinic was founded in 2013 by Dr. Sachin Agrawal with a single vision: to provide dental care of the highest quality to every patient who walks through our doors.\n\nWhat started as a modest practice has grown into one of Kathmandu's most trusted dental clinics, with an experienced team of dentists covering all areas of dentistry, modern equipment, and over 10,000 happy patients served.\n\nOur philosophy is simple: every patient deserves excellent dental care delivered with genuine warmth. We believe a healthy smile has the power to transform lives, and we are privileged to be part of those transformations every day.",
 } as const
 
 // ─── Gallery ──────────────────────────────────────────────────
