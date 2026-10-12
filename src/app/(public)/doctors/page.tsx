@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { CLINIC_CONTACT, RESIDENT_DENTIST_SLUG } from '@/lib/constants'
 import type { DoctorRow } from '@/types/db'
-import { doctorColor, doctorInitials } from '@/lib/doctor-display'
+import { doctorColor, doctorInitials, readableOnWhiteText } from '@/lib/doctor-display'
 import { buildCanonical } from '@/lib/schema'
 import { getTeamMembers, type TeamMemberRow } from '@/lib/content'
 
@@ -127,19 +127,19 @@ function LeadDoctorCard({ doc }: { doc: DoctorRow }) {
           {/* Bottom: name + credentials */}
           <div className="relative mt-auto">
             <div className="mb-3 flex flex-wrap items-center gap-2">
-              <span className="rounded-xl bg-white/20 px-3 py-1.5 font-heading text-xs font-semibold text-white backdrop-blur-sm">
+              <span className="rounded-xl bg-black/20 px-3 py-1.5 font-heading text-xs font-semibold text-white backdrop-blur-sm">
                 {doc.qualification}
               </span>
-              <span className="rounded-xl bg-white/10 px-3 py-1.5 font-heading text-[0.6rem] font-semibold tracking-wide text-white/80">
+              <span className="rounded-xl bg-black/15 px-3 py-1.5 font-heading text-[0.72rem] font-semibold tracking-wide text-white/95">
                 NMC {doc.nmc_number}
               </span>
             </div>
             <h2 className="font-display text-2xl text-white sm:text-[1.9rem] leading-tight">
               {doc.full_name}
             </h2>
-            <p className="mt-1 font-body text-sm text-white/85">{doc.title}</p>
+            <p className="mt-1 font-body text-sm text-white/95">{doc.title}</p>
             {doc.experience_text && (
-              <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/75">
+              <p className="mt-2 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-white/95">
                 {doc.experience_text}
               </p>
             )}
@@ -153,21 +153,21 @@ function LeadDoctorCard({ doc }: { doc: DoctorRow }) {
             <div className="mb-7 flex flex-wrap items-center gap-3">
               <div className="flex items-center gap-2 rounded-full border border-teal/20 bg-teal/5 px-3.5 py-1.5">
                 <NmcBadge />
-                <span className="font-heading text-[0.65rem] font-semibold text-teal">
+                <span className="font-heading text-[0.72rem] font-semibold text-teal">
                   NMC Verified · {doc.nmc_number}
                 </span>
               </div>
               {bookable ? (
                 <div className="flex items-center gap-1.5 rounded-full border border-green-100 bg-green-50 px-3.5 py-1.5">
                   <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-500" />
-                  <span className="font-heading text-[0.62rem] font-semibold text-green-700">
+                  <span className="font-heading text-[0.72rem] font-semibold text-green-700">
                     Accepting Appointments
                   </span>
                 </div>
               ) : (
                 <div className="flex items-center gap-1.5 rounded-full border border-gray-100 bg-gray-50 px-3.5 py-1.5">
                   <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400" />
-                  <span className="font-heading text-[0.62rem] font-semibold text-gray-600">
+                  <span className="font-heading text-[0.72rem] font-semibold text-ink-muted">
                     Full-Time Dentist
                   </span>
                 </div>
@@ -175,21 +175,21 @@ function LeadDoctorCard({ doc }: { doc: DoctorRow }) {
             </div>
 
             {/* Biography — short, first-glance summary; full bio is one click away via "Full Profile" */}
-            <p className="font-body text-[0.96rem] leading-[1.75] text-gray-600">
+            <p className="font-body text-[0.96rem] leading-[1.75] text-ink-muted">
               {doc.short_bio}
             </p>
 
             {/* Specializations */}
             {(doc.specializations ?? []).length > 0 && (
               <div className="mt-7">
-                <p className="mb-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-600">
+                <p className="mb-3 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   Areas of Focus
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {(doc.specializations ?? []).slice(0, 4).map((s) => (
                     <span
                       key={s}
-                      className="rounded-xl border border-gray-100 bg-tint px-3 py-1.5 font-heading text-[0.65rem] font-semibold text-dark/70"
+                      className="rounded-xl border border-gray-100 bg-tint px-3 py-1.5 font-heading text-[0.72rem] font-semibold text-ink-muted"
                     >
                       {s}
                     </span>
@@ -199,7 +199,7 @@ function LeadDoctorCard({ doc }: { doc: DoctorRow }) {
             )}
 
             {/* Credentials row */}
-            <div className="mt-7 flex flex-wrap items-center gap-6 border-t border-gray-50 pt-6 font-body text-xs text-gray-600">
+            <div className="mt-7 flex flex-wrap items-center gap-6 border-t border-gray-50 pt-6 font-body text-xs text-ink-muted">
               {(doc.languages ?? []).length > 0 && (
                 <span className="flex items-center gap-2">
                   <GlobeIcon />
@@ -286,7 +286,7 @@ export default async function DoctorsPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Eyebrow */}
-          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-gold-ink">
+          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-gold-ink">
             <span className="inline-block h-px w-7 bg-gold/60" />
             Our People
           </span>
@@ -297,7 +297,7 @@ export default async function DoctorsPage() {
             style={{ fontSize: 'clamp(2.8rem, 6vw, 5.5rem)', textShadow: '0 2px 40px rgba(0,0,0,0.4)' }}
           >
             The Experts Behind<br />
-            <span className="text-gold-dark">Every Smile</span>
+            <span className="text-gold-deep">Every Smile</span>
           </h1>
 
           <p className="mt-6 max-w-2xl font-body text-[1rem] text-ink-muted leading-relaxed lg:text-[1.05rem]">
@@ -312,7 +312,7 @@ export default async function DoctorsPage() {
               'Serving Kathmandu since 2013',
               'Nagpokhari, Naxal',
             ].map((item) => (
-              <span key={item} className="flex items-center gap-2.5 font-heading text-[0.68rem] font-medium text-ink-muted">
+              <span key={item} className="flex items-center gap-2.5 font-heading text-[0.75rem] font-medium text-ink-muted">
                 <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gold" />
                 {item}
               </span>
@@ -335,7 +335,7 @@ export default async function DoctorsPage() {
               <h2 className="font-display text-4xl text-dark sm:text-5xl tracking-display leading-[1.06]">
                 Your Primary Care Contacts
               </h2>
-              <p className="mt-4 max-w-lg font-body text-base text-gray-600 leading-relaxed">
+              <p className="mt-4 max-w-lg font-body text-base text-ink-muted leading-relaxed">
                 All direct appointments are with Dr. Sachin or Dr. Binita, who assess your needs, design your care plan, and coordinate any specialist involvement.
               </p>
             </div>
@@ -365,7 +365,7 @@ export default async function DoctorsPage() {
                 <h2 className="font-display text-4xl text-dark sm:text-5xl tracking-display leading-[1.06]">
                   Our Full-Time General Practitioner
                 </h2>
-                <p className="mt-4 max-w-xl font-body text-base text-gray-600 leading-relaxed">
+                <p className="mt-4 max-w-xl font-body text-base text-ink-muted leading-relaxed">
                   A permanent, in-house member of the clinical team, on hand every day for routine and general dental care, working alongside Dr. Sachin and Dr. Binita.
                 </p>
               </div>
@@ -395,7 +395,7 @@ export default async function DoctorsPage() {
           {/* Header */}
           <div className="mb-14 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
-              <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-gold-ink">
+              <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-gold-ink">
                 <span className="inline-block h-px w-7 bg-gold/60" />
                 Specialist Consultants
               </span>
@@ -443,14 +443,14 @@ export default async function DoctorsPage() {
                     )}
                   </div>
                   {doc.qualification && (
-                    <span className="absolute right-3 top-3 rounded-lg bg-black/25 px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-white backdrop-blur-sm">
+                    <span className="absolute right-3 top-3 rounded-lg bg-black/25 px-2 py-0.5 font-heading text-[0.72rem] font-semibold text-white backdrop-blur-sm">
                       {doc.qualification}
                     </span>
                   )}
                 </div>
 
                 <div className="p-5">
-                  <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold-ink">
+                  <p className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-gold-ink">
                     NMC {doc.nmc_number}
                   </p>
                   <h3 className="mt-1.5 font-heading text-sm font-semibold leading-snug text-ink">{doc.full_name}</h3>
@@ -458,7 +458,7 @@ export default async function DoctorsPage() {
 
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(doc.specializations ?? []).slice(0, 2).map((s) => (
-                      <span key={s} className="rounded-lg bg-tint px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-ink-muted">
+                      <span key={s} className="rounded-lg bg-tint px-2 py-0.5 font-heading text-[0.72rem] font-semibold text-ink-muted">
                         {s}
                       </span>
                     ))}
@@ -492,7 +492,7 @@ export default async function DoctorsPage() {
                 <h2 className="font-display text-4xl text-dark tracking-display leading-[1.06] sm:text-5xl">
                   A Complete Organisation
                 </h2>
-                <p className="mt-4 max-w-xl font-body text-base text-gray-500 leading-relaxed">
+                <p className="mt-4 max-w-xl font-body text-base text-ink-soft leading-relaxed">
                   Exceptional dental care extends far beyond the dentist&apos;s chair. Our clinical and administrative team ensures every visit is smooth, comfortable and well-supported from first call to final follow-up.
                 </p>
               </div>
@@ -502,7 +502,7 @@ export default async function DoctorsPage() {
           {/* Clinical & Hygiene Team */}
           <div className="mb-14">
             <div className="mb-6 flex items-center gap-4">
-              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gray-600">
+              <p className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                 Clinical & Hygiene Staff
               </p>
               <div className="flex-1 h-px bg-gray-100" />
@@ -510,7 +510,7 @@ export default async function DoctorsPage() {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               {hygienists.map((member) => {
                 const meta = ROLE_DESCRIPTIONS[member.department] ?? ROLE_DESCRIPTIONS['assistant']
-                const color = member.color_hex ?? '#4A9B6F'
+                const color = readableOnWhiteText(member.color_hex ?? '#4A9B6F')
                 return (
                   <div
                     key={member.id}
@@ -540,13 +540,13 @@ export default async function DoctorsPage() {
                       </div>
                     </div>
 
-                    <p className="mt-4 font-body text-xs leading-relaxed text-gray-500">
+                    <p className="mt-4 font-body text-xs leading-relaxed text-ink-soft">
                       {meta.description}
                     </p>
 
                     <div className="mt-4 flex items-center gap-2">
                       <div className="h-1.5 w-1.5 rounded-full bg-teal" />
-                      <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-wide text-teal">
+                      <span className="font-heading text-[0.72rem] font-semibold uppercase tracking-wide text-teal">
                         {meta.strength}
                       </span>
                     </div>
@@ -559,7 +559,7 @@ export default async function DoctorsPage() {
           {/* Reception & Admin Team */}
           <div className="mb-14">
             <div className="mb-6 flex items-center gap-4">
-              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gray-600">
+              <p className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                 Reception & Administration
               </p>
               <div className="flex-1 h-px bg-gray-100" />
@@ -567,7 +567,7 @@ export default async function DoctorsPage() {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {supportTeam.map((member) => {
                 const meta = ROLE_DESCRIPTIONS[member.department] ?? ROLE_DESCRIPTIONS['admin']
-                const color = member.color_hex ?? '#0C3C2D'
+                const color = readableOnWhiteText(member.color_hex ?? '#0C3C2D')
                 return (
                   <div
                     key={member.id}
@@ -592,11 +592,11 @@ export default async function DoctorsPage() {
                       </div>
                       <div>
                         <h3 className="font-heading text-sm font-semibold text-dark">{member.name}</h3>
-                        <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-wide text-gold-ink">{member.role}</p>
+                        <p className="font-heading text-[0.72rem] font-semibold uppercase tracking-wide text-gold-ink">{member.role}</p>
                       </div>
                     </div>
 
-                    <p className="mt-4 font-body text-sm leading-relaxed text-gray-500">
+                    <p className="mt-4 font-body text-sm leading-relaxed text-ink-soft">
                       {meta.description}
                     </p>
                   </div>
@@ -609,7 +609,7 @@ export default async function DoctorsPage() {
           <div
             className="overflow-hidden rounded-2xl border border-[#E7E1D6] p-8 text-center shadow-soft backdrop-blur-sm bg-white/70 lg:p-12"
           >
-            <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-gold-ink mb-4">
+            <p className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-gold-ink mb-4">
               Direct Bookings Available
             </p>
             <p className="font-display text-2xl text-ink tracking-display sm:text-3xl">

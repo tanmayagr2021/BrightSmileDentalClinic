@@ -21,13 +21,16 @@ const config: Config = {
           dark: '#B98A50',
           light: '#EBCB98',
           // Gold dark enough for small text on the ivory/white surfaces
-          ink: '#8C6232',
+          ink: '#7A5426',
+          // Display-size gold text (headings, big numbers) — deep enough to hold
+          // 3:1 over the darkest part of the backdrop
+          deep: '#A0713A',
         },
         // Text on the light ivory theme
         ink: {
           DEFAULT: '#14202E',
-          muted: '#4A5565',
-          soft: '#6B7280',
+          muted: '#3E4856',
+          soft: '#525C69',
         },
         // Deep Emerald — verification/trust/status only (NMC badges, "Active",
         // "Verified Patient"). Not a general brand accent.

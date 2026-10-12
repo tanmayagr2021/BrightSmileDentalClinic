@@ -153,7 +153,7 @@ export default function WhyChooseSection({
 
                 {/* Number */}
                 <div className="relative flex-shrink-0 pt-0.5">
-                  <span className="font-display text-4xl font-bold tabular-nums text-gray-100 transition-colors duration-300 group-hover:text-primary lg:text-5xl">
+                  <span className="font-display text-4xl font-bold tabular-nums text-ink/[0.07] transition-colors duration-300 group-hover:text-primary lg:text-5xl">
                     {numLabels[i] ?? `0${i + 1}`}
                   </span>
                 </div>
@@ -196,7 +196,7 @@ export default function WhyChooseSection({
                         onClick={() => setOpenIndex(isOpen ? null : i)}
                         aria-expanded={isOpen}
                         aria-controls={`why-choose-rest-${reason.id}`}
-                        className="mt-2 inline-flex items-center gap-1 font-heading text-xs font-semibold text-gold-ink transition-colors hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+                        className="mt-2 inline-flex items-center gap-1 font-heading text-xs font-semibold text-gold-ink transition-colors hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
                       >
                         {isOpen ? 'Show less' : 'Read more'}
                         <svg viewBox="0 0 12 12" fill="none" className={`h-3 w-3 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true">
@@ -221,7 +221,7 @@ export default function WhyChooseSection({
             className="mt-16 rounded-2xl border border-gray-100 bg-ivory px-7 py-6"
           >
             <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
-              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gray-600 flex-shrink-0">
+              <p className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted flex-shrink-0">
                 {pick(content, 'home.why_choose.credentials_label', 'Credentials & Registrations')}
               </p>
               {certifications.map((cert) => (
@@ -229,7 +229,7 @@ export default function WhyChooseSection({
                   {CERT_SHIELD}
                   <div>
                     <p className="font-heading text-xs font-semibold text-dark">{cert.title}</p>
-                    <p className="font-body text-[0.62rem] text-gray-600">{cert.issuer} · {cert.year}</p>
+                    <p className="font-body text-[0.72rem] text-ink-muted">{cert.issuer} · {cert.year}</p>
                   </div>
                 </div>
               ))}

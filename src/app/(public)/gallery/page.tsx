@@ -48,7 +48,7 @@ function TileInner({ icon, label, index }: { icon: string; label: string; index:
             <path d={icon} />
           </svg>
         </div>
-        <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ink-soft text-center">
+        <span className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-soft text-center">
           {label}
         </span>
       </div>
@@ -56,7 +56,7 @@ function TileInner({ icon, label, index }: { icon: string; label: string; index:
       {/* Coming soon strip */}
       <div className="absolute bottom-0 inset-x-0 flex items-center justify-center gap-1.5 border-t border-ink/10 bg-black/10 py-2 backdrop-blur-sm">
         <span className="h-1 w-1 rounded-full bg-primary/50" />
-        <span className="font-heading text-[0.65rem] font-semibold tracking-[0.1em] text-ink-soft">
+        <span className="font-heading text-[0.72rem] font-semibold tracking-[0.1em] text-ink-soft">
           Photo coming soon
         </span>
       </div>
@@ -150,7 +150,7 @@ export default async function GalleryPage() {
     <div className="min-h-screen">
       {/* Hero — integrated into dark page */}
       <div className="mx-auto max-w-7xl px-4 pt-28 pb-12 sm:px-6 lg:px-8">
-        <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+        <span className="inline-flex items-center gap-2.5 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
           <span className="inline-block h-px w-6 bg-gold/60" />
           Visual Tour
         </span>

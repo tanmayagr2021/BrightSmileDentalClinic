@@ -71,34 +71,34 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-6">
-            <Link href="/blog" className="font-body text-sm text-gray-600 hover:text-primary transition-colors">
+            <Link href="/blog" className="font-body text-sm text-ink-muted hover:text-primary transition-colors">
               Blog
             </Link>
-            <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-gray-300" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-ink-soft" aria-hidden="true">
               <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <span className="font-body text-sm text-gray-600 line-clamp-1">{typedPost.title}</span>
+            <span className="font-body text-sm text-ink-muted line-clamp-1">{typedPost.title}</span>
           </div>
           <h1 className="font-display text-4xl text-dark sm:text-5xl tracking-display max-w-3xl">
             {typedPost.title}
           </h1>
           {typedPost.excerpt && (
-            <p className="mt-5 max-w-2xl font-body text-lg text-gray-500 leading-relaxed">{typedPost.excerpt}</p>
+            <p className="mt-5 max-w-2xl font-body text-lg text-ink-soft leading-relaxed">{typedPost.excerpt}</p>
           )}
           <div className="mt-6 flex flex-wrap items-center gap-4">
             {typedPost.published_at && (
-              <span className="font-heading text-xs font-semibold text-gray-600">
+              <span className="font-heading text-xs font-semibold text-ink-muted">
                 {new Date(typedPost.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
             )}
             {typedPost.updated_at && typedPost.published_at &&
               new Date(typedPost.updated_at).getTime() - new Date(typedPost.published_at).getTime() > 86400000 && (
-                <span className="font-body text-xs text-gray-500">
+                <span className="font-body text-xs text-ink-soft">
                   Last updated {new Date(typedPost.updated_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </span>
             )}
             {typedPost.read_time_minutes && (
-              <span className="font-heading text-xs font-semibold text-gray-600">
+              <span className="font-heading text-xs font-semibold text-ink-muted">
                 {typedPost.read_time_minutes} min read
               </span>
             )}
@@ -129,12 +129,12 @@ export default async function BlogPostPage({ params }: Props) {
                 {typedPost.content}
               </div>
             ) : (
-              <p className="font-body text-base text-gray-600 italic">No content available.</p>
+              <p className="font-body text-base text-ink-muted italic">No content available.</p>
             )}
             <div className="mt-12 border-t border-gray-100 pt-8">
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-gold-ink hover:text-primary-dark transition-colors"
+                className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-gold-ink hover:text-gold-ink transition-colors"
               >
                 <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
                   <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -165,7 +165,7 @@ export default async function BlogPostPage({ params }: Props) {
 
             {related && related.length > 0 && (
               <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-4">
                   More Articles
                 </h3>
                 <div className="space-y-4">
@@ -179,7 +179,7 @@ export default async function BlogPostPage({ params }: Props) {
                         {r.title}
                       </p>
                       {r.published_at && (
-                        <p className="mt-1 font-heading text-[0.6rem] font-medium text-gray-600">
+                        <p className="mt-1 font-heading text-[0.72rem] font-medium text-ink-muted">
                           {new Date(r.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                         </p>
                       )}

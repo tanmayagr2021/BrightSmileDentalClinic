@@ -127,14 +127,14 @@ export default function PatientJourneySection({
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+            <span className="mb-4 inline-flex items-center gap-3 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
               <span className="inline-block h-px w-7 bg-gold/60" />
               {pick(content, 'home.journey.eyebrow', 'The Experience')}
             </span>
             <h2 className="font-display text-4xl leading-[1.06] text-ink sm:text-5xl lg:text-6xl tracking-display">
               {pick(content, 'home.journey.heading_line1', 'A Day at')}
               <br />
-              <span className="text-gold-dark">{pick(content, 'home.journey.heading_line2', 'Bright Smile')}</span>
+              <span className="text-gold-deep">{pick(content, 'home.journey.heading_line2', 'Bright Smile')}</span>
             </h2>
             <p className="mt-4 max-w-lg font-body text-base text-ink-muted leading-relaxed">
               {pick(content, 'home.journey.intro', "From your first call to your final follow-up — every moment is crafted around your comfort, clarity, and confidence.")}
@@ -200,7 +200,7 @@ export default function PatientJourneySection({
                 </h3>
 
                 {/* Sublabel */}
-                <p className="mt-1 font-heading text-[0.65rem] font-medium text-gold-ink">
+                <p className="mt-1 font-heading text-[0.72rem] font-medium text-gold-ink">
                   {step.subtitle}
                 </p>
 

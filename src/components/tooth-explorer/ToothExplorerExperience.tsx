@@ -103,7 +103,7 @@ export default function ToothExplorerExperience({ teeth }: { teeth: PublicTooth[
                 className="space-y-6"
               >
                 <div>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 font-heading text-[0.65rem] font-semibold uppercase tracking-wider text-gold-ink">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 font-heading text-[0.72rem] font-semibold uppercase tracking-wider text-gold-ink">
                     Tooth #{tooth.tooth_number} · FDI {tooth.fdi_number}
                   </span>
                   <h2 className="mt-3 font-display text-3xl text-ink">{tooth.name}</h2>

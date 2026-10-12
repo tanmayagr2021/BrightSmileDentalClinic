@@ -71,7 +71,7 @@ function TrustCard({ item }: { item: PublicTrustItem }) {
           <Image src={url} alt="" fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="300px" />
         ) : (
           <div className="flex h-full items-center justify-center">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="h-9 w-9 text-ink/40" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="h-9 w-9 text-ink-soft" aria-hidden="true">
               <path d={CATEGORY_ICON[item.category]} />
             </svg>
           </div>
@@ -80,8 +80,8 @@ function TrustCard({ item }: { item: PublicTrustItem }) {
 
       <div className="mt-5">
         <div className="flex items-center gap-2">
-          <span className="font-heading text-[0.6rem] font-semibold uppercase tracking-wider text-gold-ink">{CATEGORY_LABEL[item.category]}</span>
-          {item.year && <span className="font-body text-[0.65rem] text-ink-soft">· {item.year}</span>}
+          <span className="font-heading text-[0.72rem] font-semibold uppercase tracking-wider text-gold-ink">{CATEGORY_LABEL[item.category]}</span>
+          {item.year && <span className="font-body text-[0.72rem] text-ink-soft">· {item.year}</span>}
         </div>
         <h4 className="mt-1.5 font-display text-lg text-ink">{item.title}</h4>
         {item.issuer && <p className="mt-0.5 font-body text-xs text-ink-soft">{item.issuer}</p>}
@@ -110,7 +110,7 @@ export default function TrustWallSection({ items }: { items: PublicTrustItem[] }
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
-          className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink"
+          className="inline-flex items-center gap-2.5 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink"
         >
           <span className="inline-block h-px w-6 bg-gold/60" aria-hidden="true" />
           Why Patients Trust Bright Smile
@@ -160,7 +160,7 @@ export default function TrustWallSection({ items }: { items: PublicTrustItem[] }
                   {mod.blurb}
                 </motion.p>
               </div>
-              <motion.span variants={fadeUp} aria-hidden="true" className="hidden shrink-0 font-heading text-[0.65rem] font-semibold text-ink-soft sm:inline">
+              <motion.span variants={fadeUp} aria-hidden="true" className="hidden shrink-0 font-heading text-[0.72rem] font-semibold text-ink-soft sm:inline">
                 {String(mi + 1).padStart(2, '0')} / {String(visibleModules.length).padStart(2, '0')}
               </motion.span>
             </div>

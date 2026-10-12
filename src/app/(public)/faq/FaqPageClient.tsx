@@ -33,7 +33,7 @@ function ChevronIcon({ open }: { open: boolean }) {
 
 function SearchIcon() {
   return (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4.5 w-4.5 text-gray-600" aria-hidden="true">
+    <svg viewBox="0 0 20 20" fill="none" className="h-4.5 w-4.5 text-ink-muted" aria-hidden="true">
       <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.5" />
       <path d="M13.5 13.5l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
@@ -87,7 +87,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
           <h1 className="font-display text-4xl text-dark sm:text-5xl tracking-display">
             Frequently Asked Questions
           </h1>
-          <p className="mt-4 max-w-xl font-body text-base text-gray-500 leading-relaxed">
+          <p className="mt-4 max-w-xl font-body text-base text-ink-soft leading-relaxed">
             Everything you need to know before your visit. Can&apos;t find your answer?{' '}
             <Link href="/contact" className="text-gold-ink underline-offset-2 hover:underline">Contact us.</Link>
           </p>
@@ -127,12 +127,12 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
               className={`rounded-full px-4 py-2 font-heading text-xs font-semibold transition-all ${
                 activeCategory === cat
                   ? 'bg-primary text-ink shadow-sm'
-                  : 'border border-gray-200 text-gray-500 hover:border-primary/30 hover:text-primary'
+                  : 'border border-gray-200 text-ink-soft hover:border-primary/30 hover:text-primary'
               }`}
             >
               {CATEGORY_LABELS[cat] ?? cat}
               {activeCategory !== cat && (
-                <span className="ml-1.5 font-body font-normal text-gray-300">
+                <span className="ml-1.5 font-body font-normal text-ink-soft">
                   ({initialFaqs.filter((f) => f.is_visible && (cat === 'all' || f.category === cat)).length})
                 </span>
               )}
@@ -168,8 +168,8 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
                       id={`faq-question-${faq.id}`}
                     >
                       <div className="flex items-start gap-3">
-                        <span className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-[0.65rem] font-bold transition-colors ${
-                          isOpen ? 'bg-primary text-ink' : 'bg-gray-100 text-gray-600'
+                        <span className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-[0.72rem] font-bold transition-colors ${
+                          isOpen ? 'bg-primary text-ink' : 'bg-gray-100 text-ink-muted'
                         }`} aria-hidden="true">
                           {i + 1}
                         </span>
@@ -193,12 +193,12 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
                           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                         >
                           <div className="border-t border-gray-50 px-6 pb-6 pt-4 pl-14">
-                            <p className="font-body text-sm leading-relaxed text-gray-500">
+                            <p className="font-body text-sm leading-relaxed text-ink-soft">
                               {faq.answer}
                             </p>
                             {faq.category && (
                               <div className="mt-4 flex items-center gap-3">
-                                <span className="inline-block rounded-full bg-tint px-2.5 py-1 font-heading text-[0.65rem] font-semibold text-gold-ink uppercase tracking-wide">
+                                <span className="inline-block rounded-full bg-tint px-2.5 py-1 font-heading text-[0.72rem] font-semibold text-gold-ink uppercase tracking-wide">
                                   {CATEGORY_LABELS[faq.category] ?? faq.category}
                                 </span>
                               </div>
@@ -222,7 +222,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
                 <SearchIcon />
               </div>
               <p className="font-heading text-sm font-semibold text-dark">No questions found</p>
-              <p className="mt-1 font-body text-sm text-gray-600">
+              <p className="mt-1 font-body text-sm text-ink-muted">
                 Try a different search term or{' '}
                 <button onClick={() => { setSearch(''); setActiveCategory('all') }} className="text-gold-ink hover:underline underline-offset-2">
                   clear filters
@@ -243,7 +243,7 @@ export default function FaqPageClient({ initialFaqs }: { initialFaqs: FaqRow[] }
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="font-heading text-base font-semibold text-dark">Still have questions?</h2>
-              <p className="mt-1 font-body text-sm text-gray-500">
+              <p className="mt-1 font-body text-sm text-ink-soft">
                 Our team is happy to answer any question before your visit — no commitment needed.
               </p>
             </div>

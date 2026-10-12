@@ -115,7 +115,7 @@ export default function GalleryGrid({ items }: { items: GalleryGridItem[] }) {
                 />
               ) : (
                 <div className="flex h-full items-center justify-center bg-tint">
-                  <svg viewBox="0 0 24 24" fill="none" className="h-10 w-10 text-gray-300" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" className="h-10 w-10 text-ink-soft" aria-hidden="true">
                     <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.5" />
                     <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M3 15l5-4 4 4 2-2 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -123,7 +123,7 @@ export default function GalleryGrid({ items }: { items: GalleryGridItem[] }) {
                 </div>
               )}
               {item.caption && (
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-black/60 to-transparent px-3 pb-3 pt-6 transition-transform duration-300 group-hover:translate-y-0">
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-black/80 via-black/45 to-transparent px-3 pb-3 pt-8 transition-transform duration-300 group-hover:translate-y-0">
                   <p className="font-body text-xs text-white">{item.caption}</p>
                 </div>
               )}

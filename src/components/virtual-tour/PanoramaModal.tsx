@@ -43,7 +43,7 @@ function buildHotspotElement(link: VirtualTourLink, onActivate: (link: VirtualTo
   `
   const caption = document.createElement('span')
   caption.className =
-    'pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#0A1128]/60 px-2.5 py-1 font-heading text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-[3px] transition-colors group-hover:text-gold'
+    'pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#0A1128]/60 px-2.5 py-1 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-[3px] transition-colors group-hover:text-gold'
   caption.textContent = label
   el.appendChild(caption)
   el.addEventListener('keydown', (e) => {
@@ -376,7 +376,7 @@ export default function PanoramaModal({
       {/* Top bar: where you are + exit */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-4 bg-gradient-to-b from-black/55 via-black/20 to-transparent px-4 pb-10 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6">
         <div aria-live="polite" className="min-w-0">
-          <p className="font-heading text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-gold/90">Bright Smile Dental Clinic</p>
+          <p className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-gold/90">Bright Smile Dental Clinic</p>
           <p key={currentScene.id} className="mt-1 animate-fade-in truncate font-display text-xl text-white sm:text-2xl">
             {currentScene.name}
           </p>

@@ -33,7 +33,7 @@ export default async function BlogPage() {
             Dental Health
           </span>
           <h1 className="font-display text-4xl text-dark sm:text-5xl tracking-display">Blog</h1>
-          <p className="mt-4 max-w-xl font-body text-base text-gray-500">
+          <p className="mt-4 max-w-xl font-body text-base text-ink-soft">
             Tips, guides, and updates from our dental team.
           </p>
         </div>
@@ -48,7 +48,7 @@ export default async function BlogPage() {
               </svg>
             </div>
             <h2 className="font-display text-2xl text-dark tracking-display">Articles Coming Soon</h2>
-            <p className="mt-3 font-body text-sm text-gray-500">
+            <p className="mt-3 font-body text-sm text-ink-soft">
               Our team is writing helpful dental health guides. Check back soon.
             </p>
             <Link href="/" className="mt-6 inline-block font-body text-sm text-gold-ink hover:underline underline-offset-2">
@@ -79,12 +79,12 @@ export default async function BlogPage() {
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-center gap-3 mb-3">
                     {post.published_at && (
-                      <span className="font-heading text-[0.6rem] font-semibold text-gray-600">
+                      <span className="font-heading text-[0.72rem] font-semibold text-ink-muted">
                         {new Date(post.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </span>
                     )}
                     {post.read_time_minutes && (
-                      <span className="font-heading text-[0.6rem] font-semibold text-gray-600">
+                      <span className="font-heading text-[0.72rem] font-semibold text-ink-muted">
                         · {post.read_time_minutes} min read
                       </span>
                     )}
@@ -93,13 +93,13 @@ export default async function BlogPage() {
                     {post.title}
                   </h2>
                   {post.excerpt && (
-                    <p className="mt-2 flex-1 font-body text-sm text-gray-500 leading-relaxed line-clamp-3">
+                    <p className="mt-2 flex-1 font-body text-sm text-ink-soft leading-relaxed line-clamp-3">
                       {post.excerpt}
                     </p>
                   )}
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="mt-5 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-gold-ink hover:text-primary-dark transition-colors"
+                    className="mt-5 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-gold-ink hover:text-gold-ink transition-colors"
                   >
                     Read More
                     <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3" aria-hidden="true">

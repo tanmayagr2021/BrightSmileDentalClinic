@@ -67,14 +67,14 @@ export default function CtaSection({
               <rect width="100%" height="100%" fill="url(#cta-grid)" />
             </svg>
 
-            <motion.span variants={fadeUp} className="mb-5 inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+            <motion.span variants={fadeUp} className="mb-5 inline-flex items-center gap-2.5 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
               <span className="inline-block h-px w-7 bg-gold/60" />
               {pick(content, 'home.cta.eyebrow', 'Get Started Today')}
             </motion.span>
 
             <motion.h2 variants={fadeUp} className="relative font-display leading-[1.04] text-ink tracking-display" style={{ fontSize: 'clamp(2.5rem, 4.5vw, 4rem)' }}>
               {pick(content, 'home.cta.heading_line1', 'Ready for Your')}<br />
-              <span className="text-gold-dark">{pick(content, 'home.cta.heading_line2', 'Best Smile?')}</span>
+              <span className="text-gold-deep">{pick(content, 'home.cta.heading_line2', 'Best Smile?')}</span>
             </motion.h2>
 
             <motion.p variants={fadeUp} className="mt-6 max-w-md font-body text-base text-ink-muted leading-relaxed">
@@ -133,7 +133,7 @@ export default function CtaSection({
             {/* Subtle right-side glow */}
             <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-white/50 to-transparent" aria-hidden="true" />
 
-            <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted mb-6">
+            <h3 className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted mb-6">
               {pick(content, 'home.cta.hours_heading', 'Opening Hours')}
             </h3>
 
@@ -149,7 +149,7 @@ export default function CtaSection({
             </div>
 
             <div className="mb-8">
-              <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted mb-4">
+              <h3 className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted mb-4">
                 {pick(content, 'home.cta.location_heading', 'Location')}
               </h3>
               <p className="font-body text-sm text-ink-muted leading-relaxed">{displayAddress}</p>
@@ -158,7 +158,7 @@ export default function CtaSection({
                   href={displayMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-gold-ink transition-all hover:text-gold-dark"
+                  className="mt-3 inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-gold-ink transition-all hover:text-gold-deep"
                 >
                   {pick(content, 'home.cta.directions_label', 'Get Directions')} <ArrowRight />
                 </a>
@@ -166,7 +166,7 @@ export default function CtaSection({
             </div>
 
             <div>
-              <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted mb-4">
+              <h3 className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted mb-4">
                 {pick(content, 'home.cta.contact_heading', 'Contact')}
               </h3>
               <div className="space-y-2.5">

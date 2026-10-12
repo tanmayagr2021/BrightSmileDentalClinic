@@ -92,13 +92,13 @@ export default async function ServiceDetailPage({ params }: Props) {
       <div className="py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-6">
-            <Link href="/services" className="font-body text-sm text-gray-600 hover:text-primary transition-colors">
+            <Link href="/services" className="font-body text-sm text-ink-muted hover:text-primary transition-colors">
               Services
             </Link>
-            <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-gray-300" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-ink-soft" aria-hidden="true">
               <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <span className="font-body text-sm text-gray-600">{category.name}</span>
+            <span className="font-body text-sm text-ink-muted">{category.name}</span>
           </div>
           <span className="eyebrow mb-4 inline-flex items-center gap-2">
             <span className="inline-block h-px w-5 bg-primary" />
@@ -107,7 +107,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           <h1 className="font-display text-5xl text-dark sm:text-6xl tracking-display">
             {category.name}
           </h1>
-          <p className="mt-5 max-w-2xl font-body text-lg text-gray-500 leading-relaxed">
+          <p className="mt-5 max-w-2xl font-body text-lg text-ink-soft leading-relaxed">
             {category.description ?? staticEntry?.description}
           </p>
           <div className="mt-8 flex gap-3">
@@ -147,7 +147,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                       <span className="font-heading text-xs font-bold text-gold-ink">{String(i + 1).padStart(2, '0')}</span>
                     </div>
                     <h3 className="font-heading text-sm font-semibold text-dark">{sub.name}</h3>
-                    <p className="mt-2 font-body text-sm text-gray-500 leading-relaxed">
+                    <p className="mt-2 font-body text-sm text-ink-soft leading-relaxed">
                       {sub.short_description ?? sub.description ?? ''}
                     </p>
                   </div>
@@ -167,11 +167,11 @@ export default async function ServiceDetailPage({ params }: Props) {
                     {staticEntry.processSteps.map((step, i) => (
                       <div key={i} className="relative flex gap-6 pb-8 last:pb-0">
                         <div className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary text-ink">
-                          <span className="font-heading text-[0.65rem] font-bold">{step.step}</span>
+                          <span className="font-heading text-[0.72rem] font-bold">{step.step}</span>
                         </div>
                         <div className="pt-0.5 pb-2">
                           <h3 className="font-heading text-base font-semibold text-dark">{step.title}</h3>
-                          <p className="mt-1.5 font-body text-sm text-gray-500 leading-relaxed">{step.description}</p>
+                          <p className="mt-1.5 font-body text-sm text-ink-soft leading-relaxed">{step.description}</p>
                         </div>
                       </div>
                     ))}
@@ -190,7 +190,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                   {staticEntry.faqs.map((faq, i) => (
                     <div key={i} className="rounded-2xl border border-gray-100 bg-white p-6">
                       <h3 className="font-heading text-sm font-semibold text-dark">{faq.q}</h3>
-                      <p className="mt-3 font-body text-sm text-gray-500 leading-relaxed">{faq.a}</p>
+                      <p className="mt-3 font-body text-sm text-ink-soft leading-relaxed">{faq.a}</p>
                     </div>
                   ))}
                 </div>
@@ -209,7 +209,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               </h3>
               <p className="font-display text-xl text-ink leading-snug">
                 Book a consultation for<br />
-                <span className="text-gold-dark">{category.name}</span>
+                <span className="text-gold-deep">{category.name}</span>
               </p>
               <p className="mt-3 font-body text-sm text-ink-soft">
                 Our team will assess your needs and explain the most suitable treatment options.
@@ -233,7 +233,7 @@ export default async function ServiceDetailPage({ params }: Props) {
             {/* Benefits — static fallback */}
             {staticEntry && staticEntry.benefits.length > 0 && (
               <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-4">
                   Key Benefits
                 </h3>
                 <div className="space-y-3">
@@ -243,7 +243,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                         <circle cx="8" cy="8" r="7" fill="#0C3C2D" fillOpacity="0.12" />
                         <path d="M5 8l2 2 4-4" stroke="#0C3C2D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <span className="font-body text-sm text-gray-600">{b}</span>
+                      <span className="font-body text-sm text-ink-muted">{b}</span>
                     </div>
                   ))}
                 </div>
@@ -252,7 +252,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
             {/* All services from DB */}
             <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">
+              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-4">
                 Other Services
               </h3>
               <div className="space-y-2">
@@ -263,10 +263,10 @@ export default async function ServiceDetailPage({ params }: Props) {
                   <Link
                     key={s.slug}
                     href={`/services/${s.slug}`}
-                    className="flex items-center justify-between rounded-xl px-3 py-2.5 font-heading text-sm font-medium text-gray-600 transition-all hover:bg-tint hover:text-primary"
+                    className="flex items-center justify-between rounded-xl px-3 py-2.5 font-heading text-sm font-medium text-ink-muted transition-all hover:bg-tint hover:text-primary"
                   >
                     {s.name}
-                    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-gray-300" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-ink-soft" aria-hidden="true">
                       <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </Link>

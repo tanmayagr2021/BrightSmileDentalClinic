@@ -83,14 +83,14 @@ export default function ServicesSection({
               <h2 className="font-display text-4xl text-dark sm:text-5xl lg:text-6xl tracking-display leading-[1.06]">
                 {pick(content, 'home.services.heading', 'Our Services')}
               </h2>
-              <p className="mt-4 max-w-xl font-body text-base text-gray-500 leading-relaxed">
+              <p className="mt-4 max-w-xl font-body text-base text-ink-soft leading-relaxed">
                 {pick(content, 'home.services.intro', 'Comprehensive dental care under one roof — modern treatments delivered with expertise and a genuinely gentle touch.')}
               </p>
             </div>
             <div className="flex-shrink-0">
               <Link
                 href="/services"
-                className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-dark/60 transition-all duration-200 hover:gap-3 hover:text-primary"
+                className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-ink-muted transition-all duration-200 hover:gap-3 hover:text-primary"
               >
                 {pick(content, 'home.services.view_all_label', 'View All Services')} <ArrowRight />
               </Link>
@@ -134,16 +134,16 @@ export default function ServicesSection({
                 </h3>
 
                 {/* Short description — desktop only */}
-                <p className="hidden w-[22ch] flex-shrink-0 font-body text-sm text-gray-500 leading-relaxed lg:block">
+                <p className="hidden w-[22ch] flex-shrink-0 font-body text-sm text-ink-soft leading-relaxed lg:block">
                   {service.shortDescription}
                 </p>
 
                 {/* Right: count pill + arrow circle */}
                 <div className="ml-auto flex flex-shrink-0 items-center gap-4">
-                  <span className="hidden rounded-full border border-gray-200 px-3 py-1 font-heading text-[0.65rem] font-semibold text-gray-600 transition-colors duration-300 group-hover:border-primary/30 group-hover:text-primary/70 sm:block">
+                  <span className="hidden rounded-full border border-gray-200 px-3 py-1 font-heading text-[0.72rem] font-semibold text-ink-muted transition-colors duration-300 group-hover:border-primary/30 group-hover:text-primary/70 sm:block">
                     {service.subServiceCount} treatments
                   </span>
-                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-ink">
+                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-gray-200 text-ink-muted transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-ink">
                     <ArrowUpRight />
                   </span>
                 </div>
@@ -166,7 +166,7 @@ export default function ServicesSection({
             pick(content, 'home.services.assurance_3', 'Transparent pricing'),
             pick(content, 'home.services.assurance_4', 'Gentle, comfortable care'),
           ].map((item) => (
-            <span key={item} className="flex items-center gap-2 font-body text-sm text-gray-600">
+            <span key={item} className="flex items-center gap-2 font-body text-sm text-ink-muted">
               <svg
                 viewBox="0 0 12 12"
                 fill="none"

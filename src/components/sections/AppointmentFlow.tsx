@@ -97,7 +97,7 @@ function StepDoctor({ selected, onSelect, doctors }: { selected: string | null; 
   return (
     <div>
       <h2 className="font-display text-2xl text-dark tracking-display mb-2">Select Your Dentist</h2>
-      <p className="font-body text-sm text-gray-500 mb-8">Choose from our lead dentists. Appointments are available with both.</p>
+      <p className="font-body text-sm text-ink-soft mb-8">Choose from our lead dentists. Appointments are available with both.</p>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         {doctors.map((doc) => (
           <button
@@ -120,7 +120,7 @@ function StepDoctor({ selected, onSelect, doctors }: { selected: string | null; 
             <div className="flex items-start justify-between gap-2">
               <div>
                 <h3 className="font-heading text-base font-semibold text-dark">{doc.name}</h3>
-                <p className="font-body text-sm text-gray-500 mt-0.5">{doc.role}</p>
+                <p className="font-body text-sm text-ink-soft mt-0.5">{doc.role}</p>
               </div>
               {selected === doc.slug && (
                 <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-primary">
@@ -133,7 +133,7 @@ function StepDoctor({ selected, onSelect, doctors }: { selected: string | null; 
 
             <div className="mt-4 flex flex-wrap gap-1.5">
               {doc.specializations.slice(0, 3).map((s) => (
-                <span key={s} className="rounded-lg bg-tint px-2 py-0.5 font-heading text-[0.65rem] font-semibold text-dark/70">
+                <span key={s} className="rounded-lg bg-tint px-2 py-0.5 font-heading text-[0.72rem] font-semibold text-ink-muted">
                   {s}
                 </span>
               ))}
@@ -144,7 +144,7 @@ function StepDoctor({ selected, onSelect, doctors }: { selected: string | null; 
                 <path d="M8 1L2 3.5v5c0 3.5 2.7 6.7 6 7.5 3.3-.8 6-4 6-7.5v-5L8 1z" fill="#0C3C2D" fillOpacity="0.12" stroke="#0C3C2D" strokeWidth="1.2" strokeLinejoin="round" />
                 <path d="M5.5 8l2 2 3.5-3.5" stroke="#0C3C2D" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <span className="font-heading text-[0.62rem] font-semibold text-teal">{doc.nmc} · {doc.experience}</span>
+              <span className="font-heading text-[0.72rem] font-semibold text-teal">{doc.nmc} · {doc.experience}</span>
             </div>
           </button>
         ))}
@@ -184,7 +184,7 @@ function StepDate({ selected, onSelect }: { selected: Date | null; onSelect: (d:
   return (
     <div>
       <h2 className="font-display text-2xl text-dark tracking-display mb-2">Select a Date</h2>
-      <p className="font-body text-sm text-gray-500 mb-8">
+      <p className="font-body text-sm text-ink-soft mb-8">
         We&apos;re open Sunday–Friday 9am–6pm and Saturday 9am–1pm.
       </p>
 
@@ -193,7 +193,7 @@ function StepDate({ selected, onSelect }: { selected: Date | null; onSelect: (d:
         <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
           <button
             onClick={prevMonth}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-50 hover:text-dark transition-colors"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-ink-muted hover:bg-gray-50 hover:text-dark transition-colors"
             aria-label="Previous month"
           >
             <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
@@ -205,7 +205,7 @@ function StepDate({ selected, onSelect }: { selected: Date | null; onSelect: (d:
           </p>
           <button
             onClick={nextMonth}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-50 hover:text-dark transition-colors"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-ink-muted hover:bg-gray-50 hover:text-dark transition-colors"
             aria-label="Next month"
           >
             <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
@@ -217,7 +217,7 @@ function StepDate({ selected, onSelect }: { selected: Date | null; onSelect: (d:
         {/* Weekday headers */}
         <div className="grid grid-cols-7 border-b border-gray-50 px-4 py-2">
           {WEEKDAYS.map((d) => (
-            <div key={d} className="text-center font-heading text-[0.62rem] font-semibold uppercase tracking-wide text-gray-600">
+            <div key={d} className="text-center font-heading text-[0.72rem] font-semibold uppercase tracking-wide text-ink-muted">
               {d}
             </div>
           ))}
@@ -284,7 +284,7 @@ function StepTime({ date, doctorSlug, selected, onSelect }: { date: Date; doctor
   return (
     <div>
       <h2 className="font-display text-2xl text-dark tracking-display mb-2">Select a Time</h2>
-      <p className="font-body text-sm text-gray-500 mb-8">
+      <p className="font-body text-sm text-ink-soft mb-8">
         Available slots for <span className="font-medium text-dark">{formatDateShort(date)}</span>
       </p>
 
@@ -301,12 +301,12 @@ function StepTime({ date, doctorSlug, selected, onSelect }: { date: Date; doctor
                 sel
                   ? 'border-primary bg-primary text-ink'
                   : unavailable
-                  ? 'border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed line-through decoration-gray-300'
+                  ? 'border-gray-100 bg-gray-50 text-ink-soft cursor-not-allowed line-through decoration-gray-300'
                   : 'border-gray-200 text-dark hover:border-primary hover:text-primary hover:bg-primary/5'
               }`}
             >
               {slot}
-              {unavailable && <span className="block text-[0.5rem] font-normal text-gray-300 no-underline">Booked</span>}
+              {unavailable && <span className="block text-[0.72rem] font-normal text-ink-soft no-underline">Booked</span>}
             </button>
           )
         })}
@@ -324,12 +324,12 @@ function StepDetails({ form, onChange }: { form: FormData; onChange: (f: FormDat
   return (
     <div>
       <h2 className="font-display text-2xl text-dark tracking-display mb-2">Your Details</h2>
-      <p className="font-body text-sm text-gray-500 mb-8">We&apos;ll use this to confirm your appointment by phone.</p>
+      <p className="font-body text-sm text-ink-soft mb-8">We&apos;ll use this to confirm your appointment by phone.</p>
 
       <div className="space-y-5">
         <div>
           <label htmlFor="apt-name" className="block font-heading text-xs font-semibold text-dark mb-1.5">
-            Full Name <span className="text-red-400">*</span>
+            Full Name <span className="text-red-700">*</span>
           </label>
           <input
             id="apt-name"
@@ -343,7 +343,7 @@ function StepDetails({ form, onChange }: { form: FormData; onChange: (f: FormDat
         </div>
         <div>
           <label htmlFor="apt-phone" className="block font-heading text-xs font-semibold text-dark mb-1.5">
-            Phone Number <span className="text-red-400">*</span>
+            Phone Number <span className="text-red-700">*</span>
           </label>
           <input
             id="apt-phone"
@@ -357,7 +357,7 @@ function StepDetails({ form, onChange }: { form: FormData; onChange: (f: FormDat
         </div>
         <div>
           <label htmlFor="apt-email" className="block font-heading text-xs font-semibold text-dark mb-1.5">
-            Email Address <span className="text-gray-600 font-normal">(optional)</span>
+            Email Address <span className="text-ink-muted font-normal">(optional)</span>
           </label>
           <input
             id="apt-email"
@@ -370,7 +370,7 @@ function StepDetails({ form, onChange }: { form: FormData; onChange: (f: FormDat
         </div>
         <div>
           <label htmlFor="apt-notes" className="block font-heading text-xs font-semibold text-dark mb-1.5">
-            Reason for Visit <span className="text-gray-600 font-normal">(optional)</span>
+            Reason for Visit <span className="text-ink-muted font-normal">(optional)</span>
           </label>
           <textarea
             id="apt-notes"
@@ -383,7 +383,7 @@ function StepDetails({ form, onChange }: { form: FormData; onChange: (f: FormDat
         </div>
       </div>
 
-      <p className="mt-4 font-body text-xs text-gray-600">
+      <p className="mt-4 font-body text-xs text-ink-muted">
         Your information is kept private and used solely to confirm your appointment.
       </p>
     </div>
@@ -404,7 +404,7 @@ function StepConfirm({
   return (
     <div>
       <h2 className="font-display text-2xl text-dark tracking-display mb-2">Review Your Request</h2>
-      <p className="font-body text-sm text-gray-500 mb-8">
+      <p className="font-body text-sm text-ink-soft mb-8">
         Please review your details before submitting. We&apos;ll call you to confirm.
       </p>
 
@@ -436,7 +436,7 @@ function StepConfirm({
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start gap-4">
-      <span className="w-20 flex-shrink-0 font-heading text-xs font-semibold uppercase tracking-wide text-gray-600">{label}</span>
+      <span className="w-20 flex-shrink-0 font-heading text-xs font-semibold uppercase tracking-wide text-ink-muted">{label}</span>
       <span className="font-body text-sm text-dark">{value}</span>
     </div>
   )
@@ -475,7 +475,7 @@ function StepSuccess({ doctor, date, time, name, phone }: { doctor: BookableDoct
 
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
         <h2 className="font-display text-3xl text-dark tracking-display">Request Received!</h2>
-        <p className="mt-3 font-body text-sm text-gray-500 leading-relaxed max-w-sm mx-auto">
+        <p className="mt-3 font-body text-sm text-ink-soft leading-relaxed max-w-sm mx-auto">
           Thank you, <strong className="text-dark">{name}</strong>. Your request for <strong className="text-dark">{time}</strong> on{' '}
           <strong className="text-dark">{formatDateShort(date)}</strong> with <strong className="text-dark">{doctor.shortName}</strong> has been received.
         </p>
@@ -489,10 +489,10 @@ function StepSuccess({ doctor, date, time, name, phone }: { doctor: BookableDoct
               'See you at Nagpokhari, Naxal, Kathmandu!',
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-2.5">
-                <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-[0.6rem] font-bold text-gold-ink">
+                <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-[0.72rem] font-bold text-gold-ink">
                   {i + 1}
                 </span>
-                <span className="font-body text-xs text-gray-600 leading-relaxed">{item}</span>
+                <span className="font-body text-xs text-ink-muted leading-relaxed">{item}</span>
               </li>
             ))}
           </ol>
@@ -513,7 +513,7 @@ function StepSuccess({ doctor, date, time, name, phone }: { doctor: BookableDoct
           </Link>
         </div>
 
-        <p className="mt-8 font-body text-xs text-gray-600">
+        <p className="mt-8 font-body text-xs text-ink-muted">
           Need to speak to us directly?{' '}
           <a href={`tel:${phone}`} className="text-gold-ink hover:underline">
             {phone}
@@ -543,8 +543,8 @@ function ProgressBar({ currentStep }: { currentStep: number }) {
         {STEPS.map((_, i) => (
           <span
             key={i}
-            className={`font-heading text-[0.62rem] font-semibold transition-colors ${
-              i === currentStep ? 'text-gold-ink' : i < currentStep ? 'text-gray-600' : 'text-gray-500'
+            className={`font-heading text-[0.72rem] font-semibold transition-colors ${
+              i === currentStep ? 'text-gold-ink' : i < currentStep ? 'text-ink-muted' : 'text-ink-soft'
             }`}
           >
             {STEP_LABELS[i]}
@@ -706,7 +706,7 @@ export default function AppointmentFlow({
                 {stepIndex > 0 ? (
                   <button
                     onClick={goBack}
-                    className="flex items-center gap-2 rounded-xl border border-gray-200 px-5 py-2.5 font-heading text-sm font-semibold text-gray-600 transition-all hover:border-gray-300 hover:text-dark"
+                    className="flex items-center gap-2 rounded-xl border border-gray-200 px-5 py-2.5 font-heading text-sm font-semibold text-ink-muted transition-all hover:border-gray-300 hover:text-dark"
                   >
                     <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
                       <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -722,7 +722,7 @@ export default function AppointmentFlow({
                   className={`flex items-center gap-2 rounded-xl px-7 py-2.5 font-heading text-sm font-semibold transition-all ${
                     canProceed && !submitting
                       ? 'bg-primary text-ink hover:bg-primary-dark active:scale-[0.98]'
-                      : 'bg-gray-100 text-gray-300 cursor-not-allowed'
+                      : 'bg-gray-100 text-ink-soft cursor-not-allowed'
                   }`}
                 >
                   {step === 'confirm' && submitting ? (
@@ -752,11 +752,11 @@ export default function AppointmentFlow({
             <div className="space-y-5">
               {/* Opening hours */}
               <div className="rounded-2xl border border-gray-100 bg-tint p-6">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Opening Hours</h3>
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-4">Opening Hours</h3>
                 <div className="space-y-2.5">
                   {displayHours.map((h) => (
                     <div key={h.days} className="flex justify-between">
-                      <span className="font-body text-sm text-gray-600">{h.days}</span>
+                      <span className="font-body text-sm text-ink-muted">{h.days}</span>
                       <span className="font-heading text-sm font-semibold text-dark">
                         {('open' in h && !h.open) ? 'Closed' : h.hours}
                       </span>
@@ -767,7 +767,7 @@ export default function AppointmentFlow({
 
               {/* Direct contact */}
               <div className="rounded-2xl border border-gray-100 bg-white p-6">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Prefer to Call?</h3>
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-4">Prefer to Call?</h3>
                 <a
                   href={`tel:${displayPhone}`}
                   className="flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3.5 text-gold-ink transition-colors hover:bg-primary/10"
@@ -799,7 +799,7 @@ export default function AppointmentFlow({
 
               {/* Location */}
               <div className="rounded-2xl border border-gray-100 bg-white p-6">
-                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">Find Us</h3>
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-3">Find Us</h3>
                 <p className="font-body text-sm text-dark leading-relaxed">{displayAddress}</p>
               </div>
             </div>

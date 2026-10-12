@@ -18,7 +18,7 @@
   --color-cream-muted: #C9BFAE;
   /* Light ivory theme */
   --color-ivory-base: #F8F6F3;
-  --color-gold-ink: #8C6232;
+  --color-gold-ink: #7A5426;
   --color-line: #E7E1D6;
 }
 
@@ -45,6 +45,15 @@
        momentarily widen scrollWidth before the section is visible. This is
        a safety net so that never becomes an actual horizontal scrollbar. */
     overflow-x: hidden;
+  }
+
+  /* Headings break into even lines instead of leaving one word on the last
+     line; paragraphs avoid single-word last lines. */
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  p, li, blockquote {
+    text-wrap: pretty;
   }
 
   :focus-visible {

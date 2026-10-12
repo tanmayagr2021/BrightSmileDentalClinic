@@ -238,12 +238,12 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
                     ))}
                   </div>
 
-                  <p className="whitespace-pre-line font-body text-sm leading-relaxed text-gray-600">
+                  <p className="whitespace-pre-line font-body text-sm leading-relaxed text-ink-muted">
                     &ldquo;{t.text}&rdquo;
                   </p>
 
                   {t.treatment && (
-                    <span className="mt-4 inline-block rounded-full bg-tint px-2.5 py-1 font-heading text-[0.65rem] font-semibold uppercase tracking-wide text-gold-ink">
+                    <span className="mt-4 inline-block rounded-full bg-tint px-2.5 py-1 font-heading text-[0.72rem] font-semibold uppercase tracking-wide text-gold-ink">
                       {t.treatment}
                     </span>
                   )}
@@ -267,7 +267,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
           >
             <Link
               href="/testimonials"
-              className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-gold-ink transition-all hover:text-primary-dark"
+              className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-gold-ink transition-all hover:text-gold-ink"
             >
               Read all patient stories
               <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">

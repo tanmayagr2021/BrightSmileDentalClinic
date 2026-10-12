@@ -64,7 +64,7 @@ export default function Heading({
         <p
           className={cn(
             'mt-3 font-body text-base leading-relaxed md:text-lg',
-            color === 'white' ? 'text-white/70' : 'text-gray-500'
+            color === 'white' ? 'text-white/70' : 'text-ink-soft'
           )}
         >
           {subtitle}

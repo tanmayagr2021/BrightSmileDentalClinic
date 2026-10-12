@@ -86,7 +86,7 @@ export default function VirtualTourExperience({
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A1128]/85 via-[#0A1128]/10 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-3 p-5 sm:flex-row sm:items-end sm:justify-between sm:p-8">
             <div>
-              <p className="font-heading text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gold/90">Starts at</p>
+              <p className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-light">Starts at</p>
               <p className="mt-1 font-display text-2xl text-white sm:text-3xl">{start.name}</p>
             </div>
             <span className="inline-flex items-center gap-2 rounded-full bg-gold px-5 py-3 font-heading text-sm font-semibold text-[#0A1128] transition-all duration-300 group-hover:gap-3 group-hover:bg-gold-light">
@@ -106,7 +106,7 @@ export default function VirtualTourExperience({
               key={scene.id}
               type="button"
               onClick={() => setStartSceneId(scene.id)}
-              className="rounded-full border border-ink/20 px-3.5 py-2 font-heading text-[0.7rem] font-semibold text-ink-muted transition-colors hover:border-gold/50 hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="rounded-full border border-ink/20 px-3.5 py-2 font-heading text-[0.75rem] font-semibold text-ink-muted transition-colors hover:border-gold/50 hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               {scene.name}
             </button>

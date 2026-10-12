@@ -83,7 +83,7 @@ function InfoCard({
         {icon}
       </div>
       <div>
-        <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-600 mb-1">{label}</p>
+        <p className="font-heading text-[0.72rem] font-semibold uppercase tracking-widest text-ink-muted mb-1">{label}</p>
         {children}
       </div>
     </div>
@@ -205,7 +205,7 @@ export default function ContactClient({
           <div className="relative z-10 flex flex-col h-full">
             {/* Top: eyebrow + heading + desc */}
             <div>
-              <span className="inline-flex items-center gap-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+              <span className="inline-flex items-center gap-2 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                 <span className="inline-block h-px w-5 bg-gold" />
                 {pick(content, 'contact.hero.eyebrow', 'Get in Touch')}
               </span>
@@ -221,7 +221,7 @@ export default function ContactClient({
             <div className="mt-14 lg:mt-auto lg:pt-16">
               {/* Phone */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
+                <p className="mb-2 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   {pick(content, 'contact.panel.phone_label', 'Phone')}
                 </p>
                 <a
@@ -235,7 +235,7 @@ export default function ContactClient({
 
               {/* WhatsApp */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
+                <p className="mb-2 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   {pick(content, 'contact.panel.whatsapp_label', 'WhatsApp')}
                 </p>
                 <a
@@ -251,7 +251,7 @@ export default function ContactClient({
 
               {/* Email */}
               <div className="mb-8">
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
+                <p className="mb-2 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   {pick(content, 'contact.panel.email_label', 'Email')}
                 </p>
                 <a
@@ -265,7 +265,7 @@ export default function ContactClient({
 
               {/* Address */}
               <div>
-                <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
+                <p className="mb-2 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   {pick(content, 'contact.panel.address_label', 'Address')}
                 </p>
                 <p className="font-body text-sm text-ink-muted leading-relaxed">{address}</p>
@@ -273,7 +273,7 @@ export default function ContactClient({
 
               {/* Opening Hours */}
               <div className="mt-8 border-t border-ink/10 pt-8">
-                <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
+                <p className="mb-4 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   Opening Hours
                 </p>
                 <div className="divide-y divide-ink/10">
@@ -357,7 +357,7 @@ export default function ContactClient({
                   <motion.div variants={fadeUp} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
                       <label htmlFor="contact-name" className="block font-heading text-xs font-semibold text-dark mb-1.5">
-                        Full Name <span className="text-red-400">*</span>
+                        Full Name <span className="text-red-700">*</span>
                       </label>
                       <input
                         id="contact-name"
@@ -371,7 +371,7 @@ export default function ContactClient({
                     </div>
                     <div>
                       <label htmlFor="contact-phone" className="block font-heading text-xs font-semibold text-dark mb-1.5">
-                        Phone Number <span className="text-red-400">*</span>
+                        Phone Number <span className="text-red-700">*</span>
                       </label>
                       <input
                         id="contact-phone"
@@ -387,7 +387,7 @@ export default function ContactClient({
 
                   <motion.div variants={fadeUp}>
                     <label htmlFor="contact-email" className="block font-heading text-xs font-semibold text-dark mb-1.5">
-                      Email Address <span className="text-gray-600 font-normal">(optional)</span>
+                      Email Address <span className="text-ink-muted font-normal">(optional)</span>
                     </label>
                     <input
                       id="contact-email"
@@ -418,7 +418,7 @@ export default function ContactClient({
 
                   <motion.div variants={fadeUp}>
                     <label htmlFor="contact-message" className="block font-heading text-xs font-semibold text-dark mb-1.5">
-                      Your Message <span className="text-red-400">*</span>
+                      Your Message <span className="text-red-700">*</span>
                     </label>
                     <textarea
                       id="contact-message"
@@ -445,7 +445,7 @@ export default function ContactClient({
                       </p>
                     )}
                     {!submitError && (
-                      <p className="mt-3 font-body text-xs text-gray-600">
+                      <p className="mt-3 font-body text-xs text-ink-muted">
                         {pick(content, 'contact.form.submit_note', 'We respond within 24 hours · Your data is kept private and never shared.')}
                       </p>
                     )}
@@ -477,7 +477,7 @@ export default function ContactClient({
                     setSubmitted(false)
                     setForm({ name: '', phone: '', email: '', treatment: '', message: '' })
                   }}
-                  className="mt-6 font-heading text-sm font-semibold text-gold-ink hover:text-primary-dark underline-offset-2 hover:underline"
+                  className="mt-6 font-heading text-sm font-semibold text-gold-ink hover:text-gold-ink underline-offset-2 hover:underline"
                 >
                   {pick(content, 'contact.form.send_another_label', 'Send another message')}
                 </button>
@@ -497,7 +497,7 @@ export default function ContactClient({
             viewport={{ once: true }}
             className="mx-auto max-w-7xl px-4 pt-10 pb-4 sm:px-6 lg:px-8"
           >
-            <h2 className="font-heading text-sm font-semibold uppercase tracking-widest text-gray-600 mb-4">
+            <h2 className="font-heading text-sm font-semibold uppercase tracking-widest text-ink-muted mb-4">
               {pick(content, 'contact.map.heading', 'Find Us')}
             </h2>
             <a

@@ -135,7 +135,7 @@ export default function ShowcaseSection({
           {/* Eyebrow */}
           <div className="mb-7 flex items-center gap-3">
             <span className="h-px w-8 flex-shrink-0 bg-gold" aria-hidden="true" />
-            <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-gold-ink">
+            <span className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-gold-ink">
               {pick(content, 'home.hero.eyebrow', 'Bright Smile Dental Clinic · Kathmandu')}
             </span>
           </div>
@@ -146,7 +146,7 @@ export default function ShowcaseSection({
             style={{ fontSize: 'clamp(2.6rem, 4.4vw, 5rem)', letterSpacing: '-0.024em' }}
           >
             {pick(content, 'home.hero.headline_line1', 'Expert Dental Care,')}
-            <span className="mt-1 block text-gold-dark">
+            <span className="mt-1 block text-gold-deep">
               {pick(content, 'home.hero.headline_line2', 'Comfortable')}
             </span>
             <span className="block">{pick(content, 'home.hero.headline_line3', 'Experience.')}</span>
@@ -191,7 +191,7 @@ export default function ShowcaseSection({
             {trustChips.map((label) => (
               <span
                 key={label}
-                className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-white/55 px-3.5 py-[0.35rem] font-heading text-[0.65rem] font-medium uppercase tracking-[0.14em] text-ink-muted backdrop-blur-sm"
+                className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-white/55 px-3.5 py-[0.35rem] font-heading text-[0.72rem] font-medium uppercase tracking-[0.14em] text-ink-muted backdrop-blur-sm"
               >
                 <span className="h-[3px] w-[3px] flex-shrink-0 rounded-full bg-gold" aria-hidden="true" />
                 {label}
@@ -262,7 +262,7 @@ export default function ShowcaseSection({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.25 }}
-                className="hidden font-heading text-[0.6rem] text-ink-soft sm:block"
+                className="hidden font-heading text-[0.72rem] text-ink-soft sm:block"
               >
                 {current.subtitle || current.title}
               </motion.span>

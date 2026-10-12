@@ -84,7 +84,7 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
       />
 
       {/* Depth vignette */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-ink/75" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-ink/10 to-ink/85" aria-hidden="true" />
 
       {/* Live badge — top left */}
       <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full border border-white/10 bg-dark/55 px-2.5 py-1 backdrop-blur-sm">
@@ -92,7 +92,7 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
           <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-400" />
         </span>
-        <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/75">Live Map</span>
+        <span className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-white/95">Live Map</span>
       </div>
 
       {/* Centre pin */}
@@ -119,7 +119,7 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
           <p className="font-heading text-xs font-semibold leading-tight text-white drop-shadow-sm">
             Bright Smile Dental Clinic
           </p>
-          <p className="mt-0.5 truncate font-body text-[0.68rem] text-white/75 drop-shadow-sm">
+          <p className="mt-0.5 truncate font-body text-[0.75rem] text-white/95 drop-shadow-sm">
             {address}
           </p>
         </div>
@@ -127,7 +127,7 @@ function FooterMap({ address, mapsUrl }: { address: string; mapsUrl: string }) {
           <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 flex-shrink-0 text-primary" aria-hidden="true">
             <path d="M8 2a4 4 0 014 4c0 3-4 8-4 8s-4-5-4-8a4 4 0 014-4zm0 2.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" stroke="currentColor" strokeWidth="1.2" />
           </svg>
-          <span className="font-heading text-[0.6rem] font-semibold text-white/75 transition-colors group-hover:text-white">
+          <span className="font-heading text-[0.72rem] font-semibold text-white/95 transition-colors group-hover:text-white">
             Get Directions
           </span>
           <svg viewBox="0 0 16 16" fill="none" className="h-2.5 w-2.5 text-white/45 transition-all group-hover:translate-x-0.5 group-hover:text-primary" aria-hidden="true">
@@ -207,7 +207,7 @@ export default async function Footer() {
 
           {/* Contact info card */}
           <div className="rounded-2xl border border-ink/10 bg-white/70 p-7 backdrop-blur-sm lg:p-8">
-            <h3 className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold-ink">
+            <h3 className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-gold-ink">
               {pick(content, 'footer.contact_heading', 'Visit & Contact')}
             </h3>
 
@@ -282,12 +282,12 @@ export default async function Footer() {
             <span className="h-3 w-px bg-ink/10" aria-hidden="true" />
             <Link
               href="/privacy"
-              className="font-body text-xs text-ink-soft hover:text-ink-muted transition-colors"
+              className="font-body text-xs text-ink-muted hover:text-ink transition-colors"
             >
               Privacy
             </Link>
             <span className="h-3 w-px bg-ink/10" aria-hidden="true" />
-            <span className="flex items-center gap-1.5 font-body text-xs text-ink-soft">
+            <span className="flex items-center gap-1.5 font-body text-xs text-ink-muted">
               <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-gold-ink" aria-hidden="true">
                 <path d="M4 8.5l2.5 2.5L12 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>

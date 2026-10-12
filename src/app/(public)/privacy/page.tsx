@@ -14,12 +14,12 @@ export default function PrivacyPage() {
       <div className="py-16">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <h1 className="font-display text-4xl text-dark tracking-display">Privacy Policy</h1>
-          <p className="mt-3 font-body text-sm text-gray-500">Last updated: June 2026</p>
+          <p className="mt-3 font-body text-sm text-ink-soft">Last updated: June 2026</p>
         </div>
       </div>
 
       <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="prose prose-gray max-w-none font-body text-sm leading-relaxed text-gray-600 space-y-8">
+        <div className="prose prose-gray max-w-none font-body text-sm leading-relaxed text-ink-muted space-y-8">
           <section>
             <h2 className="font-heading text-base font-semibold text-dark mb-3">1. Information We Collect</h2>
             <p>When you use our website or book an appointment, we may collect your name, contact details, and basic health information necessary to provide dental care. We do not sell or share your data with third parties.</p>

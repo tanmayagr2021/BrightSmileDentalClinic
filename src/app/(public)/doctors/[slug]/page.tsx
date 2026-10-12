@@ -13,7 +13,9 @@ export const dynamic = 'force-dynamic'
 
 type Props = { params: Promise<{ slug: string }> }
 
-function dColor(d: DoctorRow) { return d.color_hex ?? '#4A9B6F' }
+import { readableOnWhiteText } from '@/lib/doctor-display'
+
+function dColor(d: DoctorRow) { return readableOnWhiteText(d.color_hex ?? '#4A9B6F') }
 function dInitials(d: DoctorRow) { return d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
 function dShortName(d: DoctorRow) { return d.short_name ?? d.full_name }
 
@@ -90,13 +92,13 @@ export default async function DoctorProfilePage({ params }: Props) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <div className="mb-6 flex items-center gap-2">
-            <Link href="/doctors" className="font-body text-sm text-gray-600 hover:text-primary transition-colors">
+            <Link href="/doctors" className="font-body text-sm text-ink-muted hover:text-primary transition-colors">
               Our Doctors
             </Link>
-            <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-gray-300" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3 text-ink-soft" aria-hidden="true">
               <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <span className="font-body text-sm text-gray-600">{doctor.full_name}</span>
+            <span className="font-body text-sm text-ink-muted">{doctor.full_name}</span>
           </div>
 
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
@@ -120,7 +122,7 @@ export default async function DoctorProfilePage({ params }: Props) {
               <h1 className="font-display text-4xl text-dark sm:text-5xl tracking-display">
                 {doctor.full_name}
               </h1>
-              <p className="mt-2 font-heading text-base font-semibold text-gray-500">{doctor.title}</p>
+              <p className="mt-2 font-heading text-base font-semibold text-ink-soft">{doctor.title}</p>
               <div className="mt-4 flex flex-wrap gap-3">
                 {doctor.qualification && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 font-heading text-xs font-semibold text-gold-ink">
@@ -128,7 +130,7 @@ export default async function DoctorProfilePage({ params }: Props) {
                   </span>
                 )}
                 {doctor.experience_text && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 font-heading text-xs font-semibold text-gray-600">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 font-heading text-xs font-semibold text-ink-muted">
                     {doctor.experience_text}
                   </span>
                 )}
@@ -153,7 +155,7 @@ export default async function DoctorProfilePage({ params }: Props) {
             {/* Bio */}
             <section>
               <h2 className="font-display text-3xl text-dark tracking-display mb-5">About {dShortName(doctor)}</h2>
-              <p className="font-body text-base text-gray-600 leading-relaxed">{doctor.full_bio ?? doctor.short_bio}</p>
+              <p className="font-body text-base text-ink-muted leading-relaxed">{doctor.full_bio ?? doctor.short_bio}</p>
             </section>
 
             {/* Specializations */}
@@ -178,16 +180,16 @@ export default async function DoctorProfilePage({ params }: Props) {
               <section className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 {doctor.education && (
                   <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                    <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Education</h3>
+                    <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-4">Education</h3>
                     <p className="font-body text-sm text-dark leading-relaxed">{doctor.education}</p>
                   </div>
                 )}
                 {(doctor.languages ?? []).length > 0 && (
                   <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                    <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">Languages</h3>
+                    <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-4">Languages</h3>
                     <div className="flex flex-wrap gap-2">
                       {doctor.languages.map((lang: string) => (
-                        <span key={lang} className="rounded-lg bg-tint px-3 py-1.5 font-heading text-xs font-semibold text-gray-600">
+                        <span key={lang} className="rounded-lg bg-tint px-3 py-1.5 font-heading text-xs font-semibold text-ink-muted">
                           {lang}
                         </span>
                       ))}
@@ -209,7 +211,7 @@ export default async function DoctorProfilePage({ params }: Props) {
               </h3>
               <p className="font-display text-xl text-ink leading-snug">
                 Consult with<br />
-                <span className="text-gold-dark">{dShortName(doctor)}</span>
+                <span className="text-gold-deep">{dShortName(doctor)}</span>
               </p>
               {isBookable ? (
                 <>
@@ -244,7 +246,7 @@ export default async function DoctorProfilePage({ params }: Props) {
 
             {/* Other doctors */}
             <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-gray-600 mb-4">
+              <h3 className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted mb-4">
                 Rest of the Team
               </h3>
               <div className="space-y-3">
@@ -262,9 +264,9 @@ export default async function DoctorProfilePage({ params }: Props) {
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="font-heading text-sm font-semibold text-dark group-hover:text-primary transition-colors leading-tight">{d.full_name}</p>
-                      <p className="font-body text-xs text-gray-600 leading-tight truncate">{d.title}</p>
+                      <p className="font-body text-xs text-ink-muted leading-tight truncate">{d.title}</p>
                     </div>
-                    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-gray-300 group-hover:text-primary transition-colors" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 text-ink-soft group-hover:text-primary transition-colors" aria-hidden="true">
                       <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </Link>

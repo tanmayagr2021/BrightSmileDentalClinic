@@ -37,7 +37,7 @@ export default function TrustSection({
               <br />
               <span className="text-gold-ink">{pick(content, 'home.trust.heading_line3', 'Since 2013.')}</span>
             </h2>
-            <p className="mt-8 max-w-md font-body text-base text-gray-500 leading-relaxed">
+            <p className="mt-8 max-w-md font-body text-base text-ink-soft leading-relaxed">
               {pick(content, 'home.trust.intro', 'Serving Kathmandu since 2013, with more than 10,000 patients and an experienced team covering every area of dentistry. One commitment: exceptional care, every visit.')}
             </p>
           </motion.div>
@@ -56,7 +56,7 @@ export default function TrustSection({
                 <h3 className="mt-4 font-heading text-sm font-semibold text-dark">
                   {item.title}
                 </h3>
-                <p className="mt-2 font-body text-sm text-gray-600 leading-relaxed">
+                <p className="mt-2 font-body text-sm text-ink-muted leading-relaxed">
                   {item.description}
                 </p>
               </motion.div>

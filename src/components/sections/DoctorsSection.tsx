@@ -11,7 +11,9 @@ import { RESIDENT_DENTIST_SLUG } from '@/lib/constants'
 import type { TeamMemberRow } from '@/lib/content'
 import type { DoctorRow } from '@/types/db'
 
-function dColor(d: DoctorRow) { return d.color_hex ?? '#4A9B6F' }
+import { readableOnWhiteText } from '@/lib/doctor-display'
+
+function dColor(d: DoctorRow) { return readableOnWhiteText(d.color_hex ?? '#4A9B6F') }
 function dInitials(d: DoctorRow) { return d.initials ?? d.full_name.split(' ').map((w) => w[0]).join('').slice(0, 2) }
 // Homepage teaser gets one short line, not the full bio — the complete
 // biography already lives on /doctors/[slug], one click away via "View Profile".
@@ -114,7 +116,7 @@ export default function DoctorsSection({
             <motion.div variants={fadeUp} className="flex-shrink-0">
               <Link
                 href="/doctors"
-                className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-6 py-3 font-heading text-sm font-semibold text-gray-600 transition-all hover:border-primary hover:text-primary active:scale-[0.98]"
+                className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-6 py-3 font-heading text-sm font-semibold text-ink-muted transition-all hover:border-primary hover:text-primary active:scale-[0.98]"
               >
                 {pick(content, 'home.doctors.full_team_label', 'Full Care Team')} <ArrowRight />
               </Link>
@@ -165,13 +167,13 @@ export default function DoctorsSection({
                 </div>
 
                 <div className="relative text-right">
-                  <span className="rounded-xl bg-white/20 px-3 py-1.5 font-heading text-xs font-semibold text-white backdrop-blur-sm">
+                  <span className="rounded-xl bg-black/20 px-3 py-1.5 font-heading text-xs font-semibold text-white backdrop-blur-sm">
                     {doc.qualification}
                   </span>
-                  <p className="mt-2 font-heading text-[0.62rem] font-semibold uppercase tracking-wider text-white/80">
+                  <p className="mt-2 font-heading text-[0.72rem] font-semibold uppercase tracking-wider text-white/95">
                     NMC {doc.nmc_number}
                   </p>
-                  <p className="mt-0.5 font-heading text-[0.65rem] text-white/75">{doc.experience_text}</p>
+                  <p className="mt-0.5 font-heading text-[0.72rem] text-white/95">{doc.experience_text}</p>
                 </div>
               </div>
 
@@ -184,7 +186,7 @@ export default function DoctorsSection({
                   </div>
                   <div className="flex items-center gap-1.5 rounded-full bg-teal/10 px-2.5 py-1 flex-shrink-0">
                     <NmcBadge />
-                    <span className="font-heading text-[0.6rem] font-semibold text-teal">NMC Verified</span>
+                    <span className="font-heading text-[0.72rem] font-semibold text-teal">NMC Verified</span>
                   </div>
                 </div>
 
@@ -194,14 +196,14 @@ export default function DoctorsSection({
 
                 <div className="mt-5 flex flex-wrap gap-2">
                   {(doc.specializations ?? []).slice(0, 4).map((s) => (
-                    <span key={s} className="rounded-lg bg-tint px-2.5 py-1 font-heading text-[0.62rem] font-semibold text-dark/70">
+                    <span key={s} className="rounded-lg bg-tint px-2.5 py-1 font-heading text-[0.72rem] font-semibold text-ink-muted">
                       {s}
                     </span>
                   ))}
                 </div>
 
                 <div className="mt-5 border-t border-gray-50 pt-5">
-                  <div className="flex items-center gap-4 font-body text-xs text-gray-600">
+                  <div className="flex items-center gap-4 font-body text-xs text-ink-muted">
                     <span className="flex items-center gap-1.5">
                       <svg viewBox="0 0 14 14" fill="none" className="h-3 w-3" aria-hidden="true">
                         <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.2" />
@@ -245,7 +247,7 @@ export default function DoctorsSection({
           className="mt-10 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card"
         >
           <div className="flex items-center justify-between border-b border-gray-100 px-7 py-4">
-            <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-600">
+            <p className="font-heading text-[0.72rem] font-semibold uppercase tracking-widest text-ink-muted">
               {pick(content, 'home.doctors.pathway_heading', 'How Your Care Works')}
             </p>
             <Link
@@ -263,7 +265,7 @@ export default function DoctorsSection({
               </div>
               <div>
                 <p className="font-heading text-sm font-semibold text-dark">{pick(content, 'home.doctors.pathway_step1_title', 'Consult a Lead Dentist')}</p>
-                <p className="mt-1 font-body text-xs text-gray-500 leading-relaxed">
+                <p className="mt-1 font-body text-xs text-ink-soft leading-relaxed">
                   {pick(content, 'home.doctors.pathway_step1_desc', 'Your first appointment is always with Dr. Sachin or Dr. Binita — who assess your needs and design your care plan.')}
                 </p>
               </div>
@@ -275,7 +277,7 @@ export default function DoctorsSection({
               </div>
               <div>
                 <p className="font-heading text-sm font-semibold text-dark">{pick(content, 'home.doctors.pathway_step2_title', 'Your Plan Is Mapped')}</p>
-                <p className="mt-1 font-body text-xs text-gray-500 leading-relaxed">
+                <p className="mt-1 font-body text-xs text-ink-soft leading-relaxed">
                   {pick(content, 'home.doctors.pathway_step2_desc', 'If your treatment is straightforward, it begins right here. If it needs deeper expertise, your dentist identifies that early.')}
                 </p>
               </div>
@@ -287,7 +289,7 @@ export default function DoctorsSection({
               </div>
               <div>
                 <p className="font-heading text-sm font-semibold text-dark">{pick(content, 'home.doctors.pathway_step3_title', 'We Call the Right Specialist')}</p>
-                <p className="mt-1 font-body text-xs text-gray-500 leading-relaxed">
+                <p className="mt-1 font-body text-xs text-ink-soft leading-relaxed">
                   {interpolate(pick(content, 'home.doctors.pathway_step3_desc', 'Implants, periodontics, oral surgery — our {count} visiting specialists join your care, coordinated entirely by us.'), { count: specialistCount })}
                 </p>
                 <div className="mt-3 flex items-center gap-2">
@@ -295,7 +297,7 @@ export default function DoctorsSection({
                     {publicDoctors.filter((d) => d.doctor_type === 'specialist' && d.is_active).slice(0, 4).map((d, i) => (
                       <div
                         key={d.slug}
-                        className="flex h-6 w-6 items-center justify-center rounded-full text-[0.5rem] font-bold text-white ring-1 ring-white"
+                        className="flex h-6 w-6 items-center justify-center rounded-full text-[0.72rem] font-bold text-white ring-1 ring-white"
                         style={{ backgroundColor: dColor(d), zIndex: 10 - i }}
                         title={d.full_name}
                       >
@@ -303,7 +305,7 @@ export default function DoctorsSection({
                       </div>
                     ))}
                   </div>
-                  <span className="font-body text-[0.65rem] text-gray-600">{specialistCount} specialists on call</span>
+                  <span className="font-body text-[0.72rem] text-ink-muted">{specialistCount} specialists on call</span>
                 </div>
               </div>
             </div>
@@ -319,7 +321,7 @@ export default function DoctorsSection({
           className="mt-8 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card"
         >
           <div className="border-b border-gray-50 px-7 py-4">
-            <p className="font-heading text-[0.65rem] font-semibold uppercase tracking-widest text-gray-600">
+            <p className="font-heading text-[0.72rem] font-semibold uppercase tracking-widest text-ink-muted">
               {pick(content, 'home.doctors.team_heading', 'Complete Care Team')}
             </p>
           </div>
@@ -328,7 +330,7 @@ export default function DoctorsSection({
 
             {/* Hygienists */}
             <div className="px-7 py-6">
-              <p className="mb-4 font-heading text-xs font-semibold text-gray-600 uppercase tracking-widest">
+              <p className="mb-4 font-heading text-xs font-semibold text-ink-muted uppercase tracking-widest">
                 {pick(content, 'home.doctors.team_hygienists_label', 'Dental Hygienists')}
               </p>
               <div className="flex flex-col gap-3">
@@ -339,11 +341,11 @@ export default function DoctorsSection({
                     </div>
                     <div>
                       <p className="font-heading text-sm font-semibold text-dark leading-tight">{h.name}</p>
-                      <p className="font-body text-xs text-gray-600">{h.role}</p>
+                      <p className="font-body text-xs text-ink-muted">{h.role}</p>
                     </div>
                     <div className="ml-auto flex items-center gap-1.5 rounded-full bg-teal/10 px-2.5 py-1">
                       <div className="h-1.5 w-1.5 rounded-full bg-teal" />
-                      <span className="font-heading text-[0.65rem] font-semibold text-teal">Active</span>
+                      <span className="font-heading text-[0.72rem] font-semibold text-teal">Active</span>
                     </div>
                   </div>
                 ))}
@@ -352,7 +354,7 @@ export default function DoctorsSection({
 
             {/* Reception + admin */}
             <div className="px-7 py-6">
-              <p className="mb-4 font-heading text-xs font-semibold text-gray-600 uppercase tracking-widest">
+              <p className="mb-4 font-heading text-xs font-semibold text-ink-muted uppercase tracking-widest">
                 {pick(content, 'home.doctors.team_reception_label', 'Reception & Administration')}
               </p>
               <div className="flex flex-col gap-3">
@@ -363,7 +365,7 @@ export default function DoctorsSection({
                     </div>
                     <div>
                       <p className="font-heading text-sm font-semibold text-dark leading-tight">{s.name}</p>
-                      <p className="font-body text-xs text-gray-600">{s.role}</p>
+                      <p className="font-body text-xs text-ink-muted">{s.role}</p>
                     </div>
                   </div>
                 ))}

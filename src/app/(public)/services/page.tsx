@@ -119,7 +119,7 @@ export default async function ServicesPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Eyebrow */}
-          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+          <span className="inline-flex items-center gap-2.5 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
             <span className="inline-block h-px w-6 bg-gold/60" />
             What We Offer
           </span>
@@ -164,7 +164,7 @@ export default async function ServicesPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {/* Banner header */}
             <div className="mb-12 border-l-4 border-gold pl-6">
-              <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-gold-ink">
+              <span className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-gold-ink">
                 Signature Treatments
               </span>
               <h2 className="mt-2 font-display text-4xl text-dark tracking-display leading-[1.06] sm:text-5xl">
@@ -208,10 +208,10 @@ export default async function ServicesPage() {
                     {/* Left — narrative */}
                     <div className="flex flex-col">
                       <div className="flex items-center gap-4">
-                        <span className="font-display text-5xl font-bold leading-none text-gold-dark sm:text-6xl">
+                        <span className="font-display text-5xl font-bold leading-none text-gold-deep sm:text-6xl">
                           {String(index + 1).padStart(2, '0')}
                         </span>
-                        <span className="rounded-full border border-gold/30 bg-gold/10 px-3 py-1 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-gold-ink">
+                        <span className="rounded-full border border-gold/30 bg-gold/10 px-3 py-1 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-gold-ink">
                           Signature
                         </span>
                       </div>
@@ -254,7 +254,7 @@ export default async function ServicesPage() {
 
                     {/* Right — sub-services visual grid */}
                     <div>
-                      <p className="mb-4 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+                      <p className="mb-4 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                         Treatments Included
                       </p>
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -282,7 +282,7 @@ export default async function ServicesPage() {
         <section className="py-20 lg:py-28">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-12 border-l-4 border-primary/70 pl-6">
-              <span className="font-heading text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-gold-ink">
+              <span className="font-heading text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-gold-ink">
                 Complete Care
               </span>
               <h2 className="mt-2 font-display text-4xl text-dark tracking-display leading-[1.06] sm:text-5xl">
@@ -326,7 +326,7 @@ export default async function ServicesPage() {
                     {service.subServices.slice(0, 4).map((sub) => (
                       <span
                         key={sub.name}
-                        className="rounded-lg border border-gray-100 bg-tint px-3 py-1.5 font-heading text-xs font-semibold text-dark/70"
+                        className="rounded-lg border border-gray-100 bg-tint px-3 py-1.5 font-heading text-xs font-semibold text-ink-muted"
                       >
                         {sub.name}
                       </span>
@@ -336,14 +336,14 @@ export default async function ServicesPage() {
                   <div className="mt-7 flex items-center gap-3 border-t border-gray-50 pt-5">
                     <Link
                       href={`/services/${service.slug}`}
-                      className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-gold-ink transition-colors hover:text-primary-dark"
+                      className="inline-flex items-center gap-2 font-heading text-sm font-semibold text-gold-ink transition-colors hover:text-gold-ink"
                     >
                       Full Details <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
                     <span className="h-3 w-px bg-gray-200" aria-hidden="true" />
                     <Link
                       href="/appointments"
-                      className="font-heading text-sm font-semibold text-dark/60 transition-colors hover:text-dark"
+                      className="font-heading text-sm font-semibold text-ink-muted transition-colors hover:text-dark"
                     >
                       Book
                     </Link>
@@ -360,7 +360,7 @@ export default async function ServicesPage() {
         className="py-20 lg:py-24"
       >
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+          <span className="mb-5 inline-flex items-center gap-3 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
             <span className="h-px w-6 bg-gold/60" />
             Free Consultation
           </span>

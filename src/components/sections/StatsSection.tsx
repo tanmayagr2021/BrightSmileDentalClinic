@@ -75,7 +75,7 @@ export default function StatsSection({ stats }: { stats: Stat[] }) {
                 </span>
                 {stat.suffix && (
                   <span
-                    className="ml-1 font-display text-3xl font-bold leading-none text-gold-dark"
+                    className="ml-1 font-display text-3xl font-bold leading-none text-gold-deep"
                     style={{ paddingTop: '0.35rem' }}
                   >
                     {stat.suffix}

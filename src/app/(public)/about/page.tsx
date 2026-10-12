@@ -104,7 +104,7 @@ export default async function AboutPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Eyebrow */}
-          <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+          <span className="inline-flex items-center gap-2.5 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
             <span className="inline-block h-px w-6 bg-gold/60" />
             {interpolate(pick(content, 'about.hero.eyebrow_template', 'Founded {year}'), { year: founded })}
           </span>
@@ -129,7 +129,7 @@ export default async function AboutPage() {
                 <p className="font-display text-4xl text-ink">
                   {stat.count}{stat.suffix}
                 </p>
-                <p className="mt-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
+                <p className="mt-2 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                   {stat.label}
                 </p>
               </div>
@@ -145,7 +145,7 @@ export default async function AboutPage() {
 
             {/* Left: pull-quote + mission / vision */}
             <div>
-              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+              <span className="inline-flex items-center gap-2.5 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                 <span className="inline-block h-px w-6 bg-primary/60" />
                 {pick(content, 'about.story.eyebrow', 'How We Started')}
               </span>
@@ -156,18 +156,18 @@ export default async function AboutPage() {
 
               <div className="mt-10 space-y-8 border-t border-gray-100 pt-10">
                 <div>
-                  <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+                  <p className="mb-2 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                     {pick(content, 'about.story.mission_label', 'Our Mission')}
                   </p>
-                  <p className="font-body text-base text-gray-600 leading-relaxed">
+                  <p className="font-body text-base text-ink-muted leading-relaxed">
                     {mission}
                   </p>
                 </div>
                 <div>
-                  <p className="mb-2 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-600">
+                  <p className="mb-2 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-muted">
                     {pick(content, 'about.story.vision_label', 'Our Vision')}
                   </p>
-                  <p className="font-body text-base text-gray-600 leading-relaxed">
+                  <p className="font-body text-base text-ink-muted leading-relaxed">
                     {vision}
                   </p>
                 </div>
@@ -177,7 +177,7 @@ export default async function AboutPage() {
             {/* Right: remaining story paragraphs */}
             <div className="space-y-5">
               {storyParagraphs.slice(1).map((para, i) => (
-                <p key={i} className="font-body text-base text-gray-600 leading-relaxed">
+                <p key={i} className="font-body text-base text-ink-muted leading-relaxed">
                   {para}
                 </p>
               ))}
@@ -192,7 +192,7 @@ export default async function AboutPage() {
         <div className="py-24 lg:py-32">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-16 text-center">
-              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+              <span className="inline-flex items-center gap-2.5 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                 <span className="inline-block h-px w-6 bg-primary/60" />
                 Our Team
                 <span className="inline-block h-px w-6 bg-primary/60" />
@@ -217,7 +217,7 @@ export default async function AboutPage() {
                     )}
                   </div>
                   <h3 className="mt-5 font-display text-xl text-dark tracking-display">{doc.full_name}</h3>
-                  <p className="mt-1 font-body text-sm text-gray-600">{doc.title}</p>
+                  <p className="mt-1 font-body text-sm text-ink-muted">{doc.title}</p>
                 </div>
               ))}
             </div>
@@ -238,7 +238,7 @@ export default async function AboutPage() {
                       )}
                     </div>
                     <h3 className="mt-3 font-heading text-sm font-semibold text-dark">{doc.full_name}</h3>
-                    <p className="mt-0.5 font-body text-xs text-gray-600">{doc.title}</p>
+                    <p className="mt-0.5 font-body text-xs text-ink-muted">{doc.title}</p>
                   </div>
                 ))}
               </div>
@@ -262,7 +262,7 @@ export default async function AboutPage() {
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+            <span className="inline-flex items-center gap-2.5 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
               <span className="inline-block h-px w-6 bg-gold/60" />
               {pick(content, 'about.values.eyebrow', 'What Guides Us')}
             </span>
@@ -311,7 +311,7 @@ export default async function AboutPage() {
 
             {/* Left: numbered list */}
             <div>
-              <span className="inline-flex items-center gap-2.5 font-heading text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+              <span className="inline-flex items-center gap-2.5 font-heading text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold-ink">
                 <span className="inline-block h-px w-6 bg-primary/60" />
                 {pick(content, 'about.why_choose.eyebrow', 'Why Bright Smile')}
               </span>
@@ -322,10 +322,10 @@ export default async function AboutPage() {
               <div className="mt-10 divide-y divide-gray-100">
                 {whyChooseUs.map((point, i) => (
                   <div key={point} className="flex items-center gap-8 py-6">
-                    <span aria-hidden="true" className="w-12 flex-shrink-0 font-display text-4xl font-bold tabular-nums text-gray-100">
+                    <span aria-hidden="true" className="w-12 flex-shrink-0 font-display text-4xl font-bold tabular-nums text-ink/[0.07]">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span className="font-body text-base text-gray-600 leading-snug">{point}</span>
+                    <span className="font-body text-base text-ink-muted leading-snug">{point}</span>
                   </div>
                 ))}
               </div>
@@ -336,7 +336,7 @@ export default async function AboutPage() {
               <h3 className="font-display text-3xl text-dark tracking-display leading-snug">
                 {pick(content, 'about.why_choose.cta_heading', 'Ready to experience the difference?')}
               </h3>
-              <p className="mt-5 font-body text-base text-gray-500 leading-relaxed">
+              <p className="mt-5 font-body text-base text-ink-soft leading-relaxed">
                 {pick(content, 'about.why_choose.cta_subtext', 'Join over 1,000 patients who trust Bright Smile for their dental care. Book your first appointment today.')}
               </p>
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
